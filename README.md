@@ -42,3 +42,5 @@
     - 필수 기능 정리
 - ERD 작성
 - Wireframe 작성
+
+### Jira Test
