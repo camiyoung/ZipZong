@@ -43,4 +43,9 @@
 - ERD 작성
 - Wireframe 작성
 
-### Jira Test
+## 7월 15일 
+- Jira - Gitlab Smart Commit
+- 시나리오 작성 및 WireFrame, ERD 검토
+- Jira 학습 및 테스트
+
+---
