@@ -1,19 +1,12 @@
-import Button from './components/button/Button'
-import Select from './components/input/Select'
-import Text from './components/input/Text'
-import SmallTextInput from './components/input/SmallTextInput'
-import LargeTextInput from './components/input/LargeTextInput'
-import TextArea from './components/input/TextArea'
+import './App.css'
+import Button from './components/Button'
+import Icon from './components/Icon'
 
 function App() {
   return (
-    <div>
-        <Button btnname="이거 들어갔나" />
-        <Select />
-        <Text labelInput="1" name="제목" />
-        <SmallTextInput inputName="제목(small)" />
-        <LargeTextInput inputName="제목(large)" />
-        <TextArea TextAreaName="제목(textarea)" />
+    <div className="App">
+        <Button />
+        <Icon image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg"/>
     </div>
   )
 }
