@@ -7,6 +7,7 @@ import SmallIcon from "../components/icon/SmallIcon"
 import LargeIcon from "../components/icon/LargeIcon"
 import NameSquare from "../components/NameSquare/NameSquare"
 import Card from "../components/card/Card"
+import Timer from "../components/timer/Timer"
 export default function Components() {
   return (
     <div className="prose prose-slate">
