@@ -5,11 +5,8 @@ import App from "./App"
 import "flowbite"
 import reportWebVitals from "./reportWebVitals"
 
-<<<<<<< HEAD
-const root = ReactDOM.createRoot(document.getElementById("root"));
-=======
-const root = ReactDOM.createRoot(document.getElementById('root'))
->>>>>>> 74d9776 (Create: react-router추가, components페이지 추가)
+const root = ReactDOM.createRoot(document.getElementById("root"))
+
 root.render(
   <React.StrictMode>
     <App />
