@@ -6,12 +6,12 @@ const sizeChart = {
   large: "w-52 h-20",
 }
 const colorChart = {
+  //props으로 받은 color에 해당하는 색
   blue: "bg-lightBlue",
   white: "bg-white",
 }
 
 export default function NameSquare({ color, size, text, children }) {
-  const bgcolor = color === "blue" ? "lightBlue" : "white"
   const bgsize = size ? sizeChart[size] : sizeChart.middle
 
   return (

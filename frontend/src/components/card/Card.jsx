@@ -12,7 +12,6 @@ const sizeChart = {
 
 export default function Card({ size, children }) {
   const cardSize = sizeChart[size]
-  console.log("cardsize", cardSize)
   return (
     <div
       className={`${cardSize} p-2 bg-white rounded-lg border border-gray-200 shadow-md`}
