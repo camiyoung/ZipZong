@@ -55,13 +55,13 @@ export default function Components() {
       </NameSquare>
       <NameSquare text="아이콘없음" color="blue" />
       <h3>컬러 </h3>
-      <NameSquare text="안지영" color="white" size="small" text="white" />
-      <NameSquare text="안지영" color="blue" size="small" text="blue" />
+      <NameSquare color="white" size="small" text="white" />
+      <NameSquare color="blue" size="small" text="blue" />
 
       <h3>크기 </h3>
-      <NameSquare text="안지영" color="white" size="small" text="small" />
-      <NameSquare text="안지영" color="white" size="middle" text="middle" />
-      <NameSquare text="안지영" color="white" size="large" text="large" />
+      <NameSquare color="white" size="small" text="small" />
+      <NameSquare color="white" size="middle" text="middle" />
+      <NameSquare color="white" size="large" text="large" />
       <h2>Navbar</h2>
     </div>
   )
