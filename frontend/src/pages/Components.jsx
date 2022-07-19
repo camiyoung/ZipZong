@@ -11,8 +11,57 @@ import Timer from "../components/timer/Timer"
 import CalendarForm from "../components/calendar/CalendarForm"
 export default function Components() {
   return (
-    <div className="prose prose-slate">
+    <div className="prose prose-slate max-w-none">
+      <h1>색상표</h1>
+      <div className="flex">
+        <div className="bg-mainBlue w-24 m-1">mainBlue</div>
+        <div className="bg-lightBlue w-24 m-1">lightBlue</div>
+        <div className="bg-begie w-24 m-1">begie</div>
+        <div className="bg-warning w-24 m-1">warning</div>
+        <div className="bg-info w-24 m-1">info</div>
+        <div className="bg-danger w-24 m-1">danger</div>
+        <div className="bg-darkGray w-24  m-1 text-white">darkGray</div>
+        <div className="bg-lightGray w-24 m-1">lightGray</div>
+      </div>
+      <h3>primary</h3>
+      <div className="flex">
+        <div className="bg-primary-100  m-1">primary-100</div>
+        <div className="bg-primary-200  m-1">primary-200</div>
+        <div className="bg-primary-300  m-1">primary-300</div>
+        <div className="bg-primary-400  m-1">primary-400</div>
+        <div className="bg-primary-500  m-1">primary-500</div>
+        <div className="bg-primary-600  m-1 text-white">primary-600</div>
+        <div className="bg-primary-700  m-1 text-white">primary-700</div>
+        <div className="bg-primary-800  m-1 text-white">primary-800</div>
+        <div className="bg-primary-900  m-1 text-white">primary-900</div>
+      </div>
+      <h3>secondary</h3>
+      <div className="flex">
+        <div className="bg-secondary-100 m-1">secondary-100</div>
+        <div className="bg-secondary-200  m-1">secondary-200</div>
+        <div className="bg-secondary-300  m-1">secondary-300</div>
+        <div className="bg-secondary-400  m-1">secondary-400</div>
+        <div className="bg-secondary-500  m-1">secondary-500</div>
+        <div className="bg-secondary-600  m-1 text-white">secondary-600</div>
+        <div className="bg-secondary-700  m-1 text-white">secondary-700</div>
+        <div className="bg-secondary-800  m-1 text-white">secondary-800</div>
+        <div className="bg-secondary-900  m-1 text-white">secondary-900</div>
+      </div>
+      <h3>lgBlue</h3>
+      <div className="flex">
+        <div className="bg-lgBlue-100 m-1">lgBlue-100</div>
+        <div className="bg-lgBlue-200  m-1">lgBlue-200</div>
+        <div className="bg-lgBlue-300  m-1">lgBlue-300</div>
+        <div className="bg-lgBlue-400  m-1">lgBlue-400</div>
+        <div className="bg-lgBlue-500  m-1">lgBlue-500</div>
+        <div className="bg-lgBlue-600  m-1 text-white">lgBlue-600</div>
+        <div className="bg-lgBlue-700  m-1 text-white">lgBlue-700</div>
+        <div className="bg-lgBlue-800  m-1 text-white">lgBlue-800</div>
+        <div className="bg-lgBlue-900  m-1 text-white">lgBlue-900</div>
+      </div>
+      <hr></hr>
       <h1> 컴포넌트 목록 </h1>
+
       <h2>Buttons</h2>
       <Button btnname="이거 들어갔나" />
       <h2>Form 요소</h2>
