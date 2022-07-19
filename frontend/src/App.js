@@ -9,13 +9,17 @@ import CalendarForm from "./components/calendar/CalendarForm"
 function App() {
   return (
     <div>
-        <Button btnname="이거 들어갔나" />
-        <Select selectName="제목(select)" options="옵션의 value들" optionName="출력되는 값들" />
-        <SmallTextInput inputName="제목(small)" />
-        <LargeTextInput inputName="제목(large)" />
-        <TextArea TextAreaName="제목(textarea)" />
-        <Icon image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg"/>
-        <CalendarForm />
+      <Button btnname="이거 들어갔나" />
+      <Select
+        selectName="제목(select)"
+        options="옵션의 value들"
+        optionName="출력되는 값들"
+      />
+      <SmallTextInput inputName="제목(small)" />
+      <LargeTextInput inputName="제목(large)" />
+      <TextArea TextAreaName="제목(textarea)" />
+      <Icon image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg" />
+      <CalendarForm />
     </div>
   )
 }

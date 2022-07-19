@@ -14,5 +14,5 @@ export default function Icon({ image }) {
         alt=""
       />
     </div>
-  );
+  )
 }

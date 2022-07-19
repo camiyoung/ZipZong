@@ -41,5 +41,5 @@ export default function Select(props) {
         <option value="CA">Canada</option>
       </select>
     </div>
-  );
+  )
 }
