@@ -6,8 +6,8 @@ const sizeChart = {
   large: "w-52 h-20",
 }
 const colorChart = {
-  blue: "lightBlue",
-  white: "white",
+  blue: "bg-lightBlue",
+  white: "bg-white",
 }
 
 export default function NameSquare({ color, size, text, children }) {
@@ -16,7 +16,7 @@ export default function NameSquare({ color, size, text, children }) {
 
   return (
     <div
-      className={`bg-${bgcolor} ${bgsize} border-lightBlue border-2 rounded-lg m-2`}
+      className={`${colorChart[color]} ${bgsize} border-lightBlue border-2 rounded-lg m-2`}
     >
       <div className="flex justify-center items-center h-full w-full">
         {children}
