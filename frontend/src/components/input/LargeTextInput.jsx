@@ -1,8 +1,8 @@
-export default function LargeTextInput(props){
-
+export default function LargeTextInput(props) {
   return (
     <div className="max-w-sm mx-auto flex">
-      <label for="large-input"
+      <label
+        htmlFor="large-input"
         className="
           block
           my-auto
@@ -14,7 +14,9 @@ export default function LargeTextInput(props){
       >
         {props.inputName}
       </label>
-      <input type="text" id="large-input"
+      <input
+        type="text"
+        id="large-input"
         className="
           block
           p-4
@@ -36,5 +38,5 @@ export default function LargeTextInput(props){
         "
       />
     </div>
-  )
+  );
 }
