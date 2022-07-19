@@ -39,5 +39,5 @@ export default function TextArea(props) {
         placeholder="Leave a comment..."
       ></textarea>
     </div>
-  );
+  )
 }

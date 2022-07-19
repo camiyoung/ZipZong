@@ -67,6 +67,9 @@ export default function Components() {
       <NameSquare color="white" size="middle" text="middle" />
       <NameSquare color="white" size="large" text="large" />
       <h2>Navbar</h2>
+
+      <h2>Calendar</h2>
+      <CalendarForm />
     </div>
   )
 }
