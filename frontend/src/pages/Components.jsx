@@ -5,6 +5,7 @@ import LargeTextInput from "../components/input/LargeTextInput"
 import TextArea from "../components/input/TextArea"
 import SmallIcon from "../components/icon/SmallIcon"
 import LargeIcon from "../components/icon/LargeIcon"
+import NameSquare from "../components/NameSquare/NameSquare"
 export default function Components() {
   return (
     <div className="prose prose-slate">
@@ -29,6 +30,19 @@ export default function Components() {
       <h2>Card</h2>
       <h2>List</h2>
       <h2>Name Square</h2>
+      <h3>아이콘이 들어갔을 때</h3>
+      <NameSquare text="아이콘있음">
+        <SmallIcon image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg" />
+      </NameSquare>
+      <NameSquare text="아이콘없음" color="blue" />
+      <h3>컬러 </h3>
+      <NameSquare text="안지영" color="white" size="small" text="white" />
+      <NameSquare text="안지영" color="blue" size="small" text="blue" />
+
+      <h3>크기 </h3>
+      <NameSquare text="안지영" color="white" size="small" text="small" />
+      <NameSquare text="안지영" color="white" size="middle" text="middle" />
+      <NameSquare text="안지영" color="white" size="large" text="large" />
       <h2>Navbar</h2>
     </div>
   )
