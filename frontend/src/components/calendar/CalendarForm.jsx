@@ -1,26 +1,13 @@
 import React, { useEffect, useState } from "react"
 import Calendar from "react-calendar"
-import "react-calendar/dist/Calendar.css"
+//import "react-calendar/dist/Calendar.css"
+import "./Calendar.css"
+
 export default function CalendarForm() {
-  const [value, onChange] = useState(new Date())
+  const [value, setValue] = useState(new Date())
+  console.log(value) // 날짜 + 시간까지
 
   return (
-    <Calendar
-      className="
-        my-auto
-        w-3/5
-        min-w-min
-        max-width
-        bg-white
-        rounded-lg
-        bg-opacity-90
-        border
-        border-solid
-        border-black
-        leading-5
-      "
-      onChange={onChange}
-      value={value}
-    />
+    <Calendar className="react-calendar" onChange={setValue} value={value} />
   )
 }
