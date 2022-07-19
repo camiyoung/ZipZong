@@ -1,8 +1,8 @@
-export default function SmallTextInput(props){
-
+export default function SmallTextInput(props) {
   return (
     <div className="max-w-sm mx-auto flex">
-      <label for="small-input"
+      <label
+        htmlFor="small-input"
         className="
           block
           my-auto
@@ -14,7 +14,9 @@ export default function SmallTextInput(props){
       >
         {props.inputName}
       </label>
-      <input type="text" id="small-input"
+      <input
+        type="text"
+        id="small-input"
         className="
           block
           p-2
@@ -36,5 +38,5 @@ export default function SmallTextInput(props){
         "
       />
     </div>
-  )
+  );
 }

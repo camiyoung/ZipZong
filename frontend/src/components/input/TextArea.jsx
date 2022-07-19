@@ -1,8 +1,8 @@
 export default function TextArea(props) {
-
   return (
     <div className="max-w-sm mx-auto flex">
-      <label for="message"
+      <label
+        htmlFor="message"
         className="
           block
           my-auto
@@ -36,9 +36,8 @@ export default function TextArea(props) {
           dark:focus:ring-blue-500
           dark:focus:border-blue-500
         "
-        placeholder='Leave a comment...'
-      >
-      </textarea>
+        placeholder="Leave a comment..."
+      ></textarea>
     </div>
-  )
+  );
 }
