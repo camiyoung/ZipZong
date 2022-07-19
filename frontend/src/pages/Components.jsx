@@ -28,6 +28,9 @@ export default function Components() {
       <SmallIcon image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg" />
       <LargeIcon image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg" />
 
+      <h2>Timer</h2>
+      <Timer time={60} />
+
       <h2>Card</h2>
       <Card size="small">
         사이즈 : small w-32
