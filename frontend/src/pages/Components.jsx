@@ -3,7 +3,8 @@ import Select from "../components/input/Select"
 import SmallTextInput from "../components/input/SmallTextInput"
 import LargeTextInput from "../components/input/LargeTextInput"
 import TextArea from "../components/input/TextArea"
-import Icon from "../components/Icon"
+import SmallIcon from "../components/icon/SmallIcon"
+import LargeIcon from "../components/icon/LargeIcon"
 export default function Components() {
   return (
     <div className="prose prose-slate">
@@ -20,8 +21,10 @@ export default function Components() {
       <SmallTextInput inputName="제목(small)" />
       <LargeTextInput inputName="제목(large)" />
       <TextArea TextAreaName="제목(textarea)" />
+
       <h2>Image Placeholder</h2>
-      <Icon image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg" />
+      <SmallIcon image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg" />
+      <LargeIcon image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg" />
 
       <h2>Card</h2>
       <h2>List</h2>
