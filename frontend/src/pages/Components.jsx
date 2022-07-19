@@ -5,6 +5,7 @@ import LargeTextInput from "../components/input/LargeTextInput"
 import TextArea from "../components/input/TextArea"
 import SmallIcon from "../components/icon/SmallIcon"
 import LargeIcon from "../components/icon/LargeIcon"
+import Timer from "../components/timer/Timer"
 export default function Components() {
   return (
     <div className="prose prose-slate">
@@ -25,6 +26,9 @@ export default function Components() {
       <h2>Image Placeholder</h2>
       <SmallIcon image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg" />
       <LargeIcon image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg" />
+
+      <h2>Timer</h2>
+      <Timer time={60} />
 
       <h2>Card</h2>
       <h2>List</h2>
