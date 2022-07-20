@@ -31,6 +31,10 @@ public class Member {
     @Column(name = "nickname", nullable = true, unique = true)
     private String nickname;
 
+
+    @Column(name = "refreshToken", unique = true)
+    private String refreshToken;
+
     @Builder //생성을 Builder 패턴으로 하기 위해서
     public Member(Long id, String name, String email, String provider, String nickname) {
         this.id = id;
@@ -40,6 +44,9 @@ public class Member {
         this.nickname = nickname;
     }
 
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
 
     public Member update(String name, String email) {
         this.name = name;
