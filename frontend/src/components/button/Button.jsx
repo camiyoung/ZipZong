@@ -1,6 +1,8 @@
 import React from "react"
 const bgColorChart = {
   normal: "bg-lightBlue hover:bg-mainBlue",
+  "bg-info": "bg-info",
+  "bg-danger": "bg-danger",
 }
 const roundChart = {
   roundMd: "rounded-md",
