@@ -10,6 +10,7 @@ const colorChart = {
   blue: "bg-lightBlue",
   white: "bg-white",
   green: "bg-green-200",
+  red: "bg-danger",
 }
 
 export default function NameSquare({ color, size, text, children }) {

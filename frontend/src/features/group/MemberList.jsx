@@ -39,15 +39,19 @@ const Members = [
 export default function MemberList() {
   // group 원들의 정보를 받아야 함
   return (
-    <div>
-      <div className="prose prose-slate">
-        <h4>멤버 리스트</h4>
-        <Line />
-      </div>
-      {Members.map((memberName, Icon, hasDone) => {
-        <NameSquare color="green" size="normal" text={memberName}>
-          <SmallIcon image={Icon} style={{ width: "28px" }} />
-        </NameSquare>
+    <div className="flex">
+      {Members.map(({ memberName, Icon, hasDone }) => {
+        return (
+          <NameSquare
+            key={memberName}
+            // 운동을 한 사람들만 초록색, 나머지는 빨간색
+            color={hasDone ? "green" : "red"}
+            size="normal"
+            text={memberName}
+          >
+            <SmallIcon image={Icon} style={{ width: "28px" }} />
+          </NameSquare>
+        )
       })}
     </div>
   )
