@@ -1,6 +1,7 @@
 import React from "react"
 import NameSquare from "../../components/NameSquare/NameSquare"
-import SmallIcon from "../../components/icon/SmallIcon"
+import ImageIcon from "../../components/icon/ImageIcon"
+import PlusIcon from "../../components/icon/PlusIcon"
 
 const Members = [
   {
@@ -38,7 +39,7 @@ const Members = [
 export default function MemberList() {
   // group 원들의 정보를 받아야 함
   return (
-    <div className="flex">
+    <div className="flex mt-10">
       {Members.map(({ memberName, Icon, hasDone }) => {
         return (
           <NameSquare
@@ -48,10 +49,14 @@ export default function MemberList() {
             size="normal"
             text={memberName}
           >
-            <SmallIcon image={Icon} size="small" />
+            <ImageIcon image={Icon} size="small" />
           </NameSquare>
         )
       })}
+
+      <NameSquare text="다른 멤버를 초대해보세요!">
+        <PlusIcon />
+      </NameSquare>
     </div>
   )
 }

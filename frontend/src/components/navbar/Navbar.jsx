@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { NavLink, useLocation } from "react-router-dom"
 import Card from "../card/Card"
-import SmallIcon from "../icon/SmallIcon"
+import ImageIcon from "../icon/ImageIcon"
 import Logo from "../../assets/Logo.svg"
 
 const NavItem = ({ children }) => {
@@ -72,7 +72,10 @@ export default function Navbar() {
               setShowInfo(true)
             }}
           >
-            <SmallIcon image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg" />
+            <ImageIcon
+              image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg"
+              size="small"
+            />
           </div>
           {showInfo && <InfoList setVisible={setShowInfo} />}
         </NavItem>
