@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { NavLink } from "react-router-dom"
 import Card from "../card/Card"
 import SmallIcon from "../icon/SmallIcon"
+import Logo from "../../assets/Logo.svg"
 
 const NavItem = ({ children }) => {
   return <li className="m-2 flex justify-center items-center">{children}</li>
@@ -41,7 +42,9 @@ export default function Navbar() {
   return (
     <nav className="flex justify-between p-3 border">
       <div>
-        <NavLink to="/">Logo</NavLink>
+        <NavLink to="/">
+          <img src={Logo} style={{ height: "60px" }} alt="logo" />
+        </NavLink>
       </div>
       <ul className="flex">
         <NavItem>
