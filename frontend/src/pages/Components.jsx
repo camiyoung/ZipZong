@@ -1,3 +1,5 @@
+import React, { useState } from "react"
+
 import Button from "../components/button/Button"
 import Select from "../components/input/Select"
 import SmallTextInput from "../components/input/SmallTextInput"
@@ -9,9 +11,21 @@ import NameSquare from "../components/NameSquare/NameSquare"
 import Card from "../components/card/Card"
 import Timer from "../components/timer/Timer"
 import CalendarForm from "../components/calendar/CalendarForm"
+import Modal from "../components/modal/Modal"
+
 export default function Components() {
+  const [isOpen, setOpen] = useState(false)
+  const modalClose = () => setOpen(false)
+
   return (
     <div className="prose prose-slate max-w-none">
+      <Modal isOpen={isOpen} modalClose={modalClose}>
+        <div>모달을 띄워보았습니다</div>
+        <div className="flex justify-end">
+          <Button onClick={() => modalClose()} text="닫기" />
+        </div>
+      </Modal>
+
       <h1>색상표</h1>
       <div className="flex">
         <div className="bg-mainBlue w-24 m-1">mainBlue</div>
@@ -62,10 +76,18 @@ export default function Components() {
       <hr></hr>
       <h1> 컴포넌트 목록 </h1>
 
-      <h2>Buttons</h2>
+      <h2>Buttons and Modals</h2>
       <div className="flex">
-        <Button text="둥근 버튼" round="roundMd" />
-        <Button text="덜 둥근 버튼" round="round3xl" />
+        <Button
+          text="둥근 버튼"
+          round="roundMd"
+          onClick={() => setOpen(true)}
+        />
+        <Button
+          text="덜 둥근 버튼"
+          round="round3xl"
+          onClick={() => setOpen(true)}
+        />
       </div>
       <h2>Form 요소</h2>
       <Select
