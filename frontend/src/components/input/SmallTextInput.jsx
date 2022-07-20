@@ -38,5 +38,5 @@ export default function SmallTextInput(props) {
         "
       />
     </div>
-  );
+  )
 }

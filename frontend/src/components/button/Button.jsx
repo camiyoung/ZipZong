@@ -21,5 +21,5 @@ export default function Button({ btnname }) {
         Login
       </button>
     </div>
-  );
+  )
 }
