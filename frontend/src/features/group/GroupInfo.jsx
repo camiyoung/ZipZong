@@ -40,7 +40,10 @@ export default function GroupInfo({
     <div className="w-full flex justify-center mt-5">
       <Card size="middle">
         <div className="flex">
-          <SmallIcon image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg" />
+          <SmallIcon
+            image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg"
+            size="middle"
+          />
 
           <div className="flex flex-col ml-10">
             <p className="text-xl">
