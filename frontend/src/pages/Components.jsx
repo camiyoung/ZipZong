@@ -3,8 +3,7 @@ import Select from "../components/input/Select"
 import SmallTextInput from "../components/input/SmallTextInput"
 import LargeTextInput from "../components/input/LargeTextInput"
 import TextArea from "../components/input/TextArea"
-import SmallIcon from "../components/icon/SmallIcon"
-import LargeIcon from "../components/icon/LargeIcon"
+import ImageIcon from "../components/icon/ImageIcon"
 import NameSquare from "../components/NameSquare/NameSquare"
 import Card from "../components/card/Card"
 import Timer from "../components/timer/Timer"
@@ -79,8 +78,14 @@ export default function Components() {
       <TextArea TextAreaName="제목(textarea)" />
 
       <h2>Image Placeholder</h2>
-      <SmallIcon image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg" />
-      <LargeIcon image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg" />
+      <ImageIcon
+        image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg"
+        size="small"
+      />
+      <ImageIcon
+        image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg"
+        size="xLarge"
+      />
 
       <h2>Timer</h2>
       <Timer time={60} />
@@ -108,7 +113,7 @@ export default function Components() {
       <h2>Name Square</h2>
       <h3>아이콘이 들어갔을 때</h3>
       <NameSquare text="아이콘있음">
-        <SmallIcon image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg" />
+        <ImageIcon image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg" />
       </NameSquare>
       <NameSquare text="아이콘없음" color="blue" />
       <h3>컬러 </h3>
