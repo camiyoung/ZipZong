@@ -1,3 +1,4 @@
+import React from "react"
 export default function Select(props) {
   return (
     <div className="max-w-sm mx-auto flex">

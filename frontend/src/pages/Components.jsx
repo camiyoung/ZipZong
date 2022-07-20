@@ -63,7 +63,10 @@ export default function Components() {
       <h1> 컴포넌트 목록 </h1>
 
       <h2>Buttons</h2>
-      <Button btnname="이거 들어갔나" />
+      <div className="flex">
+        <Button text="둥근 버튼" round="roundMd" />
+        <Button text="덜 둥근 버튼" round="round3xl" />
+      </div>
       <h2>Form 요소</h2>
       <Select
         selectName="제목(select)"
