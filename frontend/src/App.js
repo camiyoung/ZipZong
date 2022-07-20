@@ -7,7 +7,7 @@ import RoomPage from "./pages/RoomPage"
 
 function App() {
   return (
-    <div className="h-screen">
+    <div className="h-screen w-screen">
       <BrowserRouter>
         <Navbar />
         <Routes>
