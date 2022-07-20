@@ -1,7 +1,7 @@
 import React from "react"
 import CalendarForm from "../../components/calendar/CalendarForm"
 import NameSquare from "../../components/NameSquare/NameSquare"
-import SmallIcon from "../../components/icon/SmallIcon"
+import ImageIcon from "../../components/icon/ImageIcon"
 
 const dayExerciseInfo = [
   {
@@ -25,6 +25,20 @@ const dayExerciseInfo = [
     exerciseTime: 600,
     exerciseCount: 1004,
   },
+  {
+    exerciseType: "Test4",
+    exerciseIcon:
+      "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
+    exerciseTime: 600,
+    exerciseCount: 1004,
+  },
+  {
+    exerciseType: "Test3",
+    exerciseIcon:
+      "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
+    exerciseTime: 600,
+    exerciseCount: 1004,
+  },
 ]
 function Ranking() {
   return (
@@ -35,7 +49,7 @@ function Ranking() {
       {/* Time Ranking ul */}
       <ul className="flex flex-col items-center">
         <li className="flex items-center mb-5">
-          <SmallIcon
+          <ImageIcon
             image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg"
             size="small"
           />
@@ -43,7 +57,7 @@ function Ranking() {
           <p>09:17:22</p>
         </li>
         <li className="flex items-center mb-5">
-          <SmallIcon
+          <ImageIcon
             image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg"
             size="small"
           />
@@ -58,7 +72,7 @@ function Ranking() {
       {/* Continue Ranking ul */}
       <ul className="flex flex-col items-center">
         <li className="flex items-center mb-5">
-          <SmallIcon
+          <ImageIcon
             image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg"
             size="small"
           />
@@ -75,15 +89,17 @@ export default function ExerciseInfo() {
   let streak = 3
   let sheildCount = 1
   return (
-    <div className="flex mt-5 flex-col">
+    <div className="flex mt-10 flex-col">
       <div className="flex">
-        <div className="flex flex-col items-center">
+        <div className="flex">
           <CalendarForm />
           <div
             className="border mx-5 rounded-lg border-gray-400 min-w-min"
             style={{
               boxShadow: "0 12px 24px rgba(0, 0, 0, 0.2)",
               width: "400px",
+              height: "295.94px",
+              overflow: "scroll",
             }}
           >
             <p>다같이 운동한 시간: {totalTime} 시간</p>
@@ -92,7 +108,7 @@ export default function ExerciseInfo() {
               ({ exerciseIcon, exerciseTime, exerciseCount }) => {
                 return (
                   <div key={exerciseCount} className="flex m-5">
-                    <SmallIcon image={exerciseIcon} className="-mr-9" />
+                    <ImageIcon image={exerciseIcon} size="middle" />
                     <div>
                       <p>운동 개수: {exerciseCount}</p>
                       <p>운동 시간: {exerciseTime}</p>
@@ -105,7 +121,7 @@ export default function ExerciseInfo() {
         </div>
         <Ranking />
       </div>
-
+      <br />
       <p>현재 스트릭 쉴드를 {sheildCount}개 소지 중입니다.</p>
     </div>
   )

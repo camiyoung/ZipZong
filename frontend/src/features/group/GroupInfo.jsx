@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import Card from "../../components/card/Card"
-import SmallIcon from "../../components/icon/SmallIcon"
+import ImageIcon from "../../components/icon/ImageIcon"
 import UserIcon from "../../components/icon/UserIcon"
 import Button from "../../components/button/Button"
 
@@ -40,9 +40,9 @@ export default function GroupInfo({
     <div className="w-full flex justify-center mt-5">
       <Card size="middle">
         <div className="flex">
-          <SmallIcon
+          <ImageIcon
             image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg"
-            size="middle"
+            size="small"
           />
 
           <div className="flex flex-col ml-10">
