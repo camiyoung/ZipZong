@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { NavLink } from "react-router-dom"
+import { NavLink, useLocation } from "react-router-dom"
 import Card from "../card/Card"
 import SmallIcon from "../icon/SmallIcon"
 import Logo from "../../assets/Logo.svg"
@@ -39,6 +39,9 @@ const InfoList = ({ setVisible }) => {
 export default function Navbar() {
   const [showGroup, setShowGroup] = useState(false)
   const [showInfo, setShowInfo] = useState(false)
+  const location = useLocation()
+
+  if (location.pathname.split("/")[1] === "room") return
   return (
     <nav className="flex justify-between p-3 border">
       <div>
@@ -47,6 +50,9 @@ export default function Navbar() {
         </NavLink>
       </div>
       <ul className="flex">
+        <NavItem>
+          <NavLink to="/room">운동방</NavLink>
+        </NavItem>
         <NavItem>
           <NavLink to="/">명예의 전당</NavLink>
         </NavItem>
