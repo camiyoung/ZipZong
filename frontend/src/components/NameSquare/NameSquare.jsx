@@ -9,6 +9,7 @@ const colorChart = {
   //props으로 받은 color에 해당하는 색
   blue: "bg-lightBlue",
   white: "bg-white",
+  green: "bg-green-200",
 }
 
 export default function NameSquare({ color, size, text, children }) {
