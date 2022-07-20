@@ -5,7 +5,7 @@ export default function MyExercise() {
   return (
     <div className="flex border h-4/6 ">
       <div className="border w-1/5 flex flex-col">
-        <div className="w-full h-1/2 p-2">
+        <div className="w-full h-1/2 p-2 flex justify-center items-center">
           <Timer time={60} />
         </div>
 

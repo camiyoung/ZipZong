@@ -31,7 +31,7 @@ export default function Timer({ time }) {
   }, [sec])
 
   return (
-    <div className="flex w-full h-full relative justify-center items-center">
+    <div className="flex w-56 h-56 relative justify-center items-center ">
       <span className="text-4xl text font-semibold z-30">
         {min} : {sec}
       </span>
