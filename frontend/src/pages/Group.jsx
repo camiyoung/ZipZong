@@ -3,6 +3,7 @@ import GroupInfo from "../features/group/GroupInfo"
 import MemberList from "../features/group/MemberList"
 import Line from "../components/Line"
 import ExerciseInfo from "../features/group/ExerciseInfo"
+import GroupExerciseInfo from "../features/group/GroupExerciseInfo"
 export default function Group() {
   return (
     <div>
@@ -28,6 +29,14 @@ export default function Group() {
           <Line />
         </div>
         <ExerciseInfo />
+      </div>
+
+      <div className="flex justify-center flex-col items-center mt-20">
+        <div className="prose prose-slate text-center">
+          <h4>그룹 운동 정보</h4>
+          <Line />
+        </div>
+        <GroupExerciseInfo />
       </div>
     </div>
   )

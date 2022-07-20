@@ -1,6 +1,5 @@
 import React from "react"
 import NameSquare from "../../components/NameSquare/NameSquare"
-import Line from "../../components/Line"
 import SmallIcon from "../../components/icon/SmallIcon"
 
 const Members = [
@@ -49,7 +48,7 @@ export default function MemberList() {
             size="normal"
             text={memberName}
           >
-            <SmallIcon image={Icon} style={{ width: "28px" }} />
+            <SmallIcon image={Icon} size="small" />
           </NameSquare>
         )
       })}
