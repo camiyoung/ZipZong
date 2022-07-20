@@ -1,5 +1,5 @@
-import Button from "../components/button/Button"
 import React from "react"
+import Button from "../components/button/Button"
 import UserIcon from "../components/icon/UserIcon"
 
 // 초대 페이지
@@ -11,6 +11,7 @@ export default function Invite() {
     "집에서 운동 안 하는 사람들끼리 집에서 운동하는 웹 만들기로 함 ㅋㅋ 07. 15는 다 같이 휴식하는 날"
   let totalGroupMembers = 10
   let currentGroupMembers = 4
+
   return (
     <div className="flex justify-center flex-col items-center">
       <div className="prose prose-slate text-center mt-40">
