@@ -1,3 +1,4 @@
+import React from "react"
 export default function LargeTextInput(props) {
   return (
     <div className="max-w-sm mx-auto flex">
@@ -38,5 +39,5 @@ export default function LargeTextInput(props) {
         "
       />
     </div>
-  );
+  )
 }

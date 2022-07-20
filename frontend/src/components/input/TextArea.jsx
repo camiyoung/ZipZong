@@ -1,3 +1,5 @@
+import React from "react"
+
 export default function TextArea(props) {
   return (
     <div className="max-w-sm mx-auto flex">
@@ -39,5 +41,5 @@ export default function TextArea(props) {
         placeholder="Leave a comment..."
       ></textarea>
     </div>
-  );
+  )
 }

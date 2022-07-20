@@ -1,25 +1,24 @@
-export default function Button({ btnname }) {
-  return (
-    <div>
-      {/* 정말 round 한것 */}
-      <button className="py-2 px-4 font-semibold text-white rounded-3xl shadow-md bg-green-500 hover:bg-green-700">
-        {btnname}
-      </button>
+import React from "react"
+const bgColorChart = {
+  normal: "bg-lightBlue hover:bg-mainBlue",
+  "bg-info": "bg-info",
+  "bg-danger": "bg-danger",
+}
+const roundChart = {
+  roundMd: "rounded-md",
+  round3xl: "rounded-3xl",
+}
 
-      {/* 덜 round 한것 - Login, 회원가입, 취소, 확인 버튼 */}
-      <button
-        className="
-            py-2
-            px-4
-            font-semibold
-            text-white
-            rounded-md
-            bg-green-500
-            hover:bg-green-700
-        "
-      >
-        Login
-      </button>
-    </div>
+export default function Button({ text, bgColor, round, ...restProps }) {
+  const selectedBgColor = bgColor ? bgColorChart[bgColor] : bgColorChart.normal
+  const roundType = round ? roundChart[round] : roundChart.roundMd
+  return (
+    /* 덜 round 한것 - Login, 회원가입, 취소, 확인 버튼 */
+    <button
+      className={`${selectedBgColor} ${roundType} py-2 px-4 font-semibold text-white `}
+      {...restProps}
+    >
+      {text}
+    </button>
   )
 }

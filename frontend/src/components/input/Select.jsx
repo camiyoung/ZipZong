@@ -1,3 +1,4 @@
+import React from "react"
 export default function Select(props) {
   return (
     <div className="max-w-sm mx-auto flex">
@@ -41,5 +42,5 @@ export default function Select(props) {
         <option value="CA">Canada</option>
       </select>
     </div>
-  );
+  )
 }
