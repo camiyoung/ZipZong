@@ -4,10 +4,11 @@ import Components from "./pages/Components"
 import Invite from "./pages/Invite"
 import Group from "./pages/Group"
 import Home from "./pages/Home"
+import RoomPage from "./pages/RoomPage"
 
 function App() {
   return (
-    <div>
+    <div className="h-screen w-screen">
       <BrowserRouter>
         <Navbar />
         <Routes>
@@ -15,6 +16,8 @@ function App() {
           <Route path="/components" element={<Components />} />
           <Route path="/invite" element={<Invite />} />
           <Route path="/group" element={<Group />} />
+
+          <Route path="/room" element={<RoomPage />} />
         </Routes>
       </BrowserRouter>
     </div>

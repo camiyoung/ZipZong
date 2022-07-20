@@ -31,17 +31,15 @@ export default function Timer({ time }) {
   }, [sec])
 
   return (
-    <div
-      style={{
-        width: "280px",
-        height: "280px",
-        backgroundImage: `url(${TimerImage})`,
-      }}
-      className="bg-cover flex justify-center items-center"
-    >
-      <span className="text-4xl font-semibold">
+    <div className="flex w-full h-full relative justify-center items-center">
+      <span className="text-4xl text font-semibold z-30">
         {min} : {sec}
       </span>
+      <img
+        src={TimerImage}
+        alt=""
+        className=" absolute w-full h-full flex-grow-0"
+      />
     </div>
   )
 }
