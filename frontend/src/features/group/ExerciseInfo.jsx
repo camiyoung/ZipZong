@@ -97,26 +97,27 @@ export default function ExerciseInfo() {
             className="border mx-5 rounded-lg border-gray-400 min-w-min"
             style={{
               boxShadow: "0 12px 24px rgba(0, 0, 0, 0.2)",
-              width: "400px",
+              width: "270px",
               height: "295.94px",
-              overflow: "scroll",
             }}
           >
-            <p>다같이 운동한 시간: {totalTime} 시간</p>
-            <p>연속 {streak}일째!</p>
-            {dayExerciseInfo.map(
-              ({ exerciseIcon, exerciseTime, exerciseCount }) => {
-                return (
-                  <div key={exerciseCount} className="flex m-5">
-                    <ImageIcon image={exerciseIcon} size="middle" />
-                    <div>
-                      <p>운동 개수: {exerciseCount}</p>
-                      <p>운동 시간: {exerciseTime}</p>
+            <p className="text-xl">다같이 운동한 시간: {totalTime} 시간</p>
+            <p className="mt-1 text-md">연속 {streak}일째!</p>
+            <div style={{ overflow: "scroll", height: "235px" }}>
+              {dayExerciseInfo.map(
+                ({ exerciseIcon, exerciseTime, exerciseCount }) => {
+                  return (
+                    <div key={exerciseCount} className="flex m-5">
+                      <ImageIcon image={exerciseIcon} size="middle" />
+                      <div>
+                        <p>운동 개수: {exerciseCount}</p>
+                        <p>운동 시간: {exerciseTime}</p>
+                      </div>
                     </div>
-                  </div>
-                )
-              }
-            )}
+                  )
+                }
+              )}
+            </div>
           </div>
         </div>
         <Ranking />

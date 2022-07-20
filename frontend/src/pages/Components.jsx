@@ -78,12 +78,12 @@ export default function Components() {
       <h2>Buttons and Modals</h2>
       <div className="flex">
         <Button
-          text="둥근 버튼"
+          text="덜 둥근 버튼"
           round="roundMd"
           onClick={() => setOpen(true)}
         />
         <Button
-          text="덜 둥근 버튼"
+          text="정말 둥근 버튼"
           round="round3xl"
           onClick={() => setOpen(true)}
         />
