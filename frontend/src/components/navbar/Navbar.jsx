@@ -58,7 +58,7 @@ export default function Navbar() {
           <NavLink to="/room">운동방</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink to="/">명예의 전당</NavLink>
+          <NavLink to="/rank">명예의 전당</NavLink>
         </NavItem>
         <NavItem>
           <div
