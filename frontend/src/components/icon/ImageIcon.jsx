@@ -5,16 +5,20 @@ const sizeChart = {
   large: "w-24 h-24",
   xLarge: "w-32 h-32",
 }
+const shapeChart = {
+  round: "rounded-full",
+  square: "",
+}
 
-export default function Icon({ image, size }) {
+export default function Icon({ image, size, shape }) {
   const iconSize = size ? sizeChart[size] : sizeChart.middle
+  const shapeType = shape ? shapeChart[shape] : shapeChart.square
   return (
     <div
       style={{
-        borderRadius: "70%",
         backgroundImage: `url(${image})`,
       }}
-      className={`${iconSize} bg-cover `}
+      className={`${iconSize} ${shapeType} bg-cover `}
     ></div>
   )
 }

@@ -42,11 +42,12 @@ function GroupManagement() {
         </form>
 
         <div className="flex justify-end mt-5 w-full">
-          <Button text="개설" bgColor="bg-info" />
+          <Button text="개설" bgColor="bg-info" height="h-7" />
           <Button
             text="닫기"
             bgColor="bg-danger"
             onClick={() => modalClose()}
+            height="h-7"
           />
         </div>
       </Modal>
@@ -90,7 +91,7 @@ export default function GroupInfo({
         <div className="flex">
           <ImageIcon
             image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg"
-            size="small"
+            size="middle"
           />
 
           <div className="flex flex-col ml-10">
