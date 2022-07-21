@@ -70,4 +70,8 @@ public class JwtService {
         return (String) Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("name");
     }
 
+    public Date getExpiration(String token) {
+        return (Date) Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getExpiration();
+    }
+
 }

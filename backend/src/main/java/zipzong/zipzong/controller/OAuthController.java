@@ -15,6 +15,9 @@ import zipzong.zipzong.config.jwt.JwtService;
 import zipzong.zipzong.domain.Member;
 import zipzong.zipzong.repository.MemberRepository;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -55,8 +58,16 @@ public class OAuthController {
         member.setRefreshToken(token.getRefreshToken());
         memberRepository.save(member);
 
+        DateFormat expirationFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        Date accessTokenExpirationDate = jwtService.getExpiration(token.getToken());
+        String accessTokenExpiration = expirationFormat.format(accessTokenExpirationDate);
+        Date refreshTokenExpirationDate = jwtService.getExpiration(token.getRefreshToken());
+        String refreshTokenExpiration = expirationFormat.format(refreshTokenExpirationDate);
+
         responseHeader.add("accessToken", token.getToken()); //Header에 accessToken 추가
         responseHeader.add("refreshToken", token.getRefreshToken()); //Header에 refreshToken 추가
+        responseHeader.add("accessTokenExpiration", accessTokenExpiration);
+        responseHeader.add("refreshTokenExpiration", refreshTokenExpiration);
         return new ResponseEntity(responseHeader, HttpStatus.OK);
     }
 }
