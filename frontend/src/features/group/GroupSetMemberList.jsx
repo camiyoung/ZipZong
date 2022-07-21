@@ -1,6 +1,8 @@
 import React, { useState } from "react"
 import ImageIcon from "../../components/icon/ImageIcon"
 import UserIcon from "../../components/icon/UserIcon"
+import Modal from "../../components/modal/Modal"
+import Button from "../../components/button/Button"
 
 const members = [
   {
@@ -53,20 +55,35 @@ const members = [
   },
 ]
 export default function GroupSetMemberList() {
-  const [showGroup, setShowGroup] = useState(false)
+  const [isExpulsionOpen, setExpulsionOpen] = useState(false)
+  const [user, setUser] = useState()
+  const modalClose = () => setExpulsionOpen(false)
 
-  const GroupManagement = ({ setVisible }) => {
-    return (
-      <div className="absolute z-10 top-[27rem] left-[20rem] border">
-        <p>그룹장 위임</p>
-        <p>그룹 강퇴</p>
-        <button onClick={() => setVisible(false)}>닫기</button>
-      </div>
-    )
+  const ShowGroupSettings = () => {
+    return <div>asd</div>
   }
 
   return (
     <div className="mx-5 mt-5">
+      {/* 모달 */}
+      <Modal isOpen={isExpulsionOpen} modalClose={modalClose}>
+        <div className="flex flex-col">
+          <p className="text-xl font-bold flex justify-center">
+            {user} 회원님을 정말 탈퇴하시겠습니까?
+          </p>
+          <div className="flex justify-around mt-5">
+            <Button height="h-7" width="w-32" text="예" bgColor="bg-info" />
+            <Button
+              height="h-7"
+              width="w-32"
+              text="아니오"
+              bgColor="bg-danger"
+              onClick={() => setExpulsionOpen(false)}
+            />
+          </div>
+        </div>
+      </Modal>
+
       <p className="text-3xl font-semibold mb-1">회원 명단</p>
       <p className="flex my-3">
         <UserIcon />
@@ -78,7 +95,10 @@ export default function GroupSetMemberList() {
           <div
             key={keyNumber}
             className="flex mb-2 w-64"
-            onClick={() => setShowGroup(true)}
+            onClick={() => {
+              setExpulsionOpen(true)
+              setUser(name)
+            }}
           >
             <ImageIcon image={imageUrl} size="small" shape="round" />
             <p className="mx-2">{name}</p>
@@ -87,7 +107,6 @@ export default function GroupSetMemberList() {
           </div>
         )
       })}
-      {showGroup && <GroupManagement setVisible={setShowGroup} />}
     </div>
   )
 }
