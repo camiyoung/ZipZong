@@ -19,7 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().logoutSuccessUrl("/") //logout 요청시 홈으로 이동 - 기본 logout url = "/logout"
                 .and()
                 .oauth2Login() //OAuth2 로그인 설정 시작점
-                .defaultSuccessUrl("/oauth/token", true) //OAuth2 성공시 redirect(토큰 생성)
+                .defaultSuccessUrl("/oauth/info", true) //OAuth2 성공시 redirect(토큰 생성)
                 .userInfoEndpoint() //OAuth2 로그인 성공 이후 사용자 정보를 가져올 때 설정 담당
                 .userService(oAuthService); //OAuth2 로그인 성공 시, 작업을 진행할 MemberService
     }

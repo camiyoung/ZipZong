@@ -34,17 +34,7 @@ public class OAuthController {
 
     static final String SUCCESS = "success";
 
-    @GetMapping("/loginInfo")
-    public String oauthLoginInfo(Authentication authentication) {
-        //oAuth2User.toString() 예시 : Name: [2346930276], Granted Authorities: [[USER]], User Attributes: [{id=2346930276, provider=kakao, name=김준우, email=bababoll@naver.com}]
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        //attributes.toString() 예시 : {id=2346930276, provider=kakao, name=김준우, email=bababoll@naver.com}
-        Map<String, Object> attributes = oAuth2User.getAttributes();
-
-        return attributes.toString();
-    }
-
-    @GetMapping("/token")
+    @GetMapping("/info")
     public ResponseEntity createToken(Authentication authentication) {
         HttpHeaders responseHeader = new HttpHeaders();
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
