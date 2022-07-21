@@ -3,15 +3,62 @@ import Card from "../../components/card/Card"
 import ImageIcon from "../../components/icon/ImageIcon"
 import UserIcon from "../../components/icon/UserIcon"
 import Button from "../../components/button/Button"
+import Modal from "../../components/modal/Modal"
+import SmallTextInput from "../../components/input/SmallTextInput"
+import Select from "../../components/input/Select"
+import Radio from "../../components/input/Radio"
 
 function GroupManagement() {
   const [isLeader, setIsLeader] = useState(false)
+  const [isOpen, setOpen] = useState(false)
+  const modalClose = () => setOpen(false)
   return (
     <div>
+      {/* 모달 영역 */}
+      <Modal isOpen={isOpen} modalClose={modalClose}>
+        <form action="">
+          <SmallTextInput inputName="방 제목"></SmallTextInput>
+          <div className="flex">
+            <p
+              className="
+                text-sm
+                font-medium
+                mr-10
+                block
+                w-24
+                my-auto
+                my
+              "
+            >
+              모드 설정
+            </p>
+            <Radio />
+          </div>
+          <Select
+            selectName="루틴 설정"
+            options="옵션의 value들"
+            optionName="출력되는 값들"
+          />
+        </form>
+
+        <div className="flex justify-end mt-5 w-full">
+          <Button text="개설" bgColor="bg-info" />
+          <Button
+            text="닫기"
+            bgColor="bg-danger"
+            onClick={() => modalClose()}
+          />
+        </div>
+      </Modal>
+
+      {/* 카드 영역 */}
       <Card size="100%">
-        <div className="prose prose-slate">
+        <div className="prose prose-slate flex justify-center flex-col mb-1">
           <h2>아직 운동 방이 만들어지지 않았어요!</h2>
-          <p>여기를 클릭하여 운동 방을 만들어 보세요</p>
+          <Button
+            onClick={() => setOpen(true)}
+            text="여기를 클릭하여 운동 방을 만들어 보세요"
+          />
         </div>
         <div className="flex justify-evenly">
           <Button text="운동 루틴 관리" round="round3xl" />
