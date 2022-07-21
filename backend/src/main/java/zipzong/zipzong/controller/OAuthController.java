@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import zipzong.zipzong.config.jwt.Jwt;
 import zipzong.zipzong.config.jwt.JwtService;
 import zipzong.zipzong.domain.Member;
+import zipzong.zipzong.dto.common.BasicResponse;
+import zipzong.zipzong.dto.member.MemberResponse;
 import zipzong.zipzong.repository.MemberRepository;
 
 import java.text.DateFormat;
@@ -29,6 +31,8 @@ public class OAuthController {
     private final JwtService jwtService;
     private final ObjectMapper objectMapper;
     private final MemberRepository memberRepository;
+
+    static final String SUCCESS = "success";
 
     @GetMapping("/loginInfo")
     public String oauthLoginInfo(Authentication authentication) {
@@ -68,6 +72,17 @@ public class OAuthController {
         responseHeader.add("refreshToken", token.getRefreshToken()); //Header에 refreshToken 추가
         responseHeader.add("accessTokenExpiration", accessTokenExpiration);
         responseHeader.add("refreshTokenExpiration", refreshTokenExpiration);
-        return new ResponseEntity(responseHeader, HttpStatus.OK);
+
+        return new ResponseEntity(makeBasicResponse(SUCCESS, member.toMemberResponse()), responseHeader, HttpStatus.OK);
+
+    }
+
+    private BasicResponse<MemberResponse> makeBasicResponse(String message, MemberResponse data) {
+
+        return BasicResponse
+                .<MemberResponse>builder()
+                .message(message)
+                .data(data)
+                .build();
     }
 }
