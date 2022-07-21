@@ -58,18 +58,19 @@ function GroupManagement() {
           <Button
             onClick={() => setOpen(true)}
             text="여기를 클릭하여 운동 방을 만들어 보세요"
+            height="h-7"
           />
         </div>
         <div className="flex justify-evenly">
-          <Button text="운동 루틴 관리" round="round3xl" />
+          <Button text="운동 루틴 관리" round="round3xl" height="h-7" />
           {/*
         그룹장 ->그룹 설정 및 관리 보임
         그룹원 -> 그룹 탈퇴 보임
         */}
           {isLeader ? (
-            <Button text="그룹 설정 및 관리" round="round3xl" />
+            <Button text="그룹 설정 및 관리" round="round3xl" height="h-7" />
           ) : (
-            <Button text="그룹 탈퇴" round="round3xl" />
+            <Button text="그룹 탈퇴" round="round3xl" height="h-7" />
           )}
         </div>
       </Card>

@@ -10,11 +10,12 @@ const sizeChart = {
   "100%": "w-full",
 }
 
-export default function Card({ size, children }) {
+export default function Card({ size, children, ...restProps }) {
   const cardSize = sizeChart[size]
   return (
     <div
       className={`${cardSize} p-2 bg-white rounded-lg border border-gray-200 shadow-md`}
+      {...restProps}
     >
       {children}
     </div>
