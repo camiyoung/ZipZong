@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
+import zipzong.zipzong.controller.MemberController;
+import zipzong.zipzong.dto.member.MemberResponse;
 
 import javax.persistence.*;
 
@@ -53,4 +55,14 @@ public class Member {
         this.email = email;
         return this;
     }
+
+    public MemberResponse toMemberResponse(){
+        MemberResponse memberResponse = new MemberResponse();
+        memberResponse.setEmail(this.getEmail());
+        memberResponse.setName(this.getName());
+        memberResponse.setProvider(this.getProvider());
+        memberResponse.setNickname(this.getNickname());
+        return memberResponse;
+    }
+
 }
