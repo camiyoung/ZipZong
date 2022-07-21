@@ -1,6 +1,5 @@
 package zipzong.zipzong.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,9 +16,6 @@ import zipzong.zipzong.dto.common.BasicResponse;
 import zipzong.zipzong.dto.member.MemberResponse;
 import zipzong.zipzong.repository.MemberRepository;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -27,11 +23,8 @@ import java.util.NoSuchElementException;
 @RequestMapping("/oauth")
 @RequiredArgsConstructor
 public class OAuthController {
-
     private final JwtService jwtService;
-    private final ObjectMapper objectMapper;
     private final MemberRepository memberRepository;
-
     static final String SUCCESS = "success";
 
     @GetMapping("/info")
@@ -40,31 +33,28 @@ public class OAuthController {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         Map<String, Object> attributes = oAuth2User.getAttributes();
 
-        Member authMember = Member.builder()
-                .email((String) attributes.get("email"))
-                .provider((String) attributes.get("provider"))
-                .name((String) attributes.get("name"))
-                .build();
+        Member member = getAuthMember(attributes);
 
-        Jwt token = jwtService.generateToken(authMember.getEmail(), authMember.getProvider(), authMember.getName());
-        Member member = memberRepository.findByEmailAndProvider(authMember.getEmail(), authMember.getProvider())
-                .orElseThrow(() -> new NoSuchElementException("Member Not Found"));
+        Jwt token = jwtService.generateToken(member.getEmail(), member.getProvider(), member.getName());
+
         member.setRefreshToken(token.getRefreshToken());
         memberRepository.save(member);
 
-        DateFormat expirationFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-        Date accessTokenExpirationDate = jwtService.getExpiration(token.getToken());
-        String accessTokenExpiration = expirationFormat.format(accessTokenExpirationDate);
-        Date refreshTokenExpirationDate = jwtService.getExpiration(token.getRefreshToken());
-        String refreshTokenExpiration = expirationFormat.format(refreshTokenExpirationDate);
+        String accessTokenExpiration = jwtService.dateToString(token.getAccessToken());
+        String refreshTokenExpiration = jwtService.dateToString(token.getRefreshToken());
 
-        responseHeader.add("accessToken", token.getToken()); //Header에 accessToken 추가
-        responseHeader.add("refreshToken", token.getRefreshToken()); //Header에 refreshToken 추가
+        responseHeader.add("accessToken", token.getAccessToken());
+        responseHeader.add("refreshToken", token.getRefreshToken());
         responseHeader.add("accessTokenExpiration", accessTokenExpiration);
         responseHeader.add("refreshTokenExpiration", refreshTokenExpiration);
 
         return new ResponseEntity(makeBasicResponse(SUCCESS, member.toMemberResponse()), responseHeader, HttpStatus.OK);
 
+    }
+
+    private Member getAuthMember(Map<String, Object> attributes) {
+        return memberRepository.findByEmailAndProvider((String) attributes.get("email"), (String) attributes.get("provider"))
+                .orElseThrow(() -> new NoSuchElementException("Member Not Found"));
     }
 
     private BasicResponse<MemberResponse> makeBasicResponse(String message, MemberResponse data) {

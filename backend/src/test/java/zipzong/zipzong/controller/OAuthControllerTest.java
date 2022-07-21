@@ -17,16 +17,17 @@ import zipzong.zipzong.config.jwt.JwtService;
 import zipzong.zipzong.domain.Member;
 import zipzong.zipzong.repository.MemberRepository;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -45,6 +46,7 @@ class OAuthControllerTest {
     @MockBean
     private OAuthService oAuthService;
 
+    static final String DATE_FORMAT = "yyyy-MM-dd-HH-mm-ss";
     @Test
     void Oauth_로그인() throws Exception {
         //given
@@ -53,7 +55,7 @@ class OAuthControllerTest {
 
         given(memberRepository.findByEmailAndProvider(any(), any())).willReturn(makeMember());
         given(jwtService.generateToken(any(),any(),any())).willReturn(makeJwt());
-        given(jwtService.getExpiration(makeJwt().getToken())).willReturn(new Date());
+        given(jwtService.dateToString(any())).willReturn(DATE_FORMAT);
 
         //when
         ResultActions resultActions = mockMvc.perform(get("/oauth/info")
@@ -75,7 +77,7 @@ class OAuthControllerTest {
     }
 
     private Jwt makeJwt() {
-        String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0b2tlbiIsImVtYWlsIjoicGxhdGluYWRhcmtAZ21haWwuY29tIiwicHJvdmlkZXIiOiJnb29nbGUiLCJuYW1lIjoi7LiE7LiEIiwiaWF0IjoxNjU4MjQ1NTIyLCJleHAiOjE2NjYwMjE1MjJ9.TLtbhih6H1hm9ozQqOgl1yO_iPAzKMG0t_tiaWcOYYk";
+        String token = "header.payload.signature";
         return new Jwt(token,token);
     }
 

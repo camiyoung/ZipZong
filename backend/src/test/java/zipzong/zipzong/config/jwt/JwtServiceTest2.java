@@ -21,14 +21,10 @@ class JwtServiceTest2 {
     @Test
     void 토큰_신뢰성_검증() {
         //given
-        Member member = Member.builder()
-                .name("황승주")
-                .provider("Google")
-                .email("platinadark@gmail.com")
-                .build();
+        Member member = makeMember();
 
         Jwt tokens = jwtService.generateToken(member.getEmail(), member.getProvider(), member.getName());
-        String accessToken = tokens.getToken();
+        String accessToken = tokens.getAccessToken();
         String refreshToken = tokens.getRefreshToken();
 
         //when
@@ -59,11 +55,7 @@ class JwtServiceTest2 {
     @Test
     void 토큰_유효시간_검증() {
         //given
-        Member member = Member.builder()
-                .name("황승주")
-                .provider("Google")
-                .email("platinadark@gmail.com")
-                .build();
+        Member member = makeMember();
 
         Jwt tokens = jwtService.generateToken(member.getEmail(), member.getProvider(), member.getName());
         String accessToken = "MODIFIED_TOKEN";
@@ -77,6 +69,14 @@ class JwtServiceTest2 {
         Assertions.assertThat(error_result).isEqualTo(false);
         Assertions.assertThat(normal_result).isEqualTo(true);
 
+    }
+
+    private Member makeMember(){
+        return Member.builder()
+                .name("황승주")
+                .provider("Google")
+                .email("platinadark@gmail.com")
+                .build();
     }
 
 }
