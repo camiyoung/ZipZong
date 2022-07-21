@@ -4,10 +4,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import zipzong.zipzong.domain.Member;
 
-import static org.junit.jupiter.api.Assertions.*;
 
-
-class JwtServiceTest {
+class JwtServiceTest2 {
     final JwtService jwtService = new JwtService();
 
     @Test
