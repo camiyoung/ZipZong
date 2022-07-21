@@ -4,6 +4,7 @@ import Components from "./pages/Components"
 import Invite from "./pages/Invite"
 import Group from "./pages/Group"
 import Home from "./pages/Home"
+import MyPage from "./pages/MyPage"
 import RoomPage from "./pages/RoomPage"
 
 function App() {
@@ -16,8 +17,8 @@ function App() {
           <Route path="/components" element={<Components />} />
           <Route path="/invite" element={<Invite />} />
           <Route path="/group" element={<Group />} />
-
           <Route path="/room" element={<RoomPage />} />
+          <Route path="/mypage" element={<MyPage />} />
         </Routes>
       </BrowserRouter>
     </div>

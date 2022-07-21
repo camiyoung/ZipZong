@@ -1,5 +1,5 @@
 import React from "react"
-import NameSquare from "../../components/NameSquare/NameSquare"
+import NameSquare from "../../components/nameSquare/NameSquare"
 import ImageIcon from "../../components/icon/ImageIcon"
 import PlusIcon from "../../components/icon/PlusIcon"
 

@@ -1,6 +1,5 @@
 import React from "react"
 import CalendarForm from "../../components/calendar/CalendarForm"
-import NameSquare from "../../components/NameSquare/NameSquare"
 import ImageIcon from "../../components/icon/ImageIcon"
 
 const dayExerciseInfo = [
