@@ -23,11 +23,10 @@ function GroupManagement() {
               className="
                 text-sm
                 font-medium
-                mr-10
                 block
                 w-24
                 my-auto
-                my
+                mr-6
               "
             >
               모드 설정
@@ -41,13 +40,18 @@ function GroupManagement() {
           />
         </form>
 
-        <div className="flex justify-end mt-5 w-full">
-          <Button text="개설" bgColor="bg-info" />
-          <Button
-            text="닫기"
-            bgColor="bg-danger"
-            onClick={() => modalClose()}
-          />
+        <div className="flex justify-end mt-5">
+          <div className="mr-3">
+            <Button text="개설" bgColor="bg-info" height="h-8" />
+          </div>
+          <div className="mr-3">
+            <Button
+              height="h-8"
+              text="닫기"
+              bgColor="bg-danger"
+              onClick={() => modalClose()}
+            />
+          </div>
         </div>
       </Modal>
 

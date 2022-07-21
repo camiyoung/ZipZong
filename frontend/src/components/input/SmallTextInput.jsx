@@ -6,7 +6,7 @@ export default function SmallTextInput(props) {
         htmlFor="small-input"
         className="
           block
-          w-24
+          w-20
           my-auto
           text-sm
           font-medium
@@ -19,14 +19,16 @@ export default function SmallTextInput(props) {
         id="small-input"
         className="
           ml-10
+          h-9
+          w-[300px]
           block
-          w-96
           bg-gray-50
           rounded-lg
+          text-sm
           border
           border-gray-300
-          focus:ring-blue-500
-          focus:border-blue-500
+          focus:ring-primary-200
+          focus:border-primary-200
         "
       />
     </div>
