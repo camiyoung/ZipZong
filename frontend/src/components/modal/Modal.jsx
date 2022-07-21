@@ -1,8 +1,12 @@
-import React, { useRef } from "react";
+import React, { useRef } from "react"
+
+// const [isOpen, setOpen] = useState(false)
+// const modalClose = () => setOpen(false)
+// isOpen과 modalClose를 함께 넘겨주세요.
 
 export default function Modal({ isOpen, modalClose, children }) {
-  const outModal = useRef();
-  const showHide = isOpen ? "visible relative z-10" : "invisible relative z-10";
+  const outModal = useRef()
+  const showHide = isOpen ? "visible relative z-10" : "invisible relative z-10"
 
   return (
     <div
@@ -16,7 +20,7 @@ export default function Modal({ isOpen, modalClose, children }) {
         class="fixed z-10 inset-0 overflow-y-auto"
         onClick={(event) => {
           if (event.target === outModal.current) {
-            modalClose();
+            modalClose()
           }
         }}
       >
@@ -34,5 +38,5 @@ export default function Modal({ isOpen, modalClose, children }) {
         </div>
       </div>
     </div>
-  );
+  )
 }
