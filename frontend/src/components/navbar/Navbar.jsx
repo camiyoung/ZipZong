@@ -14,8 +14,12 @@ const GroupList = ({ setVisible }) => {
       <Card size="middle">
         <div onClick={() => setVisible(false)}>닫기 </div>
         <ul>
-          <li>그룹 1 1/10(명)</li>
-          <li>그룹 2 1/10(명)</li>
+          <NavLink to="/group">
+            <li>그룹 페이지</li>
+          </NavLink>
+          <NavLink to="/groupset">
+            <li>그룹 설정 페이지</li>
+          </NavLink>
           <li>그룹 3 1/10(명)</li>
         </ul>
       </Card>
