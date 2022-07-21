@@ -1,5 +1,6 @@
 import React from "react"
-import Room from "../features/Room/Room"
+import Room from "../features/room/Room"
+
 export default function RoomPage() {
   return <Room />
 }

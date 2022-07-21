@@ -5,6 +5,7 @@ import Invite from "./pages/Invite"
 import Group from "./pages/Group"
 import GroupSet from "./pages/GroupSet"
 import Home from "./pages/Home"
+import MyPage from "./pages/MyPage"
 import RoomPage from "./pages/RoomPage"
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Route path="/groupset" element={<GroupSet />} />
 
           <Route path="/room" element={<RoomPage />} />
+          <Route path="/mypage" element={<MyPage />} />
         </Routes>
       </BrowserRouter>
     </div>
