@@ -51,6 +51,7 @@ function Ranking() {
           <ImageIcon
             image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg"
             size="small"
+            shape="round"
           />
           <p className="mx-3">집에서 운동중</p>
           <p>09:17:22</p>
@@ -59,6 +60,7 @@ function Ranking() {
           <ImageIcon
             image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg"
             size="small"
+            shape="round"
           />
           <p className="mx-3">집에서 운동중</p>
           <p>09:17:25</p>
@@ -74,6 +76,7 @@ function Ranking() {
           <ImageIcon
             image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg"
             size="small"
+            shape="round"
           />
           <p className="mx-3">집에서 운동중</p>
           <p>10일차</p>
@@ -107,7 +110,11 @@ export default function ExerciseInfo() {
                 ({ exerciseIcon, exerciseTime, exerciseCount }) => {
                   return (
                     <div key={exerciseCount} className="flex m-5">
-                      <ImageIcon image={exerciseIcon} size="middle" />
+                      <ImageIcon
+                        image={exerciseIcon}
+                        size="middle"
+                        shape="round"
+                      />
                       <div>
                         <p>운동 개수: {exerciseCount}</p>
                         <p>운동 시간: {exerciseTime}</p>
