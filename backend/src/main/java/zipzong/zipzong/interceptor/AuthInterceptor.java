@@ -36,16 +36,15 @@ public class AuthInterceptor implements HandlerInterceptor {
         String email = jwtService.getEmail(refreshToken);
         String provider = jwtService.getProvider(refreshToken);
         String name = jwtService.getName(refreshToken);
+
         Member member = memberRepository.findByEmailAndProvider(email, provider)
                 .orElseThrow(() -> new NoSuchElementException("Member Not Found"));
         if (member.getRefreshToken().equals(refreshToken)) {
             Jwt token = jwtService.generateToken(email, provider, name);
 
-            DateFormat expirationFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-            Date accessTokenExpirationDate = jwtService.getExpiration(token.getToken());
-            String accessTokenExpiration = expirationFormat.format(accessTokenExpirationDate);
+            String accessTokenExpiration = jwtService.dateToString(token.getAccessToken());
 
-            response.setHeader("accessToken", token.getToken());
+            response.setHeader("accessToken", token.getAccessToken());
             response.setHeader("accessTokenExpiration", accessTokenExpiration);
             return true;
         }

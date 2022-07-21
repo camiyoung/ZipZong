@@ -7,12 +7,20 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
 
 @Service
 public class JwtService {
     private String secretKey = "token-secret-key";
+    //10분
+    static final long ACCESS_PERIOD = 1000L * 60L * 10L;
+    //3달
+    static final long REFRESH_PERIOD = 1000L * 60L * 60L * 24L * 30L;
+
+    static final String DATE_FORMAT = "yyyy-MM-dd-HH-mm-ss";
 
     @PostConstruct
     protected void init() {
@@ -20,9 +28,6 @@ public class JwtService {
     }
 
     public Jwt generateToken(String email, String provider, String name) {
-        // 토큰 10분, 리프레쉬 토큰 3달
-        long tokenPeriod = 1000L * 60L * 10L;
-        long refreshPeriod = 1000L * 60L * 60L * 24L * 30L * 3L;
 
         Claims claims = Jwts.claims().setSubject("token");
         claims.put("email", email);
@@ -34,13 +39,13 @@ public class JwtService {
                 Jwts.builder()
                         .setClaims(claims)
                         .setIssuedAt(now)
-                        .setExpiration(new Date(now.getTime() + tokenPeriod))
+                        .setExpiration(new Date(now.getTime() + ACCESS_PERIOD))
                         .signWith(SignatureAlgorithm.HS256, secretKey)
                         .compact(),
                 Jwts.builder()
                         .setClaims(claims)
                         .setIssuedAt(now)
-                        .setExpiration(new Date(now.getTime() + refreshPeriod))
+                        .setExpiration(new Date(now.getTime() + REFRESH_PERIOD))
                         .signWith(SignatureAlgorithm.HS256, secretKey)
                         .compact());
     }
@@ -72,6 +77,12 @@ public class JwtService {
 
     public Date getExpiration(String token) {
         return (Date) Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getExpiration();
+    }
+
+    public String dateToString(String token) {
+        DateFormat expirationFormat = new SimpleDateFormat(DATE_FORMAT);
+        Date tokenExpirationDate = getExpiration(token);
+        return expirationFormat.format(tokenExpirationDate);
     }
 
 }
