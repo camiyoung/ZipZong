@@ -42,11 +42,12 @@ function GroupManagement() {
         </form>
 
         <div className="flex justify-end mt-5 w-full">
-          <Button text="개설" bgColor="bg-info" />
+          <Button text="개설" bgColor="bg-info" height="h-7" />
           <Button
             text="닫기"
             bgColor="bg-danger"
             onClick={() => modalClose()}
+            height="h-7"
           />
         </div>
       </Modal>

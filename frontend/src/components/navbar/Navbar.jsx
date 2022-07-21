@@ -45,7 +45,11 @@ export default function Navbar() {
   const [showInfo, setShowInfo] = useState(false)
   const location = useLocation()
 
-  if (location.pathname.split("/")[1] === "room") return
+  if (
+    location.pathname.split("/")[1] === "room" ||
+    location.pathname.split("/")[1] === "login"
+  )
+    return
   return (
     <nav className="flex justify-between p-3 border">
       <div>
@@ -58,7 +62,7 @@ export default function Navbar() {
           <NavLink to="/room">운동방</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink to="/rank">명예의 전당</NavLink>
+          <NavLink to="/">명예의 전당</NavLink>
         </NavItem>
         <NavItem>
           <div
@@ -79,6 +83,7 @@ export default function Navbar() {
             <ImageIcon
               image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg"
               size="small"
+              shape="round"
             />
           </div>
           {showInfo && <InfoList setVisible={setShowInfo} />}
