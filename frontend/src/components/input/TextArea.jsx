@@ -2,7 +2,7 @@ import React from "react"
 
 export default function TextArea(props) {
   return (
-    <div className="max-w-sm mx-auto flex">
+    <div>
       <label
         htmlFor="message"
         className="
@@ -11,7 +11,6 @@ export default function TextArea(props) {
           text-sm
           font-medium
           text-gray-900
-          dark:text-gray-400
         "
       >
         {props.textAreaName}
@@ -21,7 +20,6 @@ export default function TextArea(props) {
         rows="4"
         className="
           block
-          p-2.5
           w-96
           text-sm
           text-gray-900
@@ -31,12 +29,6 @@ export default function TextArea(props) {
           border-gray-300
           focus:ring-blue-500
           focus:border-blue-500
-          dark:bg-gray-700
-          dark:border-gray-600
-          dark:placeholder-gray-400
-          dark:text-white
-          dark:focus:ring-blue-500
-          dark:focus:border-blue-500
         "
         placeholder="Leave a comment..."
       ></textarea>

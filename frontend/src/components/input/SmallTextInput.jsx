@@ -1,16 +1,15 @@
 import React from "react"
 export default function SmallTextInput(props) {
   return (
-    <div className="max-w-sm mx-auto flex">
+    <div className="flex">
       <label
         htmlFor="small-input"
         className="
           block
+          w-24
           my-auto
           text-sm
           font-medium
-          text-gray-900
-          dark:text-gray-300
         "
       >
         {props.inputName}
@@ -19,23 +18,15 @@ export default function SmallTextInput(props) {
         type="text"
         id="small-input"
         className="
+          ml-10
           block
-          p-2
           w-96
-          text-gray-900
           bg-gray-50
           rounded-lg
           border
           border-gray-300
-          sm:text-xs
           focus:ring-blue-500
           focus:border-blue-500
-          dark:bg-gray-700
-          dark:border-gray-600
-          dark:placeholder-gray-400
-          dark:text-white
-          dark:focus:ring-blue-500
-          dark:focus:border-blue-500
         "
       />
     </div>

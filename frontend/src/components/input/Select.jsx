@@ -1,7 +1,7 @@
 import React from "react"
 export default function Select(props) {
   return (
-    <div className="max-w-sm mx-auto flex">
+    <div className="flex">
       <label
         htmlFor="routine"
         className="
@@ -10,10 +10,10 @@ export default function Select(props) {
           text-sm
           font-medium
           text-gray-900
-          dark:text-gray-400
+          w-24
         "
       >
-        Select an option
+        {props.selectName}
       </label>
       <select
         id="routine"
@@ -27,14 +27,8 @@ export default function Select(props) {
           focus:ring-blue-500
           focus:border-blue-500
           block
-          w-full
-          p-2.5
-          dark:bg-gray-700
-          dark:border-gray-600
-          dark:placeholder-gray-400
-          dark:text-white
-          dark:focus:ring-blue-500
-          dark:focus:border-blue-500
+          ml-10
+          w-96
         "
       >
         <option defaultValue>루틴을 선택하시오.</option>
