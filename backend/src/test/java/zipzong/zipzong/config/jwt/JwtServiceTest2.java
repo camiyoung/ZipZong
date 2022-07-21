@@ -15,7 +15,7 @@ class JwtServiceTest2 {
         //when
         boolean result = jwtService.verifyToken(token);
         //then
-        Assertions.assertThat(result).isEqualTo(true);
+        Assertions.assertThat(result).isEqualTo(false);
     }
 
     @Test
