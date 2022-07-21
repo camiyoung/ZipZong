@@ -7,6 +7,7 @@ import GroupSet from "./pages/GroupSet"
 import Home from "./pages/Home"
 import MyPage from "./pages/MyPage"
 import RoomPage from "./pages/RoomPage"
+import RankPage from "./pages/RankPage"
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
 
           <Route path="/room" element={<RoomPage />} />
           <Route path="/mypage" element={<MyPage />} />
+          <Route path="/rank" element={<RankPage />} />
         </Routes>
       </BrowserRouter>
     </div>
