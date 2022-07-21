@@ -94,7 +94,7 @@ export default function GroupInfo({
         <div className="flex">
           <ImageIcon
             image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg"
-            size="small"
+            size="middle"
           />
 
           <div className="flex flex-col ml-10">

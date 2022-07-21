@@ -8,6 +8,7 @@ import Home from "./pages/Home"
 import MyPage from "./pages/MyPage"
 import RoomPage from "./pages/RoomPage"
 import RankPage from "./pages/RankPage"
+import Login from "./pages/Login"
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/group" element={<Group />} />
           <Route path="/groupset" element={<GroupSet />} />
 
+          <Route path="/login" element={<Login />} />
           <Route path="/room" element={<RoomPage />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/rank" element={<RankPage />} />

@@ -18,15 +18,37 @@ const heightChart = {
   "h-9": "h-9",
   "h-10 ": "h-10",
 }
+const widthChart = {
+  "w-20": "w-20",
+  "w-24": "w-24",
+  "w-28": "w-28",
+  "w-32": "w-32",
+  "w-36": "w-36",
+  "w-40": "w-40",
+  "w-44": "w-44",
+  "w-48": "w-48",
+  "w-52": "w-52",
+  "w-56": "w-56",
+  "w-64": "w-64",
+  "w-72": "w-72",
+}
 
-export default function Button({ text, bgColor, height, round, ...restProps }) {
+export default function Button({
+  text,
+  bgColor,
+  height,
+  width,
+  round,
+  ...restProps
+}) {
   const selectedBgColor = bgColor ? bgColorChart[bgColor] : bgColorChart.normal
   const roundType = round ? roundChart[round] : roundChart.roundMd
   const heightType = height ? heightChart[height] : heightChart["h-3"]
+  const widthType = width ? widthChart[width] : widthChart["w-40"]
   return (
     /* 덜 round 한것 - Login, 회원가입, 취소, 확인 버튼 */
     <button
-      className={`${selectedBgColor} ${roundType} ${heightType} px-4 font-semibold text-white `}
+      className={`${selectedBgColor} ${roundType} ${heightType} ${widthType} px-5 font-semibold text-white `}
       {...restProps}
     >
       {text}
