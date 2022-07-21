@@ -76,10 +76,12 @@ export default function Navbar() {
               setShowInfo(true)
             }}
           >
-            <ImageIcon
-              image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg"
-              size="small"
-            />
+            <NavLink to="/mypage">
+              <ImageIcon
+                image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg"
+                size="small"
+              />
+            </NavLink>
           </div>
           {showInfo && <InfoList setVisible={setShowInfo} />}
         </NavItem>
