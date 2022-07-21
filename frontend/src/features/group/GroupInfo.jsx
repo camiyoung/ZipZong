@@ -63,6 +63,7 @@ function GroupManagement() {
             onClick={() => setOpen(true)}
             text="여기를 클릭하여 운동 방을 만들어 보세요"
             height="h-7"
+            width="w-68"
           />
         </div>
         <div className="flex justify-evenly">
@@ -95,6 +96,7 @@ export default function GroupInfo({
           <ImageIcon
             image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg"
             size="middle"
+            shape="round"
           />
 
           <div className="flex flex-col ml-10">

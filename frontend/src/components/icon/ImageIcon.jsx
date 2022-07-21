@@ -10,7 +10,7 @@ const shapeChart = {
   square: "",
 }
 
-export default function Icon({ image, size, shape }) {
+export default function Icon({ image, size, shape, ...restProps }) {
   const iconSize = size ? sizeChart[size] : sizeChart.middle
   const shapeType = shape ? shapeChart[shape] : shapeChart.square
   return (

@@ -51,7 +51,11 @@ export default function GroupExerciseInfo() {
         }) => {
           return (
             <div key={groupExerciseKey} className="flex">
-              <ImageIcon image={groupExerciseIcon} size="middle" />
+              <ImageIcon
+                image={groupExerciseIcon}
+                size="middle"
+                shape="round"
+              />
               <div className="flex flex-col mx-5">
                 <p>{groupExerciseName}</p>
                 <p>{groupExerciseCount}</p>

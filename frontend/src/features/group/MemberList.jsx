@@ -49,7 +49,12 @@ export default function MemberList() {
             size="normal"
             text={memberName}
           >
-            <ImageIcon image={Icon} size="small" />
+            <ImageIcon
+              image={Icon}
+              size="small"
+              shape="round"
+              className="m-4"
+            />
           </NameSquare>
         )
       })}
