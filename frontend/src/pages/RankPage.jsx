@@ -2,6 +2,7 @@ import React from "react"
 import prize1 from "../assets/prize_first.png"
 import prize2 from "../assets/prize_second.png"
 import prize3 from "../assets/prize_third.png"
+import bg_rank2 from "../assets/bg_rank2.png"
 
 const rankList = [
   "그룹1",
@@ -40,9 +41,15 @@ const ListItemSamll = ({ text }) => {
 
 export default function RankPage() {
   return (
-    <div className="flex  justify-center items-center flex-col w-full">
+    <div
+      className="flex  justify-center items-center flex-col w-full"
+      style={{
+        backgroundImage: `url(${bg_rank2})`,
+        backgroundAttachment: "fixed",
+      }}
+    >
       <div className="w-6/12 p-4 ">
-        <div className="border w-full mt-7 mb-12 p-4 rounded-xl border-primary-100 shadow-md">
+        <div className="border w-full mt-7 mb-12 p-4 rounded-xl border-primary- shadow-md bg-white">
           <div className=" h-20 flex items-center justify-center">
             <h1 className="text-center font-extrabold text-white text-4xl p-3 px-20 rounded-3xl bg-gradient-to-r from-lgBlue-400  to-primary-400">
               명예의 전당
