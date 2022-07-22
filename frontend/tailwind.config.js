@@ -51,7 +51,32 @@ module.exports = {
         900: "#1c292b",
       },
     },
-    extend: {},
+    extend: {
+      animation: {
+        "slide-from-left":
+          "slide-left 1.2s cubic-bezier(0.175, 0.885, 0.320, 1.275) 1s  both",
+        "slide-from-right":
+          "slide-right 1s cubic-bezier(0.175, 0.885, 0.320, 1.275) 0.5s both",
+      },
+      keyframes: {
+        "slide-left": {
+          "0%": {
+            transform: "translateX(-500px)",
+          },
+          to: {
+            transform: "translateX(0)",
+          },
+        },
+        "slide-right": {
+          "0%": {
+            transform: "translateX(500px)",
+          },
+          to: {
+            transform: "translateX(0)",
+          },
+        },
+      },
+    },
   },
   plugins: [require("flowbite/plugin"), require("@tailwindcss/typography")],
 }
