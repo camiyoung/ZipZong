@@ -1,13 +1,20 @@
 import React, { useState } from "react"
 import Button from "../components/button/Button"
 import ImageIcon from "../components/icon/ImageIcon"
+import { useLocation } from "react-router-dom"
 export default function Locgin() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const location = useLocation()
+  console.log("Location", location)
+
+  const token = localStorage.getItem('token')
+  const GOOGLE_REDIRECT_URI = process.env.REACT_APP_GOOGLE_REDIRECT_URI
+  const GOOGLE_REQUEST = `${GOOGLE_REDIRECT_URI}?redirect_uri=http://localhost:3000/oauth/redirect`
 
   const NotLoggedInYet = () => {
     return (
       <div className="w-6/12 flex justify-center items-center flex-col">
         <p className="text-3xl font-bold mb-5">로그인 하세요</p>
+        
         <div className="flex">
           {/* 카카오 로그인 */}
           <a href="https://www.daum.net">
@@ -26,7 +33,8 @@ export default function Locgin() {
           </a>
 
           {/* 구글 로그인 */}
-          <a href="http://ec2-3-36-153-120.ap-northeast-2.compute.amazonaws.com:8080/index.html">
+          <a href={GOOGLE_REQUEST}
+          >
             <ImageIcon
               shape="round"
               image="https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg"
@@ -66,7 +74,7 @@ export default function Locgin() {
         />
       </div>
       {/* 로그인되면 버튼들이 보이지 않음 */}
-      {isLoggedIn ? <SetNickName /> : <NotLoggedInYet />}
+      {token ? <SetNickName /> : <NotLoggedInYet />}
     </div>
   )
 }
