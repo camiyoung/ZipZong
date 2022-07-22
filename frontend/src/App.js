@@ -11,6 +11,7 @@ import RankPage from "./pages/RankPage"
 import Login from "./pages/Login"
 import ExerciseResultPage from "./pages/ExerciseResutlPage"
 import LoginRedirect from "./features/login/LoginRedirect"
+import Routine from "./pages/Routine"
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/invite" element={<Invite />} />
           <Route path="/group" element={<Group />} />
           <Route path="/groupset" element={<GroupSet />} />
+          <Route path="/routine" element={<Routine />} />
 
           <Route path="/login" element={<Login />} />
           <Route path="/room" element={<RoomPage />} />
