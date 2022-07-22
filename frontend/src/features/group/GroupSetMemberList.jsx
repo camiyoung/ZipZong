@@ -59,12 +59,8 @@ export default function GroupSetMemberList() {
   const [user, setUser] = useState()
   const modalClose = () => setExpulsionOpen(false)
 
-  const ShowGroupSettings = () => {
-    return <div>asd</div>
-  }
-
   return (
-    <div className="mx-5 mt-5">
+    <div className="mx-5 mt-10">
       {/* 모달 */}
       <Modal isOpen={isExpulsionOpen} modalClose={modalClose}>
         <div className="flex flex-col">
@@ -93,13 +89,22 @@ export default function GroupSetMemberList() {
       {members.map(({ name, date, keyNumber, isLeader, imageUrl }) => {
         return (
           <div
+            id="dropdownDefault"
             key={keyNumber}
             className="flex mb-2 w-64"
             onClick={() => {
-              setExpulsionOpen(true)
+              // setExpulsionOpen(true) 모달 창 열기
               setUser(name)
             }}
+            data-dropdown-toggle="dropdown"
           >
+            <div id="dropdown">
+              <ul class="space-y-4" ariaLabelledby="dropdownDefault">
+                <li>
+                  <p>Hello</p>
+                </li>
+              </ul>
+            </div>
             <ImageIcon image={imageUrl} size="small" shape="round" />
             <p className="mx-2">{name}</p>
             <p className="ml-3">({date} 가입)</p>
