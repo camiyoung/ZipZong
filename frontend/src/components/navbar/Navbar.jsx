@@ -29,13 +29,19 @@ const GroupList = ({ setVisible }) => {
   )
 }
 
+// 로그아웃 버튼 눌렀을 시 발동
+const Logout = () => {
+  localStorage.setItem("token", null)
+  localStorage.setItem("user", null)
+}
+
 const InfoList = ({ setVisible }) => {
   return (
     <div className="absolute z-30 top-[4rem] right-[2.5em] border">
       <Card size="middle">
         <div onClick={() => setVisible(false)}>닫기</div>
         <ul>
-          <li>log out</li>
+          <li onClick={() => <Logout />}>log out</li>
         </ul>
       </Card>
     </div>
