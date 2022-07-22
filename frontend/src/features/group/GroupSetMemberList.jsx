@@ -85,7 +85,6 @@ export default function GroupSetMemberList() {
         <UserIcon />
         {members.length}명 / {10}명
       </p>
-
       {members.map(({ name, date, keyNumber, isLeader, imageUrl }) => {
         return (
           <div
@@ -93,7 +92,7 @@ export default function GroupSetMemberList() {
             key={keyNumber}
             className="flex mb-2 w-64"
             onClick={() => {
-              // setExpulsionOpen(true) 모달 창 열기
+              setExpulsionOpen(true)
               setUser(name)
             }}
             data-dropdown-toggle="dropdown"
