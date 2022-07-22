@@ -20,7 +20,9 @@ const GroupList = ({ setVisible }) => {
           <NavLink to="/groupset">
             <li>그룹 설정 페이지</li>
           </NavLink>
-          <li>그룹 3 1/10(명)</li>
+          <NavLink to="/routine">
+            <li>루틴 페이지</li>
+          </NavLink>
         </ul>
       </Card>
     </div>
