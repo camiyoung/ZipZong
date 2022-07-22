@@ -51,7 +51,49 @@ module.exports = {
         900: "#1c292b",
       },
     },
-    extend: {},
+    extend: {
+      animation: {
+        "slide-from-left":
+          "slide-left 1.2s cubic-bezier(0.175, 0.885, 0.320, 1.275) 1s  both",
+        "slide-from-right":
+          "slide-right 1s cubic-bezier(0.175, 0.885, 0.320, 1.275) 0.5s both",
+        "prize-gold":
+          "scale-up-bottom 1s cubic-bezier(0.390, 0.575, 0.565, 1.000)  1s both ",
+        "prize-silver":
+          "scale-up-bottom 0.7s cubic-bezier(0.390, 0.575, 0.565, 1.000) 0.5s  both ",
+        "prize-bronze":
+          "scale-up-bottom 1s cubic-bezier(0.390, 0.575, 0.565, 1.000)   both ",
+      },
+      keyframes: {
+        "slide-left": {
+          "0%": {
+            transform: "translateX(-500px)",
+          },
+          to: {
+            transform: "translateX(0)",
+          },
+        },
+        "slide-right": {
+          "0%": {
+            transform: "translateX(500px)",
+          },
+          to: {
+            transform: "translateX(0)",
+          },
+        },
+        "scale-up-bottom": {
+          "0%": {
+            transform: "scale(.5) ",
+            "transform-origin": "50% 100%",
+            opacity: 0,
+          },
+          to: {
+            transform: "scale(1)",
+            "transform-origin": "50% 100%",
+          },
+        },
+      },
+    },
   },
   plugins: [require("flowbite/plugin"), require("@tailwindcss/typography")],
 }
