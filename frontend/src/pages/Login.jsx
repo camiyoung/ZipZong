@@ -8,6 +8,7 @@ export default function Locgin() {
   const refreshToken = new URL(window.location.href).searchParams.get("refreshToken")
   const accessTokenExpiration = new URL(window.location.href).searchParams.get("accessTokenExpiration")
   const refreshTokenExpiration = new URL(window.location.href).searchParams.get("refreshTokenExpiration")
+  const hasNickName = new URL(window.location.href).searchParams.get("hasNickName")
   if (token) {
     localStorage.setItem("token", token)
     localStorage.setItem("refreshToken", refreshToken)
