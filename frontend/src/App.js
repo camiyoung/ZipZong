@@ -10,7 +10,7 @@ import RoomPage from "./pages/RoomPage"
 import RankPage from "./pages/RankPage"
 import Login from "./pages/Login"
 import ExerciseResultPage from "./pages/ExerciseResutlPage"
-import LoginRedirect from "./features/login/LoginRedirect"
+// import LoginRedirect from "./features/login/LoginRedirect"
 import Routine from "./pages/Routine"
 
 function App() {
@@ -31,7 +31,7 @@ function App() {
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/rank" element={<RankPage />} />
           <Route path="/result" element={<ExerciseResultPage />} />
-          <Route path="/oauth/redirect" element={<LoginRedirect />} />
+          {/* <Route path="/oauth/redirect" element={<LoginRedirect />} /> */}
         </Routes>
       </BrowserRouter>
     </div>
