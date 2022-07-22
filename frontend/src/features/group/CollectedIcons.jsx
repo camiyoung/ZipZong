@@ -53,12 +53,12 @@ export default function CollectedIcons() {
       <div className="flex">
         {prizes.map(({ imageUrl, prizeKey }) => {
           return (
-            <div className="mr-3" key={prizeKey}>
+            <div className="mr-5 mt-5" key={prizeKey}>
               <ImageIcon
                 image={imageUrl}
-                shape="square"
+                shape="round"
                 className="mx-1"
-                size="middle"
+                size="large"
               />
             </div>
           )
