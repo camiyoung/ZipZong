@@ -4,9 +4,17 @@ import ImageIcon from "../components/icon/ImageIcon"
 import { useLocation } from "react-router-dom"
 export default function Locgin() {
   const location = useLocation()
-  console.log("Location", location)
+  const token = new URL(window.location.href).searchParams.get("token")
+  const refreshToken = new URL(window.location.href).searchParams.get("refreshToken")
+  const accessTokenExpiration = new URL(window.location.href).searchParams.get("accessTokenExpiration")
+  const refreshTokenExpiration = new URL(window.location.href).searchParams.get("refreshTokenExpiration")
+  if (token) {
+    localStorage.setItem("token", token)
+    localStorage.setItem("refreshToken", refreshToken)
+    localStorage.setItem("accessTokenExpiration", accessTokenExpiration)
+    localStorage.setItem("refreshTokenExpiration", refreshTokenExpiration)
+  }
 
-  const token = localStorage.getItem('token')
   const GOOGLE_REDIRECT_URI = process.env.REACT_APP_GOOGLE_REDIRECT_URI
   const GOOGLE_REQUEST = `${GOOGLE_REDIRECT_URI}?redirect_uri=http://localhost:3000/oauth/redirect`
 
