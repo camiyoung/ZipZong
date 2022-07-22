@@ -6,9 +6,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 import zipzong.zipzong.config.jwt.Jwt;
 import zipzong.zipzong.config.jwt.JwtService;
 import zipzong.zipzong.domain.Member;
@@ -19,7 +21,7 @@ import zipzong.zipzong.repository.MemberRepository;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-@RestController
+@Controller
 @RequestMapping("/oauth")
 @RequiredArgsConstructor
 public class OAuthController {
@@ -28,8 +30,7 @@ public class OAuthController {
     static final String SUCCESS = "success";
 
     @GetMapping("/info")
-    public ResponseEntity createToken(Authentication authentication) {
-        HttpHeaders responseHeader = new HttpHeaders();
+    public String createToken(Authentication authentication) {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         Map<String, Object> attributes = oAuth2User.getAttributes();
 
@@ -43,26 +44,18 @@ public class OAuthController {
         String accessTokenExpiration = jwtService.dateToString(token.getAccessToken());
         String refreshTokenExpiration = jwtService.dateToString(token.getRefreshToken());
 
-        responseHeader.add("accessToken", token.getAccessToken());
-        responseHeader.add("refreshToken", token.getRefreshToken());
-        responseHeader.add("accessTokenExpiration", accessTokenExpiration);
-        responseHeader.add("refreshTokenExpiration", refreshTokenExpiration);
-
-        return new ResponseEntity(makeBasicResponse(SUCCESS, member.toMemberResponse()), responseHeader, HttpStatus.OK);
+        return "redirect:" + UriComponentsBuilder.fromUriString("http://localhost:3000/login")
+                                                 .queryParam("accessToken", token.getAccessToken())
+                                                 .queryParam("refreshToken", token.getRefreshToken())
+                                                 .queryParam("accessTokenExpiration", accessTokenExpiration)
+                                                 .queryParam("refreshTokenExpiration", refreshTokenExpiration)
+                                                 .build()
+                                                 .toUriString();
 
     }
 
     private Member getAuthMember(Map<String, Object> attributes) {
         return memberRepository.findByEmailAndProvider((String) attributes.get("email"), (String) attributes.get("provider"))
-                .orElseThrow(() -> new NoSuchElementException("Member Not Found"));
-    }
-
-    private BasicResponse<MemberResponse> makeBasicResponse(String message, MemberResponse data) {
-
-        return BasicResponse
-                .<MemberResponse>builder()
-                .message(message)
-                .data(data)
-                .build();
+                               .orElseThrow(() -> new NoSuchElementException("Member Not Found"));
     }
 }
