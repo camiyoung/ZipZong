@@ -88,26 +88,19 @@ export default function GroupSetMemberList() {
       {members.map(({ name, date, keyNumber, isLeader, imageUrl }) => {
         return (
           <div
-            id="dropdownDefault"
             key={keyNumber}
-            className="flex mb-2 w-64"
-            onClick={() => {
-              setExpulsionOpen(true)
-              setUser(name)
-            }}
-            data-dropdown-toggle="dropdown"
+            className="flex mb-2 w-128"
           >
-            <div id="dropdown">
-              <ul class="space-y-4" ariaLabelledby="dropdownDefault">
-                <li>
-                  <p>Hello</p>
-                </li>
-              </ul>
-            </div>
             <ImageIcon image={imageUrl} size="small" shape="round" />
             <p className="mx-2">{name}</p>
             <p className="ml-3">({date} 가입)</p>
             {isLeader ? <p className="w-min">👑</p> : null}
+            
+            <button className="ml-5">그룹장 위임</button>
+            <button className="ml-5" onClick={() => {
+              setExpulsionOpen(true)
+              setUser(name)
+            }}>그룹장 강퇴</button>
           </div>
         )
       })}
