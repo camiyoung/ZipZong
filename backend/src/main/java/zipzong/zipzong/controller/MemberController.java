@@ -31,6 +31,7 @@ public class MemberController {
         return new ResponseEntity<>(makeBasicResponse(SUCCESS, member.toMemberResponse()), HttpStatus.OK);
     }
 
+
     private BasicResponse<MemberResponse> makeBasicResponse(String message, MemberResponse data) {
 
         return BasicResponse
