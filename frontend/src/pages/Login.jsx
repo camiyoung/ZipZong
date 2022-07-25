@@ -5,10 +5,18 @@ import { useLocation } from "react-router-dom"
 export default function Locgin() {
   const location = useLocation()
   const token = new URL(window.location.href).searchParams.get("accessToken")
-  const refreshToken = new URL(window.location.href).searchParams.get("refreshToken")
-  const accessTokenExpiration = new URL(window.location.href).searchParams.get("accessTokenExpiration")
-  const refreshTokenExpiration = new URL(window.location.href).searchParams.get("refreshTokenExpiration")
-  const hasNickName = new URL(window.location.href).searchParams.get("hasNickName")
+  const refreshToken = new URL(window.location.href).searchParams.get(
+    "refreshToken"
+  )
+  const accessTokenExpiration = new URL(window.location.href).searchParams.get(
+    "accessTokenExpiration"
+  )
+  const refreshTokenExpiration = new URL(window.location.href).searchParams.get(
+    "refreshTokenExpiration"
+  )
+  const hasNickName = new URL(window.location.href).searchParams.get(
+    "hasNickName"
+  )
   if (token) {
     localStorage.setItem("token", token)
     localStorage.setItem("refreshToken", refreshToken)
@@ -23,7 +31,7 @@ export default function Locgin() {
     return (
       <div className="w-6/12 flex justify-center items-center flex-col">
         <p className="text-3xl font-bold mb-5">로그인 하세요</p>
-        
+
         <div className="flex">
           {/* 카카오 로그인 */}
           <a href="https://www.daum.net">
@@ -42,8 +50,7 @@ export default function Locgin() {
           </a>
 
           {/* 구글 로그인 */}
-          <a href={GOOGLE_REQUEST}
-          >
+          <a href={GOOGLE_REQUEST}>
             <ImageIcon
               shape="round"
               image="https://pbs.twimg.com/profile_images/770139154898382848/ndFg-IDH_400x400.jpg"
@@ -84,6 +91,7 @@ export default function Locgin() {
       </div>
       {/* 로그인되면 버튼들이 보이지 않음 */}
       {token ? <SetNickName /> : <NotLoggedInYet />}
+      {hasNickName ? window.location.href("/") : null}
     </div>
   )
 }
