@@ -4,17 +4,17 @@ import Timer from "../../components/timer/Timer"
 
 const TodoList = () => {
   return (
-    <ul class="w-43 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-      <li class="py-2 px-4 w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600">
+    <ul className="w-43 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+      <li className="py-2 px-4 w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600">
         운동1
       </li>
-      <li class="py-2 px-4 w-full border-b border-gray-200 dark:border-gray-600">
+      <li className="py-2 px-4 w-full border-b border-gray-200 dark:border-gray-600">
         운동2
       </li>
-      <li class="py-2 px-4 w-full border-b border-gray-200 dark:border-gray-600">
+      <li className="py-2 px-4 w-full border-b border-gray-200 dark:border-gray-600">
         운동3
       </li>
-      <li class="py-2 px-4 w-full rounded-b-lg">운동4</li>
+      <li className="py-2 px-4 w-full rounded-b-lg">운동4</li>
     </ul>
   )
 }

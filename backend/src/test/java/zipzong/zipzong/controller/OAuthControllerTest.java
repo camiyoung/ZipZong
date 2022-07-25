@@ -10,7 +10,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import zipzong.zipzong.config.auth.OAuthService;
 import zipzong.zipzong.config.jwt.Jwt;
 import zipzong.zipzong.config.jwt.JwtService;
@@ -29,13 +31,10 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.responseH
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/*
+
 @WebMvcTest(OAuthController.class)
 @AutoConfigureRestDocs
 class OAuthControllerTest {
@@ -51,45 +50,35 @@ class OAuthControllerTest {
     private OAuthService oAuthService;
 
     static final String DATE_FORMAT = "yyyy-MM-dd-HH-mm-ss";
+
     @Test
-    void Oauth_로그인() throws Exception {
+    void OAuth_로그인() throws Exception {
         //given
         DefaultOAuth2User user = makeDefaultOAuth2User();
         Authentication authentication = new UsernamePasswordAuthenticationToken(user, "password", user.getAuthorities());
 
         given(memberRepository.findByEmailAndProvider(any(), any())).willReturn(makeMember());
-        given(jwtService.generateToken(any(),any(),any())).willReturn(makeJwt());
+        given(jwtService.generateToken(any(), any(), any())).willReturn(makeJwt());
         given(jwtService.dateToString(any())).willReturn(DATE_FORMAT);
 
         //when
-        ResultActions resultActions = mockMvc.perform(get("/oauth/info")
-                .with(authentication(authentication))
-        );
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/oauth/info")
+                                                              .with(authentication(authentication));
+        ResultActions resultActions = mockMvc.perform(requestBuilder);
 
         //then
-        resultActions.andExpect(status().isOk())
-                .andDo(document("login",
-                        preprocessResponse(prettyPrint()),
-                        responseHeaders(
-                                headerWithName("accessToken").description("인증토큰"),
-                                headerWithName("refreshToken").description("갱신토큰"),
-                                headerWithName("accessTokenExpiration").description("인증토큰 만료일"),
-                                headerWithName("refreshTokenExpiration").description("갱신토큰 만료일")
-                        ),
-                        responseFields(
-                                fieldWithPath("message").description("응답 메시지"),
-                                fieldWithPath("data.name").description("사용자 이름"),
-                                fieldWithPath("data.email").description("사용자 이메일"),
-                                fieldWithPath("data.provider").description("로그인 제공사"),
-                                fieldWithPath("data.nickname").description("사용자 닉네임")
-                        )
-                ));
-
+        resultActions.andExpect(status().is3xxRedirection())
+                     .andDo(document("login",
+                             preprocessResponse(prettyPrint()),
+                             responseHeaders(
+                                     headerWithName("Location").description("redirect url")
+                             )));
     }
+
 
     private Jwt makeJwt() {
         String token = "header.payload.signature";
-        return new Jwt(token,token);
+        return new Jwt(token, token);
     }
 
     private Optional<Member> makeMember() {
@@ -118,4 +107,3 @@ class OAuthControllerTest {
     }
 
 }
-*/
