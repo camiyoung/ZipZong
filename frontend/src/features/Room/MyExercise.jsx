@@ -67,7 +67,7 @@ const Counter = () => {
   )
 }
 
-export default function MyExercise() {
+function MyExercise({ children }) {
   return (
     <div className="flex border h-4/6 ">
       <div className=" w-1/5 flex flex-col">
@@ -83,7 +83,9 @@ export default function MyExercise() {
         </div>
       </div>
       <div className=" w-3/5 p-3 relative">
-        <div className="w-full h-[90%]  rounded-xl bg-primary-100">video</div>
+        <div className="w-full h-[90%]  rounded-xl bg-primary-100">
+          {children}
+        </div>
         <Counter />
         <SoundConfig />
       </div>
@@ -93,3 +95,5 @@ export default function MyExercise() {
     </div>
   )
 }
+
+export default React.memo(MyExercise)
