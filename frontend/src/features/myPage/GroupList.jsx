@@ -27,10 +27,10 @@ export default function Group() {
     <div className="flex justify-center sm:flex-row-reverse">
       <Modal isOpen={isOpen} modalClose={modalClose}>
         그룹 생성 모달을 예쁘게 야무지게 꾸밉니다.
-        <div class="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+        <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
           <button
             type="button"
-            class="bg-lightBlue rounded-md border border-gray-300 shadow-sm px-4 py-2 text-base font-medium text-gray-700 hover:bg-primary-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+            className="bg-lightBlue rounded-md border border-gray-300 shadow-sm px-4 py-2 text-base font-medium text-gray-700 hover:bg-primary-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
           >
             그룹 생성
           </button>

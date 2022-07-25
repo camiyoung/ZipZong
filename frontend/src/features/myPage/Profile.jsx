@@ -18,8 +18,8 @@ export default function Profile() {
     <div>
       <Modal isOpen={isOpen} modalClose={modalClose}>
         <SmallTextInput inputName="닉네임"></SmallTextInput>
-        <div class="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-          <button type="button" class="bg-lightBlue ">
+        <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+          <button type="button" className="bg-lightBlue ">
             정보 수정
           </button>
         </div>
