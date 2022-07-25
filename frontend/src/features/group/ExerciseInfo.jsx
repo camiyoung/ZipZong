@@ -106,8 +106,9 @@ export default function ExerciseInfo() {
             <p className="text-xl">다같이 운동한 시간: {totalTime} 시간</p>
             <p className="mt-1 text-md">연속 {streak}일째!</p>
             <div
+              className="overflow-scroll scrollbar-hide"
               style={{
-                overflow: "scroll",
+                // 달력의 높이에 따라 변하게 만들어야 함
                 height: "235px",
               }}
             >
