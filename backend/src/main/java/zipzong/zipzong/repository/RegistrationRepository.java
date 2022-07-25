@@ -16,7 +16,7 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
     @Query("select r from Registration r join fetch r.team t join fetch r.member m where r.member.id =:memberId")
     List<Registration> findJoinedTeam(@Param("memberId") Long memberId);
 
-    @EntityGraph(attributePaths = {"member","team"})
+    @EntityGraph(attributePaths = {"team"})
     @Query("select DISTINCT r.team from Registration r where r.member.id =:memberId")
     List<Team> findJoinedTeam1(@Param("memberId") Long memberId);
 

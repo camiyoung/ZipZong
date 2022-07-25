@@ -61,6 +61,9 @@ public class Team {
 
     public void makeInviteLink() {
         /*
+        jwt 토큰 사용해서 TeamID를 넣어서 암호화하는 방법,
+        base64 인코딩
+
             초대링크 만드는 로직
          */
     }

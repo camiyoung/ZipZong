@@ -33,13 +33,10 @@ public class MemberController {
 
 
     private BasicResponse<MemberResponse> makeBasicResponse(String message, MemberResponse data) {
-
         return BasicResponse
                 .<MemberResponse>builder()
                 .message(message)
                 .data(data)
                 .build();
     }
-
-
 }
