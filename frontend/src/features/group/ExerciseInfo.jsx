@@ -112,9 +112,9 @@ export default function ExerciseInfo() {
               }}
             >
               {dayExerciseInfo.map(
-                ({ exerciseIcon, exerciseTime, exerciseCount }) => {
+                ({ exerciseIcon, exerciseTime, exerciseCount }, idx) => {
                   return (
-                    <div key={exerciseCount} className="flex m-5">
+                    <div key={idx} className="flex m-5">
                       <ImageIcon
                         image={exerciseIcon}
                         size="middle"

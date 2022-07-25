@@ -13,7 +13,7 @@ export default function Radio() {
           required
         />
         <label
-          for="hosting-small"
+          htmlFor="hosting-small"
           className="inline-flex justify-center items-center p-2 w-36 text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:bg-lgBlue-300 peer-checked:text-black hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
         >
           <div className="block">
@@ -30,7 +30,7 @@ export default function Radio() {
           className="hidden peer"
         />
         <label
-          for="hosting-big"
+          htmlFor="hosting-big"
           className="inline-flex justify-center items-center p-2 w-36 text-gray-500 bg-white rounded-lg border border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:bg-lgBlue-300 peer-checked:text-black hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
         >
           <div className="block">
