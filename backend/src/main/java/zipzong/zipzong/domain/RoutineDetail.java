@@ -28,6 +28,6 @@ public class RoutineDetail {
     @Column(name = "count", nullable = false)
     private int count;
 
-    @Column(name="procedure", nullable = false)
-    private int procedure;
+    @Column(name="exercise_order", nullable = false)
+    private int exerciseOrder;
 }
