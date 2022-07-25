@@ -4,7 +4,9 @@ import ImageIcon from "../components/icon/ImageIcon"
 import { useLocation } from "react-router-dom"
 export default function Locgin() {
   const location = useLocation()
-  const token = new URL(window.location.href).searchParams.get("accessToken")
+  const accessToken = new URL(window.location.href).searchParams.get(
+    "accessToken"
+  )
   const refreshToken = new URL(window.location.href).searchParams.get(
     "refreshToken"
   )
@@ -17,8 +19,8 @@ export default function Locgin() {
   const hasNickName = new URL(window.location.href).searchParams.get(
     "hasNickName"
   )
-  if (token) {
-    localStorage.setItem("token", token)
+  if (accessToken) {
+    localStorage.setItem("accessToken", accessToken)
     localStorage.setItem("refreshToken", refreshToken)
     localStorage.setItem("accessTokenExpiration", accessTokenExpiration)
     localStorage.setItem("refreshTokenExpiration", refreshTokenExpiration)
@@ -90,7 +92,7 @@ export default function Locgin() {
         />
       </div>
       {/* 로그인되면 버튼들이 보이지 않음 */}
-      {token ? <SetNickName /> : <NotLoggedInYet />}
+      {accessToken ? <SetNickName /> : <NotLoggedInYet />}
       {hasNickName ? window.location.href("/") : null}
     </div>
   )
