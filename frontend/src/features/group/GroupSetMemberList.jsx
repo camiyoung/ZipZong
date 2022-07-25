@@ -11,7 +11,6 @@ const members = [
     imageUrl:
       "https://img1.daumcdn.net/thumb/S180x180/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fsports%2Fplayer%2F300%2F14%2F111505.jpg&scode=default_face_profile_big_p",
     isLeader: true,
-    keyNumber: 1,
   },
   {
     name: "김준우",
@@ -19,7 +18,6 @@ const members = [
     imageUrl:
       "https://img1.daumcdn.net/thumb/S180x180/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fsports%2Fplayer%2F300%2F14%2F111505.jpg&scode=default_face_profile_big_p",
     isLeader: false,
-    keyNumber: 2,
   },
   {
     name: "박종민",
@@ -27,7 +25,6 @@ const members = [
     imageUrl:
       "https://img1.daumcdn.net/thumb/S180x180/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fsports%2Fplayer%2F300%2F14%2F111505.jpg&scode=default_face_profile_big_p",
     isLeader: false,
-    keyNumber: 3,
   },
   {
     name: "안지영",
@@ -35,7 +32,6 @@ const members = [
     imageUrl:
       "https://img1.daumcdn.net/thumb/S180x180/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fsports%2Fplayer%2F300%2F14%2F111505.jpg&scode=default_face_profile_big_p",
     isLeader: false,
-    keyNumber: 4,
   },
   {
     name: "채송지",
@@ -43,7 +39,6 @@ const members = [
     imageUrl:
       "https://img1.daumcdn.net/thumb/S180x180/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fsports%2Fplayer%2F300%2F14%2F111505.jpg&scode=default_face_profile_big_p",
     isLeader: false,
-    keyNumber: 5,
   },
   {
     name: "황승주",
@@ -51,7 +46,6 @@ const members = [
     imageUrl:
       "https://img1.daumcdn.net/thumb/S180x180/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fsports%2Fplayer%2F300%2F14%2F111505.jpg&scode=default_face_profile_big_p",
     isLeader: false,
-    keyNumber: 6,
   },
 ]
 export default function GroupSetMemberList() {
@@ -85,22 +79,24 @@ export default function GroupSetMemberList() {
         <UserIcon />
         {members.length}명 / {10}명
       </p>
-      {members.map(({ name, date, keyNumber, isLeader, imageUrl }) => {
+      {members.map(({ name, date, isLeader, imageUrl }, idx) => {
         return (
-          <div
-            key={keyNumber}
-            className="flex mb-2 w-128"
-          >
+          <div key={idx} className="flex mb-2 w-128">
             <ImageIcon image={imageUrl} size="small" shape="round" />
             <p className="mx-2">{name}</p>
             <p className="ml-3">({date} 가입)</p>
             {isLeader ? <p className="w-min">👑</p> : null}
-            
+
             <button className="ml-5">그룹장 위임</button>
-            <button className="ml-5" onClick={() => {
-              setExpulsionOpen(true)
-              setUser(name)
-            }}>그룹장 강퇴</button>
+            <button
+              className="ml-5"
+              onClick={() => {
+                setExpulsionOpen(true)
+                setUser(name)
+              }}
+            >
+              그룹장 강퇴
+            </button>
           </div>
         )
       })}
