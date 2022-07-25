@@ -49,7 +49,7 @@ public class Member {
     }
 
     public void changeNickname(String nickname) {
-        this.name = nickname;
+        this.nickname = nickname;
     }
 
     public Member update(String name, String email) {

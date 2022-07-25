@@ -21,16 +21,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class RegistrationServiceTest {
-
     @Autowired
     MemberRepository memberRepository;
-
     @Autowired
     TeamRepository teamRepository;
-
     @Autowired
     RegistrationRepository registrationRepository;
-
     RegistrationService registrationService;
 
     @BeforeEach
@@ -51,9 +47,9 @@ class RegistrationServiceTest {
 
         //then
         Assertions.assertEquals("link", savedRegistration.getTeam()
-                                                         .getInviteLink());
+                .getInviteLink());
         Assertions.assertEquals("nickName", savedRegistration.getMember()
-                                                             .getNickname());
+                .getNickname());
         Assertions.assertEquals(Role.LEADER, savedRegistration.getRole());
     }
 
@@ -73,9 +69,9 @@ class RegistrationServiceTest {
 
         //then
         Assertions.assertEquals("link", savedRegistration.getTeam()
-                                                         .getInviteLink());
+                .getInviteLink());
         Assertions.assertEquals("nickName", savedRegistration.getMember()
-                                                             .getNickname());
+                .getNickname());
         Assertions.assertEquals(Role.FOLLOWER, savedRegistration.getRole());
     }
 
@@ -86,7 +82,7 @@ class RegistrationServiceTest {
         Member member = makeMember();
 
         //then
-        Assertions.assertThrows(NoSuchElementException.class, ()->{
+        Assertions.assertThrows(NoSuchElementException.class, () -> {
             //when
             registrationService.joinTeam("undefinedLink", member.getId());
         });
@@ -107,7 +103,7 @@ class RegistrationServiceTest {
         registrationService.resignTeam(savedRegistration.getId());
 
         //then
-        Assertions.assertEquals(0,registrationRepository.findAll().size());
+        Assertions.assertEquals(0, registrationRepository.findAll().size());
     }
 
     @Test
@@ -117,18 +113,18 @@ class RegistrationServiceTest {
 
     private Member makeMember() {
         return Member.builder()
-                     .nickname("nickName")
-                     .provider("google")
-                     .email("bababrll@naver.com")
-                     .name("김준우")
-                     .build();
+                .nickname("nickName")
+                .provider("google")
+                .email("bababrll@naver.com")
+                .name("김준우")
+                .build();
     }
 
     private Team makeTeam() {
         return Team.builder()
-                   .inviteLink("link")
-                   .name("groupName")
-                   .build();
+                .inviteLink("link")
+                .name("groupName")
+                .build();
     }
 
 }
