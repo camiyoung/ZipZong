@@ -25,8 +25,8 @@ public class RoutineDetail {
     @Column(name = "routine_detail_name", nullable = false)
     private String name;
 
-    @Column(name = "count", nullable = false)
-    private int count;
+    @Column(name = "exercise_count", nullable = false)
+    private int exerciseCount;
 
     @Column(name="exercise_order", nullable = false)
     private int exerciseOrder;
