@@ -43,7 +43,7 @@ export default function Button({
 }) {
   const selectedBgColor = bgColor ? bgColorChart[bgColor] : bgColorChart.normal
   const roundType = round ? roundChart[round] : roundChart.roundMd
-  const heightType = height ? heightChart[height] : heightChart["h-3"]
+  const heightType = height ? heightChart[height] : heightChart["h-8"]
   const widthType = width ? widthChart[width] : widthChart["w-40"]
   return (
     /* 덜 round 한것 - Login, 회원가입, 취소, 확인 버튼 */

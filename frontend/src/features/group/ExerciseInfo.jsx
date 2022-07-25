@@ -105,7 +105,12 @@ export default function ExerciseInfo() {
           >
             <p className="text-xl">다같이 운동한 시간: {totalTime} 시간</p>
             <p className="mt-1 text-md">연속 {streak}일째!</p>
-            <div style={{ overflow: "scroll", height: "235px" }}>
+            <div
+              style={{
+                overflow: "scroll",
+                height: "235px",
+              }}
+            >
               {dayExerciseInfo.map(
                 ({ exerciseIcon, exerciseTime, exerciseCount }) => {
                   return (
