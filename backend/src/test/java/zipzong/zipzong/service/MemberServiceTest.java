@@ -53,14 +53,13 @@ class MemberServiceTest {
         registrationService.createTeam(team2,savedMember2.getId());
 
         //when
-        List<Team> joinedTeam = memberService.findJoinedTeam(savedMember1.getId());
+        List<Long> joinedTeam = memberService.findJoinedTeam(savedMember1.getId());
 
         Assertions.assertEquals(2, joinedTeam.size());
         //System.out.println(joinedTeam.get(0).getInviteLink());
         //System.out.println(joinedTeam.get(1).getInviteLink());
         //System.out.println(joinedTeam.get(0).getMember().getNickname());
         //System.out.println(joinedTeam.get(1).getMember().getNickname());
-
 
     }
 
