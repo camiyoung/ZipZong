@@ -9,6 +9,7 @@ export default function Routine() {
       <div className="flex justify-center">
         <RoutineList />
       </div>
+      <div className="flex"></div>
     </div>
   )
 }
