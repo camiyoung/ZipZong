@@ -12,6 +12,7 @@ import Login from "./pages/Login"
 import ExerciseResultPage from "./pages/ExerciseResutlPage"
 // import LoginRedirect from "./features/login/LoginRedirect"
 import Routine from "./pages/Routine"
+import RoutineMake from "./pages/RoutineMake"
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/group" element={<Group />} />
           <Route path="/groupset" element={<GroupSet />} />
           <Route path="/routine" element={<Routine />} />
+          <Route path="/routine/make" element={<RoutineMake />} />
 
           <Route path="/login" element={<Login />} />
           <Route path="/room" element={<RoomPage />} />
