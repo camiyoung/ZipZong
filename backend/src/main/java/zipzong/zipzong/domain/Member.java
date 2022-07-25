@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
-import zipzong.zipzong.controller.MemberController;
 import zipzong.zipzong.dto.member.MemberResponse;
 
 import javax.persistence.*;
@@ -33,7 +32,6 @@ public class Member {
     @Column(name = "nickname", nullable = true, unique = true)
     private String nickname;
 
-
     @Column(name = "refreshToken", unique = true)
     private String refreshToken;
 
@@ -50,13 +48,17 @@ public class Member {
         this.refreshToken = refreshToken;
     }
 
+    public void changeNickname(String nickname) {
+        this.name = nickname;
+    }
+
     public Member update(String name, String email) {
         this.name = name;
         this.email = email;
         return this;
     }
 
-    public MemberResponse toMemberResponse(){
+    public MemberResponse toMemberResponse() {
         MemberResponse memberResponse = new MemberResponse();
         memberResponse.setEmail(this.getEmail());
         memberResponse.setName(this.getName());
