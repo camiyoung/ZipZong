@@ -25,7 +25,7 @@ public class MemberService {
                         .changeNickname(nickname);
     }
 
-    public List<Team> findJoinedTeam(Long memberId){
+    public List<Long> findJoinedTeam(Long memberId){
         return registrationRepository.findJoinedTeam1(memberId);
     }
 
