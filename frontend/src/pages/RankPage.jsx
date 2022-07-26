@@ -59,11 +59,10 @@ export default function RankPage() {
   return (
     <div className="flex  justify-center items-center flex-col w-full ">
       <div className="w-full relative">
-        {musicPlay ? (
-          <audio autoPlay ref={audioRef}>
-            <source src="music/rank1.mp3" type="audio/mp3" />
-          </audio>
-        ) : null}
+        <audio autoPlay ref={audioRef}>
+          <source src="music/rank1.mp3" type="audio/mp3" />
+        </audio>
+
         <div className="absolute z-30" onClick={playMusic}>
           {musicPlay ? <span>노래 끄기</span> : <span>노래 켜기</span>}
         </div>
