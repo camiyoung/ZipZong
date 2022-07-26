@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import prize1 from "../assets/prize_first.png"
 import prize2 from "../assets/prize_second.png"
 import prize3 from "../assets/prize_third.png"
@@ -41,12 +41,32 @@ const ListItemSamll = ({ text }) => {
 }
 
 export default function RankPage() {
+  const [musicPlay, setMusicPlay] = useState(true)
+  const audioRef = useRef()
   useEffect(() => {
     AOS.init()
   }, [])
+  const playMusic = () => {
+    if (musicPlay) {
+      audioRef.current.pause()
+      setMusicPlay(false)
+    } else {
+      audioRef.current.play()
+      setMusicPlay(true)
+    }
+  }
+
   return (
     <div className="flex  justify-center items-center flex-col w-full ">
-      <div className="w-full ">
+      <div className="w-full relative">
+        {musicPlay ? (
+          <audio autoPlay ref={audioRef}>
+            <source src="music/rank1.mp3" type="audio/mp3" />
+          </audio>
+        ) : null}
+        <div className="absolute z-30" onClick={playMusic}>
+          {musicPlay ? <span>노래 끄기</span> : <span>노래 켜기</span>}
+        </div>
         <section
           className=" w-full h-screen relative flex justify-center items-center "
           style={{
