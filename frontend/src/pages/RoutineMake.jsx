@@ -19,7 +19,7 @@ export default function RoutineMake() {
       <div>
         <ExerciseList />
       </div>
-      <div className="p-5">
+      <div className="p-5 flex justify-center">
         <ExerciseSelect />
       </div>
     </div>
