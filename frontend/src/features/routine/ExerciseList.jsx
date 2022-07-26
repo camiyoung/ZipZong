@@ -1,4 +1,3 @@
-import ImageIcon from "../../components/icon/ImageIcon"
 import ExerciseIcon from "../../components/icon/ExerciseIcon"
 
 const exerciseList = [

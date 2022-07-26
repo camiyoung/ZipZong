@@ -2,7 +2,7 @@ import axios from "axios"
 
 function Instance() {
   const instance = axios.create({
-    baseURL: "http://localhost:8080",
+    baseURL: "http://localhost:8080/",
     headers: {
       "Content-type": "application/json",
     },
@@ -11,7 +11,7 @@ function Instance() {
   //request insterceptor 요청 전 헤더에 토큰 등록
   instance.interceptors.request.use(
     (config) => {
-      config.headers["access-token"] = localStorage.getItem("access-token")
+      config.headers["access-token"] = localStorage.getItem("accessToken")
       return config
     },
     (error) => {
