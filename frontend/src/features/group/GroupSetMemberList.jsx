@@ -53,6 +53,38 @@ export default function GroupSetMemberList() {
   const [user, setUser] = useState()
   const modalClose = () => setExpulsionOpen(false)
 
+  const GroupHover = ({ name, date, isLeader, imageUrl, idx }) => {
+    const [isHovering, setIsHovering] = useState(false)
+
+    return (
+      <div
+        key={idx}
+        className="flex mb-2 w-128"
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
+      >
+        <ImageIcon image={imageUrl} size="small" shape="round" />
+        <p className="mx-2">{name}</p>
+        <p className="ml-3">({date} 가입)</p>
+        {isLeader ? <p className="w-min">👑</p> : null}
+
+        {/* 그룹장 위임, 강퇴 컴포넌트 */}
+        <div className={isHovering ? "show" : "hidden"} alt="">
+          <button className="ml-5">그룹장 위임</button>
+          <button
+            className="ml-5"
+            onClick={() => {
+              setExpulsionOpen(true)
+              setUser(name)
+            }}
+          >
+            그룹장 강퇴
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="mx-5 mt-10">
       {/* 모달 */}
@@ -81,23 +113,13 @@ export default function GroupSetMemberList() {
       </p>
       {members.map(({ name, date, isLeader, imageUrl }, idx) => {
         return (
-          <div key={idx} className="flex mb-2 w-128">
-            <ImageIcon image={imageUrl} size="small" shape="round" />
-            <p className="mx-2">{name}</p>
-            <p className="ml-3">({date} 가입)</p>
-            {isLeader ? <p className="w-min">👑</p> : null}
-
-            <button className="ml-5">그룹장 위임</button>
-            <button
-              className="ml-5"
-              onClick={() => {
-                setExpulsionOpen(true)
-                setUser(name)
-              }}
-            >
-              그룹장 강퇴
-            </button>
-          </div>
+          <GroupHover
+            key={idx}
+            name={name}
+            date={date}
+            isLeader={isLeader}
+            imageUrl={imageUrl}
+          />
         )
       })}
     </div>
