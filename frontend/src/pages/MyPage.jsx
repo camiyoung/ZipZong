@@ -12,9 +12,11 @@ import {
 
 export default function MyPage() {
   const dispatch = useDispatch()
-  const memberId = useSelector((state) => state.memberId)
+  const memberNickname = useSelector((state) => state.memberNickname)
+
+  //
   http
-    .get(`/member/info/${memberId}`)
+    .get(`/member/info/${memberNickname}`)
     .then((res) => {
       dispatch(checkMemberName(res.data.name))
       dispatch(checkMemberEmail(res.data.email))
