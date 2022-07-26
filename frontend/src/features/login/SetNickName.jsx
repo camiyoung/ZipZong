@@ -1,8 +1,7 @@
 import React, { useState } from "react"
 import { useDispatch } from "react-redux"
 import Button from "../../components/button/Button"
-import { http } from "../../api/axios"
-import { checkMemberNickname } from "../../features/login/memberReducer"
+import { nicknameValidation } from "./memberReducer"
 
 export default function SetNickName() {
   const dispatch = useDispatch()
@@ -10,12 +9,13 @@ export default function SetNickName() {
   const handleChange = ({ target: { value } }) => setNickname(value)
   const handleSubmit = (e) => {
     e.preventDefault()
+
+    // 닉네임 유효성 검사
     if (nickName.length === 0) {
       alert("닉네임을 입력해주세요")
     } else {
-      http.get({ nickName }).then((res) => {
-        console.log("닉네임", res)
-      })
+      dispatch(nicknameValidation({ nickName }))
+      console.log("끝!")
     }
   }
   return (
