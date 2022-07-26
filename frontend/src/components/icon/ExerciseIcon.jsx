@@ -16,11 +16,11 @@ const shapeChart = {
   square: "",
 }
 const imageChart = {
-  푸쉬업: 푸쉬업,
-  버피: 버피,
-  스쿼트: 스쿼트,
-  레그레이즈: 레그레이즈,
-  마운틴클라이밍: 마운틴클라이밍,
+  푸쉬업,
+  버피,
+  스쿼트,
+  레그레이즈,
+  마운틴클라이밍,
 }
 
 export default function ExerciseIcon({ image, size, shape, ...restProps }) {
