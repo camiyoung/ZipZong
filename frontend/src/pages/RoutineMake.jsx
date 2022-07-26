@@ -1,6 +1,5 @@
 import LargeTextInput from "../components/input/LargeTextInput"
-import ExerciseList from "../features/routine/ExerciseList"
-import ExerciseSelect from "../features/routine/ExerciseSelect"
+import ExerciseSetting from "../features/routine/ExerciseSetting"
 
 export default function RoutineMake() {
   return (
@@ -17,10 +16,7 @@ export default function RoutineMake() {
         </div>
       </div>
       <div>
-        <ExerciseList />
-      </div>
-      <div className="p-5 flex justify-center">
-        <ExerciseSelect />
+        <ExerciseSetting />
       </div>
     </div>
   )
