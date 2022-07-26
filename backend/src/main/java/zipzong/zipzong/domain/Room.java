@@ -23,14 +23,12 @@ public class Room {
     @JoinColumn(name="routine_id")
     private Routine routine;
 
-    @Column(name = "session_id", nullable = false, unique = true)
-    private String session_id;
+    @OneToOne
+    @JoinColumn(name="team_id")
+    private Team team;
 
     @Column(name="room_name", nullable = false)
     private String name;
-
-    @Column(name="content")
-    private String content;
 
     @Enumerated(EnumType.STRING)
     private Mode mode;
