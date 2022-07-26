@@ -3,6 +3,8 @@ import prize1 from "../assets/prize_first.png"
 import prize2 from "../assets/prize_second.png"
 import prize3 from "../assets/prize_third.png"
 import bg_rank2 from "../assets/bg_rank2.png"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faVolumeXmark, faVolumeUp } from "@fortawesome/free-solid-svg-icons"
 
 import AOS from "aos"
 import "aos/dist/aos.css"
@@ -59,13 +61,25 @@ export default function RankPage() {
   return (
     <div className="flex  justify-center items-center flex-col w-full ">
       <div className="w-full relative">
-        {musicPlay ? (
-          <audio autoPlay ref={audioRef}>
-            <source src="music/rank1.mp3" type="audio/mp3" />
-          </audio>
-        ) : null}
-        <div className="absolute z-30" onClick={playMusic}>
-          {musicPlay ? <span>노래 끄기</span> : <span>노래 켜기</span>}
+        <audio autoPlay ref={audioRef}>
+          <source src="music/rank1.mp3" type="audio/mp3" />
+        </audio>
+
+        <div
+          className="absolute z-30 p-3 right-5 top-3 w-14 h-14 bg-white rounded-full justify-center items-center"
+          onClick={playMusic}
+        >
+          {musicPlay ? (
+            <FontAwesomeIcon
+              icon={faVolumeXmark}
+              className="w-full h-full text-red-300"
+            />
+          ) : (
+            <FontAwesomeIcon
+              icon={faVolumeUp}
+              className="w-full h-full text-red-300"
+            />
+          )}
         </div>
         <section
           className=" w-full h-screen relative flex justify-center items-center "
