@@ -546,65 +546,35 @@ class Room extends Component {
     const mySessionId = this.state.mySessionId
     const localUser = this.state.localUser
     var chatDisplay = { display: this.state.chatDisplay }
+    const Toolbar = (
+      <ToolbarComponent
+        sessionId={mySessionId}
+        user={localUser}
+        showNotification={this.state.messageReceived}
+        camStatusChanged={this.camStatusChanged}
+        micStatusChanged={this.micStatusChanged}
+        screenShare={this.screenShare}
+        stopScreenShare={this.stopScreenShare}
+        toggleFullscreen={this.toggleFullscreen}
+        switchCamera={this.switchCamera}
+        leaveSession={this.leaveSession}
+        toggleChat={this.toggleChat}
+      />
+    )
+
+    const myVideoStream =
+      localUser !== undefined && localUser.getStreamManager() !== undefined ? (
+        <StreamComponent
+          user={localUser}
+          handleNickname={this.nicknameChanged}
+        />
+      ) : null
 
     return (
       <div className="flex flex-col h-full">
         <InfoBar />
-        <MyExercise>
-          <ToolbarComponent
-            sessionId={mySessionId}
-            user={localUser}
-            showNotification={this.state.messageReceived}
-            camStatusChanged={this.camStatusChanged}
-            micStatusChanged={this.micStatusChanged}
-            screenShare={this.screenShare}
-            stopScreenShare={this.stopScreenShare}
-            toggleFullscreen={this.toggleFullscreen}
-            switchCamera={this.switchCamera}
-            leaveSession={this.leaveSession}
-            toggleChat={this.toggleChat}
-          />
-          <div id="layout" className="bounds">
-            {localUser !== undefined &&
-              localUser.getStreamManager() !== undefined && (
-                <div
-                  className="OT_root OT_publisher custom-class"
-                  id="localUser"
-                >
-                  <StreamComponent
-                    user={localUser}
-                    handleNickname={this.nicknameChanged}
-                  />
-                </div>
-              )}
-            {/* {this.state.subscribers.map((sub, i) => (
-          <div
-            key={i}
-            className="OT_root OT_publisher custom-class"
-            id="remoteUsers"
-          >
-            <StreamComponent
-              user={sub}
-              streamId={sub.streamManager.stream.streamId}
-            />
-          </div>
-        ))} */}
-            {localUser !== undefined &&
-              localUser.getStreamManager() !== undefined && (
-                <div
-                  className="OT_root OT_publisher custom-class"
-                  style={chatDisplay}
-                >
-                  {/* <ChatComponent
-                user={localUser}
-                chatDisplay={this.state.chatDisplay}
-                close={this.toggleChat}
-                messageReceived={this.checkNotification}
-              /> */}
-                </div>
-              )}
-          </div>
-        </MyExercise>
+        <MyExercise Toolbar={Toolbar} myVideo={myVideoStream} />
+
         <OtherPeople subscribers={this.state.subscribers} />
 
         {/* <div className="container" id="container"> */}

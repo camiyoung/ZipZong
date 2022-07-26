@@ -1,6 +1,13 @@
 import React, { Component } from "react"
 import "./StreamComponent.css"
 import OvVideoComponent from "./OvVideo"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import {
+  faMicrophoneSlash,
+  faVideoSlash,
+  faVolumeXmark,
+  faVolumeUp,
+} from "@fortawesome/free-solid-svg-icons"
 
 // import MicOff from "@material-ui/icons/MicOff"
 // import VideocamOff from "@material-ui/icons/VideocamOff"
@@ -58,7 +65,7 @@ export default class StreamComponent extends Component {
 
   render() {
     return (
-      <div className="OT_widget-container">
+      <div className="OT_widget-container relative">
         <div className="pointer nickname">
           <div>
             <span id="nickname">{this.props.user.getNickname()}</span>
@@ -73,30 +80,30 @@ export default class StreamComponent extends Component {
               user={this.props.user}
               mutedSound={this.state.mutedSound}
             />
-            {/* <div id="statusIcons">
+            <div id="statusIcons">
               {!this.props.user.isVideoActive() ? (
                 <div id="camIcon">
-                  <VideocamOff id="statusCam" />
+                  <FontAwesomeIcon icon={faVideoSlash} />
                 </div>
-              ) : null} */}
+              ) : null}
 
-            {/* {!this.props.user.isAudioActive() ? (
+              {!this.props.user.isAudioActive() ? (
                 <div id="micIcon">
-                  <MicOff id="statusMic" />
+                  <FontAwesomeIcon icon={faMicrophoneSlash} />
                 </div>
-              ) : null} */}
-            {/* </div> */}
-            {/* <div>
+              ) : null}
+            </div>
+            <div className="absolute right-2 w-[15px] h-[15px]">
               {!this.props.user.isLocal() && (
-                <IconButton id="volumeButton" onClick={this.toggleSound}>
+                <div id="volumeButton" onClick={this.toggleSound}>
                   {this.state.mutedSound ? (
-                    <VolumeOff color="secondary" />
+                    <FontAwesomeIcon icon={faVolumeXmark} />
                   ) : (
-                    <VolumeUp />
+                    <FontAwesomeIcon icon={faVolumeUp} />
                   )}
-                </IconButton>
+                </div>
               )}
-            </div> */}
+            </div>
           </div>
         ) : null}
       </div>
