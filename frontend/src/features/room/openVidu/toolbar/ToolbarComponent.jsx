@@ -9,6 +9,7 @@ import {
   faCameraRotate,
   faArrowRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons"
+import IconWrapper from "../IconWrapper"
 
 export default class ToolbarComponent extends Component {
   constructor(props) {
@@ -61,60 +62,53 @@ export default class ToolbarComponent extends Component {
     const mySessionId = this.props.sessionId
     const localUser = this.props.user
     return (
-      <div className=" flex">
-        <div>
+      <div className=" flex w-full ">
+        {/* <div>
           {this.props.sessionId && (
             <div>
               <span id="session-title">{mySessionId}</span>
             </div>
           )}
-        </div>
+        </div> */}
 
-        <div className=" flex">
-          <div
-            color="inherit"
-            className="navButton"
-            id="navMicButton"
-            onClick={this.micStatusChanged}
+        <div className="flex w-full h-16 justify-center border">
+          <IconWrapper
+            handler={this.micStatusChanged}
+            // isActive={localUser.isAudioActive()}
           >
             {localUser !== undefined && localUser.isAudioActive() ? (
-              <FontAwesomeIcon icon={faMicrophone} />
+              <FontAwesomeIcon icon={faMicrophone} className=" text-white" />
             ) : (
-              <FontAwesomeIcon icon={faMicrophoneSlash} />
+              <FontAwesomeIcon
+                icon={faMicrophoneSlash}
+                className=" text-white"
+              />
             )}
-          </div>
+          </IconWrapper>
 
-          <div
-            color="inherit"
-            className="navButton"
-            id="navCamButton"
-            onClick={this.camStatusChanged}
+          <IconWrapper
+            handler={this.camStatusChanged}
+            // isActive={localUser.isVideoActive()}
           >
             {localUser !== undefined && localUser.isVideoActive() ? (
-              <FontAwesomeIcon icon={faVideo} />
+              <FontAwesomeIcon icon={faVideo} className=" text-white" />
             ) : (
-              <FontAwesomeIcon icon={faVideoSlash} />
+              <FontAwesomeIcon icon={faVideoSlash} className=" text-white" />
             )}
-          </div>
+          </IconWrapper>
 
-          <div
-            color="inherit"
-            className="navButton"
-            onClick={this.switchCamera}
-          >
-            <FontAwesomeIcon icon={faCameraRotate} />
-          </div>
+          <IconWrapper handler={this.switchCamera}>
+            <FontAwesomeIcon icon={faCameraRotate} className=" text-white" />
+          </IconWrapper>
           {/* <div color="inherit" className="navButton" onClick={this.toggleFullscreen}>
                             {localUser !== undefined && this.state.fullscreen ? <FullscreenExit /> : <Fullscreen />}
                         </div> */}
-          <div
-            color="secondary"
-            className="navButton"
-            onClick={this.leaveSession}
-            id="navLeaveButton"
-          >
-            <FontAwesomeIcon icon={faArrowRightFromBracket} />
-          </div>
+          <IconWrapper handler={this.leaveSession} isActive={false}>
+            <FontAwesomeIcon
+              icon={faArrowRightFromBracket}
+              className=" text-white"
+            />
+          </IconWrapper>
           {/* <div
               color="inherit"
               onClick={this.toggleChat}
