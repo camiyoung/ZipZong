@@ -34,6 +34,18 @@ public class Team {
     @Column(name = "shield_count")
     private int shieldCount;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_id")
+    private Room room;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "team_history_id")
+    private TeamHistory teamHistory;
+
+    public void setTeamHistory(TeamHistory teamHistory) {
+        this.teamHistory = teamHistory;
+    }
+
     @Builder
     public Team(Long id, String name, String inviteLink, LocalDateTime createDate, int shieldCount) {
         this.id = id;

@@ -35,6 +35,14 @@ public class Member {
     @Column(name = "refreshToken", unique = true)
     private String refreshToken;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Column(name = "member_history_id")
+    private MemberHistory memberHistory;
+
+    public void setMemberHistory(MemberHistory memberHistory) {
+        this.memberHistory = memberHistory;
+    }
+
     @Builder //생성을 Builder 패턴으로 하기 위해서
     public Member(Long id, String name, String email, String provider, String nickname) {
         this.id = id;

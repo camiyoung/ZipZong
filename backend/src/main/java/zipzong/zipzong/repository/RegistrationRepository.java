@@ -8,6 +8,7 @@ import zipzong.zipzong.domain.Registration;
 import zipzong.zipzong.domain.Team;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface RegistrationRepository extends JpaRepository<Registration, Long> {
 
@@ -20,4 +21,5 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
     @Query("select r from Registration r where r.member.id =:memberId")
     List<Registration> findJoinedTeam(@Param("memberId") Long memberId);
 
+    Optional<Registration> findByMemberIdAndTeamId(Long memberId, Long teamId);
 }
