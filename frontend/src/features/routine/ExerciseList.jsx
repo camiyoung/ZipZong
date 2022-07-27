@@ -23,7 +23,7 @@ const exerciseList = [
   },
 ]
 
-export default function ExerciseList({ routine, setRoutine }) {
+export default function ExerciseList({ routine, setRoutine, idx, setIdx }) {
   return (
     <div className="flex justify-center">
       {exerciseList.map(({ name }, index) => {
@@ -31,7 +31,17 @@ export default function ExerciseList({ routine, setRoutine }) {
           <div key={index} className="p-5">
             <div
               className="flex justify-center pt-3 cursor-pointer"
-              onClick={() => setRoutine(routine.concat(exerciseList[index]))}
+              onClick={() => {
+                if (routine.length < 10) {
+                  const selected = { ...exerciseList[index] }
+                  const newR = [...routine, selected]
+                  setRoutine(newR)
+                  if (routine.length >= 5) {
+                    setIdx(5)
+                  }
+                } else {
+                }
+              }}
             >
               <ExerciseIcon
                 size="xLarge"
