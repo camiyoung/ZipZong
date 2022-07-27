@@ -1,7 +1,7 @@
 import React from "react"
 export default function SmallTextInput(props, ...restProps) {
   return (
-    <div className="flex" {...restProps}>
+    <div className="flex">
       <label
         htmlFor="small-input"
         className="
@@ -11,6 +11,7 @@ export default function SmallTextInput(props, ...restProps) {
           text-sm
           font-medium
         "
+        {...restProps}
       >
         {props.inputName}
       </label>
