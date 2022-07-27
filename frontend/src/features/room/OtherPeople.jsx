@@ -4,7 +4,7 @@ import StreamComponent from "./openVidu/stream/StreamComponent"
 const tmp = ["유저1", "유저2", "유저3", "유저4"]
 const Video = ({ user, streamId }) => {
   return (
-    <div className="w-full  bg-white  my-2">
+    <div className="w-full   my-2">
       <StreamComponent user={user} streamId={streamId} />
     </div>
   )
