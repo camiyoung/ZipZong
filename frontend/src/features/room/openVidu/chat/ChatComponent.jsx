@@ -7,6 +7,9 @@ import React, { Component } from "react"
 import "./ChatComponent.css"
 // import { Tooltip } from "@material-ui/core"
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons"
+
 export default class ChatComponent extends Component {
   constructor(props) {
     super(props)
@@ -92,14 +95,8 @@ export default class ChatComponent extends Component {
   render() {
     const styleChat = { display: this.props.chatDisplay }
     return (
-      <div id="chatContainer">
-        <div id="chatComponent" style={styleChat}>
-          <div id="chatToolbar">
-            <span>
-              {this.props.user.getStreamManager().stream.session.sessionId} -
-              CHAT
-            </span>
-          </div>
+      <div className="z-0 w-full h-full ">
+        <div id="chatComponent">
           <div className="message-wrap" ref={this.chatScroll}>
             {this.state.messageList.map((data, i) => (
               <div
@@ -119,11 +116,11 @@ export default class ChatComponent extends Component {
                   className="user-img"
                 />
                 <div className="msg-detail">
-                  <div className="msg-info">
-                    <p> {data.nickname}</p>
-                  </div>
                   <div className="msg-content">
-                    <span className="triangle" />
+                    <div className="msg-info">
+                      <p> {data.nickname}</p>
+                    </div>
+
                     <p className="text">{data.message}</p>
                   </div>
                 </div>
@@ -140,8 +137,16 @@ export default class ChatComponent extends Component {
               onKeyPress={this.handlePressKey}
             />
             <div title="Send message">
-              <div size="small" id="sendButton" onClick={this.sendMessage}>
-                <span>보내기</span>
+              <div
+                size="small"
+                id="sendButton"
+                onClick={this.sendMessage}
+                className="p-4 bg-secondary-500 border rounded-full"
+              >
+                <FontAwesomeIcon
+                  icon={faPaperPlane}
+                  className=" text-primary-700 w-[50%] h-full"
+                />
               </div>
             </div>
           </div>

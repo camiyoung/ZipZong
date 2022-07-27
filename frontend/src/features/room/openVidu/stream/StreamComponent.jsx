@@ -65,8 +65,8 @@ export default class StreamComponent extends Component {
 
   render() {
     return (
-      <div className="OT_widget-container relative">
-        <div className="pointer nickname">
+      <div className="relative w-full h-full">
+        <div className="absolute top-0 z-30">
           <div>
             <span id="nickname">{this.props.user.getNickname()}</span>
             {this.props.user.isLocal() && <span id=""> </span>}
@@ -75,12 +75,12 @@ export default class StreamComponent extends Component {
 
         {this.props.user !== undefined &&
         this.props.user.getStreamManager() !== undefined ? (
-          <div className="streamComponent">
+          <div className="streamComponent relative ">
             <OvVideoComponent
               user={this.props.user}
               mutedSound={this.state.mutedSound}
             />
-            <div id="statusIcons">
+            <div className="absolute left-2 mb-3" id="statusIcons">
               {!this.props.user.isVideoActive() ? (
                 <div id="camIcon">
                   <FontAwesomeIcon icon={faVideoSlash} />
