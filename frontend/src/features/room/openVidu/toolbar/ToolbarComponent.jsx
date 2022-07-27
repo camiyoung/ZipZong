@@ -62,7 +62,7 @@ export default class ToolbarComponent extends Component {
     const mySessionId = this.props.sessionId
     const localUser = this.props.user
     return (
-      <div className=" flex w-full ">
+      <div className=" flex w-full z-50">
         {/* <div>
           {this.props.sessionId && (
             <div>

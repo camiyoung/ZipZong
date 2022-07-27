@@ -1,6 +1,7 @@
 import React from "react"
 import Button from "../../components/button/Button"
 import Timer from "../../components/timer/Timer"
+import { CountdownCircleTimer } from "react-countdown-circle-timer"
 
 const TodoList = () => {
   return (
@@ -49,6 +50,20 @@ const ExerciseInfo = () => {
   )
 }
 
+const renderTime = ({ remainingTime }) => {
+  if (remainingTime === 0) {
+    return <div className="timer">완료!</div>
+  }
+
+  return (
+    <div className="flex flex-col items-center">
+      <div className="">Remaining</div>
+      <div className=" text-4xl">{remainingTime}</div>
+      <div className="">seconds</div>
+    </div>
+  )
+}
+
 function MyExercise({ Toolbar, myVideo, chat }) {
   console.log("비디오", myVideo)
 
@@ -56,16 +71,23 @@ function MyExercise({ Toolbar, myVideo, chat }) {
     <div className="flex  h-full w-[90%] pl-2 ">
       <div className=" w-[75%] h-full p-3 relative  " id="videoArea">
         <div className="w-full h-full ">{myVideo}</div>
-        {/* <Counter /> */}
-        <div className=" z-30 absolute top-10 left-4 ">
-          <Timer time={60} />
+        <div className=" z-30 absolute top-10 left-10 bg-white border-4 rounded-full">
+          <CountdownCircleTimer
+            isPlaying
+            duration={10}
+            colors={["#337699", "#0ea5e9", "#34d399", "#d9f99d"]}
+            colorsTime={[10, 6, 3, 0]}
+            onComplete={() => ({ shouldRepeat: true, delay: 1 })}
+          >
+            {renderTime}
+          </CountdownCircleTimer>
         </div>
         <div className="w-full h-[10%] flex justify-between items-center absolute bottom-5">
           {Toolbar}
         </div>
       </div>
       <div className=" w-[25%] min-w-[250px] h-full p-3 " id="sideArea">
-        <div className="w-full h-full flex flex-col bg-secondary-500 rounded-2xl">
+        <div className="w-full h-full flex flex-col  rounded-2xl">
           <div id="info" className="h-2/6 p-4">
             <div className=" w-full h-full ">
               <ExerciseInfo />
