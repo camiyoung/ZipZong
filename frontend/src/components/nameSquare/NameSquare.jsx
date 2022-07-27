@@ -12,13 +12,26 @@ const colorChart = {
   green: "bg-green-200",
   red: "bg-danger",
 }
+const borderColorChart = {
+  none: "",
+  lightBlue: "border-lightBlue",
+}
 
-export default function NameSquare({ color, size, text, children }) {
+export default function NameSquare({
+  color,
+  size,
+  text,
+  children,
+  borderColor,
+}) {
   const bgsize = size ? sizeChart[size] : sizeChart.middle
+  const selectedBorderColor = borderColor
+    ? borderColorChart[borderColor]
+    : borderColorChart.lightBlue
 
   return (
     <div
-      className={`${colorChart[color]} ${bgsize} border-lightBlue border-2 rounded-lg m-2`}
+      className={`${colorChart[color]} ${bgsize} ${selectedBorderColor} border-2 rounded-lg m-2`}
     >
       <div className="flex justify-center items-center h-full w-full">
         {children}

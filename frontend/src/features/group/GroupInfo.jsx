@@ -54,31 +54,30 @@ function GroupManagement() {
           </div>
         </div>
       </Modal>
+      {/* 모달 영역 끝 */}
 
       {/* 카드 영역 */}
       <Card size="100%">
-        <div className="prose prose-slate flex justify-center flex-col mb-1">
-          <h2>아직 운동 방이 만들어지지 않았어요!</h2>
-          <Button
-            onClick={() => setOpen(true)}
-            text="여기를 클릭하여 운동 방을 만들어 보세요"
-            height="h-7"
-            width="w-68"
-          />
+        <div
+          className="flex justify-center flex-col mb-1"
+          onClick={() => setOpen(true)}
+        >
+          <p>아직 운동 방이 만들어지지 않았어요!</p>
+          <p>여기를 클릭하여 운동 방을 만들어 보세요</p>
         </div>
-        <div className="flex justify-evenly">
-          <Button text="운동 루틴 관리" round="round3xl" height="h-7" />
-          {/*
+      </Card>
+      <div className="flex justify-evenly mt-5">
+        <Button text="운동 루틴 관리" round="round3xl" height="h-7" />
+        {/*
         그룹장 ->그룹 설정 및 관리 보임
         그룹원 -> 그룹 탈퇴 보임
         */}
-          {isLeader ? (
-            <Button text="그룹 설정 및 관리" round="round3xl" height="h-7" />
-          ) : (
-            <Button text="그룹 탈퇴" round="round3xl" height="h-7" />
-          )}
-        </div>
-      </Card>
+        {isLeader ? (
+          <Button text="그룹 설정 및 관리" round="round3xl" height="h-7" />
+        ) : (
+          <Button text="그룹 탈퇴" round="round3xl" height="h-7" />
+        )}
+      </div>
     </div>
   )
 }
@@ -90,7 +89,7 @@ export default function GroupInfo({
   groupExplanation,
 }) {
   return (
-    <div className="w-full flex justify-center mt-5">
+    <div className="w-full flex mt-5 justify-evenly">
       <Card size="middle">
         <div className="flex">
           <ImageIcon
