@@ -51,30 +51,43 @@ const Members = [
 export default function MemberList() {
   // group 원들의 정보를 받아야 함
   return (
-    <div className="flex mt-10">
+    <div className="flex mt-10 w-full flex-wrap">
       {Members.map(({ memberName, Icon, hasDone }) => {
         return (
-          <NameSquare
-            key={memberName}
-            // 운동을 한 사람들만 초록색, 나머지는 빨간색
-            color={hasDone ? "green" : "red"}
-            size="normal"
-            text={memberName}
-            borderColor="none"
+          // 클릭시 그 사람의 마이페이지로 이동
+          <div
+            onClick={() => alert(`${memberName} 페이지로 이동해야 합니다`)}
+            className="hover:scale-125"
           >
-            <ImageIcon
-              image={Icon}
+            <NameSquare
+              key={memberName}
+              // 운동을 한 사람들만 초록색, 나머지는 빨간색
+              color={hasDone ? "green" : "red"}
               size="middle"
-              shape="round"
-              className="m-4"
-            />
-          </NameSquare>
+              text={memberName}
+              borderColor="none"
+              borderSize="none"
+              cursor="pointer"
+            >
+              <ImageIcon
+                image={Icon}
+                size="middle"
+                shape="round"
+                className="m-4"
+              />
+            </NameSquare>
+          </div>
         )
       })}
 
-      <NameSquare text="다른 멤버를 초대해보세요!">
-        <PlusIcon />
-      </NameSquare>
+      <div
+        onClick={() => alert("초대 메시지를 보내야 함")}
+        className="hover:scale-125"
+      >
+        <NameSquare text="멤버를 초대해보세요!" cursor="pointer">
+          <PlusIcon />
+        </NameSquare>
+      </div>
     </div>
   )
 }

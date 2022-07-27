@@ -103,7 +103,10 @@ export default function ExerciseInfo() {
               height: "295.94px",
             }}
           >
-            <p className="text-xl">다같이 운동한 시간: {totalTime} 시간</p>
+            <div className="flex items-center justify-center mt-1">
+              <p className="text-[14px] mr-1">다같이 운동한 시간:</p>
+              <p className="text-[18px]">{totalTime} 시간</p>
+            </div>
             <p className="mt-1 text-md">연속 {streak}일째!</p>
             <div
               className="overflow-scroll scrollbar-hide"
