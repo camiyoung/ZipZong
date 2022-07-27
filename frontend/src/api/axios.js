@@ -2,7 +2,7 @@ import axios from "axios"
 import { useDispatch } from "react-redux"
 import { logout } from "../features/login/memberReducer"
 
-function Instance() {
+export const http = function Instance() {
   const dispatch = useDispatch()
   const instance = axios.create({
     baseURL: "http://localhost:8080/",
@@ -63,8 +63,6 @@ function Instance() {
   )
   return instance
 }
-
-export const http = Instance()
 
 /**
  * 사용방법 :
