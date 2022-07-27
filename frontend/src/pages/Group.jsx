@@ -16,24 +16,24 @@ export default function Group() {
         />
       </div>
       <div className="flex justify-center flex-col items-center mt-20">
-        <div className="prose prose-slate text-center">
-          <h4>멤버 리스트</h4>
+        <div className="text-center">
+          <p className="text-lg">멤버 리스트</p>
           <Line />
         </div>
         <MemberList />
       </div>
 
       <div className="flex justify-center flex-col items-center mt-20">
-        <div className="prose prose-slate text-center">
-          <h4>운동 정보</h4>
+        <div className="text-center">
+          <p className="text-lg">운동 정보</p>
           <Line />
         </div>
         <ExerciseInfo />
       </div>
 
       <div className="flex justify-center flex-col items-center mt-20">
-        <div className="prose prose-slate text-center">
-          <h4>그룹 운동 정보</h4>
+        <div className="text-center">
+          <p className="text-lg">그룹 운동 정보</p>
           <Line />
         </div>
         <GroupExerciseInfo />

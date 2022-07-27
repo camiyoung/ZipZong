@@ -3,35 +3,47 @@ import NameSquare from "../../components/nameSquare/NameSquare"
 import ImageIcon from "../../components/icon/ImageIcon"
 import PlusIcon from "../../components/icon/PlusIcon"
 
+// 동물 사진들
+import bee from "../../assets/animalIcon/bee.png"
+import elephant from "../../assets/animalIcon/elephant.png"
+import antelope from "../../assets/animalIcon/antelope.png"
+import ferret from "../../assets/animalIcon/ferret.png"
+import frog from "../../assets/animalIcon/frog.png"
+import pandaBear from "../../assets/animalIcon/panda-bear.png"
+import pig from "../../assets/animalIcon/pig.png"
+import rabbit from "../../assets/animalIcon/rabbit.png"
+import walrus from "../../assets/animalIcon/walrus.png"
+import yak from "../../assets/animalIcon/yak.png"
+
 const Members = [
   {
     memberName: "신슬기",
-    Icon: "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
+    Icon: bee,
     hasDone: true,
   },
   {
     memberName: "김준우",
-    Icon: "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
+    Icon: elephant,
     hasDone: true,
   },
   {
     memberName: "박종민",
-    Icon: "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
+    Icon: antelope,
     hasDone: true,
   },
   {
     memberName: "안지영",
-    Icon: "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
+    Icon: ferret,
     hasDone: false,
   },
   {
     memberName: "채송지",
-    Icon: "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
+    Icon: rabbit,
     hasDone: false,
   },
   {
     memberName: "황승주",
-    Icon: "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
+    Icon: pandaBear,
     hasDone: true,
   },
 ]
@@ -48,10 +60,11 @@ export default function MemberList() {
             color={hasDone ? "green" : "red"}
             size="normal"
             text={memberName}
+            borderColor="none"
           >
             <ImageIcon
               image={Icon}
-              size="small"
+              size="middle"
               shape="round"
               className="m-4"
             />
