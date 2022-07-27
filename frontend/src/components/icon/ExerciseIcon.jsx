@@ -1,9 +1,9 @@
 import React from "react"
-import 푸쉬업 from "../../assets/exercise/푸쉬업.jpg"
+import 푸쉬업 from "../../assets/exercise/푸쉬업.png"
 import 버피 from "../../assets/exercise/버피.png"
-import 스쿼트 from "../../assets/exercise/스쿼트.jpeg"
-import 레그레이즈 from "../../assets/exercise/레그레이즈.jpg"
-import 마운틴클라이밍 from "../../assets/exercise/마운틴클라이밍.jpg"
+import 스쿼트 from "../../assets/exercise/스쿼트.png"
+import 레그레이즈 from "../../assets/exercise/레그레이즈.png"
+import 마운틴클라이밍 from "../../assets/exercise/마운틴클라이밍.png"
 
 const sizeChart = {
   small: "w-6 h-6",

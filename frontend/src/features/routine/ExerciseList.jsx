@@ -32,11 +32,14 @@ export default function ExerciseList({ routine, setRoutine, idx, setIdx }) {
             <div
               className="flex justify-center pt-3 cursor-pointer"
               onClick={() => {
-                const selected = { ...exerciseList[index] }
-                const newR = [...routine, selected]
-                setRoutine(newR)
-                if (routine.length >= 5) {
-                  setIdx(routine.length - 4)
+                if (routine.length < 10) {
+                  const selected = { ...exerciseList[index] }
+                  const newR = [...routine, selected]
+                  setRoutine(newR)
+                  if (routine.length >= 5) {
+                    setIdx(5)
+                  }
+                } else {
                 }
               }}
             >

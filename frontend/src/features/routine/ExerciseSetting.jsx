@@ -2,11 +2,14 @@ import React, { useState } from "react"
 import ExerciseList from "./ExerciseList"
 import ExerciseSelect from "./ExerciseSelect"
 
-export default function ExerciseSetting() {
-  const [routine, setRoutine] = useState([])
-  const [idx, setIdx] = useState(0)
-  const [breakTime, setBreakTime] = useState(0)
-
+export default function ExerciseSetting({
+  routine,
+  setRoutine,
+  idx,
+  setIdx,
+  breakTime,
+  setBreakTime,
+}) {
   return (
     <div>
       <div>
@@ -22,6 +25,8 @@ export default function ExerciseSetting() {
           setRoutine={setRoutine}
           idx={idx}
           setIdx={setIdx}
+          breakTime={breakTime}
+          setBreakTime={setBreakTime}
         />
       </div>
     </div>
