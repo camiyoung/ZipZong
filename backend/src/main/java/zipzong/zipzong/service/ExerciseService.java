@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import zipzong.zipzong.domain.*;
 import zipzong.zipzong.dto.exercise.request.ExerciseResultRequest;
 import zipzong.zipzong.dto.exercise.response.ExerciseResultResponse;
+import zipzong.zipzong.dto.exercise.response.ExerciseTeamHistoryResponse;
 import zipzong.zipzong.repository.*;
 
 import java.time.LocalDate;
@@ -174,5 +175,25 @@ public class ExerciseService {
         exerciseResultResponse.setAvgPercentage((int) totalAvg);
 
         return exerciseResultResponse;
+    }
+
+    public ExerciseTeamHistoryResponse teamHistoryByYearAndMonth(Long teamId, int year, int month) {
+        int day = 0;
+
+        if(month == 2) {
+            if(year % 400 == 0) day = 29;
+            else if(year % 100 == 0) day = 28;
+            else if(year % 4 == 0) day = 29;
+            else day = 28;
+        } else if(month == 4 && month == 6 && month == 9 && month == 11) {
+            day = 30;
+        } else {
+            day = 31;
+        }
+
+        ExerciseTeamHistoryResponse response = new ExerciseTeamHistoryResponse();
+
+
+        return null;
     }
 }

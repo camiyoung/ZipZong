@@ -4,13 +4,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import zipzong.zipzong.dto.common.BasicResponse;
 import zipzong.zipzong.dto.exercise.request.ExerciseResultRequest;
+import zipzong.zipzong.dto.exercise.request.ExerciseTeamHistoryRequest;
 import zipzong.zipzong.dto.exercise.response.ExerciseResultResponse;
+import zipzong.zipzong.dto.exercise.response.ExerciseTeamHistoryResponse;
 import zipzong.zipzong.service.ExerciseService;
 
 import java.util.List;
@@ -44,6 +43,17 @@ public class ExerciseController {
         ExerciseResultResponse response = exerciseService.calculatePercentageAvg(personalResults);
 
         return new ResponseEntity<>(makeBasicResponse(SUCCESS, response), HttpStatus.OK);
+    }
+
+    @GetMapping("/history/team")
+    public ResponseEntity<BasicResponse<ExerciseTeamHistoryResponse>> exerciseTeamHistory(@RequestBody ExerciseTeamHistoryRequest request) {
+        Long teamId = request.getTeamId();
+        int year = request.getYear();
+        int month = request.getMonth();
+
+        ExerciseTeamHistoryResponse response = exerciseService.teamHistoryByYearAndMonth(teamId, year, month);
+
+        return null;
     }
 
     private BasicResponse<ExerciseResultResponse> makeBasicResponse(String message, ExerciseResultResponse data) {
