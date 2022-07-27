@@ -65,7 +65,7 @@ function MyExercise({ Toolbar, myVideo, chat }) {
         </div>
       </div>
       <div className=" w-[25%] min-w-[250px] h-full p-3 " id="sideArea">
-        <div className="w-full h-full flex flex-col bg-secondary-500 rounded-2xl">
+        <div className="w-full h-full flex flex-col  rounded-2xl">
           <div id="info" className="h-2/6 p-4">
             <div className=" w-full h-full ">
               <ExerciseInfo />
