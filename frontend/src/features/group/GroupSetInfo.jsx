@@ -16,7 +16,7 @@ export default function GroupSetInfo() {
         />
       </div>
       <div className="w-8/12">
-        <p className="text-3xl font-semibold mb-1">{groupName}</p>
+        <p className="text-3xl font-semibold mb-3">{groupName}</p>
         <p className="w-96">{groupExplanation}</p>
       </div>
       <Button text="그룹 프로필 변경" height="h-9" width="w-48" />
