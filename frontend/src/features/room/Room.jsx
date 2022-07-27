@@ -5,6 +5,7 @@ import { OpenVidu } from "openvidu-browser"
 import StreamComponent from "./openVidu/stream/StreamComponent"
 import UserModel from "./openVidu/user-model.js"
 import ToolbarComponent from "./openVidu/toolbar/ToolbarComponent"
+import ChatComponent from "./openVidu/chat/ChatComponent"
 // ---------------------------------
 import InfoBar from "./InfoBar"
 import MyExercise from "./MyExercise"
@@ -36,7 +37,7 @@ class Room extends Component {
       session: undefined,
       localUser: undefined,
       subscribers: [],
-      chatDisplay: "none",
+      chatDisplay: "block",
       currentVideoDevice: undefined,
     }
 
@@ -570,10 +571,25 @@ class Room extends Component {
         />
       ) : null
 
+    const chatComponent =
+      localUser !== undefined && localUser.getStreamManager() !== undefined ? (
+        <div className="OT_root OT_publisher custom-class" style={chatDisplay}>
+          <ChatComponent
+            user={localUser}
+            chatDisplay={this.state.chatDisplay}
+            close={this.toggleChat}
+            messageReceived={this.checkNotification}
+          />
+        </div>
+      ) : null
     return (
       <div className="flex flex-col h-full">
         <InfoBar />
-        <MyExercise Toolbar={Toolbar} myVideo={myVideoStream} />
+        <MyExercise
+          Toolbar={Toolbar}
+          myVideo={myVideoStream}
+          chat={chatComponent}
+        />
 
         <OtherPeople subscribers={this.state.subscribers} />
 
