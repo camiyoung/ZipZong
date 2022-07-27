@@ -1,3 +1,4 @@
+import { produceWithPatches } from "immer"
 import React from "react"
 export default function LargeTextInput(props) {
   return (
@@ -16,6 +17,9 @@ export default function LargeTextInput(props) {
         {props.inputName}
       </label>
       <input
+        onChange={(event) => {
+          props.handler(event.target.value)
+        }}
         type="text"
         id="large-input"
         className="
