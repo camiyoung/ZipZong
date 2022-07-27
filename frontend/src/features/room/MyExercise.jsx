@@ -19,8 +19,9 @@ const TodoList = () => {
   )
 }
 
-const Chat = () => {
-  return <div className="w-full p-3 h-full border rounded-lg">채팅</div>
+const Chat = ({ children }) => {
+  console.log(children)
+  return <div className="w-full p-3 h-full border rounded-lg">{children}</div>
 }
 
 const Config = ({ toolbar }) => {
@@ -42,8 +43,9 @@ const Counter = () => {
   )
 }
 
-function MyExercise({ Toolbar, myVideo }) {
-  console.log(Toolbar)
+function MyExercise({ Toolbar, myVideo, chat }) {
+  console.log(chat)
+
   return (
     <div className="flex border h-4/6 ">
       <div className=" w-1/5 flex flex-col">
@@ -66,7 +68,8 @@ function MyExercise({ Toolbar, myVideo }) {
         <Config toolbar={Toolbar} />
       </div>
       <div className="border w-1/5 p-3">
-        <Chat />
+        {/* <Chat chat={chat} /> */}
+        {chat}
       </div>
     </div>
   )
