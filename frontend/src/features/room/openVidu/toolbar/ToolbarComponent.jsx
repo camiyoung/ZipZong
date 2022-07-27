@@ -71,7 +71,7 @@ export default class ToolbarComponent extends Component {
           )}
         </div> */}
 
-        <div className="flex w-full h-16 justify-center border">
+        <div className="flex w-full justify-center ">
           <IconWrapper
             handler={this.micStatusChanged}
             // isActive={localUser.isAudioActive()}
