@@ -6,7 +6,7 @@ import ExerciseInfo from "../features/group/ExerciseInfo"
 import GroupExerciseInfo from "../features/group/GroupExerciseInfo"
 export default function Group() {
   return (
-    <div>
+    <div className="w-[60%] mx-auto">
       <div className="flex justify-center">
         <GroupInfo
           groupname="집에서 운동중"
