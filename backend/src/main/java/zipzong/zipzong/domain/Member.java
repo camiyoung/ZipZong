@@ -35,13 +35,21 @@ public class Member {
     @Column(name = "refreshToken", unique = true)
     private String refreshToken;
 
+    @Column(name ="repIcon", nullable = false)
+    private String repIcon;
+
     @Builder //생성을 Builder 패턴으로 하기 위해서
-    public Member(Long id, String name, String email, String provider, String nickname) {
+    public Member(Long id, String name, String email, String provider, String nickname,String repIcon) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.provider = provider;
         this.nickname = nickname;
+        this.repIcon = repIcon;
+    }
+
+    public void setRepIcon(String repIcon){
+        this.repIcon = repIcon;
     }
 
     public void setRefreshToken(String refreshToken) {
@@ -64,6 +72,7 @@ public class Member {
         memberResponse.setName(this.getName());
         memberResponse.setProvider(this.getProvider());
         memberResponse.setNickname(this.getNickname());
+        memberResponse.setRepIcon(this.getRepIcon());
         return memberResponse;
     }
 

@@ -6,13 +6,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import zipzong.zipzong.domain.Member;
+import zipzong.zipzong.domain.MemberIcon;
 import zipzong.zipzong.domain.Registration;
 import zipzong.zipzong.domain.Team;
 import zipzong.zipzong.dto.member.MemberResponse;
-import zipzong.zipzong.repository.MemberRepository;
-import zipzong.zipzong.repository.RegistrationRepository;
-import zipzong.zipzong.repository.TeamRepository;
+import zipzong.zipzong.dto.nickname.NicknameSetResponse;
+import zipzong.zipzong.repository.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,18 +29,23 @@ class MemberServiceTest {
     TeamRepository teamRepository;
     @Autowired
     RegistrationRepository registrationRepository;
+    @Autowired
+    MemberIconRepository memberIconRepository;
+
+    @Autowired
+    TeamIconRepository teamIconRepository;
+
     RegistrationService registrationService;
     MemberService memberService;
 
     @BeforeEach
     void setup() {
-        registrationService = new RegistrationService(teamRepository, memberRepository, registrationRepository);
-        memberService = new MemberService(memberRepository, registrationRepository);
+        memberService = new MemberService(memberRepository,memberIconRepository);
     }
 
     @Test
     @DisplayName("회원 정보 조회")
-    void getMemberInfo(){
+    void getMemberInfo() {
         //given
         Member member = makeMember("nickname");
         memberRepository.save(member);
@@ -49,19 +55,43 @@ class MemberServiceTest {
         MemberResponse memberResponse = memberInfo.toMemberResponse();
 
         //then
-        Assertions.assertEquals("nickname",memberResponse.getNickname());
+        Assertions.assertEquals("nickname", memberResponse.getNickname());
     }
+
     @Test
     @DisplayName("초기 닉네임 설정 성공")
-    void setNicknameSuccess(){
+    void setNicknameSuccess() {
+        //given
+        Member member = makeMember(null);
+        Member savedMember = memberRepository.save(member);
+
+        //when
+        memberService.setNickName(new NicknameSetResponse(savedMember.getId(), "nickname"));
+        String nickname = memberRepository.findById(savedMember.getId()).orElseThrow().getNickname();
+
+        //then
+        Assertions.assertEquals("nickname",nickname);
+
 
     }
 
     @Test
     @DisplayName("초기 닉네임 설정 실패 - 동시성 이슈로 중복 발생")
-    void setNicknameFail(){
+    void setNicknameFail() {
+        //given
+        Member beforeSavedMember = makeMember("nickname");
+        Member temp = memberRepository.save(beforeSavedMember);
+        Member member = makeMember(null);
+        Member savedMember = memberRepository.save(member);
 
+        //then
+        Assertions.assertThrows(DataIntegrityViolationException.class, ()->{
+            //when
+            memberService.setNickName(new NicknameSetResponse(savedMember.getId(), "nickname"));
+            memberRepository.flush();
+        });
     }
+
     @Test
     @DisplayName("닉네임 변경 성공")
     void updateNicknameSuccess() {
@@ -76,6 +106,7 @@ class MemberServiceTest {
         //then
         Assertions.assertEquals("nickname2", updatedMember.getNickname());
     }
+
     @Test
     @DisplayName("닉네임 중복으로 변경 실패")
     void nicknameDuplicateOccur() {
@@ -93,7 +124,7 @@ class MemberServiceTest {
 
     @Test
     @DisplayName("닉네임 중복시 true 반환")
-    void nicknameDuplicateReturnTrue(){
+    void nicknameDuplicateReturnTrue() {
         //given
         Member member = makeMember("nickname1");
         memberRepository.save(member);
@@ -107,7 +138,7 @@ class MemberServiceTest {
 
     @Test
     @DisplayName("닉네임 중복발생 안하면 false 반환")
-    void nicknameNonDuplicateReturnFalse(){
+    void nicknameNonDuplicateReturnFalse() {
         //given
         Member member = makeMember("nickname1");
         memberRepository.save(member);
@@ -119,29 +150,88 @@ class MemberServiceTest {
         Assertions.assertEquals(false, result);
     }
 
-    @Test
-    @DisplayName("가입한 팀 조회 성공")
-    void findJoinedTeam() {
-        //given
-        Member member1 = makeMember("nickname1");
-        Member member2 = makeMember("nickname2");
 
-        Team team1 = makeTeam("link1");
-        Team team2 = makeTeam("link2");
-        Member savedMember1 = memberRepository.save(member1);
-        Member savedMember2 = memberRepository.save(member2);
-        registrationService.createTeam(team1, savedMember1.getId());
-        registrationService.createTeam(team2, savedMember1.getId());
-        registrationService.createTeam(team2, savedMember2.getId());
+
+    @Test
+    @DisplayName("대표 아이콘 설정하기")
+    void setRepIcon(){
+        //given
+        String nickname = "nickname";
+        String repIcon = "newRepIcon";
+        Member member = makeMember(nickname);
+        memberRepository.save(member);
 
         //when
-        List<Registration> registration = memberService.findJoinedTeam(savedMember1.getId());
+        String savedRepIcon = memberService.setRepIcon(nickname, repIcon);
 
-        Assertions.assertEquals(2, registration.size());
-        Assertions.assertEquals("link1", registration.get(0).getTeam().getInviteLink());
-        Assertions.assertEquals("link2", registration.get(1).getTeam().getInviteLink());
-
+        //then
+        Assertions.assertEquals(savedRepIcon,repIcon);
     }
+
+    @Test
+    @DisplayName("아이콘 추가하기")
+    void addIcon(){
+        //given
+        String nickname = "nickname";
+        String icon = "newRepIcon";
+        Member member = makeMember(nickname);
+        memberRepository.saveAndFlush(member);
+
+        //when
+        String newIcon = memberService.addIcon(nickname, icon);
+
+        //then
+        Assertions.assertEquals(newIcon,icon);
+    }
+
+
+    @Test
+    @DisplayName("이미 있는 아이콘 추가하면 실패")
+    void addIconDuplicate(){
+        //given
+        String nickname = "nickname";
+        String icon = "newRepIcon";
+        Member member = makeMember(nickname);
+        memberRepository.saveAndFlush(member);
+
+        //when
+        memberService.addIcon(nickname, icon);
+
+        //then
+        Assertions.assertThrows(DataIntegrityViolationException.class,()->{
+            memberService.addIcon(nickname, icon);
+        });
+    }
+
+    @Test
+    @DisplayName("아이콘 리스트 조회")
+    void getAllIcon(){
+        //given
+        Member member = makeMember("nickname");
+        Member member1 = makeMember("nickname1");
+        Member savedMember = memberRepository.save(member);
+        Member savedMember1 = memberRepository.save(member1);
+
+        String icon1 = "icon1";
+        String icon2 = "icon2";
+
+        MemberIcon memberIcon1 = MemberIcon.addMemberIcon(savedMember,icon1);
+        MemberIcon memberIcon2 = MemberIcon.addMemberIcon(savedMember,icon2);
+        MemberIcon memberIcon3 = MemberIcon.addMemberIcon(savedMember1,icon1);
+        memberIconRepository.save(memberIcon1);
+        memberIconRepository.save(memberIcon2);
+        memberIconRepository.save(memberIcon3);
+
+
+        //when
+        List<String> memberIcons = memberService.getAllIcon(savedMember.getId());
+        System.out.println(memberIcons.size());
+
+        //then
+        Assertions.assertEquals(memberIcons.get(0),icon1);
+        Assertions.assertEquals(memberIcons.get(1),icon2);
+    }
+
 
     private Member makeMember(String nickname) {
         return Member.builder()
@@ -149,6 +239,7 @@ class MemberServiceTest {
                 .provider("google")
                 .email("bababrll@naver.com")
                 .name("김준우")
+                .repIcon("repIcon")
                 .build();
     }
 

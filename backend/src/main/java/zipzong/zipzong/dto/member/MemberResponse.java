@@ -1,13 +1,14 @@
 package zipzong.zipzong.dto.member;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 public class MemberResponse {
     String name;
     String email;
     String provider;
     String nickname;
+    String repIcon;
 }

@@ -36,6 +36,9 @@ public class Registration {
     @CreatedDate
     private LocalDateTime joinDate;
 
+    @Column(name = "is_resign")
+    Boolean isResign;
+
     @Builder
     public Registration(Long id, Member member, Team team, Role role, LocalDateTime joinDate) {
         this.id = id;
@@ -43,6 +46,14 @@ public class Registration {
         this.team = team;
         this.role = role;
         this.joinDate = joinDate;
+    }
+
+    public void changeRole(Role role) {
+        this.role = role;
+    }
+
+    public void changeIsResign(Boolean isResign) {
+        this.isResign = isResign;
     }
 
     public static Registration createRegistration(Member member, Team team) {

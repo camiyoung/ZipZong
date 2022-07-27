@@ -26,8 +26,8 @@ public class Exercise {
     private Registration registration;
 
     @CreatedDate
-    @Column(name = "date")
-    private LocalDateTime date;
+    @Column(name = "exercise_date")
+    private LocalDateTime exerciseDate;
 
     @Column(name = "exercise_time")
     private int exerciseTime;
