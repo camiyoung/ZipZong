@@ -1,17 +1,19 @@
 import React, { useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import Button from "../../components/button/Button"
 import { nicknameValidation, selectNickname } from "./memberReducer"
 
 export default function SetNickName() {
   const dispatch = useDispatch()
   const [nickname, setNickname] = useState("")
+  const savedNickname = useSelector((state) => state.member.memberNickname)
   const handleChange = ({ target: { value } }) => setNickname(value)
   const handleSubmit = (e) => {
     e.preventDefault()
 
     // 닉네임 유효성 검사
     dispatch(nicknameValidation({ nickname }))
+    setNickname(savedNickname)
     dispatch(selectNickname({ nickname }))
     console.log("끝!")
   }
