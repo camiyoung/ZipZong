@@ -3,6 +3,9 @@ import Button from "../../components/button/Button"
 import ImageIcon from "../../components/icon/ImageIcon"
 import Modal from "../../components/modal/Modal"
 import SmallTextInput from "../../components/input/SmallTextInput"
+import { nicknameChange } from "./myPageReducer"
+import { nicknameValidation } from "../login/memberReducer"
+import { useDispatch } from "react-redux"
 
 const User = {
   Name: "신슬기",
@@ -10,19 +13,32 @@ const User = {
 }
 
 export default function Profile() {
+  const dispatch = useDispatch()
   const [isOpen, setOpen] = useState(false)
   const modalClose = () => setOpen(false)
+  const [nickname, setNickname] = useState("")
+  const handleChange = ({ target: { value } }) => setNickname(value)
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    dispatch(nicknameValidation(nickname))
+    dispatch(nicknameChange(nickname))
+  }
 
   return (
     // 모달
     <div>
       <Modal isOpen={isOpen} modalClose={modalClose}>
-        <SmallTextInput inputName="닉네임"></SmallTextInput>
-        <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-          <button type="button" className="bg-lightBlue ">
-            정보 수정
-          </button>
-        </div>
+        <form onSubmit={handleSubmit}>
+          <SmallTextInput
+            inputName="닉네임"
+            onChange={handleChange}
+          ></SmallTextInput>
+          <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+            <button type="button" className="bg-lightBlue">
+              정보 수정
+            </button>
+          </div>
+        </form>
       </Modal>
 
       <div className="flex items-center justify-center">
