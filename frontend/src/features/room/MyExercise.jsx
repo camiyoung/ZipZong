@@ -24,13 +24,6 @@ const Chat = ({ children }) => {
   return <div className="w-full p-3 h-full border rounded-lg">{children}</div>
 }
 
-const Config = ({ toolbar }) => {
-  return (
-    <div className="w-full h-[10%]  flex justify-between items-center">
-      {toolbar}
-    </div>
-  )
-}
 const Counter = () => {
   return (
     <div className="w-28 h-40 bg-mainBlue absolute top-10 right-4">
@@ -43,33 +36,45 @@ const Counter = () => {
   )
 }
 
+const ExerciseInfo = () => {
+  return (
+    <div className="w-full h-full flex justify-center items-center py-4">
+      <div className="w-3/5 max-w-[170px] h-full bg-white rounded-2xl p-2 mr-3">
+        현재운동 <br /> 스쿼트
+      </div>
+      <div className="w-2/5 max-w-[140px] h-3/4  bg-white rounded-2xl p-2">
+        다음 운동 <br />
+      </div>
+    </div>
+  )
+}
+
 function MyExercise({ Toolbar, myVideo, chat }) {
-  console.log(chat)
+  console.log("비디오", myVideo)
 
   return (
-    <div className="flex border h-4/6 ">
-      <div className=" w-1/5 flex flex-col">
-        <div className="w-full h-1/2 p-2 flex justify-center items-center">
+    <div className="flex  h-full w-[90%] pl-2 ">
+      <div className=" w-[75%] h-full p-3 relative  " id="videoArea">
+        <div className="w-full h-full ">{myVideo}</div>
+        {/* <Counter /> */}
+        <div className=" z-30 absolute top-10 left-4 ">
           <Timer time={60} />
         </div>
-
-        <div className="flex justify-center items-center h-1/2">
-          <div className=" w-9/12 rounded-md h-full">
-            <div className="font-semibold text-center">To Do</div>
-            <TodoList />
+        <div className="w-full h-[10%] flex justify-between items-center absolute bottom-5">
+          {Toolbar}
+        </div>
+      </div>
+      <div className=" w-[25%] min-w-[250px] h-full p-3 " id="sideArea">
+        <div className="w-full h-full flex flex-col bg-secondary-500 rounded-2xl">
+          <div id="info" className="h-2/6 p-4">
+            <div className=" w-full h-full ">
+              <ExerciseInfo />
+            </div>
+          </div>
+          <div id="chat" className="h-4/6">
+            {chat}
           </div>
         </div>
-      </div>
-      <div className=" w-3/5 p-3 relative">
-        <div className="w-full h-[90%]  rounded-xl bg-primary-100">
-          {myVideo}
-        </div>
-        <Counter />
-        <Config toolbar={Toolbar} />
-      </div>
-      <div className="border w-1/5 p-3">
-        {/* <Chat chat={chat} /> */}
-        {chat}
       </div>
     </div>
   )

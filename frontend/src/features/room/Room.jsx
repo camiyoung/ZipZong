@@ -583,22 +583,14 @@ class Room extends Component {
         </div>
       ) : null
     return (
-      <div className="flex flex-col h-full">
-        <InfoBar />
+      <div className="flex h-full bg-secondary-200 rounded-2xl">
+        {/* <InfoBar /> */}
+        <OtherPeople subscribers={this.state.subscribers} />
         <MyExercise
           Toolbar={Toolbar}
           myVideo={myVideoStream}
           chat={chatComponent}
         />
-
-        <OtherPeople subscribers={this.state.subscribers} />
-
-        {/* <div className="container" id="container"> */}
-
-        {/* <DialogExtensionComponent
-          showDialog={this.state.showExtensionDialog}
-          cancelClicked={this.closeDialogExtension}
-        /> */}
       </div>
     )
   }
