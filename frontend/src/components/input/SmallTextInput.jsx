@@ -1,7 +1,7 @@
 import React from "react"
-export default function SmallTextInput(props) {
+export default function SmallTextInput(props, ...restProps) {
   return (
-    <div className="flex">
+    <div className="flex" {...restProps}>
       <label
         htmlFor="small-input"
         className="
