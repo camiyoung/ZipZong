@@ -44,18 +44,13 @@ export const memberSlice = createSlice({
     memberNickname: null,
   },
   reducers: {
-    // 사용 안하는 중
+    // 로그아웃
+    logout: (state, action) => {
+      localStorage.clear()
+    },
+    // 멤버 아이디 받기
     checkMemberId: (state, action) => {
       state.memberId = action.payload
-    },
-    checkMemberName: (state, action) => {
-      state.memberName = action.payload
-    },
-    checkMemberEmail: (state, action) => {
-      state.memberEmail = action.payload
-    },
-    checkMemberProvider: (state, action) => {
-      state.memberProvider = action.payload
     },
   },
   extraReducers(builder) {
@@ -82,12 +77,6 @@ export const memberSlice = createSlice({
     })
   },
 })
-export const {
-  checkMemberId,
-  checkMemberName,
-  checkMemberEmail,
-  checkMemberProvider,
-  checkMemberNickname,
-} = memberSlice.actions
+export const { checkMemberId, logout } = memberSlice.actions
 
 export default memberSlice.reducer
