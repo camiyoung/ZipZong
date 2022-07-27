@@ -9,11 +9,14 @@ import { http } from "../../api/axios"
 export const nicknameValidation = createAsyncThunk(
   "member/duplicate",
   async (nickname) => {
-    console.log("닉네임 확인")
-    if (nickname.length > 0) {
-      const { message } = await http.get("/member/duplicate/", nickname)
+    console.log("닉네임 확인", nickname.nickname)
+    if (nickname.nickname.length > 0) {
+      const { message } = await http.get(
+        "/member/duplicate/",
+        nickname.nickname
+      )
       console.log(message)
-      return [message, nickname]
+      return [message, nickname.nickname]
     } else {
       alert("닉네임을 입력해주세요")
     }
@@ -22,14 +25,16 @@ export const nicknameValidation = createAsyncThunk(
 export const memberInfo = createAsyncThunk(
   "member/information",
   async (nickname) => {
-    const { data } = await http.get("/member/info/", nickname)
+    const { data } = await http.get("/member/info/", nickname.nickname)
     return data
   }
 )
 export const selectNickname = createAsyncThunk(
   "member/nickname",
   async (nickname) => {
-    const { data } = await http.get("/member/nickname", nickname)
+    console.log("sleelect", nickname.nickname)
+    const { data } = await http.get("/member/", nickname.nickname)
+    console.log(data)
     return data
   }
 )
@@ -67,6 +72,7 @@ export const memberSlice = createSlice({
       state.memberEmail = action.payload["email"]
       state.memberProvider = action.payload["provider"]
       state.memberNickname = action.payload["nickname"]
+      window.location.href("/mypage")
     })
     builder.addCase(memberInfo.fulfilled, (state, action) => {
       state.memberName = action.payload["name"]
