@@ -64,11 +64,14 @@ export default function ExerciseInfo() {
                 연속 {streak}일째!
               </p>
             </div>
-            <div style={{ overflow: "scroll", height: "235px" }}>
+            <div
+              className="overflow-scroll scrollbar-hide"
+              style={{ height: "200px" }}
+            >
               {dayExerciseInfo.map(
-                ({ exerciseIcon, exerciseTime, exerciseCount }) => {
+                ({ exerciseIcon, exerciseTime, exerciseCount }, idx) => {
                   return (
-                    <div key={exerciseCount} className="flex m-5">
+                    <div key={idx} className="flex m-5">
                       <ImageIcon image={exerciseIcon} size="middle" />
                       <div>
                         <p>운동 개수: {exerciseCount}</p>
