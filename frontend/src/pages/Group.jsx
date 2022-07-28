@@ -7,7 +7,7 @@ import GroupExerciseInfo from "../features/group/GroupExerciseInfo"
 export default function Group() {
   return (
     <div className="w-[60%] mx-auto">
-      <div className="flex justify-center">
+      <div className="flex">
         <GroupInfo
           groupname="집에서 운동중"
           groupleader="신슬기"

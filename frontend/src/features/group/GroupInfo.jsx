@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import Card from "../../components/card/Card"
 import ImageIcon from "../../components/icon/ImageIcon"
 import UserIcon from "../../components/icon/UserIcon"
@@ -9,11 +10,12 @@ import Select from "../../components/input/Select"
 import Radio from "../../components/input/Radio"
 
 function GroupManagement() {
+  const navigate = useNavigate()
   const [isLeader, setIsLeader] = useState(false)
   const [isOpen, setOpen] = useState(false)
   const modalClose = () => setOpen(false)
   return (
-    <div>
+    <div className="w-full ml-10">
       {/* 모달 영역 */}
       <Modal isOpen={isOpen} modalClose={modalClose}>
         <form action="">
@@ -55,27 +57,49 @@ function GroupManagement() {
         </div>
       </Modal>
       {/* 모달 영역 끝 */}
-
       {/* 카드 영역 */}
-      <Card size="100%">
-        <div
-          className="flex justify-center flex-col mb-1"
-          onClick={() => setOpen(true)}
-        >
-          <p>아직 운동 방이 만들어지지 않았어요!</p>
-          <p>여기를 클릭하여 운동 방을 만들어 보세요</p>
-        </div>
-      </Card>
-      <div className="flex justify-evenly mt-5">
-        <Button text="운동 루틴 관리" round="round3xl" height="h-7" />
+      <div className="">
+        <Card>
+          <div
+            className="flex justify-center flex-col mb-1 hover:cursor-pointer"
+            onClick={() => setOpen(true)}
+          >
+            <p className="text-center text-xl font-semibold">
+              아직 운동 방이 만들어지지 않았어요!
+            </p>
+            <p className="text-center text-md font-semibold">
+              여기를 클릭하여 운동 방을 만들어 보세요
+            </p>
+          </div>
+        </Card>
+      </div>
+      <div className=" flex justify-evenly mt-5">
+        <Button
+          text="운동 루틴 관리"
+          round="round3xl"
+          height="h-10"
+          width="w-full"
+          // 그룹장만 운동관리
+          onClick={() => navigate("/routine")}
+        />
         {/*
         그룹장 ->그룹 설정 및 관리 보임
         그룹원 -> 그룹 탈퇴 보임
         */}
         {isLeader ? (
-          <Button text="그룹 설정 및 관리" round="round3xl" height="h-7" />
+          <Button
+            text="그룹 설정 및 관리"
+            round="round3xl"
+            height="h-10"
+            width="w-full"
+          />
         ) : (
-          <Button text="그룹 탈퇴" round="round3xl" height="h-7" />
+          <Button
+            text="그룹 탈퇴"
+            round="round3xl"
+            height="h-10"
+            width="w-full"
+          />
         )}
       </div>
     </div>
@@ -89,8 +113,8 @@ export default function GroupInfo({
   groupExplanation,
 }) {
   return (
-    <div className="w-full flex mt-5 justify-evenly">
-      <Card size="middle">
+    <div className="w-full flex mt-5">
+      <Card size="100%">
         <div className="flex">
           <ImageIcon
             image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg"
@@ -112,8 +136,8 @@ export default function GroupInfo({
             </div>
           </div>
         </div>
-        <hr />
-        <p className="text-xs">{groupExplanation}</p>
+        <hr className="mb-3 mt-2" />
+        <p className="text-md">{groupExplanation}</p>
       </Card>
 
       <GroupManagement />

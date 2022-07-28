@@ -19,6 +19,8 @@ export default function CalendarForm() {
           // 연도는 못 보게 하는 코드
           minDetail="month"
           maxDetail="month"
+          // 이전, 다음달 못보게 하는 코드
+          showNeighboringMonth={false}
           // 달력에 '일' 빼는 코드
           formatDay={(locale, date) =>
             date.toLocaleString("en", { day: "numeric" })
