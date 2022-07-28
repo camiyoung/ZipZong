@@ -41,7 +41,7 @@ const dayExerciseInfo = [
 ]
 function Ranking() {
   return (
-    <div className="w-3/5 ">
+    <div className="w-full">
       <p className="text-xl text-center">
         <strong>Time Ranking</strong>
       </p>
@@ -91,7 +91,7 @@ export default function ExerciseInfo() {
   let streak = 3
   let sheildCount = 1
   return (
-    <div className="flex mt-10 flex-col">
+    <div className="flex mt-10 flex-col flex-wrap">
       <div className="flex">
         <div className="flex">
           <CalendarForm />
@@ -135,9 +135,9 @@ export default function ExerciseInfo() {
             </div>
           </div>
         </div>
-        <Ranking />
       </div>
       <br />
+      <Ranking />
       <p>현재 스트릭 쉴드를 {sheildCount}개 소지 중입니다.</p>
     </div>
   )
