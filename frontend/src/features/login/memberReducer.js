@@ -5,7 +5,8 @@ export const nicknameValidation = createAsyncThunk(
   "member/duplicate",
   async ({ nickname }) => {
     if (nickname.length > 0) {
-      const { message } = await http.get("/member/duplicate/", nickname)
+      const { message } = await http.get(`/member/duplicate/${nickname}`)
+      console.log("메세지", message)
       return [message, nickname]
     } else {
       alert("닉네임을 입력해주세요")
@@ -54,6 +55,9 @@ export const memberSlice = createSlice({
       } else {
         console.log("닉네임 중복 처리 불가!!!")
       }
+    })
+    builder.addCase(nicknameValidation.rejected, (state, action) => {
+      console.log(state, action)
     })
 
     builder.addCase(selectNickname.fulfilled, (state, action) => {
