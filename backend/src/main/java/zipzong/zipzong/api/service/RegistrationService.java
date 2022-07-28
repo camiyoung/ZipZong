@@ -71,9 +71,7 @@ public class RegistrationService {
             teamResponse.setCount(team.getRegistrationList().size());
             teamResponses.add(teamResponse);
         }
-
         return teamResponses;
-
     }
 
     /*
@@ -115,7 +113,10 @@ public class RegistrationService {
     public TeamInfoRequest getTeamInfo(Long teamId) {
         Team team = teamRepository.findById(teamId).orElseThrow();
 
-        List<String> icons = teamIconRepository.findByTeamId(teamId).stream().map(icon -> icon.getIconName()).collect(Collectors.toList());
+        List<String> icons = teamIconRepository.findByTeamId(teamId)
+                .stream()
+                .map(icon -> icon.getIconName())
+                .collect(Collectors.toList());
 
         //팀에 가입한 멤버 리스트 뽑아오기
         List<Registration> registrations = registrationRepository.findTeamDetail(teamId);
@@ -169,7 +170,8 @@ public class RegistrationService {
         /*
             그룹장인지 확인
          */
-        Registration registration = registrationRepository.findByMemberIdAndTeamId(memberId, teamId).orElseThrow();
+        Registration registration = registrationRepository.findByMemberIdAndTeamId(memberId, teamId)
+                .orElseThrow();
 
         if(registration.getRole().equals(Role.FOLLOWER)){
             throw new AuthenticationException();

@@ -37,12 +37,12 @@ public class OAuthController {
         String accessTokenExpiration = jwtService.dateToString(token.getAccessToken());
         String refreshTokenExpiration = jwtService.dateToString(token.getRefreshToken());
 
-        return "redirect:" + UriComponentsBuilder.fromUriString("http://localhost:3000/login")
+        return "redirect:/" + UriComponentsBuilder.fromUriString("http://localhost:3000/login")
                                                  .queryParam("accessToken", token.getAccessToken())
                                                  .queryParam("refreshToken", token.getRefreshToken())
                                                  .queryParam("accessTokenExpiration", accessTokenExpiration)
                                                  .queryParam("refreshTokenExpiration", refreshTokenExpiration)
-                                                 .queryParam("memberId", member.getId())
+                                                 .queryParam("memberId", String.valueOf(member.getId()))
                                                  .build()
                                                  .toUriString();
 
