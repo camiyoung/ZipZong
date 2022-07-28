@@ -25,6 +25,6 @@ public class ExerciseDetail {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "count")
+    @Column(name = "exercise_count")
     private int count;
 }

@@ -6,9 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
+import zipzong.zipzong.enums.CheckExist;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,6 +27,11 @@ public class Team {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "content")
+    private String content;
+
+    @OneToMany(mappedBy = "team",fetch = FetchType.LAZY)
+    Collection<Registration> registrationList = new ArrayList<>();
     @Column(name = "invite_link", unique = true)
     private String inviteLink;
 
@@ -34,13 +42,33 @@ public class Team {
     @Column(name = "shield_count")
     private int shieldCount;
 
+    @Column(name = "rep_icon", nullable = false)
+    private String repIcon;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "is_deleted")
+    private CheckExist isDeleted;
+
     @Builder
-    public Team(Long id, String name, String inviteLink, LocalDateTime createDate, int shieldCount) {
+    public Team(Long id, String name, String inviteLink, LocalDateTime createDate, int shieldCount, String repIcon) {
         this.id = id;
         this.name = name;
         this.inviteLink = inviteLink;
         this.createDate = createDate;
         this.shieldCount = shieldCount;
+        this.repIcon = repIcon;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setRepIcon(String repIcon) {
+        this.repIcon = repIcon;
+    }
+
+    public void setIsDeleted(CheckExist value) {
+        this.isDeleted = value;
     }
 
     public void changeTeamName(String name) {
@@ -59,13 +87,25 @@ public class Team {
         }
     }
 
-    public void makeInviteLink() {
-        /*
-        jwt 토큰 사용해서 TeamID를 넣어서 암호화하는 방법,
-        base64 인코딩
+    /*
+        base62 인코딩
+        초대링크 만드는 로직
+     */
+    static final char[] BASE62 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".toCharArray();
 
-            초대링크 만드는 로직
-         */
+    public String makeInviteLink() {
+        final StringBuilder sb = new StringBuilder();
+        int value = this.id.intValue() + 100_000;
+        do{
+            int i = value % 62;
+            sb.append(BASE62[i]);
+            value /= 62;
+        } while( value > 0);
+        return sb.toString();
+    }
+
+    public void setInviteLink(String inviteLink){
+        this.inviteLink =inviteLink;
     }
 
 }
