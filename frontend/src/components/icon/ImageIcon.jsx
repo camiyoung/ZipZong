@@ -9,16 +9,24 @@ const shapeChart = {
   round: "rounded-full",
   square: "",
 }
+const borderStyleChart = {
+  none: "",
+  border1: "border-1",
+  border2: "border-2",
+}
 
-export default function Icon({ image, size, shape, ...restProps }) {
+export default function Icon({ image, size, shape, borderStyle }) {
   const iconSize = size ? sizeChart[size] : sizeChart.middle
   const shapeType = shape ? shapeChart[shape] : shapeChart.square
+  const selectedBorderStyle = borderStyle
+    ? borderStyleChart[borderStyle]
+    : borderStyleChart.border2
   return (
     <div
-      style={{
-        backgroundImage: `url(${image})`,
-      }}
-      className={`${iconSize} ${shapeType} bg-cover `}
-    ></div>
+      className={`${iconSize} ${shapeType} ${selectedBorderStyle} bg-cover`}
+      style={{ overfit: "cover" }}
+    >
+      <img src={image} alt="Icon image" />
+    </div>
   )
 }

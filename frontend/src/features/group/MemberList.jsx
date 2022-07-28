@@ -52,22 +52,16 @@ export default function MemberList() {
   // group 원들의 정보를 받아야 함
   return (
     <div className="flex mt-10 w-full flex-wrap">
-      {Members.map(({ memberName, Icon, hasDone }) => {
+      {Members.map(({ memberName, Icon, hasDone }, idx) => {
         return (
-          // 클릭시 그 사람의 마이페이지로 이동
-          <div
-            onClick={() => alert(`${memberName} 페이지로 이동해야 합니다`)}
-            className="hover:scale-125"
-          >
+          <div key={idx}>
             <NameSquare
-              key={memberName}
               // 운동을 한 사람들만 초록색, 나머지는 빨간색
               color={hasDone ? "green" : "red"}
               size="middle"
               text={memberName}
               borderColor="none"
               borderSize="none"
-              cursor="pointer"
             >
               <ImageIcon
                 image={Icon}
