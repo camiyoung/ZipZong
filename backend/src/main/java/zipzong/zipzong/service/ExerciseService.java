@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import zipzong.zipzong.domain.*;
 import zipzong.zipzong.dto.exercise.request.ExerciseResultRequest;
-import zipzong.zipzong.dto.exercise.response.ExerciseMemberHistoryResponse;
-import zipzong.zipzong.dto.exercise.response.ExerciseResultResponse;
-import zipzong.zipzong.dto.exercise.response.ExerciseTeamHistoryResponse;
-import zipzong.zipzong.dto.exercise.response.ExerciseTeamTotalResponse;
+import zipzong.zipzong.dto.exercise.response.*;
 import zipzong.zipzong.repository.*;
 
 import java.time.LocalDate;
@@ -22,8 +19,8 @@ public class ExerciseService {
     RegistrationRepository registrationRepository;
     ExerciseRepository exerciseRepository;
     ExerciseDetailRepository exerciseDetailRepository;
-
-    TeamHistory
+    MemberHistoryRepository memberHistoryRepository;
+    TeamHistoryRepository teamHistoryRepository;
     TeamHistoryDetailRepository teamHistoryDetailRepository;
     MemberHistoryDetailRepository memberHistoryDetailRepository;
 
@@ -324,8 +321,39 @@ public class ExerciseService {
     public ExerciseTeamTotalResponse totalTeamHistory(Long teamId) {
         ExerciseTeamTotalResponse response = new ExerciseTeamTotalResponse();
 
-        teamhi
+        TeamHistory teamHistory = teamHistoryRepository.findByTeamId(teamId).orElse(
+                TeamHistory.builder()
+                        .maximumStrick(0)
+                        .currentStrick(0)
+                        .build()
+        );
 
+        response.setCurrentStrick(teamHistory.getCurrentStrick());
+
+        List<ExerciseTeamTotalResponse.PerformTeamTotal> performTeamTotals = new ArrayList<>();
+
+        List<TeamHistoryDetail> teamHistoryDetails = teamHistoryDetailRepository.findByTeamHistoryId(teamHistory.getId());
+
+
+
+        return response;
+    }
+
+    public ExerciseMemberTotalResponse totalMemberHistory(Long memberId) {
+        ExerciseMemberTotalResponse response = new ExerciseMemberTotalResponse();
+
+        MemberHistory memberHistory = memberHistoryRepository.findByMemberId(memberId).orElse(
+                MemberHistory.builder()
+                        .maximumStrick(0)
+                        .currentStrick(0)
+                        .build()
+        );
+
+        response.setCurrentStrick(memberHistory.getCurrentStrick());
+
+        List<ExerciseMemberTotalResponse.PerformMemberTotal> performMemberTotals = new ArrayList<>();
+
+        List<MemberHistoryDetail> memberHistoryDetails = memberHistoryDetailRepository.findByMemberHistoryId(memberHistory.getId());
         return response;
     }
 }

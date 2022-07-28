@@ -25,7 +25,7 @@ public class MemberHistory {
     @Column(name = "current_strick")
     private int currentStrick;
 
-    @OneToOne(mappedBy = "member_history", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "memberHistory", fetch = FetchType.LAZY)
     private Member member;
 
     @Builder
