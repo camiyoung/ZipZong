@@ -12,22 +12,18 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicUpdate
 @Getter
-@Table(name="room")
+@Table(name = "room")
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="room_id")
+    @Column(name = "room_id")
     private Long id;
 
     @OneToOne
-    @JoinColumn(name="routine_id")
+    @JoinColumn(name = "routine_id")
     private Routine routine;
 
-    @OneToOne
-    @JoinColumn(name="team_id")
-    private Team team;
-
-    @Column(name="room_name", nullable = false)
+    @Column(name = "room_name", nullable = false)
     private String name;
 
     @Enumerated(EnumType.STRING)

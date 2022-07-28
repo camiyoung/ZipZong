@@ -1,9 +1,8 @@
 package zipzong.zipzong.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
+import zipzong.zipzong.dto.routine.RoutineRequest;
 
 import javax.persistence.*;
 
@@ -11,11 +10,12 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicUpdate
 @Getter
-@Table(name="routine_detail")
+@Setter //지우기
+@Table(name = "routine_detail")
 public class RoutineDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="routine_detail_id")
+    @Column(name = "routine_detail_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -28,6 +28,24 @@ public class RoutineDetail {
     @Column(name = "exercise_count", nullable = false)
     private int exerciseCount;
 
-    @Column(name="exercise_order", nullable = false)
+    @Column(name = "exercise_order", nullable = false)
     private int exerciseOrder;
+
+    @Builder
+    public RoutineDetail(Routine routine, String name, int exerciseCount, int exerciseOrder) {
+        this.routine = routine;
+        this.name = name;
+        this.exerciseCount = exerciseCount;
+        this.exerciseOrder = exerciseOrder;
+    }
+
+    public static RoutineDetail createRoutineDetail(Routine routine, int exerciseOrder, RoutineRequest.RoutineExercise routineExercise) {
+        RoutineDetail routineDetail = RoutineDetail.builder()
+                .routine(routine)
+                .name(routineExercise.getName())
+                .exerciseCount(routineExercise.getCount())
+                .exerciseOrder(exerciseOrder)
+                .build();
+        return routineDetail;
+    }
 }
