@@ -1,20 +1,20 @@
 import React, { useState } from "react"
-import RoutineModify from "../../pages/RoutineModify"
 import ImageIcon from "../../components/icon/ImageIcon"
 import Modal from "../../components/modal/Modal"
 import Button from "../../components/button/Button"
 import Card from "../../components/card/Card"
 import { Link } from "react-router-dom"
+import ChangeLanguage from "./ChangeLanguage"
 
 const routines = [
   {
     routineId: 0,
     routineName: "슬기세트",
     exercise: [
-      { name: "윗몸일으키기", count: 5, order: 1 },
-      { name: "윗몸일으키기", count: 5, order: 2 },
-      { name: "윗몸일으키기", count: 5, order: 3 },
-      { name: "윗몸일으키기", count: 5, order: 4 },
+      { name: "PUSHUP", count: 5 },
+      { name: "PUSHUP", count: 5 },
+      { name: "PUSHUP", count: 5 },
+      { name: "PUSHUP", count: 5 },
     ],
     breaktime: 60,
     totaltime: 300,
@@ -23,10 +23,10 @@ const routines = [
     routineId: 1,
     routineName: "종민세트",
     exercise: [
-      { name: "버피", count: 5 },
-      { name: "버피", count: 5 },
-      { name: "버피", count: 5 },
-      { name: "버피", count: 5 },
+      { name: "BURPEE", count: 5 },
+      { name: "BURPEE", count: 5 },
+      { name: "BURPEE", count: 5 },
+      { name: "BURPEE", count: 5 },
     ],
     breaktime: 60,
   },
@@ -34,10 +34,10 @@ const routines = [
     routineId: 2,
     routineName: "준우세트",
     exercise: [
-      { name: "레그레이즈", count: 5 },
-      { name: "레그레이즈", count: 5 },
-      { name: "레그레이즈", count: 5 },
-      { name: "레그레이즈", count: 5 },
+      { name: "LEGRAISE", count: 5 },
+      { name: "LEGRAISE", count: 5 },
+      { name: "LEGRAISE", count: 5 },
+      { name: "LEGRAISE", count: 5 },
     ],
     breaktime: 60,
   },
@@ -45,10 +45,10 @@ const routines = [
     routineId: 3,
     routineName: "승주세트",
     exercise: [
-      { name: "푸쉬업", count: 5 },
-      { name: "푸쉬업", count: 5 },
-      { name: "푸쉬업", count: 5 },
-      { name: "푸쉬업", count: 5 },
+      { name: "PUSHUP", count: 5 },
+      { name: "PUSHUP", count: 5 },
+      { name: "PUSHUP", count: 5 },
+      { name: "PUSHUP", count: 5 },
     ],
     breaktime: 60,
   },
@@ -79,7 +79,8 @@ export default function RoutineList() {
                   {exercise.map(({ name, count }, index) => {
                     return (
                       <div className="flex justify-center" key={index}>
-                        {name} {count}
+                        <ChangeLanguage exercise={name} />
+                        {count}
                       </div>
                     )
                   })}
@@ -90,9 +91,11 @@ export default function RoutineList() {
                     총 운동 시간 : {exercise.length * 60 + breaktime} 초
                   </div>
                   <div className="flex justify-center">
-                    <div className="bg-secondary-300 m-2 w-[50px] rounded-xl flex justify-center text-sm items-center h-[35px] pointer hover:bg-secondary-500">
-                      수정
-                    </div>
+                    <Link to={`/routine/modify/${index}`}>
+                      <div className="bg-secondary-300 m-2 w-[50px] rounded-xl flex justify-center text-sm items-center h-[35px] pointer hover:bg-secondary-500">
+                        수정
+                      </div>
+                    </Link>
                     <div
                       className="bg-secondary-300 m-2 w-[50px] rounded-xl flex justify-center text-sm items-center pointer hover:bg-secondary-500"
                       onClick={() => {
