@@ -90,21 +90,39 @@ export default function RankPage() {
             backgroundPosition: "center",
           }}
         >
-          <div className=" relative top-32 w-4/6 py-10 rounded-lg h-1/2">
-            <div className="  w-full p-3 ">
-              <div className="flex  h-full justify-evenly">
-                <div className=" flex items-center animate-prize-silver">
-                  <img src={prize2} alt="" />
-                  <div className="text-lg font-semibold">그룹B</div>
+          <div className=" relative top-28 w-4/6 py-10 rounded-lg h-1/2">
+            <div className="  w-full p-3 max-h-60 ">
+              <div className="flex  h-full w-full justify-evenly ">
+                <div className="w-[33%] h-full  flex items-center animate-prize-silver relative bottom-10">
+                  <img
+                    src="/images/rankPage/ruby.png"
+                    alt=""
+                    className=" w-[80%] h-[80%] "
+                  />
+                  <div className="text-lg font-semibold absolute  flex justify-center items-center w-[80%] h-[80%]  ">
+                    그룹B
+                  </div>
                 </div>
-                <div className=" flex items-center animate-prize-gold">
-                  <img src={prize1} alt="" className="w-28" />
-                  <div className="text-lg font-semibold ">그룹A</div>
+                <div className="w-[33%] h-full flex items-center animate-prize-gold relative bottom-24">
+                  <img
+                    src="/images/rankPage/diamond.png"
+                    alt=""
+                    className=" w-full h-full"
+                  />
+                  <div className="text-lg font-semibold  absolute  flex justify-center items-center w-full h-full ">
+                    그룹A
+                  </div>
                 </div>
 
-                <div className=" flex items-center animate-prize-bronze">
-                  <img src={prize3} alt="" />
-                  <div className="text-lg font-semibold">그룹C</div>
+                <div className="w-[33%] h-full flex items-center animate-prize-bronze relative bottom-4 left-4">
+                  <img
+                    src="/images/rankPage/gold.png"
+                    alt=""
+                    className=" w-[75%] h-[75%]"
+                  />
+                  <div className="text-lg font-semibold absolute  flex justify-center items-center w-[75%] h-[75%] ">
+                    그룹C
+                  </div>
                 </div>
               </div>
             </div>
