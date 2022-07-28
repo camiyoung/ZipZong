@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,11 +14,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import zipzong.zipzong.api.controller.OAuthController;
 import zipzong.zipzong.config.auth.OAuthService;
 import zipzong.zipzong.config.jwt.Jwt;
 import zipzong.zipzong.config.jwt.JwtService;
-import zipzong.zipzong.domain.Member;
-import zipzong.zipzong.repository.MemberRepository;
+import zipzong.zipzong.db.domain.Member;
+import zipzong.zipzong.db.repository.memberteam.MemberRepository;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -37,6 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(OAuthController.class)
 @AutoConfigureRestDocs
+@MockBean(JpaMetamodelMappingContext.class)
 class OAuthControllerTest {
 
     @Autowired

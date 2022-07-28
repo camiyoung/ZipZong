@@ -9,8 +9,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-import zipzong.zipzong.domain.Member;
-import zipzong.zipzong.repository.MemberRepository;
+import zipzong.zipzong.db.domain.Member;
+import zipzong.zipzong.db.repository.memberteam.MemberRepository;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -42,7 +42,7 @@ public class OAuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2
 
         MemberProfile memberProfile = OAuthAttributes.extract(registrationId, attributes); // registrationId에 따라 유저 정보를 통해 공통된 UserProfile 객체로 만들어 줌
         memberProfile.setProvider(registrationId);
-
+        memberProfile.setRepIcon("basic");
         saveOrUpdate(memberProfile);
 
         Map<String, Object> customAttribute = customAttribute(attributes, userNameAttributeName, memberProfile, registrationId);
