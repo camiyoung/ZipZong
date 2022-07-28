@@ -19,6 +19,7 @@ export default function SetNickName() {
     dispatch(selectNickname({ nickname }))
     navigate("/mypage")
   }
+
   return (
     <div className="w-6/12 flex justify-center items-center flex-col">
       <p className="text-3xl font-bold">

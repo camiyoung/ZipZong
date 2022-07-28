@@ -1,20 +1,12 @@
-import {
-  createSlice,
-  createAsyncThunk,
-  createSelector,
-  createEntityAdapter,
-} from "@reduxjs/toolkit"
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { http } from "../../api/axios"
 
 export const nicknameValidation = createAsyncThunk(
   "member/duplicate",
-  async (nickname) => {
-    if (nickname.nickname.length > 0) {
-      const { message } = await http.get(
-        "/member/duplicate/",
-        nickname.nickname
-      )
-      return [message, nickname.nickname]
+  async ({ nickname }) => {
+    if (nickname.length > 0) {
+      const { message } = await http.get("/member/duplicate/", nickname)
+      return [message, nickname]
     } else {
       alert("닉네임을 입력해주세요")
     }
@@ -55,6 +47,7 @@ export const memberSlice = createSlice({
     },
   },
   extraReducers(builder) {
+    //rejected, 4개의 state들이 있다고 함
     builder.addCase(nicknameValidation.fulfilled, (state, action) => {
       if (action.payload === "success") {
         state.memberNickname = action.payload[1]
@@ -68,7 +61,6 @@ export const memberSlice = createSlice({
       state.memberEmail = action.payload["email"]
       state.memberProvider = action.payload["provider"]
       state.memberNickname = action.payload["nickname"]
-      window.location.href("/mypage")
     })
     builder.addCase(memberInfo.fulfilled, (state, action) => {
       state.memberName = action.payload["name"]

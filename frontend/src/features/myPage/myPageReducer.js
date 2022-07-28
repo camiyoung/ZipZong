@@ -46,11 +46,6 @@ export const memberIconCreate = createAsyncThunk(
 export const myPageSlice = createSlice({
   name: "mypage",
   initialState: {
-    memberId: null,
-    memberName: null,
-    memberEmail: null,
-    memberProvider: null,
-    memberNickname: null,
     memberOriginalIcon: "",
     memberIconList: [],
   },
