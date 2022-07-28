@@ -26,7 +26,7 @@ export default function ExerciseSelect({
           <div className="flex">
             {routine.slice(idx, idx + 5).map(({ name, count }, index) => {
               return (
-                <div className="">
+                <div className="" key={index}>
                   <div className="bg-white w-[170px] h-[240px] rounded-3xl m-3 border-primary-200 flex items-center flex-col justify-center relative">
                     <div
                       className="absolute right-4 top-2 text-red-300 cursor-pointer"
@@ -51,9 +51,9 @@ export default function ExerciseSelect({
                         <button
                           className="w-6 bg-lightBlue rounded-2xl hover:bg-mainBlue"
                           onClick={() => {
-                            if (count >= 2) {
+                            if (count > 6) {
                               let newRoutine = [...routine]
-                              newRoutine[idx + index].count -= 1
+                              newRoutine[idx + index].count -= 5
                               setRoutine(newRoutine)
                             }
                           }}
@@ -68,7 +68,7 @@ export default function ExerciseSelect({
                           onClick={() => {
                             if (count <= 99) {
                               let newRoutine = [...routine]
-                              newRoutine[idx + index].count += 1
+                              newRoutine[idx + index].count += 5
                               setRoutine(newRoutine)
                             }
                           }}
@@ -85,7 +85,7 @@ export default function ExerciseSelect({
           <div
             className="bg-primary-300 w-[50px] h-[300px] absolute right-0 hover:bg-mainBlue cursor-pointer"
             onClick={() => {
-              if (idx === 0 && routine.length >= 5) {
+              if (idx === 0 && routine.length >= 6) {
                 setIdx(5)
               }
             }}
@@ -116,7 +116,7 @@ export default function ExerciseSelect({
               <button
                 className="w-6 bg-lightBlue rounded-2xl hover:bg-mainBlue "
                 onClick={() => {
-                  if (breakTime <= 300) {
+                  if (breakTime < 60) {
                     setBreakTime(breakTime + 5)
                   }
                 }}

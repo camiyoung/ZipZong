@@ -2,7 +2,7 @@ import ImageIcon from "../../components/icon/ImageIcon"
 import Card from "../../components/card/Card"
 import { Link } from "react-router-dom"
 
-const Routines = [
+const routines = [
   {
     routineName: "슬기세트",
     exercise: [
@@ -44,22 +44,17 @@ const Routines = [
     ],
     breaktime: 60,
   },
-  {
-    routineName: "지영세트",
-    exercise: [
-      { name: "PT체조", count: 5 },
-      { name: "PT체조", count: 5 },
-      { name: "PT체조", count: 5 },
-      { name: "PT체조", count: 5 },
-    ],
-    breaktime: 60,
-  },
 ]
 
 export default function RoutineList() {
+  if (routines.length < 5) {
+    const showHide = 1
+  } else {
+    const showHide = 0
+  }
   return (
     <div className="flex">
-      {Routines.map(({ routineName, exercise, breaktime }) => {
+      {routines.map(({ routineName, exercise, breaktime }) => {
         return (
           <div className="m-3">
             <Card size="middle">
