@@ -16,7 +16,7 @@ const heightChart = {
   "h-7": "h-7",
   "h-8": "h-8",
   "h-9": "h-9",
-  "h-10 ": "h-10",
+  "h-10": "h-10",
 }
 const widthChart = {
   "w-20": "w-20",
@@ -31,6 +31,7 @@ const widthChart = {
   "w-56": "w-56",
   "w-64": "w-64",
   "w-72": "w-72",
+  "w-full": "w-full",
 }
 
 export default function Button({

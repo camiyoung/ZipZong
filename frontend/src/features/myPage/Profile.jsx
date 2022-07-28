@@ -60,17 +60,17 @@ export default function Profile() {
           <p className="text-3xl">수정</p>
           <div className="flex items-center">
             <p className="text-xl">대표 아이콘</p>
-            <ImageIcon image={icon} size="large" shape="square" />
+            <ImageIcon image={icon} size="large" shape="round" />
           </div>
           <SmallTextInput
             inputName="닉네임"
             onChange={handleChange}
           ></SmallTextInput>
           <p className="text-xl">획득 아이콘</p>
-          <p className="text-sm">
+          <p className="text-sm mb-2">
             그룹에서 운동을 통해 아이콘을 획득하실 수 있습니다.
           </p>
-          <div className="flex">
+          <div className="flex overflow-scroll">
             {User.Icons.map((icon, idx) => {
               return (
                 <div
@@ -78,8 +78,11 @@ export default function Profile() {
                     setIcon(icon)
                   }}
                   key={idx}
+                  className="mr-3 cursor-pointer"
                 >
-                  <ImageIcon image={icon} size="middle" shape="square" />
+                  <div className="border hover:border-red-400">
+                    <ImageIcon image={icon} size="middle" shape="square" />
+                  </div>
                 </div>
               )
             })}
@@ -96,7 +99,12 @@ export default function Profile() {
       <div className="flex items-center justify-center">
         <div className="w-[600px] h-12 bg-lightBlue border-2 m-2 rounded-3xl">
           <div div className="flex items-center justify-center h-full w-full">
-            <ImageIcon image={icon} size="small"></ImageIcon>
+            <ImageIcon
+              image={icon}
+              size="small"
+              shape="round"
+              borderStyle="none"
+            />
             <p className="text-sm p-2">
               <span className="font-semibold">{nickname} </span> 님, 오늘도
               즐거운 운동 되세요!

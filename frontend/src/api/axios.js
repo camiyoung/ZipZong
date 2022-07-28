@@ -3,6 +3,20 @@ import { useDispatch } from "react-redux"
 import { logout } from "../features/login/memberReducer"
 
 export const http = function Instance() {
+  //access token을 재 발급 받는 경우 < start >
+  const checkAccessToken = new URL(window.location.href).searchParams.get(
+    "accessToken"
+  )
+  const checkAccessTokenExpiration = new URL(
+    window.location.href
+  ).searchParams.get("accessTokenExpiration")
+
+  if (checkAccessToken) {
+    localStorage.setItem("accessToken", checkAccessToken)
+    localStorage.setItem("accessTokenExpiration", checkAccessTokenExpiration)
+  }
+  //access token을 재 발급 받는 경우 < end >
+
   const dispatch = useDispatch()
   const instance = axios.create({
     baseURL: "http://localhost:8080/",
@@ -18,20 +32,42 @@ export const http = function Instance() {
       const accessTokenExpiration = localStorage.getItem(
         "accessTokenExpiration"
       )
-      const dateList = accessTokenExpiration.split("-")
+      const refreshTokenExpiration = localStorage.getItem(
+        "refreshTokenExpiration"
+      )
+      const accessDateList = accessTokenExpiration.split("-")
+      const refreshDataList = refreshTokenExpiration.split("-")
       const today = new Date()
+
+      // access token 만료 시
       if (
-        today.getFullYear() > Number(dateList[0]) ||
-        today.getMonth() + 1 > Number(dateList[1]) ||
-        today.getDate() > Number(dateList[2]) ||
+        today.getFullYear() > Number(accessDateList[0]) ||
+        today.getMonth() + 1 > Number(accessDateList[1]) ||
+        today.getDate() > Number(accessDateList[2]) ||
         today.getHours() * 60 * 60 +
           today.getMinutes() * 60 +
           today.getSeconds() >
-          Number(dateList[3]) * 60 * 60 +
-            Number(dateList[4]) * 60 +
-            Number(dateList[5])
+          Number(accessDateList[3]) * 60 * 60 +
+            Number(accessDateList[4]) * 60 +
+            Number(accessDateList[5])
       ) {
-        // 만료시 refresh token 같이 보냄
+        // refresh token 만료 시
+        if (
+          today.getFullYear() > Number(refreshDataList[0]) ||
+          today.getMonth() + 1 > Number(refreshDataList[1]) ||
+          today.getDate() > Number(refreshDataList[2]) ||
+          today.getHours() * 60 * 60 +
+            today.getMinutes() * 60 +
+            today.getSeconds() >
+            Number(refreshDataList[3]) * 60 * 60 +
+              Number(refreshDataList[4]) * 60 +
+              Number(refreshDataList[5])
+        ) {
+          //access token & refresh token 둘 다 만료됐을 시
+          window.alert("재 로그인을 해주세요!")
+          window.location.href("/login")
+        }
+        // access token 만료 & refresh token 만료되지 않았을 시
         config.headers["refresh-token"] = localStorage.getItem("refreshToken")
       }
       config.headers["access-token"] = localStorage.getItem("accessToken")
