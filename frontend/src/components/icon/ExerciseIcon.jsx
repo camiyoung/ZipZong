@@ -1,9 +1,9 @@
 import React from "react"
-import 푸쉬업 from "../../assets/exercise/푸쉬업.png"
-import 버피 from "../../assets/exercise/버피.png"
-import 스쿼트 from "../../assets/exercise/스쿼트.png"
-import 레그레이즈 from "../../assets/exercise/레그레이즈.png"
-import 마운틴클라이밍 from "../../assets/exercise/마운틴클라이밍.png"
+import PUSHUP from "../../assets/exercise/PUSHUP.png"
+import BURPEE from "../../assets/exercise/BURPEE.png"
+import SQUAT from "../../assets/exercise/SQUAT.png"
+import LEGRAISE from "../../assets/exercise/LEGRAISE.png"
+import MOUNTAINCLIMING from "../../assets/exercise/MOUNTAINCLIMING.png"
 
 const sizeChart = {
   small: "w-6 h-6",
@@ -16,11 +16,11 @@ const shapeChart = {
   square: "",
 }
 const imageChart = {
-  푸쉬업,
-  버피,
-  스쿼트,
-  레그레이즈,
-  마운틴클라이밍,
+  PUSHUP,
+  BURPEE,
+  SQUAT,
+  LEGRAISE,
+  MOUNTAINCLIMING,
 }
 
 export default function ExerciseIcon({ image, size, shape, ...restProps }) {
