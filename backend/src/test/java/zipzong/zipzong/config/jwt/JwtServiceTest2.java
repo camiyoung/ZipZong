@@ -2,7 +2,7 @@ package zipzong.zipzong.config.jwt;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import zipzong.zipzong.domain.Member;
+import zipzong.zipzong.db.domain.Member;
 
 
 class JwtServiceTest2 {
