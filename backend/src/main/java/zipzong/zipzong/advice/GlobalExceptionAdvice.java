@@ -1,5 +1,6 @@
 package zipzong.zipzong.advice;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -16,11 +17,13 @@ public class GlobalExceptionAdvice {
 
     @ExceptionHandler(value = RuntimeException.class)
     public ResponseEntity<ExceptionResponse> runtimeExceptionHandler(RuntimeException e) {
+        System.out.println(e.getMessage());
         return makeResponseEntity(CustomExceptionList.RUNTIME_EXCEPTION);
     }
 
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ExceptionResponse> exceptionHandler(Exception e) {
+        System.out.println(e.getMessage());
         return makeResponseEntity(CustomExceptionList.INTERNAL_SERVER_ERROR);
 
     }
