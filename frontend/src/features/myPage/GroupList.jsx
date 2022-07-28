@@ -37,9 +37,9 @@ export default function Group() {
         </div>
       </Modal>
 
-      {Groups.map(({ groupName, icon }) => {
+      {Groups.map(({ groupName, icon }, idx) => {
         return (
-          <div className="flex p-3">
+          <div className="flex p-3" key={idx}>
             <Card size="middle">
               <div className="flex justify-center p-3">
                 <Icon image={icon} size="xLarge" />
