@@ -19,11 +19,11 @@ public class Room {
     @Column(name = "room_id")
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "routine_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="routine_id")
     private Routine routine;
 
-    @Column(name = "room_name", nullable = false)
+    @Column(name="room_name", nullable = false)
     private String name;
 
     @Enumerated(EnumType.STRING)

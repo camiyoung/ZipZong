@@ -20,6 +20,7 @@ import zipzong.zipzong.repository.MemberRepository;
 
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/oauth")
@@ -39,7 +40,6 @@ public class OAuthController {
         Jwt token = jwtService.generateToken(member.getEmail(), member.getProvider(), member.getName());
 
         member.setRefreshToken(token.getRefreshToken());
-        memberRepository.save(member);
 
         String accessTokenExpiration = jwtService.dateToString(token.getAccessToken());
         String refreshTokenExpiration = jwtService.dateToString(token.getRefreshToken());
@@ -49,6 +49,7 @@ public class OAuthController {
                                                  .queryParam("refreshToken", token.getRefreshToken())
                                                  .queryParam("accessTokenExpiration", accessTokenExpiration)
                                                  .queryParam("refreshTokenExpiration", refreshTokenExpiration)
+                                                 .queryParam("memberId", member.getId())
                                                  .build()
                                                  .toUriString();
 

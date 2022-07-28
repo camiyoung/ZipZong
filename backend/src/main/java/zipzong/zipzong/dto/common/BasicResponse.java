@@ -4,6 +4,8 @@ package zipzong.zipzong.dto.common;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.List;
+
 @Getter
 public class BasicResponse<Type> {
     private String message;

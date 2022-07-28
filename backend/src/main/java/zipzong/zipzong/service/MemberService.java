@@ -2,31 +2,76 @@ package zipzong.zipzong.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import zipzong.zipzong.domain.Member;
+import zipzong.zipzong.domain.MemberIcon;
 import zipzong.zipzong.domain.Registration;
-import zipzong.zipzong.domain.Team;
+import zipzong.zipzong.dto.nickname.NicknameSetResponse;
+import zipzong.zipzong.repository.MemberIconRepository;
 import zipzong.zipzong.repository.MemberRepository;
 import zipzong.zipzong.repository.RegistrationRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class MemberService {
 
-    final MemberRepository memberRepository;
-    final RegistrationRepository registrationRepository;
+    private final MemberRepository memberRepository;
+    private final MemberIconRepository memberIconRepository;
 
-    public void updateNickName(String origin, String nickname) {
+    public boolean isNicknameDuplicate(String nickname) {
+        if (memberRepository.existsByNickname(nickname)) {
+            return true;
+        }
+        return false;
+    }
+
+    public String updateNickName(String origin, String nickname) {
         if (memberRepository.existsByNickname(nickname)) {
             throw new IllegalStateException("닉네임 중복");
         }
         memberRepository.findByNickname(origin)
                         .orElseThrow()
                         .changeNickname(nickname);
+        return nickname;
     }
 
-    public List<Registration> findJoinedTeam(Long memberId){
-        return registrationRepository.findJoinedTeam(memberId);
+
+    public Member getUserInfo(String nickname) {
+        return memberRepository.findByNickname(nickname)
+                               .orElseThrow();
+    }
+
+    public Member setNickName(NicknameSetResponse nicknameSetResponse) {
+
+        Member member = memberRepository.findById(nicknameSetResponse.getMemberId())
+                                        .orElseThrow();
+        member.changeNickname(nicknameSetResponse.getNickname());
+        return member;
+    }
+
+    public String setRepIcon(String nickname, String repIcon) {
+        memberRepository.findByNickname(nickname)
+                        .orElseThrow()
+                        .setRepIcon(repIcon);
+        return repIcon;
+    }
+
+    public String addIcon(String nickname, String icon) {
+        Member member = memberRepository.findByNickname(nickname)
+                                        .orElseThrow();
+        MemberIcon memberIcon = MemberIcon.addMemberIcon(member, icon);
+        MemberIcon savedMemberIcon = memberIconRepository.save(memberIcon);
+
+        return savedMemberIcon.getIconName();
+    }
+
+    public List<String> getAllIcon(Long memberId) {
+        return memberIconRepository.findByMemberId(memberId)
+                                   .stream()
+                                   .map(icon -> icon.getIconName())
+                                   .collect(Collectors.toList());
     }
 
 }

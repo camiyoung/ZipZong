@@ -8,6 +8,9 @@ import org.hibernate.annotations.DynamicUpdate;
 import zipzong.zipzong.dto.member.MemberResponse;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED) //기본 생성자 만들어줌
 @DynamicUpdate //update 할때 실제 값이 변경됨 컬럼으로만 update 쿼리를 만듬
@@ -35,13 +38,30 @@ public class Member {
     @Column(name = "refreshToken", unique = true)
     private String refreshToken;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "member_history_id")
+    private MemberHistory memberHistory;
+
+    public void setMemberHistory(MemberHistory memberHistory) {
+        this.memberHistory = memberHistory;
+    }
+
+    @Column(name ="repIcon", nullable = false)
+    private String repIcon;
+
+
     @Builder //생성을 Builder 패턴으로 하기 위해서
-    public Member(Long id, String name, String email, String provider, String nickname) {
+    public Member(Long id, String name, String email, String provider, String nickname,String repIcon) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.provider = provider;
         this.nickname = nickname;
+        this.repIcon = repIcon;
+    }
+
+    public void setRepIcon(String repIcon){
+        this.repIcon = repIcon;
     }
 
     public void setRefreshToken(String refreshToken) {
@@ -49,7 +69,7 @@ public class Member {
     }
 
     public void changeNickname(String nickname) {
-        this.name = nickname;
+        this.nickname = nickname;
     }
 
     public Member update(String name, String email) {
@@ -64,6 +84,7 @@ public class Member {
         memberResponse.setName(this.getName());
         memberResponse.setProvider(this.getProvider());
         memberResponse.setNickname(this.getNickname());
+        memberResponse.setRepIcon(this.getRepIcon());
         return memberResponse;
     }
 
