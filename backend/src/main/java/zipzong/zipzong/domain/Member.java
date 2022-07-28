@@ -8,6 +8,9 @@ import org.hibernate.annotations.DynamicUpdate;
 import zipzong.zipzong.dto.member.MemberResponse;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED) //기본 생성자 만들어줌
 @DynamicUpdate //update 할때 실제 값이 변경됨 컬럼으로만 update 쿼리를 만듬

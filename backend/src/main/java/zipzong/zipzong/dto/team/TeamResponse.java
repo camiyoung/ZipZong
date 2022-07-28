@@ -1,8 +1,11 @@
 package zipzong.zipzong.dto.team;
 
+import lombok.Data;
+
+@Data
 public class TeamResponse {
     String teamName;
     String icon;
-    String groupId;
+    Long groupId;
     int count;
 }

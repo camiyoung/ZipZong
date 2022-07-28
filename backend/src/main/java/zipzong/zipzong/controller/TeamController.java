@@ -54,7 +54,7 @@ public class TeamController {
     @GetMapping("/icons/{team-id}")
     public ResponseEntity<BasicResponse<List<String>>> getAllIcon(@PathVariable("team-id") Long teamId) {
         List<String> allIcon = teamService.getAllIcon(teamId);
-        return new ResponseEntity<>(makeListResponse(SUCCESS,allIcon), HttpStatus.OK);
+        return new ResponseEntity<>(makeBasicResponse(SUCCESS,allIcon), HttpStatus.OK);
     }
 
     /*
@@ -74,23 +74,8 @@ public class TeamController {
         return new ResponseEntity<>(makeBasicResponse(SUCCESS,inviteLink), HttpStatus.OK);
     }
 
-    private BasicResponse<List<String>> makeListResponse(String message, List<String> icons) {
-        return BasicResponse.<List<String>>builder()
-                            .message(message)
-                            .data(icons)
-                            .build();
-    }
-
-    private BasicResponse<String> makeBasicResponse(String message, String responseMessage) {
-        return BasicResponse.<String>builder()
-                            .message(message)
-                            .data(responseMessage)
-                            .build();
-    }
-
-    private BasicResponse<ChangeTeamInfoResponse> makeBasicResponse(String message, ChangeTeamInfoResponse data) {
-        return BasicResponse
-                .<ChangeTeamInfoResponse>builder()
+    private <T> BasicResponse<T> makeBasicResponse(String message, T data) {
+        return BasicResponse.<T>builder()
                 .message(message)
                 .data(data)
                 .build();

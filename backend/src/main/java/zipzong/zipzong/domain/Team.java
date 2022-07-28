@@ -10,6 +10,8 @@ import zipzong.zipzong.enums.CheckExist;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -28,6 +30,8 @@ public class Team {
     @Column(name = "content")
     private String content;
 
+    @OneToMany(mappedBy = "team",fetch = FetchType.LAZY)
+    Collection<Registration> registrationList = new ArrayList<>();
     @Column(name = "invite_link", unique = true)
     private String inviteLink;
 

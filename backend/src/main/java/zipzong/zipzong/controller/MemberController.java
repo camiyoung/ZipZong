@@ -57,7 +57,7 @@ public class MemberController {
     public ResponseEntity<BasicResponse<List<String>>> getAllIconList(@PathVariable("member-id") Long memberId) {
         List<String> icons = memberService.getAllIcon(memberId);
 
-        return new ResponseEntity<>(makeListResponse(SUCCESS, icons), HttpStatus.OK);
+        return new ResponseEntity<>(makeBasicResponse(SUCCESS, icons), HttpStatus.OK);
     }
 
     /*
@@ -104,23 +104,8 @@ public class MemberController {
         return new ResponseEntity<>(makeBasicResponse(SUCCESS, nicknameChangeResponse.getNickname()), HttpStatus.CREATED);
     }
 
-    private BasicResponse<List<String>> makeListResponse(String message, List<String> icons) {
-        return BasicResponse.<List<String>>builder()
-                            .message(message)
-                            .data(icons)
-                            .build();
-    }
-
-    private BasicResponse<String> makeBasicResponse(String message, String responseMessage) {
-        return BasicResponse.<String>builder()
-                            .message(message)
-                            .data(responseMessage)
-                            .build();
-    }
-
-    private BasicResponse<MemberResponse> makeBasicResponse(String message, MemberResponse data) {
-        return BasicResponse
-                .<MemberResponse>builder()
+    private <T> BasicResponse<T> makeBasicResponse(String message, T data) {
+        return BasicResponse.<T>builder()
                 .message(message)
                 .data(data)
                 .build();

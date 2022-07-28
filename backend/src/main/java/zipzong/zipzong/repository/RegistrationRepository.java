@@ -21,5 +21,10 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
     @Query("select r from Registration r where r.member.id =:memberId")
     List<Registration> findJoinedTeam(@Param("memberId") Long memberId);
 
+    @EntityGraph(attributePaths = {"team", "member"})
+    @Query("select r from Registration r where r.team.id =:teamId")
+    List<Registration> findTeamDetail(@Param("teamId") Long teamId);
     Optional<Registration> findByMemberIdAndTeamId(Long memberId, Long teamId);
+
+    List<Registration> findAllByTeamId(Long teamId);
 }

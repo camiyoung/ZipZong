@@ -1,6 +1,7 @@
 package zipzong.zipzong.dto.member;
 
 import lombok.Data;
+import zipzong.zipzong.enums.Role;
 
 import java.time.LocalDateTime;
 
@@ -10,5 +11,5 @@ public class MemberInfoRequest {
     String name;
     String nickname;
     LocalDateTime createdAt;
-    Boolean isLeader;
+    Role role;
 }

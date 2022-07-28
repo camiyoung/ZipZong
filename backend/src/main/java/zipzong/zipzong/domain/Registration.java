@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
+import zipzong.zipzong.enums.CheckExist;
 import zipzong.zipzong.enums.Role;
 
 import javax.persistence.*;
@@ -37,7 +38,7 @@ public class Registration {
     private LocalDateTime joinDate;
 
     @Column(name = "is_resign")
-    Boolean isResign;
+    CheckExist isResign;
 
     @Builder
     public Registration(Long id, Member member, Team team, Role role, LocalDateTime joinDate) {
@@ -52,7 +53,7 @@ public class Registration {
         this.role = role;
     }
 
-    public void changeIsResign(Boolean isResign) {
+    public void changeIsResign(CheckExist isResign) {
         this.isResign = isResign;
     }
 

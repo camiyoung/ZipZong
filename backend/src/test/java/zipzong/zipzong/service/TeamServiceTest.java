@@ -161,6 +161,7 @@ class TeamServiceTest {
     }
 
     @Test
+    @DisplayName("팀 초대링크 조회")
     void getInviteLink() {
         //given
         Team team = makeTeam("inviteLink");
