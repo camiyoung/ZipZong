@@ -16,7 +16,7 @@ export default function RoutineMake() {
       </div>
       <div className="flex justify-center p-3">
         <div className="text-xl font-bold flex items-center pr-5">
-          새 루틴 이름
+          루틴 이름
         </div>
         <div>
           <LargeTextInput handler={setRoutineName} />
