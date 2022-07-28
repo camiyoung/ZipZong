@@ -11,7 +11,7 @@ export default function GroupSet() {
       <CollectedIcons />
       <GroupSetMemberList />
       <div className="mx-5 flex justify-end">
-        <Button text="그룹 삭제" height="h-9" bgColor="bg-danger" />
+        <Button text="그룹 삭제" height="h-10" bgColor="bg-danger" />
       </div>
     </div>
   )
