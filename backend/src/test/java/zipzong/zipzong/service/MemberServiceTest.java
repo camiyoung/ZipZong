@@ -7,18 +7,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
-import zipzong.zipzong.domain.Member;
-import zipzong.zipzong.domain.MemberIcon;
-import zipzong.zipzong.domain.Registration;
-import zipzong.zipzong.domain.Team;
-import zipzong.zipzong.dto.member.MemberResponse;
-import zipzong.zipzong.dto.nickname.NicknameSetResponse;
-import zipzong.zipzong.repository.*;
+import zipzong.zipzong.api.service.MemberService;
+import zipzong.zipzong.api.service.RegistrationService;
+import zipzong.zipzong.db.domain.Member;
+import zipzong.zipzong.db.domain.MemberIcon;
+import zipzong.zipzong.db.domain.Team;
+import zipzong.zipzong.api.dto.member.MemberResponse;
+import zipzong.zipzong.api.dto.nickname.NicknameSetResponse;
+import zipzong.zipzong.db.repository.memberteam.*;
 
 import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class MemberServiceTest {

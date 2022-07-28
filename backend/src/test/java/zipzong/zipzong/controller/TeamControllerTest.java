@@ -1,6 +1,5 @@
 package zipzong.zipzong.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,26 +7,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultActions;
+import zipzong.zipzong.api.controller.TeamController;
 import zipzong.zipzong.config.auth.OAuthService;
 import zipzong.zipzong.config.jwt.JwtService;
-import zipzong.zipzong.dto.icon.IconResponse;
-import zipzong.zipzong.dto.team.ChangeTeamInfoResponse;
-import zipzong.zipzong.dto.team.TeamIconResponse;
-import zipzong.zipzong.dto.team.TeamProfileRequest;
-import zipzong.zipzong.repository.MemberRepository;
-import zipzong.zipzong.service.MemberService;
-import zipzong.zipzong.service.TeamService;
+import zipzong.zipzong.api.dto.team.response.ChangeTeamInfoResponse;
+import zipzong.zipzong.api.dto.team.response.TeamIconResponse;
+import zipzong.zipzong.api.dto.team.request.TeamProfileRequest;
+import zipzong.zipzong.db.repository.memberteam.MemberRepository;
+import zipzong.zipzong.api.service.TeamService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -42,6 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureRestDocs
 @WebMvcTest(TeamController.class)
+@MockBean(JpaMetamodelMappingContext.class)
 class TeamControllerTest {
 
     @Autowired

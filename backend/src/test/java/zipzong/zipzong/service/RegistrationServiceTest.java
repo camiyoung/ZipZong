@@ -1,31 +1,28 @@
 package zipzong.zipzong.service;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import zipzong.zipzong.domain.Member;
-import zipzong.zipzong.domain.Registration;
-import zipzong.zipzong.domain.Team;
-import zipzong.zipzong.domain.TeamIcon;
-import zipzong.zipzong.dto.team.TeamInfoRequest;
-import zipzong.zipzong.dto.team.TeamResponse;
+import zipzong.zipzong.api.service.RegistrationService;
+import zipzong.zipzong.db.domain.Member;
+import zipzong.zipzong.db.domain.Registration;
+import zipzong.zipzong.db.domain.Team;
+import zipzong.zipzong.api.dto.team.request.TeamInfoRequest;
+import zipzong.zipzong.api.dto.team.response.TeamResponse;
 import zipzong.zipzong.enums.CheckExist;
 import zipzong.zipzong.enums.Role;
-import zipzong.zipzong.repository.MemberRepository;
-import zipzong.zipzong.repository.RegistrationRepository;
-import zipzong.zipzong.repository.TeamIconRepository;
-import zipzong.zipzong.repository.TeamRepository;
+import zipzong.zipzong.db.repository.memberteam.MemberRepository;
+import zipzong.zipzong.db.repository.memberteam.RegistrationRepository;
+import zipzong.zipzong.db.repository.memberteam.TeamIconRepository;
+import zipzong.zipzong.db.repository.memberteam.TeamRepository;
 
 import javax.security.sasl.AuthenticationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 
 @DataJpaTest

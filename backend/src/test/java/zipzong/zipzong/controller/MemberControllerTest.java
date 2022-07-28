@@ -8,18 +8,20 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultActions;
+import zipzong.zipzong.api.controller.MemberController;
 import zipzong.zipzong.config.auth.OAuthService;
 import zipzong.zipzong.config.jwt.JwtService;
-import zipzong.zipzong.domain.Member;
-import zipzong.zipzong.dto.icon.IconResponse;
-import zipzong.zipzong.dto.nickname.NicknameSetResponse;
-import zipzong.zipzong.repository.MemberRepository;
-import zipzong.zipzong.service.MemberService;
+import zipzong.zipzong.db.domain.Member;
+import zipzong.zipzong.api.dto.icon.IconResponse;
+import zipzong.zipzong.api.dto.nickname.NicknameSetResponse;
+import zipzong.zipzong.db.repository.memberteam.MemberRepository;
+import zipzong.zipzong.api.service.MemberService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureRestDocs
 @WebMvcTest(MemberController.class)
+@MockBean(JpaMetamodelMappingContext.class)
 class MemberControllerTest {
 
     @Autowired

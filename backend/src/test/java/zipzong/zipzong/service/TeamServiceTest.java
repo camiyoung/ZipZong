@@ -6,11 +6,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import zipzong.zipzong.domain.Team;
-import zipzong.zipzong.domain.TeamIcon;
-import zipzong.zipzong.dto.team.ChangeTeamInfoResponse;
-import zipzong.zipzong.repository.TeamIconRepository;
-import zipzong.zipzong.repository.TeamRepository;
+import zipzong.zipzong.api.service.TeamService;
+import zipzong.zipzong.db.domain.Team;
+import zipzong.zipzong.db.domain.TeamIcon;
+import zipzong.zipzong.api.dto.team.response.ChangeTeamInfoResponse;
+import zipzong.zipzong.db.repository.memberteam.TeamIconRepository;
+import zipzong.zipzong.db.repository.memberteam.TeamRepository;
 
 import java.util.List;
 
