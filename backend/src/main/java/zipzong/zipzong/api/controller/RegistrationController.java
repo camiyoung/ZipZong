@@ -79,7 +79,7 @@ public class RegistrationController {
         그룹원이 그룹을 탈퇴하는 경우
      */
 
-    @PutMapping("team/resign")
+    @PutMapping("/team/resign")
     public ResponseEntity resignTeam(@RequestBody TeamMemberId teamMemberId) {
         Long resignMemberId = registrationService.resignTeam(teamMemberId.getMemberId(), teamMemberId.getTeamId());
         return new ResponseEntity<>(makeBasicResponse(SUCCESS, resignMemberId), HttpStatus.OK);
