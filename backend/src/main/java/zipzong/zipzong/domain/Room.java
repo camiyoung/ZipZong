@@ -19,13 +19,9 @@ public class Room {
     @Column(name="room_id")
     private Long id;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="routine_id")
     private Routine routine;
-
-    @OneToOne
-    @JoinColumn(name="team_id")
-    private Team team;
 
     @Column(name="room_name", nullable = false)
     private String name;

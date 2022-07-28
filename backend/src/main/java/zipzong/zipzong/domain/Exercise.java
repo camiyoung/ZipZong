@@ -1,12 +1,14 @@
 package zipzong.zipzong.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED) //기본 생성자 만들어줌
@@ -27,8 +29,20 @@ public class Exercise {
 
     @CreatedDate
     @Column(name = "exercise_date")
-    private LocalDateTime exerciseDate;
+    private LocalDate exerciseDate;
 
     @Column(name = "exercise_time")
     private int exerciseTime;
+
+    public void setExerciseTime(int exerciseTime) {
+        this.exerciseTime = exerciseTime;
+    }
+
+    @Builder
+    public Exercise(Long id, Registration registration, LocalDate exerciseDate, int exerciseTime) {
+        this.id = id;
+        this.registration = registration;
+        this.exerciseDate = exerciseDate;
+        this.exerciseTime = exerciseTime;
+    }
 }

@@ -13,6 +13,7 @@ public enum CustomExceptionList {
 
     RUNTIME_EXCEPTION(HttpStatus.BAD_REQUEST, "E001", "잘못된 요청입니다."),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "E002", "사용자 정의 오류 입니다.");
+    // 토큰 만료 혹은 없음 오류 E003
 
     private final HttpStatus status;
     private final String code;

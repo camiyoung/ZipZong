@@ -1,6 +1,7 @@
 package zipzong.zipzong.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
@@ -22,9 +23,17 @@ public class ExerciseDetail {
     @JoinColumn(name = "exercise_id")
     private Exercise exercise;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "exercise_name")
+    private String exerciseName;
 
-    @Column(name = "exercise_count")
-    private int count;
+    @Column(name = "exercise_num")
+    private int exerciseNum;
+
+    @Builder
+    public ExerciseDetail (Long id, Exercise exercise, String exerciseName, int exerciseNum) {
+        this.id = id;
+        this.exercise = exercise;
+        this.exerciseName = exerciseName;
+        this.exerciseNum = exerciseNum;
+    }
 }

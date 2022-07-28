@@ -5,6 +5,6 @@ import zipzong.zipzong.domain.Team;
 
 import java.util.Optional;
 
-public interface TeamRepository extends JpaRepository<Team,Long> {
+public interface TeamRepository extends JpaRepository<Team, Long> {
     Optional<Team> findByInviteLink(String inviteLink);
 }
