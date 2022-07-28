@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import zipzong.zipzong.db.domain.Team;
 
 class TeamTest {
 
@@ -11,7 +12,7 @@ class TeamTest {
 
     @BeforeEach()
     public void initTeam() {
-        team = new Team();
+        team = Team.builder().id(1L).build();
     }
 
     @Test
@@ -51,6 +52,10 @@ class TeamTest {
     }
 
     @Test
+    @DisplayName("초대링크 생성 성공")
     void makeInviteLink() {
+
+        String inviteLink = team.makeInviteLink();
+        Assertions.assertEquals(inviteLink,"5Aa");
     }
 }

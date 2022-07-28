@@ -1,7 +1,7 @@
 package zipzong.zipzong.config.jwt;
 
 import org.junit.jupiter.api.Test;
-import zipzong.zipzong.domain.Member;
+import zipzong.zipzong.db.domain.Member;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -5,14 +5,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import zipzong.zipzong.config.jwt.Jwt;
 import zipzong.zipzong.config.jwt.JwtService;
-import zipzong.zipzong.domain.Member;
-import zipzong.zipzong.repository.MemberRepository;
+import zipzong.zipzong.db.domain.Member;
+import zipzong.zipzong.db.repository.memberteam.MemberRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.NoSuchElementException;
 
 

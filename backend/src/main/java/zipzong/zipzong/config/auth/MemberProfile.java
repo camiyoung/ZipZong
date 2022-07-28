@@ -2,7 +2,7 @@ package zipzong.zipzong.config.auth;
 
 import lombok.Getter;
 import lombok.Setter;
-import zipzong.zipzong.domain.Member;
+import zipzong.zipzong.db.domain.Member;
 
 @Getter
 @Setter
