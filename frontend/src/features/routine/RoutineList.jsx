@@ -59,6 +59,14 @@ export default function RoutineList() {
   const modalClose = () => setOpen(false)
   return (
     <div className="flex">
+      <Modal isOpen={isOpen} modalClose={modalClose}>
+        <div>
+          루틴이 삭제되었습니다.
+          <div className="flex justify-end">
+            <Button onClick={() => modalClose()} text="확인" />
+          </div>
+        </div>
+      </Modal>
       {routines.map(
         ({ routineId, routineName, exercise, breaktime }, index) => {
           return (
@@ -89,24 +97,11 @@ export default function RoutineList() {
                       className="bg-secondary-300 m-2 w-[50px] rounded-xl flex justify-center text-sm items-center pointer hover:bg-secondary-500"
                       onClick={() => {
                         setOpen(true)
+                        routines.splice(index, 1)
                       }}
                     >
                       삭제
                     </div>
-                    <Modal isOpen={isOpen} modalClose={modalClose}>
-                      <div>
-                        {routineName} 루틴을 삭제합니다.
-                        <div className="flex justify-end">
-                          <Button
-                            onClick={() => {
-                              routines.splice(index, 1)
-                              modalClose()
-                            }}
-                            text="확인"
-                          />
-                        </div>
-                      </div>
-                    </Modal>
                   </div>
                 </div>
               </Card>
