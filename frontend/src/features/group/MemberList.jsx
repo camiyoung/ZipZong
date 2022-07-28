@@ -1,7 +1,9 @@
-import React from "react"
+import React, { useState, useRef } from "react"
+import Modal from "../../components/modal/Modal"
 import NameSquare from "../../components/nameSquare/NameSquare"
 import ImageIcon from "../../components/icon/ImageIcon"
 import PlusIcon from "../../components/icon/PlusIcon"
+import Button from "../../components/button/Button"
 
 // 동물 사진들
 import bee from "../../assets/animalIcon/bee.png"
@@ -49,9 +51,40 @@ const Members = [
 ]
 
 export default function MemberList() {
-  // group 원들의 정보를 받아야 함
+  const [isOpen, setOpen] = useState(false)
+  const modalClose = () => setOpen(false)
+  const copyLinkRef = useRef()
+
+  const copyTextUrl = () => {
+    copyLinkRef.current.focus()
+    copyLinkRef.current.select()
+
+    navigator.clipboard
+      .writeText(copyLinkRef.current.value)
+      .then(() => alert("링크를 복사했습니다."))
+  }
+
   return (
+    // group 원들의 정보를 받아야 함
     <div className="flex mt-10 w-full flex-wrap">
+      {/* 모달 영역 */}
+      <Modal isOpen={isOpen} modalClose={modalClose}>
+        <p className="text-3xl font-semibold text-center mb-5">초대링크</p>
+        <div className="flex justify-center items-center">
+          <input
+            type="text"
+            ref={copyLinkRef}
+            value={"http  ://localhost:3000/invite?groundId=id"}
+            className="mr-3"
+          />
+          <Button
+            onClick={() => copyTextUrl()}
+            text="복사"
+            width="w-20"
+          ></Button>
+        </div>
+      </Modal>
+      {/* 모달 영역 끝 */}
       {Members.map(({ memberName, Icon, hasDone }, idx) => {
         return (
           <div key={idx}>
@@ -73,11 +106,7 @@ export default function MemberList() {
           </div>
         )
       })}
-
-      <div
-        onClick={() => alert("초대 메시지를 보내야 함")}
-        className="hover:scale-125"
-      >
+      <div onClick={() => setOpen(true)} className="hover:scale-125">
         <NameSquare text="멤버를 초대해보세요!" cursor="pointer">
           <PlusIcon />
         </NameSquare>

@@ -110,8 +110,8 @@ export default function RankPage() {
             </div>
             <div className=" h-2/5 w-full p-2  m-auto">
               <ul className="flex  w-full flex-wrap items-center ">
-                {rankList.map((gruop) => (
-                  <ListItemSamll text={gruop} />
+                {rankList.map((group) => (
+                  <ListItemSamll text={group} />
                 ))}
               </ul>
             </div>
