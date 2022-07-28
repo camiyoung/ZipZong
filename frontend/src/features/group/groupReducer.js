@@ -10,12 +10,38 @@ export const teamInfoGet = createAsyncThunk(
   }
 )
 // 그룹 프로필 제목, 내용 변경
+export const teamProfileChange = createAsyncThunk("team/info", async (item) => {
+  // item 안에 team id, 수정한 제목, 수정한 내용 있어야 함
+  const { data } = await http.post("team/info/", item)
+  return data
+})
 
 // 그룹 아이콘 변경
 export const teamIconChange = createAsyncThunk(
   "team/icon/change",
+  // item안에 team id, 아이콘 이름 있어야 함
   async (item) => {
     const { data } = await http.post("team/icon/", item)
+    return data
+  }
+)
+
+export const deleteTeam = createAsyncThunk(
+  "registration/delete-team",
+  // item안에 member id, team id 있어야 함
+  async (item) => {
+    const { data } = await http.put("registration/delete-team/", item)
+    return data
+    // data에 삭제된 팀 id 있음
+  }
+)
+
+// 그룹원 탈퇴
+export const teamResign = createAsyncThunk(
+  "registration/team/resign",
+  // item 에 퇴출할 id, team id 필요
+  async (item) => {
+    const { data } = await http.post("registration/team/resign/", item)
     return data
   }
 )
@@ -27,21 +53,24 @@ export const expelmember = createAsyncThunk("team/expel", async (item) => {
 })
 
 // 그룹 위임
-export const assignLeader = createAsyncThunk("team/assign", async (item) => {
-  const { data } = await http.post(
-    "/team/assign/",
-    groupLeaderId,
-    groupmemberId,
-    teamId
-  )
-  return data
-})
+export const assignLeader = createAsyncThunk(
+  "registration/team/assign",
+  // item 에 그룹장 id, 그룹원 id, 팀 id 있어야 함
+  async (item) => {
+    const { data } = await http.post("registration/team/assign/", item)
+    return data
+  }
+)
 
-// 그룹 정보 받기
-export const getGroupInfo = createAsyncThunk("group/info", async (info) => {
-  const { data } = await http.get("/group/", info.groupId)
-  return data
-})
+// 그룹 정보 받기 O
+export const getGroupInfo = createAsyncThunk(
+  "registration/team",
+  // info 안에 team-id 들어감
+  async (info) => {
+    const { data } = await http.get("/registration/team/", info)
+    return data
+  }
+)
 
 export const groupSlice = createSlice({
   name: "group",
