@@ -12,11 +12,11 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicUpdate
 @Getter
-@Table(name="room")
+@Table(name = "room")
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="room_id")
+    @Column(name = "room_id")
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
