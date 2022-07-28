@@ -42,7 +42,7 @@ public class ExerciseController {
         // 멤버 별 평균 달성률 계산(return)
         ExerciseResultResponse response = exerciseService.calculatePercentageAvg(personalResults);
 
-        return new ResponseEntity<>(makeBasicResponse(SUCCESS, response), HttpStatus.OK);
+        return new ResponseEntity<>(makeBasicResponse(SUCCESS, response), HttpStatus.CREATED);
     }
 
     @GetMapping("/history/team")
