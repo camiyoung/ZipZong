@@ -36,7 +36,7 @@ public class Member {
     private String refreshToken;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @Column(name = "member_history_id")
+    @JoinColumn(name = "member_history_id")
     private MemberHistory memberHistory;
 
     public void setMemberHistory(MemberHistory memberHistory) {

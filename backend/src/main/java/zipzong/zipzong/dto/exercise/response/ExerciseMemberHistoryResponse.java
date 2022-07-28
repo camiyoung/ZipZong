@@ -8,16 +8,15 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ExerciseTeamHistoryResponse {
-    private List<DailyHistory> dailyHistories;
-
+public class ExerciseMemberHistoryResponse {
+    private List<ExerciseMemberHistoryResponse.DailyHistory> dailyHistories;
     @Getter
     @Setter
     public static class DailyHistory
     {
         private int day;
         private int totalTime;
-        private List<Perform> performs;
+        private List<ExerciseMemberHistoryResponse.Perform> performs;
     }
 
     @Getter

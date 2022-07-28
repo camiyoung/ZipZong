@@ -6,10 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import zipzong.zipzong.dto.common.BasicResponse;
+import zipzong.zipzong.dto.exercise.request.ExerciseMemberHistoryRequest;
 import zipzong.zipzong.dto.exercise.request.ExerciseResultRequest;
 import zipzong.zipzong.dto.exercise.request.ExerciseTeamHistoryRequest;
-import zipzong.zipzong.dto.exercise.response.ExerciseResultResponse;
-import zipzong.zipzong.dto.exercise.response.ExerciseTeamHistoryResponse;
+import zipzong.zipzong.dto.exercise.response.*;
 import zipzong.zipzong.service.ExerciseService;
 
 import java.util.List;
@@ -46,19 +46,40 @@ public class ExerciseController {
     }
 
     @GetMapping("/history/team")
-    public ResponseEntity<BasicResponse<ExerciseTeamHistoryResponse>> exerciseTeamHistory(@RequestBody ExerciseTeamHistoryRequest request) {
+    public ResponseEntity<BasicResponse<ExerciseTeamHistoryResponse>> exerciseTeamHistory(@ModelAttribute ExerciseTeamHistoryRequest request) {
         Long teamId = request.getTeamId();
         int year = request.getYear();
         int month = request.getMonth();
 
         ExerciseTeamHistoryResponse response = exerciseService.teamHistoryByYearAndMonth(teamId, year, month);
 
+        return new ResponseEntity<>(makeBasicResponse(SUCCESS, response), HttpStatus.OK);
+    }
+
+    @GetMapping("/history/team/sum")
+    public ResponseEntity<BasicResponse<ExerciseTeamTotalResponse>> exerciseTeamTotal(@RequestParam Long teamId) {
+        ExerciseTeamTotalResponse response = exerciseService.totalTeamHistory(teamId);
         return null;
     }
 
-    private BasicResponse<ExerciseResultResponse> makeBasicResponse(String message, ExerciseResultResponse data) {
-        return BasicResponse
-                .<ExerciseResultResponse>builder()
+    @GetMapping("/history/member")
+    public ResponseEntity<BasicResponse<ExerciseMemberHistoryResponse>> exerciseMemberHistory(@ModelAttribute ExerciseMemberHistoryRequest request) {
+        Long memberId = request.getMemberId();
+        int year = request.getYear();
+        int month = request.getMonth();
+
+        ExerciseMemberHistoryResponse response = exerciseService.memberHistoryByYearAndMonth(memberId, year, month);
+
+        return new ResponseEntity<>(makeBasicResponse(SUCCESS, response), HttpStatus.OK);
+    }
+
+    @GetMapping("/history/member/sum")
+    public ResponseEntity<BasicResponse<ExerciseMemberTotalResponse>> exerciseMemberTotal(@RequestParam Long memberId) {
+        return null;
+    }
+
+    private <T> BasicResponse<T> makeBasicResponse(String message, T data) {
+        return BasicResponse.<T>builder()
                 .message(message)
                 .data(data)
                 .build();
