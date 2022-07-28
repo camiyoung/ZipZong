@@ -98,7 +98,7 @@ export default function Profile() {
 
       <div className="flex items-center justify-center">
         <div className="w-[600px] h-12 bg-lightBlue border-2 m-2 rounded-3xl">
-          <div div className="flex items-center justify-center h-full w-full">
+          <div className="flex items-center justify-center h-full w-full">
             <ImageIcon
               image={icon}
               size="small"
