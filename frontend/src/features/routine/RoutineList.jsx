@@ -1,9 +1,14 @@
+import React, { useState } from "react"
+import RoutineModify from "../../pages/RoutineModify"
 import ImageIcon from "../../components/icon/ImageIcon"
+import Modal from "../../components/modal/Modal"
+import Button from "../../components/button/Button"
 import Card from "../../components/card/Card"
 import { Link } from "react-router-dom"
 
 const routines = [
   {
+    routineId: 0,
     routineName: "슬기세트",
     exercise: [
       { name: "윗몸일으키기", count: 5, order: 1 },
@@ -15,6 +20,7 @@ const routines = [
     totaltime: 300,
   },
   {
+    routineId: 1,
     routineName: "종민세트",
     exercise: [
       { name: "버피", count: 5 },
@@ -25,6 +31,7 @@ const routines = [
     breaktime: 60,
   },
   {
+    routineId: 2,
     routineName: "준우세트",
     exercise: [
       { name: "레그레이즈", count: 5 },
@@ -35,6 +42,7 @@ const routines = [
     breaktime: 60,
   },
   {
+    routineId: 3,
     routineName: "승주세트",
     exercise: [
       { name: "푸쉬업", count: 5 },
@@ -47,52 +55,82 @@ const routines = [
 ]
 
 export default function RoutineList() {
-  if (routines.length < 5) {
-    const showHide = 1
-  } else {
-    const showHide = 0
-  }
+  const [isOpen, setOpen] = useState(false)
+  const modalClose = () => setOpen(false)
   return (
     <div className="flex">
-      {routines.map(({ routineName, exercise, breaktime }) => {
-        return (
-          <div className="m-3">
-            <Card size="middle">
-              <div className="">
-                <div className=" bg-lightBlue border-2 m-2 rounded-3xl flex justify-center">
-                  {routineName}
-                </div>
-                {exercise.map(({ name, count }) => {
-                  return (
-                    <div className="flex justify-center">
-                      {name} {count}
+      {routines.map(
+        ({ routineId, routineName, exercise, breaktime }, index) => {
+          return (
+            <div className="m-3" key={routineId}>
+              <Card size="middle">
+                <div className="">
+                  <div className=" bg-lgBlue-500 border-2 m-2 rounded-3xl flex justify-center">
+                    {routineName}
+                  </div>
+                  {exercise.map(({ name, count }, index) => {
+                    return (
+                      <div className="flex justify-center" key={index}>
+                        {name} {count}
+                      </div>
+                    )
+                  })}
+                  <div className="flex justify-center">
+                    쉬는 시간 {breaktime}
+                  </div>
+                  <div className="flex justify-center p-3">
+                    총 운동 시간 : {exercise.length * 60 + breaktime} 초
+                  </div>
+                  <div className="flex justify-center">
+                    <div className="bg-secondary-300 m-2 w-[50px] rounded-xl flex justify-center text-sm items-center h-[35px] pointer hover:bg-secondary-500">
+                      수정
                     </div>
-                  )
-                })}
-                <div className="flex justify-center">쉬는 시간 {breaktime}</div>
-                <div className="flex justify-center p-3">
-                  총 운동 시간 : {exercise.length * 60 + breaktime} 초
+                    <div
+                      className="bg-secondary-300 m-2 w-[50px] rounded-xl flex justify-center text-sm items-center pointer hover:bg-secondary-500"
+                      onClick={() => {
+                        setOpen(true)
+                      }}
+                    >
+                      삭제
+                    </div>
+                    <Modal isOpen={isOpen} modalClose={modalClose}>
+                      <div>
+                        {routineName} 루틴을 삭제합니다.
+                        <div className="flex justify-end">
+                          <Button
+                            onClick={() => {
+                              routines.splice(index, 1)
+                              modalClose()
+                            }}
+                            text="확인"
+                          />
+                        </div>
+                      </div>
+                    </Modal>
+                  </div>
                 </div>
-              </div>
-            </Card>
-          </div>
-        )
-      })}
-      <div className="m-3">
-        <Link to="/routine/make">
-          <Card size="middle">
-            <div className="flex justify-center p-2">
-              <ImageIcon
-                image="https://icons-for-free.com/download-icon-circle+more+plus+icon-1320183136549593898_512.png"
-                size="large"
-              />
+              </Card>
             </div>
-            <p className="p-2 font-bold flex justify-center text-lg">
-              루틴을 추가해보세요.
-            </p>
-          </Card>
-        </Link>
-      </div>
+          )
+        }
+      )}
+      {routines.length < 5 ? (
+        <div className="m-3">
+          <Link to="/routine/make">
+            <Card size="middle">
+              <div className="flex justify-center p-2">
+                <ImageIcon
+                  image="https://icons-for-free.com/download-icon-circle+more+plus+icon-1320183136549593898_512.png"
+                  size="large"
+                />
+              </div>
+              <p className="p-2 font-bold flex justify-center text-lg">
+                루틴을 추가해보세요.
+              </p>
+            </Card>
+          </Link>
+        </div>
+      ) : null}
     </div>
   )
 }

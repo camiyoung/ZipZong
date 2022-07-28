@@ -4,6 +4,7 @@ export default function RoutineButton({ routineName, exercise, breakTime }) {
   return (
     <div className="flex justify-center">
       <button
+        className="bg-primary-500 w-[160px] h-[60px] m-3 font-bold text-xl rounded-2xl"
         onClick={() => {
           const totalTime = exercise.length * 60 + breakTime
           for (let i = 0; i < exercise.length; i++) {
@@ -19,19 +20,18 @@ export default function RoutineButton({ routineName, exercise, breakTime }) {
               exercise[i].name = "SQUAT"
             }
           }
-          const newRoutine = [
-            {
-              routineName,
-              exercise,
-              breakTime,
-              totalTime,
-            },
-          ]
+          const newRoutine = {
+            routineName,
+            exercise,
+            breakTime,
+            totalTime,
+          }
+
           console.log(newRoutine)
         }}
       >
         {" "}
-        루틴 완성{" "}
+        루틴 생성{" "}
       </button>
     </div>
   )
