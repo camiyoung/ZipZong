@@ -12,6 +12,8 @@ public class MemberProfile {
     private String provider;
     private String nickname;
 
+    private String repIcon;
+
     public Member toMember() {
         return Member.builder()
                      .name(name)
