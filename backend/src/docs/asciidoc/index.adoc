@@ -13,3 +13,31 @@
 [[Member-로그인]]
 === 로그인
 operation::login[snippets='custom,http-response,response-headers']
+=== 회원 닉네임으로 조회
+operation::get-member-info-by-nickname[snippets='http-request,http-response,response-fields']
+=== 회원 닉네임 중복조회
+operation::check-nickname-duplicate[snippets='http-request,http-response,response-fields']
+=== 회원 닉네임 설정
+operation::set-nickname[snippets='http-request,request-fields,http-response,response-fields']
+=== 회원 닉네임 변경
+operation::change-nickname[snippets='http-request,request-fields,http-response,response-fields']
+=== 회원 아이콘리스트 조회
+operation::get-icons[snippets='http-request,path-parameters,http-response,response-fields']
+=== 회원 대표아이콘 설정
+operation::set-repIcon[snippets='http-request,request-fields,http-response,response-fields']
+=== 회원 아이콘 추가
+operation::add-Icon[snippets='http-request,request-fields,http-response,response-fields']
+
+[[Team-API]]
+== Team API
+
+=== 팀 초대 링크 조회
+operation::team-get-invite-link[snippets='http-request,path-parameters,http-response,response-fields']
+=== 팀 모든 아이콘 조회
+operation::team-get-icons[snippets='http-request,path-parameters,http-response,response-fields']
+=== 팀 대표 아이콘 설정
+operation::team-set-repIcon[snippets='http-request,request-fields,http-response,response-fields']
+=== 팀 아이콘 추가
+operation::team-add-Icon[snippets='http-request,request-fields,http-response,response-fields']
+=== 팀 정보 변경
+operation::team-change-teamInfo[snippets='http-request,request-fields,http-response,response-fields']

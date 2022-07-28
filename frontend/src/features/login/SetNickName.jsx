@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import Button from "../../components/button/Button"
 import { nicknameValidation, selectNickname } from "./memberReducer"
-
 export default function SetNickName() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -12,8 +11,8 @@ export default function SetNickName() {
   const handleChange = ({ target: { value } }) => setNickname(value)
   const handleSubmit = (e) => {
     e.preventDefault()
-
     // 닉네임 유효성 검사
+
     dispatch(nicknameValidation({ nickname }))
     setNickname(savedNickname)
     dispatch(selectNickname({ nickname }))
