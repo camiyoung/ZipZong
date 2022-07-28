@@ -1,10 +1,12 @@
 import React, { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import Button from "../../components/button/Button"
 import { nicknameValidation, selectNickname } from "./memberReducer"
 
 export default function SetNickName() {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [nickname, setNickname] = useState("")
   const savedNickname = useSelector((state) => state.member.memberNickname)
   const handleChange = ({ target: { value } }) => setNickname(value)
@@ -15,7 +17,7 @@ export default function SetNickName() {
     dispatch(nicknameValidation({ nickname }))
     setNickname(savedNickname)
     dispatch(selectNickname({ nickname }))
-    console.log("끝!")
+    navigate("/mypage")
   }
   return (
     <div className="w-6/12 flex justify-center items-center flex-col">

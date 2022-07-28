@@ -77,13 +77,9 @@ export default function Profile() {
                   onClick={() => {
                     setIcon(icon)
                   }}
+                  key={idx}
                 >
-                  <ImageIcon
-                    key={idx}
-                    image={icon}
-                    size="middle"
-                    shape="square"
-                  />
+                  <ImageIcon image={icon} size="middle" shape="square" />
                 </div>
               )
             })}
