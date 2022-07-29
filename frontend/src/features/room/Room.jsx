@@ -40,6 +40,7 @@ class Room extends Component {
       chatDisplay: "block",
       currentVideoDevice: undefined,
     }
+    this.myVideoRef = React.createRef()
 
     this.joinSession = this.joinSession.bind(this)
     this.leaveSession = this.leaveSession.bind(this)
@@ -568,6 +569,7 @@ class Room extends Component {
         <StreamComponent
           user={localUser}
           handleNickname={this.nicknameChanged}
+          myVideoRef={this.myVideoRef}
         />
       ) : null
 
