@@ -1,11 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { http } from "../../api/axios"
 
+// 회원 닉네임 중복 조회
 export const nicknameValidation = createAsyncThunk(
   "member/duplicate",
-  async ({ nickname }) => {
+  async (nickname) => {
     if (nickname.length > 0) {
-      const { message } = await http.get(`/member/duplicate/${nickname}`)
+      const { message } = await http.get(`member/duplicate/${nickname}`)
       console.log("메세지", message)
       return [message, nickname]
     } else {
@@ -13,20 +14,18 @@ export const nicknameValidation = createAsyncThunk(
     }
   }
 )
-export const memberInfo = createAsyncThunk(
-  "member/information",
-  async (nickname) => {
-    const { data } = await http.get("/member/info/", nickname.nickname)
-    return data
-  }
-)
-export const selectNickname = createAsyncThunk(
-  "member/nickname",
-  async (nickname) => {
-    const { data } = await http.get("/member/", nickname.nickname)
-    return data
-  }
-)
+
+// 회원 닉네임으로 조회
+export const memberInfo = createAsyncThunk("member/info", async (nickname) => {
+  const { data } = await http.get(`/member/info/${nickname}`)
+  return data
+})
+
+// 회원 닉네임 설정
+export const selectNickname = createAsyncThunk("member", async (nickname) => {
+  const { data } = await http.get(`/member/${nickname}`)
+  return data
+})
 
 export const memberSlice = createSlice({
   name: "member",

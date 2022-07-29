@@ -3,20 +3,7 @@ import { useDispatch } from "react-redux"
 import { logout } from "../features/login/memberReducer"
 
 export const http = function Instance() {
-  //access token을 재 발급 받는 경우 < start >
-  const checkAccessToken = new URL(window.location.href).searchParams.get(
-    "accessToken"
-  )
-  const checkAccessTokenExpiration = new URL(
-    window.location.href
-  ).searchParams.get("accessTokenExpiration")
-
-  if (checkAccessToken) {
-    localStorage.setItem("accessToken", checkAccessToken)
-    localStorage.setItem("accessTokenExpiration", checkAccessTokenExpiration)
-  }
-  //access token을 재 발급 받는 경우 < end >
-
+  console.log(23)
   const dispatch = useDispatch()
   const instance = axios.create({
     baseURL: "http://localhost:8080/",
@@ -24,7 +11,6 @@ export const http = function Instance() {
       "Content-type": "application/json",
     },
   })
-
   //request insterceptor 요청 전 헤더에 토큰 등록
   instance.interceptors.request.use(
     (config) => {
@@ -68,9 +54,9 @@ export const http = function Instance() {
           window.location.href("/login")
         }
         // access token 만료 & refresh token 만료되지 않았을 시
-        config.headers["refresh-token"] = localStorage.getItem("refreshToken")
+        config.headers["refreshToken"] = localStorage.getItem("refreshToken")
       }
-      config.headers["access-token"] = localStorage.getItem("accessToken")
+      config.headers["accessToken"] = localStorage.getItem("accessToken")
       return config
     },
     (error) => {
