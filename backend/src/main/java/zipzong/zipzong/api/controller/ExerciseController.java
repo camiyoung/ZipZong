@@ -59,7 +59,8 @@ public class ExerciseController {
     @GetMapping("/history/team/sum")
     public ResponseEntity<BasicResponse<ExerciseTeamTotalResponse>> exerciseTeamTotal(@RequestParam Long teamId) {
         ExerciseTeamTotalResponse response = exerciseService.totalTeamHistory(teamId);
-        return null;
+
+        return new ResponseEntity<>(makeBasicResponse(SUCCESS, response), HttpStatus.OK);
     }
 
     @GetMapping("/history/member")
@@ -75,7 +76,9 @@ public class ExerciseController {
 
     @GetMapping("/history/member/sum")
     public ResponseEntity<BasicResponse<ExerciseMemberTotalResponse>> exerciseMemberTotal(@RequestParam Long memberId) {
-        return null;
+        ExerciseMemberTotalResponse response = exerciseService.totalMemberHistory(memberId);
+
+        return new ResponseEntity<>(makeBasicResponse(SUCCESS, response), HttpStatus.OK);
     }
 
     private <T> BasicResponse<T> makeBasicResponse(String message, T data) {

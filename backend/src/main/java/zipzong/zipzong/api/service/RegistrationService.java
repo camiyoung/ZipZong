@@ -6,7 +6,7 @@ import zipzong.zipzong.api.dto.team.TeamMemberId;
 import zipzong.zipzong.db.domain.Member;
 import zipzong.zipzong.db.domain.Registration;
 import zipzong.zipzong.db.domain.Team;
-import zipzong.zipzong.api.dto.member.MemberInfoRequest;
+import zipzong.zipzong.api.dto.team.request.member.MemberInfoRequest;
 import zipzong.zipzong.api.dto.team.request.TeamInfoRequest;
 import zipzong.zipzong.api.dto.team.response.TeamResponse;
 import zipzong.zipzong.enums.CheckExist;

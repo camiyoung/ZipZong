@@ -1,7 +1,7 @@
 package zipzong.zipzong.api.dto.team.request;
 
 import lombok.Data;
-import zipzong.zipzong.api.dto.member.MemberInfoRequest;
+import zipzong.zipzong.api.dto.team.request.member.MemberInfoRequest;
 
 import java.util.List;
 

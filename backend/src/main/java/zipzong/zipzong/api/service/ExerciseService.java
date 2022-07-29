@@ -341,8 +341,26 @@ public class ExerciseService {
         List<ExerciseTeamTotalResponse.PerformTeamTotal> performTeamTotals = new ArrayList<>();
 
         List<TeamHistoryDetail> teamHistoryDetails = teamHistoryDetailRepository.findByTeamHistoryId(teamHistory.getId());
+        Map<String, Integer> exercises = new HashMap<>();
 
+        for(TeamHistoryDetail teamHistoryDetail : teamHistoryDetails) {
+            String exerciseName = teamHistoryDetail.getExerciseName();
+            int exerciseNum = teamHistoryDetail.getExerciseNum();
 
+            exerciseNum += exercises.getOrDefault(exerciseName, 0);
+
+            exercises.put(exerciseName, exerciseNum);
+        }
+
+        for(Map.Entry<String, Integer> entry : exercises.entrySet()) {
+            ExerciseTeamTotalResponse.PerformTeamTotal performTeamTotal = new ExerciseTeamTotalResponse.PerformTeamTotal();
+            performTeamTotal.setPerformName(entry.getKey());
+            performTeamTotal.setPerformTotal(entry.getValue());
+
+            performTeamTotals.add(performTeamTotal);
+        }
+
+        response.setPerformTeamTotals(performTeamTotals);
 
         return response;
     }
@@ -362,6 +380,28 @@ public class ExerciseService {
         List<ExerciseMemberTotalResponse.PerformMemberTotal> performMemberTotals = new ArrayList<>();
 
         List<MemberHistoryDetail> memberHistoryDetails = memberHistoryDetailRepository.findByMemberHistoryId(memberHistory.getId());
+
+        Map<String, Integer> exercises = new HashMap<>();
+
+        for(MemberHistoryDetail memberHistoryDetail : memberHistoryDetails) {
+            String exerciseName = memberHistoryDetail.getExerciseName();
+            int exerciseNum = memberHistoryDetail.getExerciseNum();
+
+            exerciseNum += exercises.getOrDefault(exerciseName, 0);
+
+            exercises.put(exerciseName, exerciseNum);
+        }
+
+        for(Map.Entry<String, Integer> entry : exercises.entrySet()) {
+            ExerciseMemberTotalResponse.PerformMemberTotal performMemberTotal = new ExerciseMemberTotalResponse.PerformMemberTotal();
+            performMemberTotal.setPerformName(entry.getKey());
+            performMemberTotal.setPerformTotal(entry.getValue());
+
+            performMemberTotals.add(performMemberTotal);
+        }
+
+        response.setPerformMemberTotals(performMemberTotals);
+
         return response;
     }
 }
