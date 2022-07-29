@@ -1,13 +1,13 @@
 import { createSlice, createAsyncThunk, createSelector } from "@reduxjs/toolkit"
 import { http } from "../../api/axios"
 
-// 닉네임 변경 함수
+// 회원 닉네임 변경
 export const nicknameChange = createAsyncThunk(
   "mypage/nicknameChange",
   async (origin, nickname) => {
-    const { data } = await http.get("/member/duplicate/", {
-      origin,
-      nickname,
+    const { data } = await http.put("/member/nickname/", {
+      origin: origin,
+      nickname: nickname,
     })
     return data
   }
@@ -15,30 +15,33 @@ export const nicknameChange = createAsyncThunk(
 
 // 회원 대표아이콘 설정
 export const memberIconSelect = createAsyncThunk(
-  "mypage/iconSelect",
+  "member/rep-icon",
   async (nickname, icon) => {
-    const { data } = await http.post("/member/rep-icon/", { nickname, icon })
+    const { data } = await http.put("/member/rep-icon", {
+      nickname: nickname,
+      icon: icon,
+    })
     return data
   }
 )
 
 // 회원 IconList 조회
 export const memberIconList = createAsyncThunk(
-  "mypage/iconList",
+  "member/icon",
   async (memberId) => {
-    const { message, data } = await http.get(
-      "/member/icon/1",
-      memberId.memberId
-    )
+    const data = await http.get(`/member/icon/${memberId}`)
     return data
   }
 )
 
 // 회원 Icon 추가
 export const memberIconCreate = createAsyncThunk(
-  "mypage/iconCreate",
+  "member/icon",
   async (nickname, icon) => {
-    const { data } = await http.post("/member/icon", { nickname, icon })
+    const { data } = await http.post("/member/icon", {
+      nickname: nickname,
+      icon: icon,
+    })
     return data
   }
 )

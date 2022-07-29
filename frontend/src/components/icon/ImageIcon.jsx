@@ -23,9 +23,8 @@ export default function Icon({ image, size, shape, borderStyle }) {
     : borderStyleChart.border2
   return (
     <div
+      style={{ backgroundImage: `url("${image}")` }}
       className={`${iconSize} ${shapeType} ${selectedBorderStyle} bg-cover borderColor:border-secondary-900`}
-    >
-      <img src={image} alt="Icon image" />
-    </div>
+    ></div>
   )
 }
