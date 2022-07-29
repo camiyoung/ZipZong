@@ -173,6 +173,7 @@ class Room extends Component {
       resolution: "640x480",
       frameRate: 30,
       insertMode: "APPEND",
+      mirror: true,
     })
 
     if (this.state.session.capabilities.publish) {
