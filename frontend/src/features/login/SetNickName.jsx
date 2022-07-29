@@ -13,9 +13,9 @@ export default function SetNickName() {
     e.preventDefault()
     // 닉네임 유효성 검사
 
-    dispatch(nicknameValidation({ nickname }))
+    dispatch(nicknameValidation(nickname))
     setNickname(savedNickname)
-    dispatch(selectNickname({ nickname }))
+    dispatch(selectNickname(nickname))
     navigate("/mypage")
   }
 
