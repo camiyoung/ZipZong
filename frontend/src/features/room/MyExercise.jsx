@@ -66,6 +66,7 @@ const renderTime = ({ remainingTime }) => {
 
 function MyExercise({ Toolbar, myVideo, chat }) {
   console.log("비디오", myVideo)
+  // console.log(myVideo.props.user.getStreamManager().videos[0].video)
 
   return (
     <div className="flex  h-full w-[90%] pl-2 ">
