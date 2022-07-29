@@ -34,6 +34,7 @@ public class Team {
 
     @OneToMany(mappedBy = "team",fetch = FetchType.LAZY)
     Collection<Registration> registrationList = new ArrayList<>();
+
     @Column(name = "invite_link", unique = true)
     private String inviteLink;
 
