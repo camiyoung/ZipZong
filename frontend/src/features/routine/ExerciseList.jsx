@@ -1,24 +1,25 @@
 import ExerciseIcon from "../../components/icon/ExerciseIcon"
+import ChangeLanguage from "./ChangeLanguage"
 
 const exerciseList = [
   {
-    name: "푸쉬업",
+    name: "PUSHUP",
     count: 10,
   },
   {
-    name: "버피",
+    name: "BURPEE",
     count: 10,
   },
   {
-    name: "레그레이즈",
+    name: "LEGRAISE",
     count: 10,
   },
   {
-    name: "마운틴클라이밍",
+    name: "MOUNTAINCLIMING",
     count: 10,
   },
   {
-    name: "스쿼트",
+    name: "SQUAT",
     count: 10,
   },
 ]
@@ -49,7 +50,9 @@ export default function ExerciseList({ routine, setRoutine, idx, setIdx }) {
                 image={name}
               ></ExerciseIcon>
             </div>
-            <div className="flex justify-center p-3">{name}</div>
+            <div className="flex justify-center p-3">
+              <ChangeLanguage exercise={name} />
+            </div>
           </div>
         )
       })}
