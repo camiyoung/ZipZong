@@ -26,7 +26,7 @@ public class RegistrationController {
     /*
         회원이 가입한 그룹 조회
      */
-    @GetMapping("/team/{member-id}")
+    @GetMapping("/member/{member-id}")
     public ResponseEntity<BasicResponse<List<TeamResponse>>> getMemberJoinedTeam(@PathVariable("member-id") Long memberId) {
         List<TeamResponse> result = registrationService.findJoinedTeam(memberId);
         return new ResponseEntity<>(makeBasicResponse(SUCCESS, result), HttpStatus.OK);
@@ -48,13 +48,9 @@ public class RegistrationController {
     @PostMapping("/create")
     public ResponseEntity<BasicResponse<TeamMemberId>> createTeam(@RequestBody CreateTeamRequest createTeamRequest) {
         Team team = getTeam(createTeamRequest);
-        Registration registration = registrationService.createTeam(team, createTeamRequest.getMemberId());
+        TeamMemberId teamMemberId = registrationService.createTeam(team, createTeamRequest.getMemberId());
 
-        TeamMemberId teamMemberId = new TeamMemberId();
-        teamMemberId.setTeamId(registration.getTeam().getId());
-        teamMemberId.setMemberId(registration.getMember().getId());
-
-        return new ResponseEntity<>(makeBasicResponse(SUCCESS, teamMemberId), HttpStatus.OK);
+        return new ResponseEntity<>(makeBasicResponse(SUCCESS, teamMemberId), HttpStatus.CREATED);
     }
 
     private Team getTeam(CreateTeamRequest joinTeamRequest) {
@@ -72,7 +68,7 @@ public class RegistrationController {
     @PostMapping("/join")
     public ResponseEntity joinTeam(@RequestBody TeamMemberId teamMemberId) {
         registrationService.joinTeam(teamMemberId.getTeamId(), teamMemberId.getMemberId());
-        return new ResponseEntity<>(makeBasicResponse(SUCCESS, null), HttpStatus.OK);
+        return new ResponseEntity<>(makeBasicResponse(SUCCESS, null), HttpStatus.CREATED);
     }
 
     /*
@@ -82,7 +78,7 @@ public class RegistrationController {
     @PutMapping("/team/resign")
     public ResponseEntity resignTeam(@RequestBody TeamMemberId teamMemberId) {
         Long resignMemberId = registrationService.resignTeam(teamMemberId.getMemberId(), teamMemberId.getTeamId());
-        return new ResponseEntity<>(makeBasicResponse(SUCCESS, resignMemberId), HttpStatus.OK);
+        return new ResponseEntity<>(makeBasicResponse(SUCCESS, resignMemberId), HttpStatus.CREATED);
 
     }
 
@@ -91,8 +87,9 @@ public class RegistrationController {
      */
 
     @PutMapping("/team/expel")
-    public void expelMember(@RequestBody TeamMemberId teamMemberId){
-
+    public ResponseEntity expelMember(@RequestBody TeamLeaderAssignRequest teamLeaderAssignRequest) throws Exception {
+        Long followerId = registrationService.expelMember(teamLeaderAssignRequest.getLeaderId(), teamLeaderAssignRequest.getFollowerId(), teamLeaderAssignRequest.getTeamId());
+        return new ResponseEntity<>(makeBasicResponse(SUCCESS,followerId), HttpStatus.CREATED);
     }
     /*
        그룹장이 그룹원에게 그룹장을 위임하는 경우
@@ -100,15 +97,18 @@ public class RegistrationController {
      */
 
     @PutMapping("/team/assign")
-    public void delegateLeader(@RequestBody TeamLeaderAssignRequest teamLeaderAssignRequest){
+    public ResponseEntity delegateLeader(@RequestBody TeamLeaderAssignRequest teamLeaderAssignRequest) throws Exception{
+        Long followerId = registrationService.delegateLeader(teamLeaderAssignRequest.getLeaderId(), teamLeaderAssignRequest.getFollowerId(), teamLeaderAssignRequest.getTeamId());
+        return new ResponseEntity<>(makeBasicResponse(SUCCESS,followerId), HttpStatus.CREATED);
     }
 
     /*
         그룹장이 그룹을 제거하는 경우, 소속한 팀원들도 모두 탈퇴처리 됨
      */
     @PutMapping("/delete-team")
-    public void deleteTeam(@RequestBody TeamMemberId teamMemberId) {
-
+    public ResponseEntity deleteTeam(@RequestBody TeamMemberId teamMemberId) throws Exception{
+        Long teamId = registrationService.deleteTeam(teamMemberId.getTeamId(), teamMemberId.getMemberId());
+        return new ResponseEntity<>(makeBasicResponse(SUCCESS,teamId), HttpStatus.CREATED);
     }
 
     private <T> BasicResponse<T> makeBasicResponse(String message, T data) {
