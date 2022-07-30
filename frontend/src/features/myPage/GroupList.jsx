@@ -4,8 +4,7 @@ import Icon from "../../components/icon/ImageIcon"
 import Card from "../../components/card/Card"
 import Modal from "../../components/modal/Modal"
 import SmallTextInput from "../../components/input/SmallTextInput"
-import Select from "../../components/input/Select"
-import Radio from "../../components/input/Radio"
+import LargeTextInput from "../../components/input/LargeTextInput"
 
 const Groups = [
   {
@@ -26,8 +25,49 @@ export default function Group() {
     // 모달
     <div className="flex justify-center sm:flex-row-reverse">
       <Modal isOpen={isOpen} modalClose={modalClose}>
-        그룹 생성 모달을 예쁘게 야무지게 꾸밉니다.
-        <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+        <div className="text-xl flex justify-center pb-5 font-bold">
+          그룹 생성
+        </div>
+        <div className="flex">
+          <div className="pr-5">
+            <div className="flex justify-center">그룹 아이콘</div>
+            <div>
+              <Icon size="xLarge" />
+            </div>
+          </div>
+          <div className="flex flex-col">
+            <div>
+              <div className="">
+                그룹 명
+                <div className="w-[280px]">
+                  <input
+                    type="text"
+                    className="
+                    mb-3
+                      h-9
+                      w-[280px]
+                      block
+                      bg-gray-50
+                      rounded-lg
+                      text-sm
+                      border
+                      border-gray-300
+                      focus:ring-primary-400
+                      focus:border-primary-400
+                    "
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              그룹 설명
+              <div className="w-[280px]">
+                <LargeTextInput />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse mt-4">
           <button
             type="button"
             className="bg-lightBlue rounded-md border border-gray-300 shadow-sm px-4 py-2 text-base font-medium text-gray-700 hover:bg-primary-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
