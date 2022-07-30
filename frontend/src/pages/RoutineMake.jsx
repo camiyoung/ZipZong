@@ -1,7 +1,57 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import LargeTextInput from "../components/input/LargeTextInput"
-import ExerciseSetting from "../features/routine/ExerciseSetting"
+import ExerciseSelect from "../features/routine/ExerciseSelect"
+import ExerciseList from "../features/routine/ExerciseList"
 import RoutineButton from "../features/routine/RoutineButton"
+import { useParams } from "react-router-dom"
+
+const routines = [
+  {
+    routineId: 0,
+    routineName: "슬기세트",
+    exercise: [
+      { name: "PUSHUP", count: 5 },
+      { name: "PUSHUP", count: 5 },
+      { name: "PUSHUP", count: 5 },
+      { name: "PUSHUP", count: 5 },
+    ],
+    breaktime: 60,
+    totaltime: 300,
+  },
+  {
+    routineId: 1,
+    routineName: "종민세트",
+    exercise: [
+      { name: "BURPEE", count: 5 },
+      { name: "BURPEE", count: 5 },
+      { name: "BURPEE", count: 5 },
+      { name: "BURPEE", count: 5 },
+    ],
+    breaktime: 60,
+  },
+  {
+    routineId: 2,
+    routineName: "준우세트",
+    exercise: [
+      { name: "LEGRAISE", count: 5 },
+      { name: "LEGRAISE", count: 5 },
+      { name: "LEGRAISE", count: 5 },
+      { name: "LEGRAISE", count: 5 },
+    ],
+    breaktime: 60,
+  },
+  {
+    routineId: 3,
+    routineName: "승주세트",
+    exercise: [
+      { name: "PUSHUP", count: 5 },
+      { name: "PUSHUP", count: 5 },
+      { name: "PUSHUP", count: 5 },
+      { name: "PUSHUP", count: 5 },
+    ],
+    breaktime: 60,
+  },
+]
 
 export default function RoutineMake() {
   const [routineName, setRoutineName] = useState("")
@@ -9,34 +59,60 @@ export default function RoutineMake() {
   const [idx, setIdx] = useState(0)
   const [breakTime, setBreakTime] = useState(0)
 
+  const params = useParams()
+
+  useEffect(() => {
+    if (Object.keys(params).length > 0) {
+      console.log(routines[params.index].exercise)
+      setRoutine(routines[params.index].exercise)
+      setBreakTime(routines[params.index].breaktime)
+      setRoutineName(routines[params.index].routineName)
+    }
+  }, [])
+
   return (
     <div className="">
       <div className="flex p-10 justify-center font-extrabold text-3xl">
-        루틴 생성하기
+        루틴 관리
       </div>
       <div className="flex justify-center p-3">
         <div className="text-xl font-bold flex items-center pr-5">
           루틴 이름
         </div>
         <div>
-          <LargeTextInput handler={setRoutineName} />
+          <input
+            value={routineName}
+            onChange={(event) => setRoutineName(event.target.value)}
+          />
         </div>
       </div>
+
       <div>
-        <ExerciseSetting
-          routine={routine}
-          setRoutine={setRoutine}
-          idx={idx}
-          setIdx={setIdx}
-          breakTime={breakTime}
-          setBreakTime={setBreakTime}
-        />
+        <div>
+          <ExerciseList
+            routine={routine}
+            setRoutine={setRoutine}
+            setIdx={setIdx}
+          />
+        </div>
+        <div className="p-5 flex justify-center">
+          <ExerciseSelect
+            routine={routine}
+            setRoutine={setRoutine}
+            idx={idx}
+            setIdx={setIdx}
+            breakTime={breakTime}
+            setBreakTime={setBreakTime}
+          />
+        </div>
       </div>
       <div>
         <RoutineButton
           routineName={routineName}
           exercise={routine}
           breakTime={breakTime}
+          index={params.index}
+          routines={routines}
         />
       </div>
     </div>
