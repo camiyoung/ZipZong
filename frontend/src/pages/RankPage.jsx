@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import prize1 from "../assets/prize_first.png"
-import prize2 from "../assets/prize_second.png"
-import prize3 from "../assets/prize_third.png"
+
 import bg_rank2 from "../assets/bg_rank2.png"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faVolumeXmark, faVolumeUp } from "@fortawesome/free-solid-svg-icons"
@@ -46,6 +44,7 @@ export default function RankPage() {
   const [musicPlay, setMusicPlay] = useState(true)
   const audioRef = useRef()
   useEffect(() => {
+    audioRef.current.volume = 0.6
     AOS.init()
   }, [])
   const playMusic = () => {
@@ -61,8 +60,8 @@ export default function RankPage() {
   return (
     <div className="flex  justify-center items-center flex-col w-full ">
       <div className="w-full relative">
-        <audio autoPlay ref={audioRef}>
-          <source src="music/rank1.mp3" type="audio/mp3" />
+        <audio autoPlay ref={audioRef} loop>
+          <source src="music/rank2.m4a" type="audio/x-m4a" />
         </audio>
 
         <div
@@ -128,8 +127,8 @@ export default function RankPage() {
             </div>
             <div className=" h-2/5 w-full p-2  m-auto">
               <ul className="flex  w-full flex-wrap items-center ">
-                {rankList.map((group) => (
-                  <ListItemSamll text={group} />
+                {rankList.map((group, idx) => (
+                  <ListItemSamll text={group} key={idx} />
                 ))}
               </ul>
             </div>
@@ -146,7 +145,7 @@ export default function RankPage() {
             <div className="w-full">
               <ul className=" flex flex-col justify-center items-center ">
                 {rankList.map((group, i) => (
-                  <ListItem text={group} rank={i} />
+                  <ListItem text={group} rank={i} key={i} />
                 ))}
               </ul>
             </div>
@@ -159,7 +158,7 @@ export default function RankPage() {
             <div className="w-full">
               <ul className=" flex flex-col justify-center items-center">
                 {rankList.map((group, i) => (
-                  <ListItem text={group} rank={i} />
+                  <ListItem text={group} rank={i} key={i} />
                 ))}
               </ul>
             </div>
