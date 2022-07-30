@@ -27,8 +27,8 @@ export default function SmallTextInput(props) {
           text-sm
           border
           border-gray-300
-          focus:ring-primary-200
-          focus:border-primary-200
+          focus:ring-primary-400
+          focus:border-primary-400
         "
       />
     </div>
