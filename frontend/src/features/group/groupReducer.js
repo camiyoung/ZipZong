@@ -1,6 +1,69 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { http } from "../../api/axios"
 
+// 팀 생성
+export const teamCreate = createAsyncThunk(
+  "registration/create",
+  async (info) => {
+    const res = await http.post("registration/create", info)
+    console.log("teamCreate", res)
+  }
+)
+
+// 팀 삭제
+export const teamDelete = createAsyncThunk(
+  "registration/delete-team",
+  async (info) => {
+    const res = await http.put("registration/delete-team", info)
+    console.log("teamDelete", res)
+  }
+)
+
+// 팀 상세 정보 조회
+export const teamInfoLookUp = createAsyncThunk(
+  "registration/team",
+  async (teamId) => {
+    const res = await http.get(`registration/team/${teamId}`)
+    console.log("팀 상세 정보 조회", res)
+  }
+)
+
+// 회원이 가입한 팀 정보 조회
+export const memberTeamInfoLookUp = createAsyncThunk(
+  "registration/member",
+  async (memberId) => {
+    const res = await http.get(`registration/member/${memberId}`)
+    console.log("회원이 가입한 팀 정보 조회", res)
+  }
+)
+
+// 회원의 팀 탈퇴
+export const memeberResign = createAsyncThunk(
+  "registration/team/resign",
+  async (info) => {
+    const res = await http.put("registration/team/resign", info)
+    console.log("회원의 팀 탈퇴", res)
+  }
+)
+
+// 리더의 회원 강퇴
+export const memberLeaderResign = createAsyncThunk(
+  "registration/team/expel",
+  async (info) => {
+    const res = await http.put("registration/team/expel", info)
+    console.log("리더의 회원 강퇴", res)
+  }
+)
+
+// 리더의 그룹장 위임
+export const memberLeaderAssign = createAsyncThunk(
+  "registration/team/assign",
+  async (info) => {
+    const res = await http.put("registration/team/assign", info)
+    console.log("리더의 그룹장 위임", res)
+  }
+)
+////////////////////////////////////////////////////////////////////
 // 팀 초대 링크 조회
 export const teamInviteLink = createAsyncThunk(
   "team/invite-link",
@@ -66,74 +129,6 @@ export const teamDetail = createAsyncThunk(
   }
 )
 
-// 초기 팀 생성
-// export const teamCreate = createAsyncThunk(
-//   "team/create", async ()
-// )
-
-// 팀 아이디로 쉴드 하나 사용
-// export const teamUseSheild = createAsyncThunk(
-//   "sheild", async (teamId) => {
-//     const {message, data } = await http.put(`sheild/${teamId}`)
-//     return [message, data]
-//   }
-// )
-
-// // 그룹 설정 정보 받기
-// export const teamInfoGet = createAsyncThunk(
-//   "team/info/get",
-//   async ({ teamId }) => {
-//     const { data } = await http.get("team/", teamId)
-//     return data
-//   }
-// )
-
-// export const deleteTeam = createAsyncThunk(
-//   "registration/delete-team",
-//   // item안에 member id, team id 있어야 함
-//   async (item) => {
-//     const { data } = await http.put("registration/delete-team/", item)
-//     return data
-//     // data에 삭제된 팀 id 있음
-//   }
-// )
-
-// // 그룹원 탈퇴
-// export const teamResign = createAsyncThunk(
-//   "registration/team/resign",
-//   // item 에 퇴출할 id, team id 필요
-//   async (item) => {
-//     const { data } = await http.post("registration/team/resign/", item)
-//     return data
-//   }
-// )
-
-// // 그룹장 강퇴
-// export const expelmember = createAsyncThunk("team/expel", async (item) => {
-//   const { data } = await http.post("team/expel/", memberId, teamId)
-//   return data
-// })
-
-// // 그룹 위임
-// export const assignLeader = createAsyncThunk(
-//   "registration/team/assign",
-//   // item 에 그룹장 id, 그룹원 id, 팀 id 있어야 함
-//   async (item) => {
-//     const { data } = await http.post("registration/team/assign/", item)
-//     return data
-//   }
-// )
-
-// // 그룹 정보 받기 O
-// export const getGroupInfo = createAsyncThunk(
-//   "registration/team",
-//   // info 안에 team-id 들어감
-//   async (info) => {
-//     const { data } = await http.get("/registration/team/", info)
-//     return data
-//   }
-// )
-
 export const groupSlice = createSlice({
   name: "group",
   initialState: {
@@ -144,24 +139,4 @@ export const groupSlice = createSlice({
     groupIcon: "",
   },
   reducers: {},
-  extraReducers(builder) {
-    // 그룹 정보 받기
-    builder.addCase(getGroupInfo.fulfilled, (state, action) => {
-      if (action.payload === "success") {
-        state.groupId = action.payload["groupId"]
-        state.groupName = action.payload["groupName"]
-        state.groupMemberCount = action.payload["groupMemberCount"]
-        state.groupExplanation = action.payload["groupExplanation"]
-      }
-    })
-
-    // 그룹 아이콘 수정하기
-    builder.addCase(teamIconChange.fulfilled, (state, action) => {
-      state.groupIcon = action.payload["groupIcon"]
-    })
-
-    builder.addCase(teamInfoGet.fulfilled, (state, action) => {
-      // 정보 저장할 곳을 정해야 함
-    })
-  },
 })
