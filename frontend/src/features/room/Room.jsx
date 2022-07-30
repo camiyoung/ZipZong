@@ -40,6 +40,7 @@ class Room extends Component {
       chatDisplay: "block",
       currentVideoDevice: undefined,
     }
+    this.myVideoRef = React.createRef()
 
     this.joinSession = this.joinSession.bind(this)
     this.leaveSession = this.leaveSession.bind(this)
@@ -172,6 +173,7 @@ class Room extends Component {
       resolution: "640x480",
       frameRate: 30,
       insertMode: "APPEND",
+      mirror: true,
     })
 
     if (this.state.session.capabilities.publish) {
@@ -568,6 +570,7 @@ class Room extends Component {
         <StreamComponent
           user={localUser}
           handleNickname={this.nicknameChanged}
+          myVideoRef={this.myVideoRef}
         />
       ) : null
 
