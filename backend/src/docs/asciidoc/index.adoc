@@ -41,3 +41,21 @@ operation::team-set-repIcon[snippets='http-request,request-fields,http-response,
 operation::team-add-Icon[snippets='http-request,request-fields,http-response,response-fields']
 === 팀 정보 변경
 operation::team-change-teamInfo[snippets='http-request,request-fields,http-response,response-fields']
+
+[[Registraion-API]]
+== Registration API
+
+=== 팀 생성
+operation::create-team[snippets='http-request,request-fields,http-response,response-fields']
+=== 팀 삭제
+operation::delete-team[snippets='http-request,request-fields,http-response,response-fields']
+=== 팀 상세 정보 조회
+operation::get-team-detail-info[snippets='http-request,path-parameters,http-response,response-fields']
+=== 회원이 가입한 팀 정보 조회
+operation::get-member-joined-team[snippets='http-request,path-parameters,http-response,response-fields']
+=== 회원의 팀 탈퇴
+operation::resign-team[snippets='http-request,request-fields,http-response,response-fields']
+=== 리더의 회원 강퇴
+operation::expel-member[snippets='http-request,request-fields,http-response,response-fields']
+=== 리더의 그룹장 위임
+operation::assign-leader-to-follower[snippets='http-request,request-fields,http-response,response-fields']
