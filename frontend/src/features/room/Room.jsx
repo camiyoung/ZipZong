@@ -18,7 +18,7 @@ class Room extends Component {
     super(props)
     this.OPENVIDU_SERVER_URL = this.props.openviduServerUrl
       ? this.props.openviduServerUrl
-      : "https://3.39.251.36" + ":443"
+      : "https://3.39.251.36:443"
     this.OPENVIDU_SERVER_SECRET = this.props.openviduSecret
       ? this.props.openviduSecret
       : "MY_SECRET"
