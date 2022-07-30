@@ -1,11 +1,13 @@
 package zipzong.zipzong.service;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import zipzong.zipzong.api.dto.team.TeamMemberId;
 import zipzong.zipzong.api.service.RegistrationService;
 import zipzong.zipzong.db.domain.Member;
 import zipzong.zipzong.db.domain.Registration;
@@ -53,14 +55,11 @@ class RegistrationServiceTest {
         Member savedMember = memberRepository.save(member);
 
         //when
-        Registration savedRegistration = registrationService.createTeam(team, savedMember.getId());
+        TeamMemberId teamMemberId = registrationService.createTeam(team, savedMember.getId());
 
         //then
-        Assertions.assertEquals("link", savedRegistration.getTeam()
-                                                         .getInviteLink());
-        Assertions.assertEquals("nickname", savedRegistration.getMember()
-                                                             .getNickname());
-        Assertions.assertEquals(Role.LEADER, savedRegistration.getRole());
+        Assertions.assertEquals(savedMember.getId(), teamMemberId.getMemberId());
+
     }
 
 
@@ -226,7 +225,7 @@ class RegistrationServiceTest {
         Team team = makeTeam("link");
         Member savedMember = memberRepository.save(member);
         Team savedTeam = teamRepository.save(team);
-        Registration savedRegistration = registrationService.createTeam(team, savedMember.getId());
+        registrationService.createTeam(team, savedMember.getId());
 
         //when
         registrationService.resignTeam(savedMember.getId(), savedTeam.getId());
@@ -261,15 +260,81 @@ class RegistrationServiceTest {
         //then
         Team findTeam = teamRepository.findById(savedTeam1.getId()).orElseThrow();
         Assertions.assertEquals(findTeam.getIsDeleted(), CheckExist.Y);
-
-
-
     }
 
     @Test
     @DisplayName("팀장 아닌 사람이 팀 삭제")
-    void deleteTeamFail(){
+    void deleteTeamFail() throws Exception{
+        //given
+        Member member1 = makeMember("member1");
+        Member member2 = makeMember("member2");
+        memberRepository.save(member1);
+        Member savedMember1 = memberRepository.save(member2);
 
+        Team team1 = makeTeam("team1");
+        Team savedTeam1 = teamRepository.save(team1);
+
+        Registration registration1 = Registration.createRegistration(member1,team1);
+        Registration registration2 = Registration.joinRegistration(member2,team1);
+
+        registrationRepository.save(registration1);
+        registrationRepository.save(registration2);
+
+        //then
+        Assertions.assertThrows(AuthenticationException.class, () ->{
+            //when
+            registrationService.deleteTeam(savedTeam1.getId(), savedMember1.getId());
+        });
+    }
+
+    @Test
+    @DisplayName("팀장이 회원 퇴출")
+    void expelMemberSuccess() throws Exception{
+        //given
+        Member member1 = makeMember("member1");
+        Member member2 = makeMember("member2");
+        Member savedMember1 = memberRepository.save(member1);
+        Member savedMember2 = memberRepository.save(member2);
+
+        Team team1 = makeTeam("team1");
+        Team savedTeam1 = teamRepository.save(team1);
+
+        Registration registration1 = Registration.createRegistration(member1,team1);
+        Registration registration2 = Registration.joinRegistration(member2,team1);
+
+        registrationRepository.save(registration1);
+        registrationRepository.save(registration2);
+
+        //when
+        Long followerId = registrationService.expelMember(savedMember1.getId(), savedMember2.getId(), savedTeam1.getId());
+
+        //then
+        Assertions.assertEquals(savedMember2.getId(),followerId);
+    }
+
+    @Test
+    @DisplayName("팀장이 아닌 사람이 회원 퇴출")
+    void expelMemberFail() throws Exception{
+        //given
+        Member member1 = makeMember("member1");
+        Member member2 = makeMember("member2");
+        Member savedMember1 = memberRepository.save(member1);
+        Member savedMember2 = memberRepository.save(member2);
+
+        Team team1 = makeTeam("team1");
+        Team savedTeam1 = teamRepository.save(team1);
+
+        Registration registration1 = Registration.createRegistration(member1,team1);
+        Registration registration2 = Registration.joinRegistration(member2,team1);
+
+        registrationRepository.save(registration1);
+        registrationRepository.save(registration2);
+
+        //then
+        Assertions.assertThrows(AuthenticationException.class, ()->{
+            //when
+            registrationService.expelMember(savedMember2.getId(), savedMember1.getId(), savedTeam1.getId());
+        });
     }
 
     private Member makeMember(String nickname) {

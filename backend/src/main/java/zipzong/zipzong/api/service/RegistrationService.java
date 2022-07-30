@@ -2,6 +2,7 @@ package zipzong.zipzong.api.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import zipzong.zipzong.api.dto.team.TeamMemberId;
 import zipzong.zipzong.db.domain.Member;
 import zipzong.zipzong.db.domain.Registration;
 import zipzong.zipzong.db.domain.Team;
@@ -32,13 +33,20 @@ public class RegistrationService {
     /*
     초기에 만든사람은 그룹장이 되며 팀을 생성함
      */
-    public Registration createTeam(Team team, Long memberId) {
+    public TeamMemberId createTeam(Team team, Long memberId) {
         //Team, Member, Registration
         teamRepository.save(team);
         Member member = memberRepository.findById(memberId).orElseThrow();
         Registration registration = Registration.createRegistration(member, team);
         team.getRegistrationList().add(registration);
-        return registrationRepository.save(registration);
+
+        registrationRepository.save(registration);
+
+        TeamMemberId teamMemberId = new TeamMemberId();
+        teamMemberId.setTeamId(registration.getTeam().getId());
+        teamMemberId.setMemberId(registration.getMember().getId());
+
+        return teamMemberId;
     }
 
     /*
@@ -87,7 +95,13 @@ public class RegistrationService {
         그룹장이 회원을 탈퇴시키는 경우
      */
     public Long expelMember(Long leaderId, Long followerId, Long teamId) throws Exception{
-        return null;
+        Registration followerRegistration = registrationRepository.findByMemberIdAndTeamId(followerId,teamId).orElseThrow();
+        Registration leaderRegistration = registrationRepository.findByMemberIdAndTeamId(leaderId,teamId).orElseThrow();
+        if(!leaderRegistration.getRole().equals(Role.LEADER)){
+            throw new AuthenticationException();
+        }
+        followerRegistration.changeIsResign(CheckExist.Y);
+        return followerId;
     }
 
     /*
@@ -164,7 +178,7 @@ public class RegistrationService {
         그룹장이 그룹을 제거하는 경우
      */
 
-    public boolean deleteTeam(Long teamId, Long memberId) throws Exception {
+    public Long deleteTeam(Long teamId, Long memberId) throws Exception {
         Team team = teamRepository.findById(teamId).orElseThrow();
 
         /*
@@ -185,7 +199,7 @@ public class RegistrationService {
         List<Registration> registrations = registrationRepository.findAllByTeamId(teamId);
         registrations.stream().forEach(r -> r.changeIsResign(CheckExist.Y));
 
-        return true;
+        return teamId;
     }
 
 
