@@ -1,10 +1,6 @@
 import axios from "axios"
-import { useDispatch } from "react-redux"
-import { logout } from "../features/login/memberReducer"
 
-export const http = function Instance() {
-  console.log(23)
-  const dispatch = useDispatch()
+function Instance() {
   const instance = axios.create({
     baseURL: "http://localhost:8080/",
     headers: {
@@ -50,11 +46,20 @@ export const http = function Instance() {
               Number(refreshDataList[5])
         ) {
           //access token & refresh token 둘 다 만료됐을 시
-          window.alert("재 로그인을 해주세요!")
           window.location.href("/login")
         }
         // access token 만료 & refresh token 만료되지 않았을 시
-        config.headers["refreshToken"] = localStorage.getItem("refreshToken")
+        // axios 요청 -> refresh/ ->
+
+        axios.get("http://localhost:8080/refresh").then((res) => {
+          localStorage.setItem("accessToken", res.data.accessToken)
+          localStorage.setItem(
+            "accessTokenExpiration",
+            res.data.accessTokenExpiration
+          )
+        })
+
+        // config.headers["refreshToken"] = localStorage.getItem("refreshToken")
       }
       config.headers["accessToken"] = localStorage.getItem("accessToken")
       return config
@@ -70,13 +75,11 @@ export const http = function Instance() {
       return response
     },
     (error) => {
-      console.log(error)
       // 에러 코드 받기
-      console.log(error)
       // E003 - 토큰 만료 오류
       //로그아웃 후 login page로 리다이렉트
-      if (error.code === "E003") {
-        dispatch(logout())
+      if (error.response.data.code === "E003") {
+        localStorage.clear()
         window.location.href("/login")
       }
       // 응답 에러 : 에러코드로 처리 방법 지정
@@ -85,7 +88,7 @@ export const http = function Instance() {
   )
   return instance
 }
-
+export const http = Instance()
 /**
  * 사용방법 :
  * 사용하고자 하는 파일에서 임포트 : ex) import { http } from "../api/index"
