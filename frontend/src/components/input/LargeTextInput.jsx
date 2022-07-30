@@ -32,8 +32,8 @@ export default function LargeTextInput(props) {
           border
           border-gray-300
           sm:text-md
-          focus:ring-blue-500
-          focus:border-blue-500
+          focus:ring-primary-400
+          focus:border-primary-400
           dark:bg-gray-700
           dark:border-gray-600
           dark:placeholder-gray-400
