@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react"
-import LargeTextInput from "../components/input/LargeTextInput"
 import ExerciseSelect from "../features/routine/ExerciseSelect"
 import ExerciseList from "../features/routine/ExerciseList"
 import RoutineButton from "../features/routine/RoutineButton"
@@ -57,7 +56,7 @@ export default function RoutineMake() {
   const [routineName, setRoutineName] = useState("")
   const [routine, setRoutine] = useState([])
   const [idx, setIdx] = useState(0)
-  const [breakTime, setBreakTime] = useState(0)
+  const [breakTime, setBreakTime] = useState(15)
 
   const params = useParams()
 
@@ -83,6 +82,15 @@ export default function RoutineMake() {
           <input
             value={routineName}
             onChange={(event) => setRoutineName(event.target.value)}
+            className="block p-4
+            w-96
+            text-gray-900
+            bg-gray-50
+            rounded-lg
+            border
+            sm:text-md
+            focus:ring-blue-500
+            focus:border-blue-500"
           />
         </div>
       </div>
