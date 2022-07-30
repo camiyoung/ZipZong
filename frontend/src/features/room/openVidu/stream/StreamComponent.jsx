@@ -81,12 +81,14 @@ export default class StreamComponent extends Component {
                 <img
                   src="images/videoOff.jpg"
                   className="w-full h-full rounded-2xl"
+                  alt="비디오 꺼짐 화면"
                 />
               </div>
             )}
             <OvVideoComponent
               user={this.props.user}
               mutedSound={this.state.mutedSound}
+              myVideoRef={this.props.myVideoRef}
             />
             <div className="absolute left-2 mb-3" id="statusIcons">
               {!this.props.user.isVideoActive() ? (

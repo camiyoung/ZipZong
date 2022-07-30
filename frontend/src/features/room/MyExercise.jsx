@@ -2,6 +2,7 @@ import React from "react"
 import Button from "../../components/button/Button"
 import Timer from "../../components/timer/Timer"
 import { CountdownCircleTimer } from "react-countdown-circle-timer"
+import TeachableMachine from "./teachableMachine/TeachableMachine"
 
 const TodoList = () => {
   return (
@@ -66,11 +67,15 @@ const renderTime = ({ remainingTime }) => {
 
 function MyExercise({ Toolbar, myVideo, chat }) {
   console.log("비디오", myVideo)
+  // const videoEle = myVideo.props.myVideoRef.current
 
   return (
     <div className="flex  h-full w-[90%] pl-2 ">
       <div className=" w-[75%] h-full p-3 relative  " id="videoArea">
-        <div className="w-full h-full ">{myVideo}</div>
+        {myVideo && (
+          <TeachableMachine video={myVideo.props.myVideoRef.current} />
+        )}
+        {<div className="w-full h-full ">{myVideo}</div>}
         <div className=" z-30 absolute top-10 left-10 bg-white border-4 rounded-full">
           <CountdownCircleTimer
             isPlaying
