@@ -15,7 +15,9 @@ export default class TeachableMachine extends Component {
     this.predictionElement = undefined
     this.state = {
       resEle: undefined,
+      successCount: 0,
     }
+    this.beforAction = undefined
   }
 
   componentDidMount() {
@@ -48,6 +50,28 @@ export default class TeachableMachine extends Component {
     ))
     // console.log("리스트", predictionsList)
     this.setState({ resEle: predictionsList })
+    this.updateCount(prediction)
+  }
+  updateCount(data) {
+    data.forEach(({ className, probability }) => {
+      //   console.log(className + ":" + probability)
+      const action = className
+      const prob = probability.toFixed(2)
+      //   console.log(action)
+      if (prob == 1) {
+        // console.log("현재동작:", action, "이전 동작", this.beforAction)
+        if (action === "Sleepy_Right") {
+          if (this.beforAction === "Sleepy_Left") {
+            console.log("성공")
+            // this.beforAction = "Sleepy_Left"
+            this.setState((state) => ({
+              successCount: state.successCount + 1,
+            }))
+          }
+        }
+        this.beforAction = action
+      }
+    })
   }
 
   render() {
@@ -55,6 +79,7 @@ export default class TeachableMachine extends Component {
       <div className="w-full h-full absolute z-20">
         <div className="w-[200px] h-[400px] bg-white absolute right-0 border-4">
           {this.state.resEle}
+          count: {this.state.successCount}
         </div>
       </div>
     )
