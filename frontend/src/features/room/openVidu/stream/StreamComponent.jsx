@@ -81,6 +81,7 @@ export default class StreamComponent extends Component {
                 <img
                   src="images/videoOff.jpg"
                   className="w-full h-full rounded-2xl"
+                  alt="비디오 꺼짐 화면"
                 />
               </div>
             )}

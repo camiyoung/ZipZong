@@ -101,7 +101,7 @@ export default function ExerciseResulPage() {
       </section>
       {/* footer */}
       <section className="w-full h-40 flex justify-center items-center flex-col p-3">
-        <a>그룹 페이지로 돌아가기 </a>
+        <div>그룹 페이지로 돌아가기 </div>
       </section>
     </div>
   )
