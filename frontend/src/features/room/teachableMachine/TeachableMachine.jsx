@@ -43,8 +43,8 @@ export default class TeachableMachine extends Component {
       this.props.video
     )
     const prediction = await this.model.predict(posenetOutput)
-    const predictionsList = prediction.map((res) => (
-      <div>
+    const predictionsList = prediction.map((res, i) => (
+      <div key={i}>
         {res.className} : {res.probability.toFixed(2)}
       </div>
     ))
@@ -58,7 +58,7 @@ export default class TeachableMachine extends Component {
       const action = className
       const prob = probability.toFixed(2)
       //   console.log(action)
-      if (prob == 1) {
+      if (prob === 1) {
         // console.log("현재동작:", action, "이전 동작", this.beforAction)
         if (action === "Sleepy_Right") {
           if (this.beforAction === "Sleepy_Left") {
