@@ -80,12 +80,12 @@ export default function RoutineList() {
                     return (
                       <div className="flex justify-center" key={index}>
                         <ChangeLanguage exercise={name} />
-                        {count}
+                        <span className="ml-1">{count}회</span>
                       </div>
                     )
                   })}
                   <div className="flex justify-center">
-                    쉬는 시간 {breaktime}
+                    쉬는 시간 {breaktime}초
                   </div>
                   <div className="flex justify-center p-3">
                     총 운동 시간 : {exercise.length * 60 + breaktime} 초
