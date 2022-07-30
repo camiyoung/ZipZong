@@ -1,6 +1,6 @@
 import React, { Component } from "react"
-import * as tf from "@tensorflow/tfjs"
-import * as tmPose from "@teachablemachine/pose"
+
+const tmPose = window.tmPose
 
 export default class TeachableMachine extends Component {
   constructor(props) {
