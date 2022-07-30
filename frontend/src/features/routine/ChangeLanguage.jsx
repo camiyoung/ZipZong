@@ -18,7 +18,7 @@ export default function ChangeLanguage({ exercise }) {
     <div>
       {exerciseKOR.map((KOR, index) => {
         if (exercise === exerciseENG[index]) {
-          return <span>{KOR}</span>
+          return <span key={index}>{KOR}</span>
         }
       })}
     </div>
