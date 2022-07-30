@@ -8,15 +8,16 @@ export default function SetNickName() {
   const navigate = useNavigate()
   const [nickname, setNickname] = useState("")
   const savedNickname = useSelector((state) => state.member.memberNickname)
+  const memberId = useSelector((state) => state.member.memberId)
   const handleChange = ({ target: { value } }) => setNickname(value)
   const handleSubmit = (e) => {
     e.preventDefault()
-    // 닉네임 유효성 검사
-
-    dispatch(nicknameValidation(nickname))
+    dispatch(nicknameValidation(nickname)) // 닉네임 유효성 검사
     setNickname(savedNickname)
-    dispatch(selectNickname(nickname))
-    navigate("/mypage")
+    if (savedNickname) {
+      // dispatch(selectNickname({ origin: memberId, nickname: nickname }))
+      navigate("/mypage")
+    }
   }
 
   return (

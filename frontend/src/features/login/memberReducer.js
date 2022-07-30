@@ -1,14 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { http } from "../../api/axios"
+import { useDispatch } from "react-redux"
 
 // 회원 닉네임 중복 조회
 export const nicknameValidation = createAsyncThunk(
   "member/duplicate",
   async (nickname) => {
     if (nickname.length > 0) {
-      const { message } = await http.get(`member/duplicate/${nickname}`)
-      console.log("메세지", message)
-      return [message, nickname]
+      const res = await http.get(`member/duplicate/${nickname}`)
+      return [res.data.message, nickname]
     } else {
       alert("닉네임을 입력해주세요")
     }
@@ -16,16 +16,26 @@ export const nicknameValidation = createAsyncThunk(
 )
 
 // 회원 닉네임으로 조회
-export const memberInfo = createAsyncThunk("member/info", async (nickname) => {
-  const { data } = await http.get(`/member/info/${nickname}`)
-  return data
-})
+export const memberInfo = createAsyncThunk(
+  "/member/info/",
+  async (nickname) => {
+    console.log("닉네임", nickname)
+    const res = await http.get(`/member/info/${nickname}`)
+    console.log("회원 닉네임으로 조회", res)
+    // return res.data.data
+  }
+)
 
 // 회원 닉네임 설정
-export const selectNickname = createAsyncThunk("member", async (nickname) => {
-  const { data } = await http.get(`/member/${nickname}`)
-  return data
-})
+export const selectNickname = createAsyncThunk(
+  "member/nickname",
+  async (info) => {
+    console.log("인포인포", info)
+    const res = await http.post("member/nickname", info)
+    console.log("회원 닉네임 설정", res)
+    return res
+  }
+)
 
 export const memberSlice = createSlice({
   name: "member",
@@ -47,16 +57,14 @@ export const memberSlice = createSlice({
     },
   },
   extraReducers(builder) {
-    //rejected, 4개의 state들이 있다고 함
     builder.addCase(nicknameValidation.fulfilled, (state, action) => {
-      if (action.payload === "success") {
+      if (action.payload[0] === "success") {
         state.memberNickname = action.payload[1]
-      } else {
-        console.log("닉네임 중복 처리 불가!!!")
+        selectNickname({
+          origin: state.memberId,
+          nickname: state.memberNickname,
+        })
       }
-    })
-    builder.addCase(nicknameValidation.rejected, (state, action) => {
-      console.log(state, action)
     })
 
     builder.addCase(selectNickname.fulfilled, (state, action) => {
@@ -66,6 +74,7 @@ export const memberSlice = createSlice({
       state.memberNickname = action.payload["nickname"]
     })
     builder.addCase(memberInfo.fulfilled, (state, action) => {
+      console.log("액션", action)
       state.memberName = action.payload["name"]
       state.memberEmail = action.payload["email"]
       state.memberProvider = action.payload["provider"]

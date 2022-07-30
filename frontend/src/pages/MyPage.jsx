@@ -6,7 +6,8 @@ import { memberInfo } from "../features/login/memberReducer"
 
 export default function MyPage() {
   const dispatch = useDispatch()
-  const memberNickname = useSelector((state) => state.memberNickname)
+  const memberNickname = useSelector((state) => state.member.memberNickname)
+  console.log("멤버닉네임", memberNickname)
   dispatch(memberInfo(memberNickname))
   return (
     <div>
