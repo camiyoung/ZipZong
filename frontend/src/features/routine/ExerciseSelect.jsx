@@ -107,8 +107,8 @@ export default function ExerciseSelect({
               <button
                 className="w-6 bg-lightBlue rounded-2xl hover:bg-mainBlue "
                 onClick={() => {
-                  if (breakTime >= 5) {
-                    setBreakTime(breakTime - 5)
+                  if (breakTime > 15) {
+                    setBreakTime(breakTime - 15)
                   }
                 }}
               >
@@ -119,7 +119,7 @@ export default function ExerciseSelect({
                 className="w-6 bg-lightBlue rounded-2xl hover:bg-mainBlue "
                 onClick={() => {
                   if (breakTime < 60) {
-                    setBreakTime(breakTime + 5)
+                    setBreakTime(breakTime + 15)
                   }
                 }}
               >
