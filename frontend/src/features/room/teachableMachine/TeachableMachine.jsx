@@ -56,7 +56,7 @@ export default class TeachableMachine extends Component {
     data.forEach(({ className, probability }) => {
       //   console.log(className + ":" + probability)
       const action = className
-      const prob = probability.toFixed(2)
+      const prob = parseInt(probability.toFixed(2))
       //   console.log(action)
       if (prob === 1) {
         // console.log("현재동작:", action, "이전 동작", this.beforAction)
