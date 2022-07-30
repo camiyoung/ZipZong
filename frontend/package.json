@@ -10,6 +10,7 @@
     "@heroicons/react": "^1.0.6",
     "@reduxjs/toolkit": "^1.8.3",
     "@teachablemachine/pose": "^0.8.6",
+    "@tensorflow-models/posenet": "^2.2.2",
     "@tensorflow/tfjs": "^3.19.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
