@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import Button from "../../components/button/Button"
 import ImageIcon from "../../components/icon/ImageIcon"
 import Modal from "../../components/modal/Modal"
@@ -44,14 +44,20 @@ export default function Profile() {
   const [icon, setIcon] = useState(rabbit)
   const stateNickname = useSelector((state) => state.member.memberNickname)
   const handleChange = ({ target: { value } }) => setNickname(value)
+  useEffect(() => {
+    setNickname(stateNickname)
+  }, [])
   const handleSubmit = (e) => {
     console.log(e)
     e.preventDefault()
     dispatch(nicknameValidation(nickname))
-    dispatch(nicknameChange(nickname))
-    dispatch(memberIconSelect({ nickname, icon }))
+    if (nicknameValidation) {
+      dispatch(nicknameChange({ origin: stateNickname, nickname: nickname }))
+      dispatch(memberIconSelect({ nickname: nickname, icon: icon }))
+    }
     modalClose()
   }
+  console.log(stateNickname)
   return (
     // 모달
     <div>
@@ -106,7 +112,7 @@ export default function Profile() {
               borderStyle="none"
             />
             <p className="text-sm p-2">
-              <span className="font-semibold">{nickname} </span> 님, 오늘도
+              <span className="font-semibold">{stateNickname} </span> 님, 오늘도
               즐거운 운동 되세요!
             </p>
             <Button
