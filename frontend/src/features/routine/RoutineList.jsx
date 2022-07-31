@@ -1,4 +1,6 @@
 import React, { useState } from "react"
+import { useSelector } from "react-redux"
+
 import ImageIcon from "../../components/icon/ImageIcon"
 import Modal from "../../components/modal/Modal"
 import Button from "../../components/button/Button"
@@ -6,55 +8,8 @@ import Card from "../../components/card/Card"
 import { Link } from "react-router-dom"
 import ChangeLanguage from "./ChangeLanguage"
 
-const routines = [
-  {
-    routineId: 0,
-    routineName: "슬기세트",
-    exercise: [
-      { name: "PUSHUP", count: 5 },
-      { name: "PUSHUP", count: 5 },
-      { name: "PUSHUP", count: 5 },
-      { name: "PUSHUP", count: 5 },
-    ],
-    breaktime: 60,
-    totaltime: 300,
-  },
-  {
-    routineId: 1,
-    routineName: "종민세트",
-    exercise: [
-      { name: "BURPEE", count: 5 },
-      { name: "BURPEE", count: 5 },
-      { name: "BURPEE", count: 5 },
-      { name: "BURPEE", count: 5 },
-    ],
-    breaktime: 60,
-  },
-  {
-    routineId: 2,
-    routineName: "준우세트",
-    exercise: [
-      { name: "LEGRAISE", count: 5 },
-      { name: "LEGRAISE", count: 5 },
-      { name: "LEGRAISE", count: 5 },
-      { name: "LEGRAISE", count: 5 },
-    ],
-    breaktime: 60,
-  },
-  {
-    routineId: 3,
-    routineName: "승주세트",
-    exercise: [
-      { name: "PUSHUP", count: 5 },
-      { name: "PUSHUP", count: 5 },
-      { name: "PUSHUP", count: 5 },
-      { name: "PUSHUP", count: 5 },
-    ],
-    breaktime: 60,
-  },
-]
-
 export default function RoutineList() {
+  const routines = useSelector((state) => state.routine.routines)
   const [isOpen, setOpen] = useState(false)
   const modalClose = () => setOpen(false)
   return (
