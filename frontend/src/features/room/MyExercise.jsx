@@ -72,9 +72,7 @@ function MyExercise({ Toolbar, myVideo, chat }) {
   return (
     <div className="flex  h-full w-[90%] pl-2 ">
       <div className=" w-[75%] h-full p-3 relative  " id="videoArea">
-        {myVideo && (
-          <TeachableMachine video={myVideo.props.myVideoRef.current} />
-        )}
+        {myVideo && <TeachableMachine myVideoRef={myVideo.props.myVideoRef} />}
         {<div className="w-full h-full ">{myVideo}</div>}
         <div className=" z-30 absolute top-10 left-10 bg-white border-4 rounded-full">
           <CountdownCircleTimer
