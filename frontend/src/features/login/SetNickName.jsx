@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import Button from "../../components/button/Button"
 import { nicknameValidation, selectNickname } from "./memberReducer"
+import axios from "axios"
 export default function SetNickName() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -14,10 +15,7 @@ export default function SetNickName() {
     e.preventDefault()
     dispatch(nicknameValidation(nickname)) // 닉네임 유효성 검사
     setNickname(savedNickname)
-    if (savedNickname) {
-      // dispatch(selectNickname({ origin: memberId, nickname: nickname }))
-      navigate("/mypage")
-    }
+    navigate("/mypage")
   }
 
   return (
