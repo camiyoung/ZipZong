@@ -4,12 +4,10 @@ import { http } from "../../api/axios"
 // 회원 닉네임 변경
 export const nicknameChange = createAsyncThunk(
   "mypage/nicknameChange",
-  async (origin, nickname) => {
-    const { data } = await http.put("/member/nickname/", {
-      origin: origin,
-      nickname: nickname,
-    })
-    return data
+  async (info) => {
+    const res = await http.put("/member/nickname/", info)
+    console.log(res)
+    return res
   }
 )
 

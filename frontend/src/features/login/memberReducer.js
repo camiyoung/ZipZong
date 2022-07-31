@@ -8,7 +8,7 @@ export const nicknameValidation = createAsyncThunk(
   async (nickname) => {
     if (nickname.length > 0) {
       const res = await http.get(`member/duplicate/${nickname}`)
-      return [res.data.message, nickname]
+      return [res.data.data, nickname]
     } else {
       alert("닉네임을 입력해주세요")
     }
@@ -16,26 +16,12 @@ export const nicknameValidation = createAsyncThunk(
 )
 
 // 회원 닉네임으로 조회
-export const memberInfo = createAsyncThunk(
-  "/member/info/",
-  async (nickname) => {
-    console.log("닉네임", nickname)
-    const res = await http.get(`/member/info/${nickname}`)
-    console.log("회원 닉네임으로 조회", res)
-    // return res.data.data
-  }
-)
-
-// 회원 닉네임 설정
-export const selectNickname = createAsyncThunk(
-  "member/nickname",
-  async (info) => {
-    console.log("인포인포", info)
-    const res = await http.post("member/nickname", info)
-    console.log("회원 닉네임 설정", res)
-    return res
-  }
-)
+export const memberInfo = createAsyncThunk("member/info/", async (nickname) => {
+  console.log("닉네임", nickname)
+  const res = await http.get(`member/info/${nickname}`)
+  console.log("회원 닉네임으로 조회", res)
+  // return res.data.data
+})
 
 export const memberSlice = createSlice({
   name: "member",
@@ -45,6 +31,7 @@ export const memberSlice = createSlice({
     memberEmail: null,
     memberProvider: null,
     memberNickname: null,
+    memberRepIcon: null,
   },
   reducers: {
     // 로그아웃
@@ -58,27 +45,33 @@ export const memberSlice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(nicknameValidation.fulfilled, (state, action) => {
-      if (action.payload[0] === "success") {
+      console.log(action.payload)
+      if (action.payload[0] === "NON-DUPLICATE") {
         state.memberNickname = action.payload[1]
-        selectNickname({
-          origin: state.memberId,
-          nickname: state.memberNickname,
-        })
+        console.log(state.memberId, state.memberNickname)
+        // 회원 닉네임 설정
+        http
+          .post("member/nickname", {
+            memberId: state.memberId,
+            nickname: state.memberNickname,
+          })
+          .then((res) => {
+            if (res.message === "success") {
+              state.memberName = res.data.name
+              state.memberEmail = res.data.email
+              state.memberProvider = res.data.provider
+              state.memberNickname = res.data.nickname
+              state.memberRepIcon = res.data.repIcon
+            }
+          })
       }
     })
-
-    builder.addCase(selectNickname.fulfilled, (state, action) => {
-      state.memberName = action.payload["name"]
-      state.memberEmail = action.payload["email"]
-      state.memberProvider = action.payload["provider"]
-      state.memberNickname = action.payload["nickname"]
-    })
     builder.addCase(memberInfo.fulfilled, (state, action) => {
-      console.log("액션", action)
-      state.memberName = action.payload["name"]
-      state.memberEmail = action.payload["email"]
-      state.memberProvider = action.payload["provider"]
-      state.memberNickname = action.payload["nickname"]
+      console.log("멤버인포빌더", action)
+      // state.memberName = action.payload["name"]
+      // state.memberEmail = action.payload["email"]
+      // state.memberProvider = action.payload["provider"]
+      // state.memberNickname = action.payload["nickname"]
     })
   },
 })
