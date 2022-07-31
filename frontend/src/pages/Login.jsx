@@ -47,8 +47,8 @@ export default function Login() {
         />
       </div>
       {/* 로그인되면 버튼들이 보이지 않음 */}
+      {/* {hasNickName ? window.location.href("/mypage") : null} */}
       {accessToken ? <SetNickName /> : <NotLoggedInYet />}
-      {hasNickName ? window.location.href("/mypage") : null}
     </div>
   )
 }
