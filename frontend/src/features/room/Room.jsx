@@ -162,8 +162,16 @@ class Room extends Component {
   }
 
   async connectWebCam() {
-    var devices = await this.OV.getDevices()
-    var videoDevices = devices.filter((device) => device.kind === "videoinput")
+    //카메라 접근 요청창을 위함
+    await navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: true,
+    })
+
+    const devices = await this.OV.getDevices()
+    const videoDevices = devices.filter(
+      (device) => device.kind === "videoinput"
+    )
 
     let publisher = this.OV.initPublisher(undefined, {
       audioSource: undefined,
