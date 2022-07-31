@@ -22,15 +22,15 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ExerciseService {
 
-    MemberRepository memberRepository;
-    TeamRepository teamRepository;
-    RegistrationRepository registrationRepository;
-    ExerciseRepository exerciseRepository;
-    ExerciseDetailRepository exerciseDetailRepository;
-    MemberHistoryRepository memberHistoryRepository;
-    TeamHistoryRepository teamHistoryRepository;
-    TeamHistoryDetailRepository teamHistoryDetailRepository;
-    MemberHistoryDetailRepository memberHistoryDetailRepository;
+    private final MemberRepository memberRepository;
+    private final TeamRepository teamRepository;
+    private final RegistrationRepository registrationRepository;
+    private final ExerciseRepository exerciseRepository;
+    private final ExerciseDetailRepository exerciseDetailRepository;
+    private final TeamHistoryRepository teamHistoryRepository;
+    private final TeamHistoryDetailRepository teamHistoryDetailRepository;
+    private final MemberHistoryRepository memberHistoryRepository;
+    private final MemberHistoryDetailRepository memberHistoryDetailRepository;
 
     public void saveMemberExerciseInfo(Long teamId, List<ExerciseResultRequest.PersonalResult> personalResults) {
 
@@ -220,10 +220,10 @@ public class ExerciseService {
 
         for(int d = 1; d <= dayOfMonth; d++) {
             List<ExerciseTeamHistoryResponse.Perform> performs = map.getOrDefault(d, new ArrayList<>());
-            if(performs.size() == 0) continue;
             ExerciseTeamHistoryResponse.DailyHistory dailyHistory = new ExerciseTeamHistoryResponse.DailyHistory();
             dailyHistory.setDay(d);
             dailyHistory.setTotalTime(performs.size());
+            dailyHistory.setPerforms(new ArrayList<>());
 
             Map<String, int[]> performInfo = new TreeMap<>();
             for(ExerciseTeamHistoryResponse.Perform perform : performs) {
@@ -244,7 +244,8 @@ public class ExerciseService {
                 int performNum = entry.getValue()[0];
                 int performTime = entry.getValue()[1];
 
-                dailyHistory.getPerforms().add(ExerciseTeamHistoryResponse.Perform.builder()
+                dailyHistory.getPerforms().add(ExerciseTeamHistoryResponse.Perform
+                                .builder()
                                 .performName(performName)
                                 .performNum(performNum)
                                 .performTime(performTime)
@@ -290,10 +291,10 @@ public class ExerciseService {
 
         for(int d = 1; d <= dayOfMonth; d++) {
             List<ExerciseMemberHistoryResponse.Perform> performs = map.getOrDefault(d, new ArrayList<>());
-            if(performs.size() == 0) continue;
             ExerciseMemberHistoryResponse.DailyHistory dailyHistory = new ExerciseMemberHistoryResponse.DailyHistory();
             dailyHistory.setDay(d);
             dailyHistory.setTotalTime(performs.size());
+            dailyHistory.setPerforms(new ArrayList<>());
 
             Map<String, int[]> performInfo = new TreeMap<>();
             for(ExerciseMemberHistoryResponse.Perform perform : performs) {
@@ -341,7 +342,7 @@ public class ExerciseService {
         List<ExerciseTeamTotalResponse.PerformTeamTotal> performTeamTotals = new ArrayList<>();
 
         List<TeamHistoryDetail> teamHistoryDetails = teamHistoryDetailRepository.findByTeamHistoryId(teamHistory.getId());
-        Map<String, Integer> exercises = new HashMap<>();
+        Map<String, Integer> exercises = new TreeMap<>();
 
         for(TeamHistoryDetail teamHistoryDetail : teamHistoryDetails) {
             String exerciseName = teamHistoryDetail.getExerciseName();

@@ -28,6 +28,10 @@ public class MemberHistory {
     @OneToOne(mappedBy = "memberHistory", fetch = FetchType.LAZY)
     private Member member;
 
+    public void setMember(Member member) {
+        this.member = member;
+    }
+
     @Builder
     public MemberHistory(Long id, int maximumStrick, int currentStrick) {
         this.id = id;

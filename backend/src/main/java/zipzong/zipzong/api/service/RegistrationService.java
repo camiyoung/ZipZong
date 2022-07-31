@@ -38,6 +38,7 @@ public class RegistrationService {
         teamRepository.save(team);
         Member member = memberRepository.findById(memberId).orElseThrow();
         Registration registration = Registration.createRegistration(member, team);
+        System.out.println("hi");
         team.getRegistrationList().add(registration);
 
         registrationRepository.save(registration);
