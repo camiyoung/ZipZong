@@ -145,7 +145,7 @@ class MemberControllerTest {
     void setNicknameSuccess() throws Exception {
         //given
         String nickname = "JunWoo";
-        String body = "{\"origin\" : \"origin\", \"nickname\" : \"JunWoo\"}";
+        String body = "{\"memberId\" : \"1\", \"nickname\" : \"JunWoo\"}";
         given(memberService.setNickName(any(NicknameSetResponse.class))).willReturn(makeMember(nickname));
 
         //when
@@ -161,7 +161,7 @@ class MemberControllerTest {
                              preprocessRequest(prettyPrint()),
                              preprocessResponse(prettyPrint()),
                              requestFields(
-                                     fieldWithPath("origin").description("기존 아이디"),
+                                     fieldWithPath("memberId").description("기존 아이디"),
                                      fieldWithPath("nickname").description("설정할 닉네임")
                              ),
 
