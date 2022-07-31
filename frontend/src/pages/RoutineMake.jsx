@@ -1,58 +1,14 @@
+import { useSelector } from "react-redux"
 import { useState, useEffect } from "react"
+
 import ExerciseSelect from "../features/routine/ExerciseSelect"
 import ExerciseList from "../features/routine/ExerciseList"
 import RoutineButton from "../features/routine/RoutineButton"
 import { useParams } from "react-router-dom"
 
-const routines = [
-  {
-    routineId: 0,
-    routineName: "슬기세트",
-    exercise: [
-      { name: "PUSHUP", count: 5 },
-      { name: "PUSHUP", count: 5 },
-      { name: "PUSHUP", count: 5 },
-      { name: "PUSHUP", count: 5 },
-    ],
-    breaktime: 60,
-    totaltime: 300,
-  },
-  {
-    routineId: 1,
-    routineName: "종민세트",
-    exercise: [
-      { name: "BURPEE", count: 5 },
-      { name: "BURPEE", count: 5 },
-      { name: "BURPEE", count: 5 },
-      { name: "BURPEE", count: 5 },
-    ],
-    breaktime: 60,
-  },
-  {
-    routineId: 2,
-    routineName: "준우세트",
-    exercise: [
-      { name: "LEGRAISE", count: 5 },
-      { name: "LEGRAISE", count: 5 },
-      { name: "LEGRAISE", count: 5 },
-      { name: "LEGRAISE", count: 5 },
-    ],
-    breaktime: 60,
-  },
-  {
-    routineId: 3,
-    routineName: "승주세트",
-    exercise: [
-      { name: "PUSHUP", count: 5 },
-      { name: "PUSHUP", count: 5 },
-      { name: "PUSHUP", count: 5 },
-      { name: "PUSHUP", count: 5 },
-    ],
-    breaktime: 60,
-  },
-]
-
 export default function RoutineMake() {
+  const routines = useSelector((state) => state.routine.routines)
+
   const [routineName, setRoutineName] = useState("")
   const [routine, setRoutine] = useState([])
   const [idx, setIdx] = useState(0)
