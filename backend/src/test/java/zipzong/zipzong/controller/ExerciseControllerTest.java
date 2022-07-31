@@ -3,7 +3,6 @@ package zipzong.zipzong.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -15,23 +14,24 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultActions;
 import zipzong.zipzong.api.controller.ExerciseController;
+import zipzong.zipzong.api.dto.exercise.request.ExerciseMemberHistoryRequest;
 import zipzong.zipzong.api.dto.exercise.request.ExerciseResultRequest;
-import zipzong.zipzong.api.dto.exercise.response.ExerciseResultResponse;
+import zipzong.zipzong.api.dto.exercise.request.ExerciseTeamHistoryRequest;
+import zipzong.zipzong.api.dto.exercise.response.*;
 import zipzong.zipzong.api.service.ExerciseService;
 import zipzong.zipzong.config.auth.OAuthService;
 import zipzong.zipzong.config.jwt.JwtService;
-import zipzong.zipzong.db.domain.Exercise;
 import zipzong.zipzong.db.repository.memberteam.MemberRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -57,7 +57,7 @@ public class ExerciseControllerTest {
 
     @Test
     @DisplayName("운동 결과 저장 후 달성률 반환")
-    void saveExerciseResult() throws  Exception {
+    void saveExerciseResult() throws Exception {
         // given
         ExerciseResultRequest exerciseResultRequest = makeExerciseResultRequest();
         ExerciseResultResponse exerciseResultResponse = makeExerciseResultResponse();
@@ -76,8 +76,164 @@ public class ExerciseControllerTest {
                 .andExpect(jsonPath("$.data.avgPercentage").value(exerciseResultResponse.getAvgPercentage()))
                 .andDo(document("exercise-result",
                         preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()))
-                );
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("teamId").description("팀 ID"),
+                                fieldWithPath("personalResults.[]").description("개인 별 운동 기록"),
+                                fieldWithPath("personalResults.[].memberId").description("회원 ID"),
+                                fieldWithPath("personalResults.[].personalResultDetails.[]").description("동작 별 정보"),
+                                fieldWithPath("personalResults.[].personalResultDetails.[].exerciseName").description("동작 이름"),
+                                fieldWithPath("personalResults.[].personalResultDetails.[].performNum").description("실시 횟수"),
+                                fieldWithPath("personalResults.[].personalResultDetails.[].targetNum").description("목적 횟수")
+                        ),
+                        responseFields(
+                                fieldWithPath("message").description("메시지"),
+                                fieldWithPath("data.personalPercentages.[]").description("회원 달성률"),
+                                fieldWithPath("data.personalPercentages.[].nickname").description("회원 닉네임"),
+                                fieldWithPath("data.personalPercentages.[].percentage").description("개인별 달성률"),
+                                fieldWithPath("data.avgPercentage").description("전체 평균 달성률")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("팀 월별 기록 조회")
+    void teamMonthlyHistory() throws Exception {
+        // given
+        ExerciseTeamHistoryRequest exerciseTeamHistoryRequest = makeExerciseTeamHistoryRequest();
+        ExerciseTeamHistoryResponse exerciseTeamHistoryResponse = makeExerciseTeamHistoryResponse();
+        given(exerciseService.teamHistoryByYearAndMonth(anyLong(), anyInt(), anyInt())).willReturn(exerciseTeamHistoryResponse);
+
+        // when
+        RequestBuilder requestBuilder = RestDocumentationRequestBuilders.get("/exercise/history/team", exerciseTeamHistoryRequest)
+                .param("teamId", String.valueOf(exerciseTeamHistoryRequest.getTeamId()))
+                .param("year", String.valueOf(exerciseTeamHistoryRequest.getYear()))
+                .param("month", String.valueOf(exerciseTeamHistoryRequest.getMonth()));
+
+        ResultActions resultActions = mockMvc.perform(requestBuilder);
+
+        // then
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.dailyHistories.[0].day").value(1))
+                .andDo(document("exercise-team-monthly",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestParameters(
+                                parameterWithName("teamId").description("팀 ID"),
+                                parameterWithName("year").description("연"),
+                                parameterWithName("month").description("월")
+                        ),
+                        responseFields(
+                                fieldWithPath("message").description("메시지"),
+                                fieldWithPath("data.dailyHistories.[]").description("일자 별 운동기록"),
+                                fieldWithPath("data.dailyHistories.[].day").description("일자"),
+                                fieldWithPath("data.dailyHistories.[].totalTime").description("당일 운동시간"),
+                                fieldWithPath("data.dailyHistories.[].performs.[]").description("동작별 정보"),
+                                fieldWithPath("data.dailyHistories.[].performs.[].performName").description("동작별 정보"),
+                                fieldWithPath("data.dailyHistories.[].performs.[].performNum").description("동작별 횟수"),
+                                fieldWithPath("data.dailyHistories.[].performs.[].performTime").description("동작별 시간")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("팀 누적 기록 조회")
+    void teamExerciseHistory() throws Exception {
+        // given
+        ExerciseTeamTotalResponse exerciseTeamTotalResponse = makeExerciseTeamTotalResponse();
+        given(exerciseService.totalTeamHistory(anyLong())).willReturn(exerciseTeamTotalResponse);
+
+        // when
+        RequestBuilder requestBuilder = RestDocumentationRequestBuilders.get("/exercise/history/team/sum?teamId=1");
+        ResultActions resultActions = mockMvc.perform(requestBuilder);
+
+        // then
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.currentStrick").value(5))
+                .andDo(document("exercise-team-history",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestParameters(
+                                parameterWithName("teamId").description("팀 ID")
+                        ),
+                        responseFields(
+                                fieldWithPath("message").description("메시지"),
+                                fieldWithPath("data.currentStrick").description("현재 스트릭 일 수"),
+                                fieldWithPath("data.performTeamTotals.[]").description("동작 별 통계"),
+                                fieldWithPath("data.performTeamTotals.[].performName").description("동작 이름"),
+                                fieldWithPath("data.performTeamTotals.[].performTotal").description("동작 총 횟수")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("회원 월별 기록 조회")
+    void memberMonthlyHistory() throws Exception {
+        // given
+        ExerciseMemberHistoryRequest exerciseMemberHistoryRequest = makeExerciseMemberHistoryRequest();
+        ExerciseMemberHistoryResponse exerciseMemberHistoryResponse = makeExerciseMemberHistoryResponse();
+        given(exerciseService.memberHistoryByYearAndMonth(anyLong(), anyInt(), anyInt())).willReturn(exerciseMemberHistoryResponse);
+
+        // when
+        RequestBuilder requestBuilder = RestDocumentationRequestBuilders.get("/exercise/history/member", exerciseMemberHistoryRequest)
+                .param("memberId", String.valueOf(exerciseMemberHistoryRequest.getMemberId()))
+                .param("year", String.valueOf(exerciseMemberHistoryRequest.getYear()))
+                .param("month", String.valueOf(exerciseMemberHistoryRequest.getMonth()));
+
+        ResultActions resultActions = mockMvc.perform(requestBuilder);
+
+        // then
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.dailyHistories.[0].day").value(1))
+                .andDo(document("exercise-member-monthly",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestParameters(
+                                parameterWithName("memberId").description("회원 ID"),
+                                parameterWithName("year").description("연"),
+                                parameterWithName("month").description("월")
+                        ),
+                        responseFields(
+                                fieldWithPath("message").description("메시지"),
+                                fieldWithPath("data.dailyHistories.[]").description("일자 별 운동기록"),
+                                fieldWithPath("data.dailyHistories.[].day").description("일자"),
+                                fieldWithPath("data.dailyHistories.[].totalTime").description("당일 운동시간"),
+                                fieldWithPath("data.dailyHistories.[].performs.[]").description("동작별 정보"),
+                                fieldWithPath("data.dailyHistories.[].performs.[].performName").description("동작별 정보"),
+                                fieldWithPath("data.dailyHistories.[].performs.[].performNum").description("동작별 횟수"),
+                                fieldWithPath("data.dailyHistories.[].performs.[].performTime").description("동작별 시간")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("회원 누적 기록 조회")
+    void memberExerciseHistory() throws Exception {
+        // given
+        ExerciseMemberTotalResponse exerciseMemberTotalResponse = makeExerciseMemberTotalResponse();
+        given(exerciseService.totalMemberHistory(anyLong())).willReturn(exerciseMemberTotalResponse);
+
+        // when
+        RequestBuilder requestBuilder = RestDocumentationRequestBuilders.get("/exercise/history/member/sum?memberId=1");
+        ResultActions resultActions = mockMvc.perform(requestBuilder);
+
+        // then
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.currentStrick").value(5))
+                .andDo(document("exercise-member-history",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestParameters(
+                                parameterWithName("memberId").description("회원 ID")
+                        ),
+                        responseFields(
+                                fieldWithPath("message").description("메시지"),
+                                fieldWithPath("data.currentStrick").description("현재 스트릭 일 수"),
+                                fieldWithPath("data.performMemberTotals.[]").description("동작 별 통계"),
+                                fieldWithPath("data.performMemberTotals.[].performName").description("동작 이름"),
+                                fieldWithPath("data.performMemberTotals.[].performTotal").description("동작 총 횟수")
+                        )
+                ));
     }
 
     private ExerciseResultRequest makeExerciseResultRequest() {
@@ -135,5 +291,119 @@ public class ExerciseControllerTest {
         exerciseResultResponse.setPersonalPercentages(personalPercentages);
 
         return exerciseResultResponse;
+    }
+
+    private ExerciseTeamHistoryRequest makeExerciseTeamHistoryRequest() {
+        ExerciseTeamHistoryRequest exerciseTeamHistoryRequest = new ExerciseTeamHistoryRequest();
+        exerciseTeamHistoryRequest.setTeamId(1L);
+        exerciseTeamHistoryRequest.setYear(2022);
+        exerciseTeamHistoryRequest.setMonth(8);
+        return exerciseTeamHistoryRequest;
+    }
+
+    private ExerciseTeamHistoryResponse makeExerciseTeamHistoryResponse() {
+        ExerciseTeamHistoryResponse exerciseTeamHistoryResponse = new ExerciseTeamHistoryResponse();
+
+        List<ExerciseTeamHistoryResponse.DailyHistory> dailyHistories = new ArrayList<>();
+
+        ExerciseTeamHistoryResponse.DailyHistory dailyHistory = new ExerciseTeamHistoryResponse.DailyHistory();
+
+        List<ExerciseTeamHistoryResponse.Perform> performs = new ArrayList<>();
+        ExerciseTeamHistoryResponse.Perform perform1 = new ExerciseTeamHistoryResponse.Perform();
+        perform1.setPerformName("PUSHUP");
+        perform1.setPerformNum(18);
+        perform1.setPerformTime(1);
+
+        ExerciseTeamHistoryResponse.Perform perform2 = new ExerciseTeamHistoryResponse.Perform();
+        perform2.setPerformName("LEGRAISE");
+        perform2.setPerformNum(30);
+        perform2.setPerformTime(2);
+
+        performs.add(perform1);
+        performs.add(perform2);
+
+        dailyHistory.setDay(1);
+        dailyHistory.setTotalTime(3);
+        dailyHistory.setPerforms(performs);
+
+        dailyHistories.add(dailyHistory);
+
+        exerciseTeamHistoryResponse.setDailyHistories(dailyHistories);
+
+        return exerciseTeamHistoryResponse;
+    }
+
+    private ExerciseTeamTotalResponse makeExerciseTeamTotalResponse() {
+        ExerciseTeamTotalResponse exerciseTeamTotalResponse = new ExerciseTeamTotalResponse();
+
+        List<ExerciseTeamTotalResponse.PerformTeamTotal> performTeamTotals = new ArrayList<>();
+
+        ExerciseTeamTotalResponse.PerformTeamTotal performTeamTotal = new ExerciseTeamTotalResponse.PerformTeamTotal();
+        performTeamTotal.setPerformTotal(500);
+        performTeamTotal.setPerformName("PUSHUP");
+
+        performTeamTotals.add(performTeamTotal);
+
+        exerciseTeamTotalResponse.setPerformTeamTotals(performTeamTotals);
+        exerciseTeamTotalResponse.setCurrentStrick(5);
+
+        return exerciseTeamTotalResponse;
+    }
+
+    private ExerciseMemberHistoryRequest makeExerciseMemberHistoryRequest() {
+        ExerciseMemberHistoryRequest exerciseMemberHistoryRequest = new ExerciseMemberHistoryRequest();
+        exerciseMemberHistoryRequest.setMemberId(1L);
+        exerciseMemberHistoryRequest.setYear(2022);
+        exerciseMemberHistoryRequest.setMonth(8);
+        return exerciseMemberHistoryRequest;
+    }
+
+    private ExerciseMemberHistoryResponse makeExerciseMemberHistoryResponse() {
+        ExerciseMemberHistoryResponse exerciseMemberHistoryResponse = new ExerciseMemberHistoryResponse();
+
+        List<ExerciseMemberHistoryResponse.DailyHistory> dailyHistories = new ArrayList<>();
+
+        ExerciseMemberHistoryResponse.DailyHistory dailyHistory = new ExerciseMemberHistoryResponse.DailyHistory();
+
+        List<ExerciseMemberHistoryResponse.Perform> performs = new ArrayList<>();
+        ExerciseMemberHistoryResponse.Perform perform1 = new ExerciseMemberHistoryResponse.Perform();
+        perform1.setPerformName("PUSHUP");
+        perform1.setPerformNum(18);
+        perform1.setPerformTime(1);
+
+        ExerciseMemberHistoryResponse.Perform perform2 = new ExerciseMemberHistoryResponse.Perform();
+        perform2.setPerformName("LEGRAISE");
+        perform2.setPerformNum(30);
+        perform2.setPerformTime(2);
+
+        performs.add(perform1);
+        performs.add(perform2);
+
+        dailyHistory.setDay(1);
+        dailyHistory.setTotalTime(3);
+        dailyHistory.setPerforms(performs);
+
+        dailyHistories.add(dailyHistory);
+
+        exerciseMemberHistoryResponse.setDailyHistories(dailyHistories);
+
+        return exerciseMemberHistoryResponse;
+    }
+
+    private ExerciseMemberTotalResponse makeExerciseMemberTotalResponse() {
+        ExerciseMemberTotalResponse exerciseMemberTotalResponse = new ExerciseMemberTotalResponse();
+
+        List<ExerciseMemberTotalResponse.PerformMemberTotal> performMemberTotals = new ArrayList<>();
+
+        ExerciseMemberTotalResponse.PerformMemberTotal performMemberTotal = new ExerciseMemberTotalResponse.PerformMemberTotal();
+        performMemberTotal.setPerformTotal(500);
+        performMemberTotal.setPerformName("PUSHUP");
+
+        performMemberTotals.add(performMemberTotal);
+
+        exerciseMemberTotalResponse.setPerformMemberTotals(performMemberTotals);
+        exerciseMemberTotalResponse.setCurrentStrick(5);
+
+        return exerciseMemberTotalResponse;
     }
 }

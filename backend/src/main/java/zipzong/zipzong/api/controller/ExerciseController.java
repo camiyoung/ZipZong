@@ -47,11 +47,8 @@ public class ExerciseController {
 
     @GetMapping("/history/team")
     public ResponseEntity<BasicResponse<ExerciseTeamHistoryResponse>> exerciseTeamHistory(@ModelAttribute ExerciseTeamHistoryRequest request) {
-        Long teamId = request.getTeamId();
-        int year = request.getYear();
-        int month = request.getMonth();
 
-        ExerciseTeamHistoryResponse response = exerciseService.teamHistoryByYearAndMonth(teamId, year, month);
+        ExerciseTeamHistoryResponse response = exerciseService.teamHistoryByYearAndMonth(request.getTeamId(), request.getYear(), request.getMonth());
 
         return new ResponseEntity<>(makeBasicResponse(SUCCESS, response), HttpStatus.OK);
     }
