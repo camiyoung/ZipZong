@@ -20,7 +20,7 @@ import java.util.List;
 @RequestMapping("/exercise")
 public class ExerciseController {
 
-    ExerciseService exerciseService;
+    final ExerciseService exerciseService;
 
     static final String SUCCESS = "success";
 

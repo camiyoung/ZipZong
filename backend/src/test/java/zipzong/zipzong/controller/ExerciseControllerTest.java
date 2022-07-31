@@ -40,6 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @MockBean(JpaMetamodelMappingContext.class)
 public class ExerciseControllerTest {
 
+    @Autowired
     MockMvc mockMvc;
 
     @MockBean
@@ -57,26 +58,26 @@ public class ExerciseControllerTest {
     @Test
     @DisplayName("운동 결과 저장 후 달성률 반환")
     void saveExerciseResult() throws  Exception {
-//        // given
-//        ExerciseResultRequest exerciseResultRequest = makeExerciseResultRequest();
-//        ExerciseResultResponse exerciseResultResponse = makeExerciseResultResponse();
-//        String body = (new ObjectMapper()).writeValueAsString(exerciseResultRequest);
-//        given(exerciseService.calculatePercentageAvg(any())).willReturn(exerciseResultResponse);
-//
-//        // when
-//        RequestBuilder requestBuilder = RestDocumentationRequestBuilders.post("/exercise/result")
-//                .content(body)
-//                .contentType(MediaType.APPLICATION_JSON);
-//
-//        ResultActions resultActions = mockMvc.perform(requestBuilder);
-//
-//        // then
-//        resultActions.andExpect(status().isCreated())
-//                .andExpect(jsonPath("$.data").value(exerciseResultResponse))
-//                .andDo(document("exercise-result",
-//                        preprocessRequest(prettyPrint()),
-//                        preprocessResponse(prettyPrint()))
-//                );
+        // given
+        ExerciseResultRequest exerciseResultRequest = makeExerciseResultRequest();
+        ExerciseResultResponse exerciseResultResponse = makeExerciseResultResponse();
+        String body = (new ObjectMapper()).writeValueAsString(exerciseResultRequest);
+        given(exerciseService.calculatePercentageAvg(any())).willReturn(exerciseResultResponse);
+
+        // when
+        RequestBuilder requestBuilder = RestDocumentationRequestBuilders.post("/exercise/result")
+                .content(body)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        ResultActions resultActions = mockMvc.perform(requestBuilder);
+
+        // then
+        resultActions.andExpect(status().isCreated())
+                .andExpect(jsonPath("$.data.avgPercentage").value(exerciseResultResponse.getAvgPercentage()))
+                .andDo(document("exercise-result",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()))
+                );
     }
 
     private ExerciseResultRequest makeExerciseResultRequest() {
@@ -128,7 +129,7 @@ public class ExerciseControllerTest {
         personalPercentage2.setPercentage(80);
 
         personalPercentages.add(personalPercentage);
-        personalPercentages.add(personalPercentage);
+        personalPercentages.add(personalPercentage2);
 
         exerciseResultResponse.setAvgPercentage(65);
         exerciseResultResponse.setPersonalPercentages(personalPercentages);
