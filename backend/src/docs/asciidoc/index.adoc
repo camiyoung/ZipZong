@@ -61,7 +61,7 @@ operation::expel-member[snippets='http-request,request-fields,http-response,resp
 operation::assign-leader-to-follower[snippets='http-request,request-fields,http-response,response-fields']
 
 [[Exercise-API]]
-== Exercise-API
+== Exercise API
 
 === 운동결과 저장 및 달성률 조회
 operation::exercise-result[snippets='http-request,request-fields,http-response,response-fields']
