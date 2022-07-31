@@ -1,5 +1,3 @@
-import ExerciseList from "./ExerciseList"
-
 export default function RoutineButton({
   routineName,
   exercise,
@@ -29,7 +27,7 @@ export default function RoutineButton({
         }}
       >
         {" "}
-        루틴 생성{" "}
+        {index ? "루틴 수정" : "루틴 생성"}{" "}
       </button>
     </div>
   )
