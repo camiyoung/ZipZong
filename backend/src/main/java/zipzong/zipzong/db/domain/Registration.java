@@ -17,7 +17,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicUpdate
 @Getter
-@Table(name = "registration")
+@Table(name = "registration",
+        indexes = {
+                @Index(name = "member_team_idx", columnList = "member_id, team_id", unique = true),
+                @Index(name = "team_idx", columnList = "team_id")
+        })
 @EntityListeners(AuditingEntityListener.class)
 public class Registration {
     @Id

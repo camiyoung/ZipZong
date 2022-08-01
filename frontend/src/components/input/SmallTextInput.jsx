@@ -1,5 +1,6 @@
 import React from "react"
 export default function SmallTextInput(props) {
+  const { inputName, ...other } = props
   return (
     <div className="flex">
       <label
@@ -12,7 +13,7 @@ export default function SmallTextInput(props) {
           font-medium
         "
       >
-        {props.inputName}
+        {inputName}
       </label>
       <input
         type="text"
@@ -30,6 +31,7 @@ export default function SmallTextInput(props) {
           focus:ring-primary-400
           focus:border-primary-400
         "
+        {...other}
       />
     </div>
   )

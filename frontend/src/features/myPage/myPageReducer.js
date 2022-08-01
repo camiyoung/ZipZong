@@ -1,13 +1,41 @@
+import { useSelector } from "react-redux"
 import { createSlice, createAsyncThunk, createSelector } from "@reduxjs/toolkit"
 import { http } from "../../api/axios"
 
-// 회원 닉네임 변경
-export const nicknameChange = createAsyncThunk(
-  "mypage/nicknameChange",
+// 개인 월 단위 운동기록 조회
+export const memberExerciseHistoryCheck = createAsyncThunk(
+  "exercise/history/member",
   async (info) => {
-    const res = await http.put("/member/nickname/", info)
-    console.log(res)
-    return res
+    const res = await http.get(
+      `exercise/history/member?memeberId=${info.memberId}&year=${info.year}&month=${info.month}`
+    )
+    if (res.data.message === "success") {
+      return res
+    }
+  }
+)
+
+// 개인 누적 운동기록 조회
+export const memberExerciseHistorySumCheck = createAsyncThunk(
+  "exercise/history/member/sum",
+  async (memberId) => {
+    const res = await http.get(
+      `exercise/history/member/sum?memberId=${memberId}`
+    )
+    if (res.data.message === "success") {
+      return res
+    }
+  }
+)
+
+// 회원이 가입한 팀 정보 조회
+export const registrationTeam = createAsyncThunk(
+  "registration/member",
+  async (memberId) => {
+    const res = await http.get(`registration/member/${memberId}`)
+    if (res.data.message === "success") {
+      return res
+    }
   }
 )
 
@@ -48,35 +76,42 @@ export const myPageSlice = createSlice({
   name: "mypage",
   initialState: {
     memberOriginalIcon: "",
+    memberDailyHistory: [],
     memberIconList: [],
+    selectedYear: null,
+    selectedMonth: null,
+    memberCurrentStrick: 0,
+    performMemberTotal: null,
+    registeredTeam: [],
   },
   reducers: {
     checkMemberId: (state, action) => {
       state.memberId = action.payload
     },
-    extraReducers(builder) {
-      builder.addCase(nicknameChange.fulfilled, (state, action) => {
-        if (action.payload === "success") {
-          state.memberNickname = action.payload["data"]
-        } else {
-          console.log("닉네임 중복 처리 불가!!!")
-        }
-      })
-
-      builder.addCase(memberIconSelect.fulfilled, (state, action) => {
-        state.memberOriginalIcon = action.payload["data"]
-      })
-
-      builder.addCase(memberIconList.fulfilled, (state, action) => {
-        state.memberIconList = action.payload["data"]
-      })
-
-      builder.addCase(memberIconCreate.fulfilled, (state, action) => {
-        state.memberIconList.push(action.payload["data"])
-      })
+    changeYear: (state, action) => {
+      state.selectedYear = action.payload
+    },
+    changeMonth: (state, action) => {
+      state.selectedMonth = action.payload
     },
   },
+  extraReducers(builder) {
+    builder.addCase(memberExerciseHistoryCheck.fulfilled, (state, action) => {
+      state.memberDailyHistory = action.payload.data.data.dailyHistories
+    })
+    builder.addCase(
+      memberExerciseHistorySumCheck.fulfilled,
+      (state, action) => {
+        // 개인 누적 기록 - 혹시나 해서 받음
+        state.performMemberTotal = action.payload.data.data.performMemberTotals
+        state.memberCurrentStrick = action.payload.data.data.currentStrick
+      }
+    )
+    builder.addCase(registrationTeam.fulfilled, (state, action) => {
+      state.registeredTeam = action.payload.data.data
+    })
+  },
 })
-export const { checkMemberId } = myPageSlice.actions
+export const { checkMemberId, changeYear, changeMonth } = myPageSlice.actions
 
 export default myPageSlice.reducer
