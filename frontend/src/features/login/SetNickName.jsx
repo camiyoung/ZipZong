@@ -2,7 +2,12 @@ import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import Button from "../../components/button/Button"
-import { nicknameValidation, selectNickname } from "./memberReducer"
+import {
+  memberInfo,
+  nicknameValidation,
+  selectNickname,
+  nicknamePush,
+} from "./memberReducer"
 import axios from "axios"
 export default function SetNickName() {
   const dispatch = useDispatch()
@@ -13,8 +18,10 @@ export default function SetNickName() {
   const handleChange = ({ target: { value } }) => setNickname(value)
   const handleSubmit = (e) => {
     e.preventDefault()
-    dispatch(nicknameValidation(nickname)) // 닉네임 유효성 검사
-    setNickname(savedNickname)
+    const validationResult = dispatch(nicknameValidation(nickname)) // 닉네임 유효성 검사
+    if (validationResult) {
+      dispatch(nicknamePush({ memberId: memberId, nickname: nickname }))
+    }
     navigate("/mypage")
   }
 

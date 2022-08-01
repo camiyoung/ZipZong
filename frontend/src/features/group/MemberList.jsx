@@ -8,7 +8,7 @@ import Button from "../../components/button/Button"
 // 동물 사진들
 import bee from "../../assets/animalIcon/bee.png"
 import elephant from "../../assets/animalIcon/elephant.png"
-import antelope from "../../assets/animalIcon/antelope.png"
+import basic from "../../assets/animalIcon/basic.png"
 import ferret from "../../assets/animalIcon/ferret.png"
 import frog from "../../assets/animalIcon/frog.png"
 import pandaBear from "../../assets/animalIcon/panda-bear.png"
@@ -30,7 +30,7 @@ const Members = [
   },
   {
     memberName: "박종민",
-    Icon: antelope,
+    Icon: basic,
     hasDone: true,
   },
   {
