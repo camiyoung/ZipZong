@@ -1,4 +1,4 @@
-package zipzong.zipzong.api.dto.member;
+package zipzong.zipzong.api.dto.team.request.member;
 
 import lombok.Data;
 import lombok.Getter;
