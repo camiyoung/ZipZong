@@ -4,13 +4,18 @@ import "./index.css"
 import App from "./App"
 import { store } from "./store"
 import { Provider } from "react-redux"
+import { PersistGate } from "redux-persist/integration/react"
+import { persistStore } from "redux-persist"
 import "flowbite"
 import reportWebVitals from "./reportWebVitals"
 
+const persistor = persistStore(store)
 const root = ReactDOM.createRoot(document.getElementById("root"))
 root.render(
   <Provider store={store}>
-    <App />
+    <PersistGate loading={null} persistor={persistor}>
+      <App />
+    </PersistGate>
   </Provider>
 )
 
