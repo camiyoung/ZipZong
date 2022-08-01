@@ -9,11 +9,11 @@ import lombok.ToString;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Jwt {
-    private String token;
+    private String accessToken;
     private String refreshToken;
 
-    public Jwt(String token, String refreshToken) {
-        this.token = token;
+    public Jwt(String accessToken, String refreshToken) {
+        this.accessToken = accessToken;
         this.refreshToken = refreshToken;
     }
 }
