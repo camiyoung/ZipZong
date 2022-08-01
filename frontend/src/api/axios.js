@@ -51,13 +51,13 @@ function Instance() {
         // access token 만료 & refresh token 만료되지 않았을 시
         // axios 요청 -> refresh/ ->
 
-        axios.get("http://localhost:8080/refresh").then((res) => {
-          localStorage.setItem("accessToken", res.data.accessToken)
-          localStorage.setItem(
-            "accessTokenExpiration",
-            res.data.accessTokenExpiration
-          )
-        })
+        // axios.get("http://localhost:8080/refresh").then((res) => {
+        //   localStorage.setItem("accessToken", res.data.accessToken)
+        //   localStorage.setItem(
+        //     "accessTokenExpiration",
+        //     res.data.accessTokenExpiration
+        //   )
+        // })
 
         // config.headers["refreshToken"] = localStorage.getItem("refreshToken")
       }

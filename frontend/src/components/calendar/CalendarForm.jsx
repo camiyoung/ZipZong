@@ -1,11 +1,24 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
+import { changeYear, changeMonth } from "../../features/myPage/myPageReducer"
 import Calendar from "react-calendar"
 import "./Calendar.css"
 import moment from "moment"
 const dailyRecord = ["18-07-2022", "17-07-2022", "16-07-2022"]
 
 export default function CalendarForm() {
+  const dispatch = useDispatch()
   const [date, setDate] = useState(new Date())
+  function loadDate(currentDate) {
+    const validDate = currentDate || date
+    const m = validDate.getMonth() + 1
+    const y = validDate.getFullYear()
+    dispatch(changeYear(y))
+    dispatch(changeMonth(m))
+  }
+  useEffect(() => {
+    loadDate()
+  }, [date])
 
   return (
     <div className="app">
@@ -14,6 +27,9 @@ export default function CalendarForm() {
           className="react-calendar"
           onChange={setDate} // 해당 날짜의 운동 현황 보여줘야 함
           value={date}
+          onActiveStartDateChange={({ activeStartDate }) =>
+            loadDate(activeStartDate)
+          }
           // 일요일 앞에 나오는 코드
           calendarType="Hebrew"
           // 연도는 못 보게 하는 코드
