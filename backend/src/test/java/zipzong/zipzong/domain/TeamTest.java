@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import zipzong.zipzong.db.domain.Team;
+import zipzong.zipzong.exception.CustomException;
 
 class TeamTest {
 
@@ -46,7 +47,7 @@ class TeamTest {
     @DisplayName("쉴드는0 이하가 될 수 없음")
     void hasNoShield() {
         //then
-        Assertions.assertThrows(IllegalStateException.class,
+        Assertions.assertThrows(CustomException.class,
                 //when
                 () -> team.useShield());
     }

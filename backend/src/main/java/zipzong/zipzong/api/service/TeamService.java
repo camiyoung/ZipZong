@@ -8,6 +8,8 @@ import zipzong.zipzong.db.domain.TeamIcon;
 import zipzong.zipzong.api.dto.team.response.ChangeTeamInfoResponse;
 import zipzong.zipzong.db.repository.memberteam.TeamIconRepository;
 import zipzong.zipzong.db.repository.memberteam.TeamRepository;
+import zipzong.zipzong.exception.CustomException;
+import zipzong.zipzong.exception.CustomExceptionList;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,7 +25,9 @@ public class TeamService {
      */
     public String setRepIcon(Long teamId, String repIcon) {
         teamRepository.findById(teamId)
-                      .orElseThrow()
+                      .orElseThrow(
+                              () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR)
+                      )
                       .setRepIcon(repIcon);
         return repIcon;
     }
@@ -33,7 +37,9 @@ public class TeamService {
      */
     public String addIcon(Long teamId, String icon) {
         Team team = teamRepository.findById(teamId)
-                                  .orElseThrow();
+                                  .orElseThrow(
+                                          () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR)
+                                  );
         TeamIcon teamIcon = TeamIcon.addTeamIcon(team, icon);
         TeamIcon savedTeamIcon = teamIconRepository.save(teamIcon);
 
@@ -67,7 +73,9 @@ public class TeamService {
 
     public ChangeTeamInfoResponse changeProfileInfo(Long teamId, String name, String content) {
         Team team = teamRepository.findById(teamId)
-                                  .orElseThrow();
+                                  .orElseThrow(
+                                          () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR)
+                                  );
         team.changeTeamName(name);
         team.setContent(content);
 
@@ -84,7 +92,9 @@ public class TeamService {
 
     public int addShield(Long teamId, int value) {
         Team team = teamRepository.findById(teamId)
-                                  .orElseThrow();
+                                  .orElseThrow(
+                                          () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR)
+                                  );
         team.addShieldCount(value);
 
         return team.getShieldCount();
@@ -95,7 +105,9 @@ public class TeamService {
      */
     public String useShield(Long teamId) {
         Team team = teamRepository.findById(teamId)
-                                  .orElseThrow();
+                                  .orElseThrow(
+                                          () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR)
+                                  );
         team.useShield();
 
         return String.valueOf(team.getShieldCount());
@@ -106,7 +118,9 @@ public class TeamService {
      */
     public String getInviteLink(Long teamId) {
         Team team = teamRepository.findById(teamId)
-                                  .orElseThrow();
+                                  .orElseThrow(
+                                          () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR)
+                                  );
         return team.getInviteLink();
     }
 

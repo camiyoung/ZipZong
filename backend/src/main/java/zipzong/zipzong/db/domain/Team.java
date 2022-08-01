@@ -8,6 +8,8 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import zipzong.zipzong.enums.CheckExist;
+import zipzong.zipzong.exception.CustomException;
+import zipzong.zipzong.exception.CustomExceptionList;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -98,7 +100,7 @@ public class Team {
         this.shieldCount--;
 
         if (shieldCount < 0) {
-            throw new IllegalStateException();
+            throw new CustomException(CustomExceptionList.SHIELD_COUNT_NO_NEGATIVE);
         }
     }
 

@@ -7,6 +7,8 @@ import zipzong.zipzong.db.domain.MemberIcon;
 import zipzong.zipzong.api.dto.nickname.NicknameSetResponse;
 import zipzong.zipzong.db.repository.memberteam.MemberIconRepository;
 import zipzong.zipzong.db.repository.memberteam.MemberRepository;
+import zipzong.zipzong.exception.CustomException;
+import zipzong.zipzong.exception.CustomExceptionList;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,7 +32,9 @@ public class MemberService {
             throw new IllegalStateException("닉네임 중복");
         }
         memberRepository.findByNickname(origin)
-                        .orElseThrow()
+                        .orElseThrow(
+                                () -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND_ERROR)
+                        )
                         .changeNickname(nickname);
         return nickname;
     }
@@ -38,27 +42,27 @@ public class MemberService {
 
     public Member getUserInfo(String nickname) {
         return memberRepository.findByNickname(nickname)
-                               .orElseThrow();
+                               .orElseThrow(() -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND_ERROR));
     }
 
     public Member setNickName(NicknameSetResponse nicknameSetResponse) {
 
         Member member = memberRepository.findById(nicknameSetResponse.getMemberId())
-                                        .orElseThrow();
+                                        .orElseThrow(() -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND_ERROR));
         member.changeNickname(nicknameSetResponse.getNickname());
         return member;
     }
 
     public String setRepIcon(String nickname, String repIcon) {
         memberRepository.findByNickname(nickname)
-                        .orElseThrow()
+                        .orElseThrow(() -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND_ERROR))
                         .setRepIcon(repIcon);
         return repIcon;
     }
 
     public String addIcon(String nickname, String icon) {
         Member member = memberRepository.findByNickname(nickname)
-                                        .orElseThrow();
+                                        .orElseThrow(() -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND_ERROR));
         MemberIcon memberIcon = MemberIcon.addMemberIcon(member, icon);
         MemberIcon savedMemberIcon = memberIconRepository.save(memberIcon);
 

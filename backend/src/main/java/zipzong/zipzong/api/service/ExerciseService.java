@@ -14,6 +14,8 @@ import zipzong.zipzong.db.repository.history.TeamHistoryRepository;
 import zipzong.zipzong.db.repository.memberteam.MemberRepository;
 import zipzong.zipzong.db.repository.memberteam.RegistrationRepository;
 import zipzong.zipzong.db.repository.memberteam.TeamRepository;
+import zipzong.zipzong.exception.CustomException;
+import zipzong.zipzong.exception.CustomExceptionList;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -36,7 +38,9 @@ public class ExerciseService {
 
         for(ExerciseResultRequest.PersonalResult personalResult : personalResults) {
             Long memberId = personalResult.getMemberId();
-            Registration registration = registrationRepository.findByMemberIdAndTeamId(memberId, teamId).orElseThrow();
+            Registration registration = registrationRepository.findByMemberIdAndTeamId(memberId, teamId).orElseThrow(
+                    () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR)
+            );
             LocalDate today = LocalDate.now();
 
             if(exerciseRepository.findByRegistrationIdAndExerciseDate(registration.getId(), today).isEmpty()) {
@@ -48,7 +52,9 @@ public class ExerciseService {
                 exerciseRepository.save(first);
             }
 
-            Exercise exercise = exerciseRepository.findByRegistrationIdAndExerciseDate(registration.getId(), today).orElseThrow();
+            Exercise exercise = exerciseRepository.findByRegistrationIdAndExerciseDate(registration.getId(), today).orElseThrow(
+                    () -> new CustomException(CustomExceptionList.EXERCISE_RECORD_NOT_EXIST)
+            );
             int totalTime = 0;
 
             List<ExerciseResultRequest.PersonalResultDetail> personalResultDetails = personalResult.getPersonalResultDetails();
@@ -69,7 +75,9 @@ public class ExerciseService {
     public void updateMemberExerciseHistory(List<ExerciseResultRequest.PersonalResult> personalResults) {
 
         for (ExerciseResultRequest.PersonalResult personalResult : personalResults) {
-            Member member = memberRepository.findById(personalResult.getMemberId()).orElseThrow();
+            Member member = memberRepository.findById(personalResult.getMemberId()).orElseThrow(
+                    () -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND_ERROR)
+            );
 
             if(member.getMemberHistory() == null) {
                 MemberHistory memberHistory = MemberHistory.builder()
@@ -108,7 +116,9 @@ public class ExerciseService {
     }
 
     public void updateTeamExerciseHistory(Long teamId, List<ExerciseResultRequest.PersonalResult> personalResults) {
-        Team team = teamRepository.findById(teamId).orElseThrow();
+        Team team = teamRepository.findById(teamId).orElseThrow(
+                () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR)
+        );
 
         if(team.getTeamHistory() == null) {
             TeamHistory teamHistory = TeamHistory.builder()
@@ -157,7 +167,9 @@ public class ExerciseService {
         for (ExerciseResultRequest.PersonalResult personalResult : personalResults) {
             ExerciseResultResponse.PersonalPercentage personalPercentage = new ExerciseResultResponse.PersonalPercentage();
 
-            Member member = memberRepository.findById(personalResult.getMemberId()).orElseThrow();
+            Member member = memberRepository.findById(personalResult.getMemberId()).orElseThrow(
+                    () -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND_ERROR)
+            );
             String nickname = member.getNickname();
             List<ExerciseResultRequest.PersonalResultDetail> personalResultDetails = personalResult.getPersonalResultDetails();
 
