@@ -8,20 +8,50 @@ export const nicknameValidation = createAsyncThunk(
   async (nickname) => {
     if (nickname.length > 0) {
       const res = await http.get(`member/duplicate/${nickname}`)
-      return [res.data.data, nickname]
+      if (res.data.data === "NON-DUPLICATE") {
+        return true
+      } else if (res.data.data === "DUPLICATE") {
+        return false
+      }
     } else {
       alert("닉네임을 입력해주세요")
     }
   }
 )
 
+// 회원 닉네임 설정
+export const nicknamePush = createAsyncThunk(
+  "member/nickname",
+  async (info) => {
+    const res = await http.post("member/nickname", info)
+    return res
+  }
+)
+
 // 회원 닉네임으로 조회
 export const memberInfo = createAsyncThunk("member/info/", async (nickname) => {
-  console.log("닉네임", nickname)
+  console.log(nickname)
   const res = await http.get(`member/info/${nickname}`)
-  console.log("회원 닉네임으로 조회", res)
-  // return res.data.data
+  console.log("res", res)
+  return res
 })
+
+// 회원 닉네임 변경
+export const nicknameChange = createAsyncThunk(
+  "member/nicknameChange",
+  async (info) => {
+    const res = await http.put("member/nickname", {
+      origin: info.origin,
+      nickname: info.nickname,
+    })
+    if (res.data.message === "success") {
+      return res
+    } else {
+      // 닉네임 중복 처리
+      alert("닉네임이 중복되었습니다.")
+    }
+  }
+)
 
 export const memberSlice = createSlice({
   name: "member",
@@ -44,34 +74,24 @@ export const memberSlice = createSlice({
     },
   },
   extraReducers(builder) {
-    builder.addCase(nicknameValidation.fulfilled, (state, action) => {
-      console.log(action.payload)
-      if (action.payload[0] === "NON-DUPLICATE") {
-        state.memberNickname = action.payload[1]
-        console.log(state.memberId, state.memberNickname)
-        // 회원 닉네임 설정
-        http
-          .post("member/nickname", {
-            memberId: state.memberId,
-            nickname: state.memberNickname,
-          })
-          .then((res) => {
-            if (res.message === "success") {
-              state.memberName = res.data.name
-              state.memberEmail = res.data.email
-              state.memberProvider = res.data.provider
-              state.memberNickname = res.data.nickname
-              state.memberRepIcon = res.data.repIcon
-            }
-          })
-      }
-    })
     builder.addCase(memberInfo.fulfilled, (state, action) => {
       console.log("멤버인포빌더", action)
       // state.memberName = action.payload["name"]
       // state.memberEmail = action.payload["email"]
       // state.memberProvider = action.payload["provider"]
       // state.memberNickname = action.payload["nickname"]
+    })
+    builder.addCase(nicknamePush.fulfilled, (state, action) => {
+      state.memberName = action.payload.data.data.name
+      state.memberEmail = action.payload.data.data.email
+      state.memberNickname = action.payload.data.data.nickname
+      state.memberProvider = action.payload.data.data.provider
+      state.memberRepIcon = action.payload.data.data.repIcon
+      console.log(state)
+    })
+    builder.addCase(nicknameChange.fulfilled, (state, action) => {
+      console.log(state)
+      state.memberNickname = action.payload.data.data
     })
   },
 })

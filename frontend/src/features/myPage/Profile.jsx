@@ -3,14 +3,14 @@ import Button from "../../components/button/Button"
 import ImageIcon from "../../components/icon/ImageIcon"
 import Modal from "../../components/modal/Modal"
 import SmallTextInput from "../../components/input/SmallTextInput"
-import { nicknameChange, memberIconSelect } from "./myPageReducer"
-import { nicknameValidation } from "../login/memberReducer"
+import { memberIconSelect } from "./myPageReducer"
+import { nicknameValidation, nicknameChange } from "../login/memberReducer"
 import { useDispatch, useSelector } from "react-redux"
 
 // 동물 사진들
 import bee from "../../assets/animalIcon/bee.png"
 import elephant from "../../assets/animalIcon/elephant.png"
-import antelope from "../../assets/animalIcon/antelope.png"
+import basic from "../../assets/animalIcon/basic.png"
 import ferret from "../../assets/animalIcon/ferret.png"
 import frog from "../../assets/animalIcon/frog.png"
 import pandaBear from "../../assets/animalIcon/panda-bear.png"
@@ -25,7 +25,7 @@ const User = {
   Icons: [
     bee,
     elephant,
-    antelope,
+    basic,
     ferret,
     frog,
     pandaBear,
@@ -43,21 +43,24 @@ export default function Profile() {
   const [nickname, setNickname] = useState("")
   const [icon, setIcon] = useState(rabbit)
   const stateNickname = useSelector((state) => state.member.memberNickname)
-  const handleChange = ({ target: { value } }) => setNickname(value)
-  useEffect(() => {
-    setNickname(stateNickname)
-  }, [])
+  // useEffect(() => {
+  //   setNickname(stateNickname)
+  // }, [])
   const handleSubmit = (e) => {
-    console.log(e)
     e.preventDefault()
-    dispatch(nicknameValidation(nickname))
-    if (nicknameValidation) {
-      dispatch(nicknameChange({ origin: stateNickname, nickname: nickname }))
-      dispatch(memberIconSelect({ nickname: nickname, icon: icon }))
+    const validationResult = dispatch(nicknameValidation(nickname))
+    if (validationResult) {
+      dispatch(
+        nicknameChange({
+          origin: stateNickname,
+          nickname: nickname,
+          icon: icon,
+        })
+      )
+      // dispatch(memberIconSelect({ nickname: nickname, icon: icon }))
     }
     modalClose()
   }
-  console.log(stateNickname)
   return (
     // 모달
     <div>
@@ -70,7 +73,7 @@ export default function Profile() {
           </div>
           <SmallTextInput
             inputName="닉네임"
-            onChange={handleChange}
+            onChange={({ target: { value } }) => setNickname(value)}
           ></SmallTextInput>
           <p className="text-xl">획득 아이콘</p>
           <p className="text-sm mb-2">

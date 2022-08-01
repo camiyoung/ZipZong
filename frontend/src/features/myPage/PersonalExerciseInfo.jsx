@@ -1,4 +1,10 @@
-import React from "react"
+import React, { useEffect } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import {
+  memberExerciseHistoryCheck,
+  memberExerciseHistorySumCheck,
+  registrationTeam,
+} from "./myPageReducer"
 import CalendarForm from "../../components/calendar/CalendarForm"
 import ImageIcon from "../../components/icon/ImageIcon"
 
@@ -41,8 +47,33 @@ const dayExerciseInfo = [
 ]
 
 export default function ExerciseInfo() {
+  const dispatch = useDispatch()
+  const memberExeriseHistories = useSelector(
+    (state) => state.mypage.memberDailyHistory
+  )
+  const currentStreak = useSelector((state) => state.mypage.memberCurrentStrick)
+  const memberId = useSelector((state) => state.member.memberId)
+  const year = useSelector((state) => state.mypage.selectedYear)
+  const month = useSelector((state) => state.mypage.selectedMonth)
+  const registeredTeams = useSelector((state) => state.mypage.registeredTeam)
+  useEffect(() => {
+    dispatch(
+      memberExerciseHistoryCheck({
+        memberId: memberId,
+        year: year,
+        month: month,
+      })
+    )
+    dispatch(memberExerciseHistorySumCheck(memberId))
+    dispatch(registrationTeam(memberId))
+  }, [])
+  // 날짜별 운동 기록들 출력
+  // console.log(memberExeriseHistories)
   let totalTime = 9
-  let streak = 3
+
+  // 개인이 가입한 팀
+  // console.log(registeredTeams)
+
   return (
     <div className="flex mt-10 flex-col">
       <div className="flex">
@@ -61,7 +92,7 @@ export default function ExerciseInfo() {
                 총 운동 시간: {totalTime} 시간
               </p>
               <p className="mt-1 text-md flex justify-center">
-                연속 {streak}일째!
+                연속 {currentStreak}일째!
               </p>
             </div>
             <div
