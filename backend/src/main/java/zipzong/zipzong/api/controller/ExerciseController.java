@@ -20,7 +20,7 @@ import java.util.List;
 @RequestMapping("/exercise")
 public class ExerciseController {
 
-    ExerciseService exerciseService;
+    final ExerciseService exerciseService;
 
     static final String SUCCESS = "success";
 
@@ -47,11 +47,8 @@ public class ExerciseController {
 
     @GetMapping("/history/team")
     public ResponseEntity<BasicResponse<ExerciseTeamHistoryResponse>> exerciseTeamHistory(@ModelAttribute ExerciseTeamHistoryRequest request) {
-        Long teamId = request.getTeamId();
-        int year = request.getYear();
-        int month = request.getMonth();
 
-        ExerciseTeamHistoryResponse response = exerciseService.teamHistoryByYearAndMonth(teamId, year, month);
+        ExerciseTeamHistoryResponse response = exerciseService.teamHistoryByYearAndMonth(request.getTeamId(), request.getYear(), request.getMonth());
 
         return new ResponseEntity<>(makeBasicResponse(SUCCESS, response), HttpStatus.OK);
     }
@@ -59,7 +56,8 @@ public class ExerciseController {
     @GetMapping("/history/team/sum")
     public ResponseEntity<BasicResponse<ExerciseTeamTotalResponse>> exerciseTeamTotal(@RequestParam Long teamId) {
         ExerciseTeamTotalResponse response = exerciseService.totalTeamHistory(teamId);
-        return null;
+
+        return new ResponseEntity<>(makeBasicResponse(SUCCESS, response), HttpStatus.OK);
     }
 
     @GetMapping("/history/member")
@@ -75,7 +73,9 @@ public class ExerciseController {
 
     @GetMapping("/history/member/sum")
     public ResponseEntity<BasicResponse<ExerciseMemberTotalResponse>> exerciseMemberTotal(@RequestParam Long memberId) {
-        return null;
+        ExerciseMemberTotalResponse response = exerciseService.totalMemberHistory(memberId);
+
+        return new ResponseEntity<>(makeBasicResponse(SUCCESS, response), HttpStatus.OK);
     }
 
     private <T> BasicResponse<T> makeBasicResponse(String message, T data) {

@@ -12,7 +12,7 @@ import zipzong.zipzong.api.service.RegistrationService;
 import zipzong.zipzong.db.domain.Member;
 import zipzong.zipzong.db.domain.MemberIcon;
 import zipzong.zipzong.db.domain.Team;
-import zipzong.zipzong.api.dto.member.MemberResponse;
+import zipzong.zipzong.api.dto.team.request.member.MemberResponse;
 import zipzong.zipzong.api.dto.nickname.NicknameSetResponse;
 import zipzong.zipzong.db.repository.memberteam.*;
 
