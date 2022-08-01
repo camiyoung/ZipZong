@@ -18,13 +18,14 @@ import zipzong.zipzong.db.repository.memberteam.TeamRepository;
 import zipzong.zipzong.exception.CustomException;
 import zipzong.zipzong.exception.CustomExceptionList;
 
-import javax.security.sasl.AuthenticationException;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class RegistrationService {
 
     private final TeamRepository teamRepository;
