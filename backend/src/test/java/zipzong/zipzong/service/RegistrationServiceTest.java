@@ -20,6 +20,7 @@ import zipzong.zipzong.db.repository.memberteam.MemberRepository;
 import zipzong.zipzong.db.repository.memberteam.RegistrationRepository;
 import zipzong.zipzong.db.repository.memberteam.TeamIconRepository;
 import zipzong.zipzong.db.repository.memberteam.TeamRepository;
+import zipzong.zipzong.exception.CustomException;
 
 import javax.security.sasl.AuthenticationException;
 import java.util.ArrayList;
@@ -157,13 +158,13 @@ class RegistrationServiceTest {
     }
 
     @Test
-    @DisplayName("존재하지않는 링크로 회원가입")
+    @DisplayName("존재하지 않는 링크로 회원가입")
     void joinUndefinedLink() {
         //given
         Member member = makeMember("nickname");
 
         //then
-        Assertions.assertThrows(NoSuchElementException.class, () -> {
+        Assertions.assertThrows(CustomException.class, () -> {
             //when
             registrationService.joinTeam(100L, member.getId());
         });
@@ -212,7 +213,7 @@ class RegistrationServiceTest {
         registrationRepository.save(registration2);
 
         //then
-        Assertions.assertThrows(AuthenticationException.class, ()->{
+        Assertions.assertThrows(CustomException.class, ()->{
             //when
             registrationService.delegateLeader(savedMember2.getId(), savedMember1.getId(), savedTeam.getId());
         });
@@ -281,7 +282,7 @@ class RegistrationServiceTest {
         registrationRepository.save(registration2);
 
         //then
-        Assertions.assertThrows(AuthenticationException.class, () ->{
+        Assertions.assertThrows(CustomException.class, () ->{
             //when
             registrationService.deleteTeam(savedTeam1.getId(), savedMember1.getId());
         });
@@ -331,7 +332,7 @@ class RegistrationServiceTest {
         registrationRepository.save(registration2);
 
         //then
-        Assertions.assertThrows(AuthenticationException.class, ()->{
+        Assertions.assertThrows(CustomException.class, ()->{
             //when
             registrationService.expelMember(savedMember2.getId(), savedMember1.getId(), savedTeam1.getId());
         });

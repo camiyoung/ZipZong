@@ -9,7 +9,7 @@ import zipzong.zipzong.api.service.MemberService;
 import zipzong.zipzong.db.domain.Member;
 import zipzong.zipzong.api.dto.common.BasicResponse;
 import zipzong.zipzong.api.dto.icon.IconResponse;
-import zipzong.zipzong.api.dto.member.MemberResponse;
+import zipzong.zipzong.api.dto.team.request.member.MemberResponse;
 import zipzong.zipzong.api.dto.nickname.NicknameChangeResponse;
 import zipzong.zipzong.api.dto.nickname.NicknameSetResponse;
 

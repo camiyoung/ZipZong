@@ -9,7 +9,7 @@ import zipzong.zipzong.db.domain.TeamHistoryDetail;
 import java.util.List;
 
 public interface TeamHistoryDetailRepository extends JpaRepository<TeamHistoryDetail, Long> {
-    @EntityGraph(attributePaths = {"team_history"})
-    @Query("select d from TeamHistoryDetail d where d.teamHistory.id =: teamHistoryId")
+    @EntityGraph(attributePaths = {"teamHistory"})
+    @Query("select d from TeamHistoryDetail d where d.teamHistory.id = :teamHistoryId")
     List<TeamHistoryDetail> findByTeamHistoryId(@Param("teamHistoryId") Long teamHistoryId);
 }
