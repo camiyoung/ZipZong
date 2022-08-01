@@ -11,6 +11,8 @@ import zipzong.zipzong.api.dto.routine.RoutineResponse;
 import zipzong.zipzong.db.repository.routine.RoutineDetailRepository;
 import zipzong.zipzong.db.repository.routine.RoutineRepository;
 import zipzong.zipzong.db.repository.memberteam.TeamRepository;
+import zipzong.zipzong.exception.CustomException;
+import zipzong.zipzong.exception.CustomExceptionList;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -88,12 +90,12 @@ public class RoutineService {
 
     private Team getTeamInfo(Long teamId) {
         return teamRepository.findById(teamId)
-                .orElseThrow(() -> new NoSuchElementException("Team Not Found"));
+                .orElseThrow(() -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR));
     }
 
     private Routine getRoutine(Long routineId) {
         return routineRepository.findById(routineId)
-                .orElseThrow(() -> new NoSuchElementException("Routine Not Found"));
+                .orElseThrow(() -> new CustomException(CustomExceptionList.ROUTINE_NOT_FOUND));
     }
 
 

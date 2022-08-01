@@ -12,6 +12,7 @@ import zipzong.zipzong.db.domain.TeamIcon;
 import zipzong.zipzong.api.dto.team.response.ChangeTeamInfoResponse;
 import zipzong.zipzong.db.repository.memberteam.TeamIconRepository;
 import zipzong.zipzong.db.repository.memberteam.TeamRepository;
+import zipzong.zipzong.exception.CustomException;
 
 import java.util.List;
 
@@ -139,7 +140,7 @@ class TeamServiceTest {
         Team savedTeam = teamRepository.save(team);
 
         //then
-        Assertions.assertThrows(IllegalStateException.class, () -> {
+        Assertions.assertThrows(CustomException.class, () -> {
             //when
             teamService.useShield(savedTeam.getId());
         });

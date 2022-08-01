@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
-import zipzong.zipzong.api.dto.member.MemberResponse;
+import zipzong.zipzong.api.dto.team.request.member.MemberResponse;
 
 import javax.persistence.*;
 
