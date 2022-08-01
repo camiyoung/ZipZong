@@ -28,7 +28,7 @@ function App() {
           <Route path="/groupset" element={<GroupSet />} />
           <Route path="/routine" element={<Routine />} />
           <Route path="/routine/make" element={<RoutineMake />} />
-          <Route path="/routine/modify/:index" element={<RoutineMake />} />
+          <Route path="/routine/modify/:routineId" element={<RoutineMake />} />
 
           <Route path="/login" element={<Login />} />
           <Route path="/room" element={<RoomPage />} />
