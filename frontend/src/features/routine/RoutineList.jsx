@@ -46,7 +46,7 @@ export default function RoutineList() {
                     총 운동 시간 : {exercise.length * 60 + breaktime} 초
                   </div>
                   <div className="flex justify-center">
-                    <Link to={`/routine/modify/${index}`}>
+                    <Link to={`/routine/modify/${routineId}`}>
                       <div className="bg-secondary-300 m-2 w-[50px] rounded-xl flex justify-center text-sm items-center h-[35px] pointer hover:bg-secondary-500">
                         수정
                       </div>

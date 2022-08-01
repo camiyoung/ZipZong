@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom"
 
 export default function RoutineMake() {
   const routines = useSelector((state) => state.routine.routines)
+  console.log(routines)
 
   const [routineName, setRoutineName] = useState("")
   const [routine, setRoutine] = useState([])
@@ -18,10 +19,15 @@ export default function RoutineMake() {
 
   useEffect(() => {
     if (Object.keys(params).length > 0) {
-      console.log(routines[params.index].exercise)
-      setRoutine(routines[params.index].exercise)
-      setBreakTime(routines[params.index].breaktime)
-      setRoutineName(routines[params.index].routineName)
+      console.log(params.routineId)
+      console.log(routines)
+      const modify = routines.find(
+        (element) => element.routineId === Number(params.routineId)
+      )
+      console.log(modify)
+      setRoutine(modify.exercise)
+      setBreakTime(modify.breaktime)
+      setRoutineName(modify.routineName)
     }
   }, [])
 
