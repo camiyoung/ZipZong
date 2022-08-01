@@ -10,6 +10,6 @@ import java.util.Optional;
 
 public interface TeamHistoryRepository extends JpaRepository<TeamHistory, Long> {
     @EntityGraph(attributePaths = {"team"})
-    @Query("select h from TeamHistory h where h.team.id =: teamId")
+    @Query("select h from TeamHistory h where h.team.id = :teamId")
     Optional<TeamHistory> findByTeamId(@Param("teamId") Long teamId);
 }

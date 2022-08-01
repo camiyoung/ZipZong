@@ -14,29 +14,35 @@ import zipzong.zipzong.db.repository.history.TeamHistoryRepository;
 import zipzong.zipzong.db.repository.memberteam.MemberRepository;
 import zipzong.zipzong.db.repository.memberteam.RegistrationRepository;
 import zipzong.zipzong.db.repository.memberteam.TeamRepository;
+import zipzong.zipzong.exception.CustomException;
+import zipzong.zipzong.exception.CustomExceptionList;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.*;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ExerciseService {
 
-    MemberRepository memberRepository;
-    TeamRepository teamRepository;
-    RegistrationRepository registrationRepository;
-    ExerciseRepository exerciseRepository;
-    ExerciseDetailRepository exerciseDetailRepository;
-    MemberHistoryRepository memberHistoryRepository;
-    TeamHistoryRepository teamHistoryRepository;
-    TeamHistoryDetailRepository teamHistoryDetailRepository;
-    MemberHistoryDetailRepository memberHistoryDetailRepository;
+    private final MemberRepository memberRepository;
+    private final TeamRepository teamRepository;
+    private final RegistrationRepository registrationRepository;
+    private final ExerciseRepository exerciseRepository;
+    private final ExerciseDetailRepository exerciseDetailRepository;
+    private final TeamHistoryRepository teamHistoryRepository;
+    private final TeamHistoryDetailRepository teamHistoryDetailRepository;
+    private final MemberHistoryRepository memberHistoryRepository;
+    private final MemberHistoryDetailRepository memberHistoryDetailRepository;
 
     public void saveMemberExerciseInfo(Long teamId, List<ExerciseResultRequest.PersonalResult> personalResults) {
 
         for(ExerciseResultRequest.PersonalResult personalResult : personalResults) {
             Long memberId = personalResult.getMemberId();
-            Registration registration = registrationRepository.findByMemberIdAndTeamId(memberId, teamId).orElseThrow();
+            Registration registration = registrationRepository.findByMemberIdAndTeamId(memberId, teamId).orElseThrow(
+                    () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR)
+            );
             LocalDate today = LocalDate.now();
 
             if(exerciseRepository.findByRegistrationIdAndExerciseDate(registration.getId(), today).isEmpty()) {
@@ -48,7 +54,9 @@ public class ExerciseService {
                 exerciseRepository.save(first);
             }
 
-            Exercise exercise = exerciseRepository.findByRegistrationIdAndExerciseDate(registration.getId(), today).orElseThrow();
+            Exercise exercise = exerciseRepository.findByRegistrationIdAndExerciseDate(registration.getId(), today).orElseThrow(
+                    () -> new CustomException(CustomExceptionList.EXERCISE_RECORD_NOT_EXIST)
+            );
             int totalTime = 0;
 
             List<ExerciseResultRequest.PersonalResultDetail> personalResultDetails = personalResult.getPersonalResultDetails();
@@ -69,7 +77,9 @@ public class ExerciseService {
     public void updateMemberExerciseHistory(List<ExerciseResultRequest.PersonalResult> personalResults) {
 
         for (ExerciseResultRequest.PersonalResult personalResult : personalResults) {
-            Member member = memberRepository.findById(personalResult.getMemberId()).orElseThrow();
+            Member member = memberRepository.findById(personalResult.getMemberId()).orElseThrow(
+                    () -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND_ERROR)
+            );
 
             if(member.getMemberHistory() == null) {
                 MemberHistory memberHistory = MemberHistory.builder()
@@ -108,7 +118,9 @@ public class ExerciseService {
     }
 
     public void updateTeamExerciseHistory(Long teamId, List<ExerciseResultRequest.PersonalResult> personalResults) {
-        Team team = teamRepository.findById(teamId).orElseThrow();
+        Team team = teamRepository.findById(teamId).orElseThrow(
+                () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR)
+        );
 
         if(team.getTeamHistory() == null) {
             TeamHistory teamHistory = TeamHistory.builder()
@@ -157,7 +169,9 @@ public class ExerciseService {
         for (ExerciseResultRequest.PersonalResult personalResult : personalResults) {
             ExerciseResultResponse.PersonalPercentage personalPercentage = new ExerciseResultResponse.PersonalPercentage();
 
-            Member member = memberRepository.findById(personalResult.getMemberId()).orElseThrow();
+            Member member = memberRepository.findById(personalResult.getMemberId()).orElseThrow(
+                    () -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND_ERROR)
+            );
             String nickname = member.getNickname();
             List<ExerciseResultRequest.PersonalResultDetail> personalResultDetails = personalResult.getPersonalResultDetails();
 
@@ -220,10 +234,10 @@ public class ExerciseService {
 
         for(int d = 1; d <= dayOfMonth; d++) {
             List<ExerciseTeamHistoryResponse.Perform> performs = map.getOrDefault(d, new ArrayList<>());
-            if(performs.size() == 0) continue;
             ExerciseTeamHistoryResponse.DailyHistory dailyHistory = new ExerciseTeamHistoryResponse.DailyHistory();
             dailyHistory.setDay(d);
             dailyHistory.setTotalTime(performs.size());
+            dailyHistory.setPerforms(new ArrayList<>());
 
             Map<String, int[]> performInfo = new TreeMap<>();
             for(ExerciseTeamHistoryResponse.Perform perform : performs) {
@@ -244,7 +258,8 @@ public class ExerciseService {
                 int performNum = entry.getValue()[0];
                 int performTime = entry.getValue()[1];
 
-                dailyHistory.getPerforms().add(ExerciseTeamHistoryResponse.Perform.builder()
+                dailyHistory.getPerforms().add(ExerciseTeamHistoryResponse.Perform
+                                .builder()
                                 .performName(performName)
                                 .performNum(performNum)
                                 .performTime(performTime)
@@ -290,10 +305,10 @@ public class ExerciseService {
 
         for(int d = 1; d <= dayOfMonth; d++) {
             List<ExerciseMemberHistoryResponse.Perform> performs = map.getOrDefault(d, new ArrayList<>());
-            if(performs.size() == 0) continue;
             ExerciseMemberHistoryResponse.DailyHistory dailyHistory = new ExerciseMemberHistoryResponse.DailyHistory();
             dailyHistory.setDay(d);
             dailyHistory.setTotalTime(performs.size());
+            dailyHistory.setPerforms(new ArrayList<>());
 
             Map<String, int[]> performInfo = new TreeMap<>();
             for(ExerciseMemberHistoryResponse.Perform perform : performs) {
@@ -341,8 +356,26 @@ public class ExerciseService {
         List<ExerciseTeamTotalResponse.PerformTeamTotal> performTeamTotals = new ArrayList<>();
 
         List<TeamHistoryDetail> teamHistoryDetails = teamHistoryDetailRepository.findByTeamHistoryId(teamHistory.getId());
+        Map<String, Integer> exercises = new TreeMap<>();
 
+        for(TeamHistoryDetail teamHistoryDetail : teamHistoryDetails) {
+            String exerciseName = teamHistoryDetail.getExerciseName();
+            int exerciseNum = teamHistoryDetail.getExerciseNum();
 
+            exerciseNum += exercises.getOrDefault(exerciseName, 0);
+
+            exercises.put(exerciseName, exerciseNum);
+        }
+
+        for(Map.Entry<String, Integer> entry : exercises.entrySet()) {
+            ExerciseTeamTotalResponse.PerformTeamTotal performTeamTotal = new ExerciseTeamTotalResponse.PerformTeamTotal();
+            performTeamTotal.setPerformName(entry.getKey());
+            performTeamTotal.setPerformTotal(entry.getValue());
+
+            performTeamTotals.add(performTeamTotal);
+        }
+
+        response.setPerformTeamTotals(performTeamTotals);
 
         return response;
     }
@@ -362,6 +395,28 @@ public class ExerciseService {
         List<ExerciseMemberTotalResponse.PerformMemberTotal> performMemberTotals = new ArrayList<>();
 
         List<MemberHistoryDetail> memberHistoryDetails = memberHistoryDetailRepository.findByMemberHistoryId(memberHistory.getId());
+
+        Map<String, Integer> exercises = new HashMap<>();
+
+        for(MemberHistoryDetail memberHistoryDetail : memberHistoryDetails) {
+            String exerciseName = memberHistoryDetail.getExerciseName();
+            int exerciseNum = memberHistoryDetail.getExerciseNum();
+
+            exerciseNum += exercises.getOrDefault(exerciseName, 0);
+
+            exercises.put(exerciseName, exerciseNum);
+        }
+
+        for(Map.Entry<String, Integer> entry : exercises.entrySet()) {
+            ExerciseMemberTotalResponse.PerformMemberTotal performMemberTotal = new ExerciseMemberTotalResponse.PerformMemberTotal();
+            performMemberTotal.setPerformName(entry.getKey());
+            performMemberTotal.setPerformTotal(entry.getValue());
+
+            performMemberTotals.add(performMemberTotal);
+        }
+
+        response.setPerformMemberTotals(performMemberTotals);
+
         return response;
     }
 }
