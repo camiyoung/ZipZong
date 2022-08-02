@@ -8,7 +8,6 @@ import { useParams } from "react-router-dom"
 
 export default function RoutineMake() {
   const routines = useSelector((state) => state.routine.routines)
-  console.log(routines)
 
   const [routineName, setRoutineName] = useState("")
   const [routine, setRoutine] = useState([])
@@ -81,7 +80,7 @@ export default function RoutineMake() {
           routineName={routineName}
           exercise={routine}
           breakTime={breakTime}
-          index={params.index}
+          routineId={params.routineId}
           routines={routines}
         />
       </div>
