@@ -19,7 +19,6 @@ import zipzong.zipzong.exception.CustomExceptionList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 @Controller
 @RequestMapping("/oauth")
@@ -85,6 +84,6 @@ public class OAuthController {
 
     private Member getAuthMember(Map<String, Object> attributes) {
         return memberRepository.findByEmailAndProvider((String) attributes.get("email"), (String) attributes.get("provider"))
-                               .orElseThrow(() -> new NoSuchElementException("Member Not Found"));
+                               .orElseThrow(() -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND_ERROR));
     }
 }

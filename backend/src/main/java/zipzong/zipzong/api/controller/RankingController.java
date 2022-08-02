@@ -28,9 +28,9 @@ public class RankingController {
     public ResponseEntity<BasicResponse<HallOfFameResponse>> hallOfFameList() {
         HallOfFameResponse response = new HallOfFameResponse();
 
-        List<HallOfFameResponse.HallOfFame> hallOfFames;
-        List<HallOfFameResponse.StrickRank> strickRanks;
-        List<HallOfFameResponse.TimeRank> timeRanks;
+        List<HallOfFameResponse.HallOfFame> hallOfFames = rankingService.getHallOfFames();
+        List<HallOfFameResponse.StrickRank> strickRanks = rankingService.getStrickRanks();
+        List<HallOfFameResponse.TimeRank> timeRanks = rankingService.getTimeRanks();
 
         response.setHallOfFames(hallOfFames);
         response.setStrickRanks(strickRanks);
@@ -44,8 +44,8 @@ public class RankingController {
 
         TeamRankingResponse response = new TeamRankingResponse();
 
-        List<TeamRankingResponse.StrickRank> strickRanks;
-        List<TeamRankingResponse.TimeRank> timeRanks;
+        List<TeamRankingResponse.StrickRank> strickRanks = rankingService.getStrickRanks(teamId);
+        List<TeamRankingResponse.TimeRank> timeRanks = rankingService.getTimeRanks(teamId);
 
         response.setStrickRanks(strickRanks);
         response.setTimeRanks(timeRanks);
