@@ -1,4 +1,3 @@
-import { toHaveDescription } from "@testing-library/jest-dom/dist/matchers"
 import axios from "axios"
 
 function Instance() {
@@ -96,7 +95,6 @@ function Instance() {
       return config
     },
     (error) => {
-      console.log(error)
       return Promise.reject(error)
     }
   )
