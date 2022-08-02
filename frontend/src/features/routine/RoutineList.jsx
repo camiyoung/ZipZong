@@ -7,7 +7,7 @@ import Button from "../../components/button/Button"
 import Card from "../../components/card/Card"
 import { Link } from "react-router-dom"
 import ChangeLanguage from "./ChangeLanguage"
-import { getRoutine } from "./routineReducer"
+import { getRoutine, deleteRoutine } from "./routineReducer"
 
 export default function RoutineList() {
   const dispatch = useDispatch()
@@ -65,7 +65,7 @@ export default function RoutineList() {
                       className="bg-secondary-300 m-2 w-[50px] rounded-xl flex justify-center text-sm items-center pointer hover:bg-secondary-500"
                       onClick={() => {
                         setOpen(true)
-                        routines.splice(index, 1)
+                        dispatch(deleteRoutine(routineId))
                       }}
                     >
                       삭제
