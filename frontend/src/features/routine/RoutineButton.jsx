@@ -2,8 +2,8 @@ import { useDispatch, useSelector } from "react-redux"
 import React, { useState } from "react"
 import Modal from "../../components/modal/Modal"
 import Button from "../../components/button/Button"
-import { createRoutine } from "./routineReducer"
-import { Navigate, useNavigate } from "react-router-dom"
+import { createRoutine, modifyRoutine } from "./routineReducer"
+import { useNavigate } from "react-router-dom"
 
 export default function RoutineButton({
   routineName,
@@ -48,6 +48,7 @@ export default function RoutineButton({
             }
             console.log(newRoutine)
             if (routineId) {
+              dispatch(modifyRoutine({ routineId, routine: newRoutine }))
             } else {
               dispatch(createRoutine({ groupId: 1, routine: newRoutine }))
             }
