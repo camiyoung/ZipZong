@@ -32,6 +32,7 @@ export default function GroupSetInfo() {
                 text="닫기"
                 bgColor="bg-danger"
                 onClick={() => modalClose()}
+                type="submit"
               />
             </div>
           </div>

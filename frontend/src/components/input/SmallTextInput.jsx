@@ -31,6 +31,9 @@ export default function SmallTextInput(props) {
           focus:ring-primary-400
           focus:border-primary-400
         "
+        onChange={(event) => {
+          props.handler(event.target.value)
+        }}
         {...other}
       />
     </div>

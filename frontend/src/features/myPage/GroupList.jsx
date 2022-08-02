@@ -1,10 +1,12 @@
-import React, { useState } from "react"
-
+import React, { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { teamCreate } from "./myPageReducer"
 import Icon from "../../components/icon/ImageIcon"
 import Card from "../../components/card/Card"
 import Modal from "../../components/modal/Modal"
 import SmallTextInput from "../../components/input/SmallTextInput"
 import LargeTextInput from "../../components/input/LargeTextInput"
+import { handler } from "tailwind-scrollbar-hide"
 
 const Groups = [
   {
@@ -18,8 +20,12 @@ const Groups = [
 ]
 
 export default function Group() {
+  const dispatch = useDispatch()
   const [isOpen, setOpen] = useState(false)
   const modalClose = () => setOpen(false)
+
+  const [teamName, setTeamName] = useState("")
+  const [teamContent, setTeamContent] = useState("")
 
   return (
     // 모달
@@ -55,6 +61,9 @@ export default function Group() {
                       focus:ring-primary-400
                       focus:border-primary-400
                     "
+                    onChange={(e) => {
+                      setTeamName(e.target.value)
+                    }}
                   />
                 </div>
               </div>
@@ -62,7 +71,7 @@ export default function Group() {
             <div>
               그룹 설명
               <div className="w-[280px]">
-                <LargeTextInput />
+                <LargeTextInput handler={setTeamContent} />
               </div>
             </div>
           </div>
