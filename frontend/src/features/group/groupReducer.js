@@ -22,16 +22,30 @@ export const groupSlice = createSlice({
     teamRepIcons: null,
     sheildCount: 0,
     teamMembers: [],
+    teamleader: null,
   },
-  reducers: {},
   extraReducers(builder) {
     builder.addCase(teamInfo.fulfilled, (state, action) => {
+      console.log(state, action)
       state.icons = action.payload.data.data.icons
       state.teamName = action.payload.data.data.name
       state.teamContent = action.payload.data.data.content
       state.teamRepIcons = action.payload.data.data.repIcons
       state.sheildCount = action.payload.data.data.sheildCount
-      state.teamMembers = action.payload.data.data.members
+      const tmp = action.payload.data.data.members
+      state.teamMembers = tmp
+
+      tmp.forEach(({ role, repIcon, name, nickname, createdAt }) => {
+        if (role === "Leader") {
+          state.teamleader = {
+            repIcon: repIcon,
+            name: name,
+            nickname: nickname,
+            createdAt: createdAt,
+          }
+        }
+      })
     })
   },
 })
+export default groupSlice.reducer
