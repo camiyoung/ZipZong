@@ -39,6 +39,7 @@ public class OAuthController {
         Jwt token = jwtService.generateToken(member.getEmail(), member.getProvider(), member.getName());
 
         member.setRefreshToken(token.getRefreshToken());
+        memberRepository.save(member);
 
         String accessTokenExpiration = jwtService.dateToString(token.getAccessToken());
         String refreshTokenExpiration = jwtService.dateToString(token.getRefreshToken());
