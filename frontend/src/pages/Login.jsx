@@ -1,6 +1,7 @@
-import React from "react"
+import React, { useEffect } from "react"
 // import { useLocation } from "react-router-dom"
-
+import { useDispatch } from "react-redux"
+import { checkMemberId } from "../features/login/memberReducer"
 import NotLoggedInYet from "../features/login/NotLoggedInYet"
 import SetNickName from "../features/login/SetNickName"
 
@@ -31,6 +32,10 @@ export default function Login() {
     localStorage.setItem("refreshTokenExpiration", refreshTokenExpiration)
     localStorage.setItem("memberId", collectedMemberId)
   }
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(checkMemberId(localStorage.getItem("memberId")))
+  }, [])
   return (
     <div className="flex">
       <div className="w-6/12 h-screen">
