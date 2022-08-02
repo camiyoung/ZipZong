@@ -26,9 +26,11 @@ export default class TeachableMachine extends Component {
 
   componentDidMount() {
     this.videoRef = this.props.myVideoRef
-    // console.log("비디오 ", this.videoRef.current)
-
     this.makeModel()
+  }
+
+  componentWillUnmount() {
+    console.log("티처블머신 컴포넌트 언마운트 ")
   }
 
   async makeModel() {
@@ -51,6 +53,8 @@ export default class TeachableMachine extends Component {
   }
 
   async loop() {
+    // console.log("자세 분석 동작중 ")
+
     await this.predict()
     this.loop()
   }
