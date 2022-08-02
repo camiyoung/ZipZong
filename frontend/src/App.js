@@ -24,7 +24,10 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/components" element={<Components />} />
           <Route path="/invite" element={<Invite />} />
+
+          <Route path="/group/:teamId" element={<Group />} />
           <Route path="/group" element={<Group />} />
+
           <Route path="/groupset" element={<GroupSet />} />
           <Route path="/routine" element={<Routine />} />
           <Route path="/routine/make" element={<RoutineMake />} />
