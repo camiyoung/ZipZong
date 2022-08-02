@@ -46,7 +46,6 @@ export default function Profile() {
   const stateNickname = useSelector((state) => state.member.memberNickname)
   useEffect(() => {
     // setNickname(stateNickname)
-    dispatch(checkMemberId(localStorage.getItem("memberId")))
   }, [])
   const handleSubmit = (e) => {
     e.preventDefault()
