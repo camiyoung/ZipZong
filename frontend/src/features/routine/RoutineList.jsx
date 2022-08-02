@@ -8,7 +8,6 @@ import Card from "../../components/card/Card"
 import { Link } from "react-router-dom"
 import ChangeLanguage from "./ChangeLanguage"
 import { getRoutine } from "./routineReducer"
-import { nicknameValidation, nicknameChange } from "../login/memberReducer"
 
 export default function RoutineList() {
   const dispatch = useDispatch()
