@@ -96,6 +96,7 @@ class Room extends Component {
 
   joinSession() {
     this.OV = new OpenVidu()
+    this.OV.enableProdMode()
 
     this.setState(
       {
@@ -115,7 +116,7 @@ class Room extends Component {
     } else {
       this.getToken()
         .then((token) => {
-          console.log(token)
+          console.log("Get토큰", token)
           this.connect(token)
         })
         .catch((error) => {
@@ -296,6 +297,7 @@ class Room extends Component {
   subscribeToStreamCreated() {
     this.state.session.on("streamCreated", (event) => {
       const subscriber = this.state.session.subscribe(event.stream, undefined)
+      console.log("새 유저 참여:", subscriber)
       // var subscribers = this.state.subscribers;
       subscriber.on("streamPlaying", (e) => {
         this.checkSomeoneShareScreen()
@@ -627,6 +629,7 @@ class Room extends Component {
   createSession(sessionId) {
     return new Promise((resolve, reject) => {
       var data = JSON.stringify({ customSessionId: sessionId })
+      console.log("크리에이트 세션의 body :", data)
       axios
         .post(this.OPENVIDU_SERVER_URL + "/openvidu/api/sessions", data, {
           headers: {
