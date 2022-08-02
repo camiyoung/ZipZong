@@ -12,12 +12,22 @@ export const getRoutine = createAsyncThunk(
 )
 
 // 루틴 생성
-export const createRoutine = createAsyncThunk("routine/", async (groupId) => {
-  const res = await http.post(`routine/${groupId}`)
+export const createRoutine = createAsyncThunk("routine/", async (info) => {
+  const res = await http.post(`routine/${info.groupId}`, info.routine)
   console.log("그룹 루틴 생성", res.data)
 })
 
-export const modifyRoutine = createAsyncThunk()
+// 루틴 수정
+export const modifyRoutine = createAsyncThunk("routine/", async (info) => {
+  const res = await http.put(`routine/${info.routineId}`, info.routine)
+  console.log("그룹 루틴 수정", res.data)
+})
+
+// 루틴 삭제
+export const deleteRoutine = createAsyncThunk("routine/", async (routineId) => {
+  const res = await http.delete(`routine/${routineId}`)
+  console.log("그룹 루틴 삭제", res.data)
+})
 
 export const routineSlice = createSlice({
   name: "routine",
