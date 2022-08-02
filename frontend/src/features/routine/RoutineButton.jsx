@@ -51,7 +51,7 @@ export default function RoutineButton({
             } else {
               dispatch(createRoutine({ groupId: 1, routine: newRoutine }))
             }
-            Navigate("/routine")
+            navigate("/routine")
           }
         }}
       >
