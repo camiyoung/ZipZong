@@ -3,6 +3,7 @@ import React, { useState } from "react"
 import Modal from "../../components/modal/Modal"
 import Button from "../../components/button/Button"
 import { createRoutine } from "./routineReducer"
+import { Navigate, useNavigate } from "react-router-dom"
 
 export default function RoutineButton({
   routineName,
@@ -11,6 +12,7 @@ export default function RoutineButton({
   routineId,
 }) {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [errorMessage, setError] = useState("")
   const [isOpen, setOpen] = useState(false)
   const modalClose = () => setOpen(false)
@@ -49,6 +51,7 @@ export default function RoutineButton({
             } else {
               dispatch(createRoutine({ groupId: 1, routine: newRoutine }))
             }
+            Navigate("/routine")
           }
         }}
       >
