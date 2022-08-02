@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import { useSelector } from "react-redux"
+import React, { useState, useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
 
 import ImageIcon from "../../components/icon/ImageIcon"
 import Modal from "../../components/modal/Modal"
@@ -7,11 +7,22 @@ import Button from "../../components/button/Button"
 import Card from "../../components/card/Card"
 import { Link } from "react-router-dom"
 import ChangeLanguage from "./ChangeLanguage"
+import { getRoutine } from "./routineReducer"
+import { nicknameValidation, nicknameChange } from "../login/memberReducer"
 
 export default function RoutineList() {
-  const routines = useSelector((state) => state.routine.routines)
+  const dispatch = useDispatch()
   const [isOpen, setOpen] = useState(false)
   const modalClose = () => setOpen(false)
+  // dispatch(getRoutine(1))
+  dispatch(nicknameValidation("아무거나"))
+  console.log(getRoutine, dispatch)
+  const routines = useSelector((state) => state.routine.routines)
+
+  useEffect(() => {
+    dispatch(nicknameValidation("아무거나"))
+  }, [dispatch])
+
   return (
     <div className="flex">
       <Modal isOpen={isOpen} modalClose={modalClose}>
