@@ -7,9 +7,9 @@ import UserModel from "./openVidu/user-model.js"
 import ToolbarComponent from "./openVidu/toolbar/ToolbarComponent"
 import ChatComponent from "./openVidu/chat/ChatComponent"
 // ---------------------------------
-import InfoBar from "./InfoBar"
-import MyExercise from "./MyExercise"
+import ExerciseZone from "./ExerciseZone"
 import OtherPeople from "./OtherPeople"
+import SideBar from "./SideBar"
 
 const localUser = new UserModel()
 
@@ -39,6 +39,7 @@ class Room extends Component {
       subscribers: [],
       chatDisplay: "block",
       currentVideoDevice: undefined,
+      isRoomAdmin: false,
     }
     this.myVideoRef = React.createRef()
 
@@ -60,32 +61,12 @@ class Room extends Component {
   }
 
   componentDidMount() {
-    // const openViduLayoutOptions = {
-    //   maxRatio: 3 / 2, // The narrowest ratio that will be used (default 2x3)
-    //   minRatio: 9 / 16, // The widest ratio that will be used (default 16x9)
-    //   fixedRatio: false, // If this is true then the aspect ratio of the video is maintained and minRatio and maxRatio are ignored (default false)
-    //   bigClass: "OV_big", // The class to add to elements that should be sized bigger
-    //   bigPercentage: 0.8, // The maximum percentage of space the big ones should take up
-    //   bigFixedRatio: false, // fixedRatio for the big ones
-    //   bigMaxRatio: 3 / 2, // The narrowest ratio to use for the big elements (default 2x3)
-    //   bigMinRatio: 9 / 16, // The widest ratio to use for the big elements (default 16x9)
-    //   bigFirst: true, // Whether to place the big one in the top left (true) or bottom right
-    //   animate: true, // Whether you want to animate the transitions
-    // }
-
-    // this.layout.initLayoutContainer(
-    //   document.getElementById("layout"),
-    //   openViduLayoutOptions
-    // )
     window.addEventListener("beforeunload", this.onbeforeunload)
-    // window.addEventListener("resize", this.updateLayout)
-    // window.addEventListener("resize", this.checkSize)
+
     this.joinSession()
   }
 
   componentWillUnmount() {
-    // window.removeEventListener("beforeunload", this.onbeforeunload)
-    // window.removeEventListener("resize", this.updateLayout)
     window.removeEventListener("resize", this.checkSize)
     this.leaveSession()
   }
@@ -210,7 +191,6 @@ class Room extends Component {
       { currentVideoDevice: videoDevices[0], localUser: localUser },
       () => {
         this.state.localUser.getStreamManager().on("streamPlaying", (e) => {
-          // this.updateLayout()
           publisher.videos[0].video.parentElement.classList.remove(
             "custom-class"
           )
@@ -234,7 +214,6 @@ class Room extends Component {
             isScreenShareActive: this.state.localUser.isScreenShareActive(),
           })
         }
-        // this.updateLayout()
       }
     )
   }
@@ -327,7 +306,6 @@ class Room extends Component {
         this.checkSomeoneShareScreen()
       }, 20)
       event.preventDefault()
-      // this.updateLayout()
     })
   }
 
@@ -360,12 +338,6 @@ class Room extends Component {
       )
     })
   }
-
-  // updateLayout() {
-  //   setTimeout(() => {
-  //     this.layout.updateLayout()
-  //   }, 20)
-  // }
 
   sendSignalUserChanged(data) {
     const signalOptions = {
@@ -483,7 +455,6 @@ class Room extends Component {
       })
     })
     publisher.on("streamPlaying", () => {
-      // this.updateLayout()
       publisher.videos[0].video.parentElement.classList.remove("custom-class")
     })
   }
@@ -497,27 +468,7 @@ class Room extends Component {
     this.connectWebCam()
   }
 
-  checkSomeoneShareScreen() {
-    // let isScreenShared
-    // // return true if at least one passes the test
-    // isScreenShared =
-    //   this.state.subscribers.some((user) => user.isScreenShareActive()) ||
-    //   localUser.isScreenShareActive()
-    // const openviduLayoutOptions = {
-    //   maxRatio: 3 / 2,
-    //   minRatio: 9 / 16,
-    //   fixedRatio: isScreenShared,
-    //   bigClass: "OV_big",
-    //   bigPercentage: 0.8,
-    //   bigFixedRatio: false,
-    //   bigMaxRatio: 3 / 2,
-    //   bigMinRatio: 9 / 16,
-    //   bigFirst: true,
-    //   animate: true,
-    // }
-    // this.layout.setLayoutOptions(openviduLayoutOptions)
-    // this.updateLayout()
-  }
+  checkSomeoneShareScreen() {}
 
   toggleChat(property) {
     let display = property
@@ -531,7 +482,6 @@ class Room extends Component {
       console.log("chat", display)
       this.setState({ chatDisplay: display })
     }
-    // this.updateLayout()
   }
 
   checkNotification(event) {
@@ -597,13 +547,27 @@ class Room extends Component {
       ) : null
     return (
       <div className="flex h-full bg-secondary-200 rounded-2xl">
-        {/* <InfoBar /> */}
-        <OtherPeople subscribers={this.state.subscribers} />
-        <MyExercise
-          Toolbar={Toolbar}
-          myVideo={myVideoStream}
-          chat={chatComponent}
-        />
+        <div
+          className="w-1/6  min-w-[300px]  border-4 border-green-700 "
+          id="subscribersArea"
+        >
+          <OtherPeople subscribers={this.state.subscribers} />
+        </div>
+
+        <div className="w-4/6 border-4 border-blue-500" id="ExerciseZoneArea">
+          <ExerciseZone
+            Toolbar={Toolbar}
+            myVideo={myVideoStream}
+            chat={chatComponent}
+            isRoomAdmin={this.state.isRoomAdmin}
+          />
+        </div>
+        <div
+          className="w-1/6  min-w-[300px]  border-2 border-red-400 "
+          id="sideBarArea"
+        >
+          <SideBar chatComponent={chatComponent} />
+        </div>
       </div>
     )
   }
@@ -639,7 +603,8 @@ class Room extends Component {
           },
         })
         .then((response) => {
-          console.log("CREATE SESION", response)
+          console.log("새로운 방 생성 ", response)
+          this.setState({ isRoomAdmin: true })
           resolve(response.data.id)
         })
         .catch((response) => {
@@ -699,13 +664,3 @@ class Room extends Component {
 }
 
 export default Room
-
-// export default function Room() {
-//   return (
-//     <div className="flex flex-col h-full">
-//       <InfoBar />
-//       <MyExercise />
-//       <OtherPeople />
-//     </div>
-//   )
-// }
