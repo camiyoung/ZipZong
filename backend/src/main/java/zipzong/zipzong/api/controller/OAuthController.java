@@ -40,6 +40,10 @@ public class OAuthController {
 
         member.setRefreshToken(token.getRefreshToken());
         memberRepository.save(member);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4756a4d4a97628b4f6df971d07a44cf105510ede
         String accessTokenExpiration = jwtService.dateToString(token.getAccessToken());
         String refreshTokenExpiration = jwtService.dateToString(token.getRefreshToken());
 
