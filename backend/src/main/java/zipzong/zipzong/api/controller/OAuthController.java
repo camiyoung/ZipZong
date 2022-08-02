@@ -1,6 +1,8 @@
 package zipzong.zipzong.api.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
@@ -11,7 +13,11 @@ import zipzong.zipzong.config.jwt.Jwt;
 import zipzong.zipzong.config.jwt.JwtService;
 import zipzong.zipzong.db.domain.Member;
 import zipzong.zipzong.db.repository.memberteam.MemberRepository;
+import zipzong.zipzong.exception.CustomException;
+import zipzong.zipzong.exception.CustomExceptionList;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -37,15 +43,43 @@ public class OAuthController {
         String accessTokenExpiration = jwtService.dateToString(token.getAccessToken());
         String refreshTokenExpiration = jwtService.dateToString(token.getRefreshToken());
 
-        return "redirect:/" + UriComponentsBuilder.fromUriString("http://localhost:3000/login")
+        return "redirect:" + UriComponentsBuilder.fromUriString("http://localhost:3000/login")
                                                  .queryParam("accessToken", token.getAccessToken())
                                                  .queryParam("refreshToken", token.getRefreshToken())
                                                  .queryParam("accessTokenExpiration", accessTokenExpiration)
                                                  .queryParam("refreshTokenExpiration", refreshTokenExpiration)
-                                                 .queryParam("memberId", String.valueOf(member.getId()))
+                                                 .queryParam("memberId", member.getId().toString())
                                                  .build()
                                                  .toUriString();
 
+    }
+
+    @GetMapping("/refresh")
+    public ResponseEntity<String> checkRefreshToken(HttpServletRequest request, HttpServletResponse response) {
+        String refreshToken = request.getHeader("refreshToken");
+
+        if (!jwtService.verifyToken(refreshToken)) {
+            throw new CustomException(CustomExceptionList.REFRESH_TOKEN_ERROR);
+        }
+
+        String email = jwtService.getEmail(refreshToken);
+        String provider = jwtService.getProvider(refreshToken);
+        String name = jwtService.getName(refreshToken);
+
+        Member member = memberRepository.findByEmailAndProvider(email, provider)
+                .orElseThrow(() -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND_ERROR));
+        if(!member.getRefreshToken().equals(refreshToken)) {
+            throw new CustomException(CustomExceptionList.REFRESH_TOKEN_ERROR);
+        }
+
+        Jwt token = jwtService.generateToken(email, provider, name);
+
+        String accessTokenExpiration = jwtService.dateToString(token.getAccessToken());
+
+        response.setHeader("accessToken", token.getAccessToken());
+        response.setHeader("accessTokenExpiration", accessTokenExpiration);
+
+        return new ResponseEntity<>("Refresh Token 일치", HttpStatus.OK);
     }
 
     private Member getAuthMember(Map<String, Object> attributes) {

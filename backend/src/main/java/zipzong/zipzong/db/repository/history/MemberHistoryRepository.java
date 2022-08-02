@@ -10,6 +10,6 @@ import java.util.Optional;
 
 public interface MemberHistoryRepository extends JpaRepository<MemberHistory, Long> {
     @EntityGraph(attributePaths = {"member"})
-    @Query("select h from MemberHistory h where h.member.id =: memberId")
+    @Query("select h from MemberHistory h where h.member.id = :memberId")
     Optional<MemberHistory> findByMemberId(@Param("memberId") Long memberId);
 }

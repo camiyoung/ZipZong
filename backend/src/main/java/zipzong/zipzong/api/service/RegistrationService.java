@@ -2,10 +2,11 @@ package zipzong.zipzong.api.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import zipzong.zipzong.api.dto.team.TeamMemberId;
 import zipzong.zipzong.db.domain.Member;
 import zipzong.zipzong.db.domain.Registration;
 import zipzong.zipzong.db.domain.Team;
-import zipzong.zipzong.api.dto.member.MemberInfoRequest;
+import zipzong.zipzong.api.dto.team.request.member.MemberInfoRequest;
 import zipzong.zipzong.api.dto.team.request.TeamInfoRequest;
 import zipzong.zipzong.api.dto.team.response.TeamResponse;
 import zipzong.zipzong.enums.CheckExist;
@@ -14,14 +15,17 @@ import zipzong.zipzong.db.repository.memberteam.MemberRepository;
 import zipzong.zipzong.db.repository.memberteam.RegistrationRepository;
 import zipzong.zipzong.db.repository.memberteam.TeamIconRepository;
 import zipzong.zipzong.db.repository.memberteam.TeamRepository;
+import zipzong.zipzong.exception.CustomException;
+import zipzong.zipzong.exception.CustomExceptionList;
 
-import javax.security.sasl.AuthenticationException;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class RegistrationService {
 
     private final TeamRepository teamRepository;
@@ -32,21 +36,38 @@ public class RegistrationService {
     /*
     초기에 만든사람은 그룹장이 되며 팀을 생성함
      */
-    public Registration createTeam(Team team, Long memberId) {
+    public TeamMemberId createTeam(Team team, Long memberId) {
         //Team, Member, Registration
+
+        Member member = memberRepository.findById(memberId).orElseThrow(
+                () -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND_ERROR));
+
         teamRepository.save(team);
-        Member member = memberRepository.findById(memberId).orElseThrow();
+        team.setInviteLink(team.makeInviteLink());
+
         Registration registration = Registration.createRegistration(member, team);
+
         team.getRegistrationList().add(registration);
-        return registrationRepository.save(registration);
+
+        registrationRepository.save(registration);
+
+        TeamMemberId teamMemberId = new TeamMemberId();
+        teamMemberId.setTeamId(registration.getTeam().getId());
+        teamMemberId.setMemberId(registration.getMember().getId());
+
+        return teamMemberId;
     }
 
     /*
         초대링크를 통해 그룹에 가입하는 회원
     */
     public Registration joinTeam(Long teamId, Long memberId) {
-        Team team = teamRepository.findById(teamId).orElseThrow();
-        Member member = memberRepository.findById(memberId).orElseThrow();
+        Team team = teamRepository.findById(teamId).orElseThrow(
+                () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR)
+        );
+        Member member = memberRepository.findById(memberId).orElseThrow(
+                () -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND_ERROR)
+        );
         Registration registration = Registration.joinRegistration(member, team);
         return registrationRepository.save(registration);
     }
@@ -78,7 +99,9 @@ public class RegistrationService {
         회원이 그룹 탈퇴하는 경우
      */
     public Long resignTeam(Long memberId, Long teamId) {
-        Registration registration = registrationRepository.findByMemberIdAndTeamId(memberId, teamId).orElseThrow();
+        Registration registration = registrationRepository.findByMemberIdAndTeamId(memberId, teamId).orElseThrow(
+                () -> new CustomException(CustomExceptionList.JOIN_INFO_NOT_EXIST)
+        );
         registration.changeIsResign(CheckExist.Y);
         return memberId;
     }
@@ -87,17 +110,31 @@ public class RegistrationService {
         그룹장이 회원을 탈퇴시키는 경우
      */
     public Long expelMember(Long leaderId, Long followerId, Long teamId) throws Exception{
-        return null;
+        Registration followerRegistration = registrationRepository.findByMemberIdAndTeamId(followerId,teamId).orElseThrow(
+                () -> new CustomException(CustomExceptionList.JOIN_INFO_NOT_EXIST)
+        );
+        Registration leaderRegistration = registrationRepository.findByMemberIdAndTeamId(leaderId,teamId).orElseThrow(
+                () -> new CustomException(CustomExceptionList.JOIN_INFO_NOT_EXIST)
+        );
+        if(!leaderRegistration.getRole().equals(Role.LEADER)){
+            throw new CustomException(CustomExceptionList.NO_AUTHENTICATION_ERROR);
+        }
+        followerRegistration.changeIsResign(CheckExist.Y);
+        return followerId;
     }
 
     /*
         그룹장이 그룹원에게 그룹장을 위임하는 경우
      */
     public Long delegateLeader(Long leaderId, Long followerId, Long teamId) throws Exception{
-        Registration followerRegistration = registrationRepository.findByMemberIdAndTeamId(followerId,teamId).orElseThrow();
-        Registration leaderRegistration = registrationRepository.findByMemberIdAndTeamId(leaderId,teamId).orElseThrow();
+        Registration followerRegistration = registrationRepository.findByMemberIdAndTeamId(followerId,teamId).orElseThrow(
+                () -> new CustomException(CustomExceptionList.JOIN_INFO_NOT_EXIST)
+        );
+        Registration leaderRegistration = registrationRepository.findByMemberIdAndTeamId(leaderId,teamId).orElseThrow(
+                () -> new CustomException(CustomExceptionList.JOIN_INFO_NOT_EXIST)
+        );
         if(!leaderRegistration.getRole().equals(Role.LEADER)){
-            throw new AuthenticationException();
+            throw new CustomException(CustomExceptionList.NO_AUTHENTICATION_ERROR);
         }
         followerRegistration.changeRole(Role.LEADER);
         leaderRegistration.changeRole(Role.FOLLOWER);
@@ -111,7 +148,9 @@ public class RegistrationService {
         팀 상세 정보 조회(멤버 정보 포함)
      */
     public TeamInfoRequest getTeamInfo(Long teamId) {
-        Team team = teamRepository.findById(teamId).orElseThrow();
+        Team team = teamRepository.findById(teamId).orElseThrow(
+                () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR)
+        );
 
         List<String> icons = teamIconRepository.findByTeamId(teamId)
                 .stream()
@@ -164,17 +203,21 @@ public class RegistrationService {
         그룹장이 그룹을 제거하는 경우
      */
 
-    public boolean deleteTeam(Long teamId, Long memberId) throws Exception {
-        Team team = teamRepository.findById(teamId).orElseThrow();
+    public Long deleteTeam(Long teamId, Long memberId) throws Exception {
+        Team team = teamRepository.findById(teamId).orElseThrow(
+                () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR)
+        );
 
         /*
             그룹장인지 확인
          */
         Registration registration = registrationRepository.findByMemberIdAndTeamId(memberId, teamId)
-                .orElseThrow();
+                .orElseThrow(
+                        () -> new CustomException(CustomExceptionList.JOIN_INFO_NOT_EXIST)
+                );
 
         if(registration.getRole().equals(Role.FOLLOWER)){
-            throw new AuthenticationException();
+            throw new CustomException(CustomExceptionList.NO_AUTHENTICATION_ERROR);
         }
 
         team.setIsDeleted(CheckExist.Y);
@@ -185,7 +228,7 @@ public class RegistrationService {
         List<Registration> registrations = registrationRepository.findAllByTeamId(teamId);
         registrations.stream().forEach(r -> r.changeIsResign(CheckExist.Y));
 
-        return true;
+        return teamId;
     }
 
 

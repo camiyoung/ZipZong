@@ -90,6 +90,8 @@ class OAuthControllerTest {
                 .name("김준우")
                 .email("bababrll@naver.com")
                 .provider("naver")
+                .repIcon("repIcon")
+                .id(1L)
                 .build();
 
         return Optional.of(member);

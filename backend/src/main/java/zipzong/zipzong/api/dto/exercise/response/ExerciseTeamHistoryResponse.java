@@ -2,6 +2,7 @@ package zipzong.zipzong.api.dto.exercise.response;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class ExerciseTeamHistoryResponse {
 
     @Getter
     @Setter
+    @RequiredArgsConstructor
     public static class Perform {
         private String performName;
         private int performNum;
