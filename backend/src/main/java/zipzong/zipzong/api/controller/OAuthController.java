@@ -1,6 +1,7 @@
 package zipzong.zipzong.api.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -8,6 +9,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 import zipzong.zipzong.config.jwt.Jwt;
 import zipzong.zipzong.config.jwt.JwtService;
@@ -18,6 +20,7 @@ import zipzong.zipzong.exception.CustomExceptionList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -56,7 +59,7 @@ public class OAuthController {
     }
 
     @GetMapping("/refresh")
-    public ResponseEntity<String> checkRefreshToken(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<Map<String, String>> checkRefreshToken(HttpServletRequest request, HttpServletResponse response) {
         String refreshToken = request.getHeader("refreshToken");
 
         if (!jwtService.verifyToken(refreshToken)) {
@@ -77,10 +80,11 @@ public class OAuthController {
 
         String accessTokenExpiration = jwtService.dateToString(token.getAccessToken());
 
-        response.setHeader("accessToken", token.getAccessToken());
-        response.setHeader("accessTokenExpiration", accessTokenExpiration);
+        Map<String, String> map = new HashMap<>();
+        map.put("accessToken", token.getAccessToken());
+        map.put("accessTokenExpiration", accessTokenExpiration);
 
-        return new ResponseEntity<>("Refresh Token 일치", HttpStatus.OK);
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
     private Member getAuthMember(Map<String, Object> attributes) {
