@@ -2,12 +2,14 @@ package zipzong.zipzong.api.dto.routine;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class RoutineRequest {
     private String routineName;
     private List<RoutineExercise> exercise;
@@ -16,6 +18,7 @@ public class RoutineRequest {
 
     @Getter
     @Setter
+    @NoArgsConstructor
     static public class RoutineExercise {
         String name;
         int count;
