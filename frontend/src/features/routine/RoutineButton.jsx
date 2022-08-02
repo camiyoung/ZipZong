@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux"
 import React, { useState } from "react"
 import Modal from "../../components/modal/Modal"
 import Button from "../../components/button/Button"
@@ -11,6 +12,7 @@ export default function RoutineButton({
   const [errorMessage, setError] = useState("")
   const [isOpen, setOpen] = useState(false)
   const modalClose = () => setOpen(false)
+  const routines = useSelector((state) => state.routine.routines)
 
   return (
     <div className="flex justify-center">
@@ -32,6 +34,9 @@ export default function RoutineButton({
             setOpen(true)
           } else if (exercise.length === 0) {
             setError("루틴에 하나 이상의 동작을 넣어주세요")
+            setOpen(true)
+          } else if (routines.length >= 5) {
+            setError("그룹의 루틴이 이미 최대 개수입니다")
             setOpen(true)
           } else {
             const newRoutine = {
