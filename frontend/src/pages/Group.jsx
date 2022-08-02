@@ -1,5 +1,6 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { useLocation } from "react-router-dom"
 import { teamInfo } from "../features/group/groupReducer"
 import GroupInfo from "../features/group/GroupInfo"
 import MemberList from "../features/group/MemberList"
@@ -8,17 +9,20 @@ import ExerciseInfo from "../features/group/ExerciseInfo"
 import GroupExerciseInfo from "../features/group/GroupExerciseInfo"
 export default function Group() {
   const dispatch = useDispatch()
+  const location = useLocation()
+  const fetchTeamId = location.pathname.split("/")[2]
   const teamName = useSelector((state) => state.group)
   console.log(teamName)
   const teamId = 1
+
   useEffect(() => {
-    // dispatch(teamInfo(teamId))
+    dispatch(teamInfo(fetchTeamId))
   }, [])
   return (
     <div className="w-[60%] mx-auto">
       <div className="flex">
         <GroupInfo
-          groupname="집에서 운동중"
+          groupname="그룹1"
           groupleader="신슬기"
           groupPeopleNumber="4"
           groupExplanation="집에서 운동 안 하는 사람들끼리 집에서 운동하는 웹 만들기로 함 ㅋㅋ 07. 15는 다 같이 휴식하는 날"

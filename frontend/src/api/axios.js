@@ -1,3 +1,4 @@
+import { toHaveDescription } from "@testing-library/jest-dom/dist/matchers"
 import axios from "axios"
 
 function Instance() {
@@ -18,48 +19,78 @@ function Instance() {
         "refreshTokenExpiration"
       )
       const accessDateList = accessTokenExpiration.split("-")
+      const accessYMD = `${accessDateList[0]}-${accessDateList[1]}-${accessDateList[2]}`
       const refreshDataList = refreshTokenExpiration.split("-")
+      const refreshYMD = `${refreshDataList[0]}-${refreshDataList[1]}-${refreshDataList[2]}`
       const today = new Date()
+      const year = today.getFullYear()
+      const tmpMonth = today.getMonth() + 1
+      const month = tmpMonth + 1 < 10 ? "0" + tmpMonth : "" + tmpMonth
+      const tmpDay = today.getDate()
+      const day = tmpDay < 10 ? "0" + tmpDay : "" + tmpDay
+      const hour = today.getHours()
+      const minute = today.getMinutes()
+      const seconds = today.getSeconds()
+      const todayYMD = `${year}-${month}-${day}`
 
-      // access token 만료 시
-      if (
-        today.getFullYear() > Number(accessDateList[0]) ||
-        today.getMonth() + 1 > Number(accessDateList[1]) ||
-        today.getDate() > Number(accessDateList[2]) ||
-        today.getHours() * 60 * 60 +
-          today.getMinutes() * 60 +
-          today.getSeconds() >
-          Number(accessDateList[3]) * 60 * 60 +
-            Number(accessDateList[4]) * 60 +
-            Number(accessDateList[5])
-      ) {
-        // refresh token 만료 시
-        if (
-          today.getFullYear() > Number(refreshDataList[0]) ||
-          today.getMonth() + 1 > Number(refreshDataList[1]) ||
-          today.getDate() > Number(refreshDataList[2]) ||
-          today.getHours() * 60 * 60 +
-            today.getMinutes() * 60 +
-            today.getSeconds() >
+      // access token 만료 시 함수
+      const accessTokenExpireCheck = () => {
+        if (todayYMD > accessYMD) {
+          return true
+        } else if (
+          todayYMD == accessYMD &&
+          hour * 60 * 60 + minute * 60 + seconds >
+            Number(accessDateList[3]) * 60 * 60 +
+              Number(accessDateList[4]) * 60 +
+              Number(accessDateList[5])
+        ) {
+          return true
+        } else {
+          return false
+        }
+      }
+
+      // refresh token 만료 시 함수
+      const refreshTokenExpireCheck = () => {
+        if (todayYMD > refreshYMD) {
+          return true
+        } else if (
+          todayYMD == refreshYMD &&
+          hour * 60 * 60 + minute * 60 + seconds >
             Number(refreshDataList[3]) * 60 * 60 +
               Number(refreshDataList[4]) * 60 +
               Number(refreshDataList[5])
         ) {
-          //access token & refresh token 둘 다 만료됐을 시
-          window.location.href("/login")
+          return true
+        } else {
+          return false
         }
-        // access token 만료 & refresh token 만료되지 않았을 시
-        // axios 요청 -> refresh/ ->
+      }
+      // access token 만료 시
+      if (accessTokenExpireCheck()) {
+        // refresh token 만료 시
+        if (refreshTokenExpireCheck()) {
+          //access token & refresh token 둘 다 만료됐을 시
+          window.location.replace("/login")
+        } else {
+          // access token 만료 & refresh token 만료되지 않았을 시
+          axios
+            .get("http://localhost:8080/oauth/refresh", {
+              headers: {
+                refreshToken: localStorage.getItem("refreshToken"),
+              },
+            })
+            .then((res) => {
+              console.log("여기 나와야 함", res.data)
+              localStorage.setItem("accessToken", res.data.accessToken)
+              localStorage.setItem(
+                "accessTokenExpiration",
+                res.data.accessTokenExpiration
+              )
+            })
 
-        // axios.get("http://localhost:8080/refresh").then((res) => {
-        //   localStorage.setItem("accessToken", res.data.accessToken)
-        //   localStorage.setItem(
-        //     "accessTokenExpiration",
-        //     res.data.accessTokenExpiration
-        //   )
-        // })
-
-        // config.headers["refreshToken"] = localStorage.getItem("refreshToken")
+          config.headers["refreshToken"] = localStorage.getItem("refreshToken")
+        }
       }
       config.headers["accessToken"] = localStorage.getItem("accessToken")
       return config
