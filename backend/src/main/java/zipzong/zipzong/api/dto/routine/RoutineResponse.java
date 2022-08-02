@@ -23,6 +23,7 @@ public class RoutineResponse {
             this.name = name;
             this.count = count;
         }
+
     }
 
     @Builder

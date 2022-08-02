@@ -27,10 +27,12 @@ public class RoutineRequest {
             this.name = name;
             this.count = count;
         }
+
+
     }
 
     @Builder
-    public RoutineRequest(String routineName, List<RoutineExercise> exercise, int breakTime, int totalTime){
+    public RoutineRequest(String routineName, List<RoutineExercise> exercise, int breakTime, int totalTime) {
         this.routineName = routineName;
         this.exercise = exercise;
         this.breakTime = breakTime;

@@ -151,7 +151,7 @@ public class RoutineControllerTest {
 
         //then
         resultActions.andExpect(status().isCreated())
-                .andExpect(jsonPath("$.data").value("1"))
+                .andExpect(jsonPath("$.data").value("0"))
                 .andDo(document("modify-routine-by-routineId",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
@@ -167,7 +167,7 @@ public class RoutineControllerTest {
                         ),
                         responseFields(
                                 fieldWithPath("message").description("메시지"),
-                                fieldWithPath("data").description("루틴 아이디")
+                                fieldWithPath("data").description("팀 아이디")
                         )
                 ));
 

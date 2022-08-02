@@ -3,21 +3,20 @@ package zipzong.zipzong.api.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import zipzong.zipzong.api.dto.routine.RoutineRequest;
+import zipzong.zipzong.api.dto.routine.RoutineResponse;
 import zipzong.zipzong.db.domain.Routine;
 import zipzong.zipzong.db.domain.RoutineDetail;
 import zipzong.zipzong.db.domain.Team;
-import zipzong.zipzong.api.dto.routine.RoutineRequest;
-import zipzong.zipzong.api.dto.routine.RoutineResponse;
+import zipzong.zipzong.db.repository.memberteam.TeamRepository;
 import zipzong.zipzong.db.repository.routine.RoutineDetailRepository;
 import zipzong.zipzong.db.repository.routine.RoutineRepository;
-import zipzong.zipzong.db.repository.memberteam.TeamRepository;
 import zipzong.zipzong.exception.CustomException;
 import zipzong.zipzong.exception.CustomExceptionList;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static zipzong.zipzong.api.dto.routine.RoutineResponse.createRoutineResponse;
 
@@ -56,10 +55,10 @@ public class RoutineService {
     public List<RoutineResponse> searchRoutine(Long teamId) {
         List<RoutineResponse> routineList = new ArrayList<>();
         List<Routine> routines = routineRepository.findRoutineByTeam(getTeamInfo(teamId));
-        for (Routine routine:routines) {
+        for (Routine routine : routines) {
             List<RoutineResponse.RoutineExercise> exercises = new ArrayList<>();
             List<RoutineDetail> routineDetailList = routineDetailRepository.findRoutineDetailByRoutineId(routine.getId());
-            for (RoutineDetail routineDetail:routineDetailList) {
+            for (RoutineDetail routineDetail : routineDetailList) {
                 String name = routineDetail.getName();
                 int count = routineDetail.getExerciseCount();
                 exercises.add(new RoutineResponse.RoutineExercise(name, count));
@@ -72,18 +71,18 @@ public class RoutineService {
     /*
     운동 루틴 수정
      */
-    public void updateRoutine(Long routineId, RoutineRequest routineRequest) {
-
-        Routine routine = Routine.updateRoutine(routineRequest, routineId,getRoutine(routineId).getTeam());
+    public Long updateRoutine(Long routineId, RoutineRequest routineRequest) {
+        Routine routine = Routine.updateRoutine(routineRequest, routineId, getRoutine(routineId).getTeam());
         routineRepository.save(routine);
         List<RoutineDetail> routineDetailList = routineDetailRepository.findRoutineDetailByRoutineId(routineId);
-        for (RoutineDetail routineDetail:routineDetailList) {
+        for (RoutineDetail routineDetail : routineDetailList) {
             routineDetailRepository.delete(routineDetail);
         }
         for (int i = 0; i < routineRequest.getExercise().size(); i++) {
             RoutineDetail routineDetail = RoutineDetail.createRoutineDetail(getRoutine(routineId), i + 1, routineRequest.getExercise().get(i));
             routineDetailRepository.save(routineDetail);
         }
+        return getRoutine(routineId).getTeam().getId();
     }
 
     private Team getTeamInfo(Long teamId) {
@@ -95,7 +94,6 @@ public class RoutineService {
         return routineRepository.findById(routineId)
                 .orElseThrow(() -> new CustomException(CustomExceptionList.ROUTINE_NOT_FOUND));
     }
-
 
 
 }
