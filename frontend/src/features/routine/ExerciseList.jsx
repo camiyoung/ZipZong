@@ -1,3 +1,7 @@
+import React, { useState } from "react"
+import Modal from "../../components/modal/Modal"
+import Button from "../../components/button/Button"
+
 import ExerciseIcon from "../../components/icon/ExerciseIcon"
 import ChangeLanguage from "./ChangeLanguage"
 
@@ -25,8 +29,20 @@ const exerciseList = [
 ]
 
 export default function ExerciseList({ routine, setRoutine, idx, setIdx }) {
+  const [isOpen, setOpen] = useState(false)
+  const modalClose = () => setOpen(false)
+
   return (
     <div className="flex justify-center">
+      <Modal isOpen={isOpen} modalClose={modalClose}>
+        <div>
+          동작은 최대 10개까지 넣을 수 있습니다.
+          <div className="flex justify-end pt-3">
+            <Button onClick={() => modalClose()} text="확인" />
+          </div>
+        </div>
+      </Modal>
+
       {exerciseList.map(({ name }, index) => {
         return (
           <div key={index} className="p-5">
@@ -41,6 +57,7 @@ export default function ExerciseList({ routine, setRoutine, idx, setIdx }) {
                     setIdx(5)
                   }
                 } else {
+                  setOpen(true)
                 }
               }}
             >
