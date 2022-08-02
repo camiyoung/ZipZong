@@ -14,13 +14,11 @@ export default function RoutineList() {
   const dispatch = useDispatch()
   const [isOpen, setOpen] = useState(false)
   const modalClose = () => setOpen(false)
-  // dispatch(getRoutine(1))
-  dispatch(nicknameValidation("아무거나"))
-  console.log(getRoutine, dispatch)
+
   const routines = useSelector((state) => state.routine.routines)
 
   useEffect(() => {
-    dispatch(nicknameValidation("아무거나"))
+    dispatch(getRoutine(1))
   }, [dispatch])
 
   return (
@@ -34,7 +32,7 @@ export default function RoutineList() {
         </div>
       </Modal>
       {routines.map(
-        ({ routineId, routineName, exercise, breaktime }, index) => {
+        ({ routineId, routineName, exercise, breakTime }, index) => {
           return (
             <div className="m-3" key={routineId}>
               <Card size="middle">
@@ -51,10 +49,12 @@ export default function RoutineList() {
                     )
                   })}
                   <div className="flex justify-center">
-                    쉬는 시간 {breaktime}초
+                    쉬는 시간 {breakTime}초
                   </div>
                   <div className="flex justify-center p-3">
-                    총 운동 시간 : {exercise.length * 60 + breaktime} 초
+                    총 운동 시간 :{" "}
+                    {exercise.length * 60 + (exercise.length - 1) * breakTime}{" "}
+                    초
                   </div>
                   <div className="flex justify-center">
                     <Link to={`/routine/modify/${routineId}`}>

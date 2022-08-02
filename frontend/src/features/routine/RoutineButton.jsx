@@ -1,7 +1,8 @@
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import React, { useState } from "react"
 import Modal from "../../components/modal/Modal"
 import Button from "../../components/button/Button"
+import { createRoutine } from "./routineReducer"
 
 export default function RoutineButton({
   routineName,
@@ -9,6 +10,7 @@ export default function RoutineButton({
   breakTime,
   routineId,
 }) {
+  const dispatch = useDispatch()
   const [errorMessage, setError] = useState("")
   const [isOpen, setOpen] = useState(false)
   const modalClose = () => setOpen(false)
@@ -35,9 +37,6 @@ export default function RoutineButton({
           } else if (exercise.length === 0) {
             setError("루틴에 하나 이상의 동작을 넣어주세요")
             setOpen(true)
-          } else if (routines.length >= 5) {
-            setError("그룹의 루틴이 이미 최대 개수입니다")
-            setOpen(true)
           } else {
             const newRoutine = {
               routineName,
@@ -45,8 +44,11 @@ export default function RoutineButton({
               breakTime,
               totalTime,
             }
-
             console.log(newRoutine)
+            if (routineId) {
+            } else {
+              dispatch(createRoutine({ groupId: 1, routine: newRoutine }))
+            }
           }
         }}
       >
