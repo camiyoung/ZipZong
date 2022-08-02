@@ -39,6 +39,17 @@ export const registrationTeam = createAsyncThunk(
   }
 )
 
+// 팀 생성
+export const teamCreate = createAsyncThunk(
+  "registration/create",
+  async (info) => {
+    const res = await http.post("registration/create", info)
+    if (res.data.message === "success") {
+      alert("팀이 생성되었습니다!")
+    }
+  }
+)
+
 // 회원 대표아이콘 설정
 export const memberIconSelect = createAsyncThunk(
   "member/rep-icon",
