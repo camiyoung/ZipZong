@@ -1,10 +1,19 @@
-import React from "react"
+import React, { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { teamInfo } from "../features/group/groupReducer"
 import GroupInfo from "../features/group/GroupInfo"
 import MemberList from "../features/group/MemberList"
 import Line from "../components/Line"
 import ExerciseInfo from "../features/group/ExerciseInfo"
 import GroupExerciseInfo from "../features/group/GroupExerciseInfo"
 export default function Group() {
+  const dispatch = useDispatch()
+  const teamName = useSelector((state) => state.group)
+  console.log(teamName)
+  const teamId = 1
+  useEffect(() => {
+    // dispatch(teamInfo(teamId))
+  }, [])
   return (
     <div className="w-[60%] mx-auto">
       <div className="flex">
