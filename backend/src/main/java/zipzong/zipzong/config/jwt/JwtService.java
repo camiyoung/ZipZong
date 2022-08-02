@@ -11,12 +11,12 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
-
+ // 가운데에 뭐있나요 클릭이안되네요
 @Service
 public class JwtService {
     private String secretKey = "token-secret-key";
     //10분
-    static final long ACCESS_PERIOD = 1000L * 60L * 10L;
+    static final long ACCESS_PERIOD = 1000L * 5L;
     //3달
     static final long REFRESH_PERIOD = 1000L * 60L * 60L * 24L * 30L;
 

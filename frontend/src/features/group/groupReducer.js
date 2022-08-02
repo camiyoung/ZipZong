@@ -34,17 +34,7 @@ export const groupSlice = createSlice({
       state.sheildCount = action.payload.data.data.sheildCount
       const tmp = action.payload.data.data.members
       state.teamMembers = tmp
-
-      tmp.forEach(({ role, repIcon, name, nickname, createdAt }) => {
-        if (role === "Leader") {
-          state.teamleader = {
-            repIcon: repIcon,
-            name: name,
-            nickname: nickname,
-            createdAt: createdAt,
-          }
-        }
-      })
+      state.teamLeader = tmp.find(({ role }) => role === "LEADER")
     })
   },
 })
