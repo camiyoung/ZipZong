@@ -1,5 +1,6 @@
 package zipzong.zipzong.api.dto.routine;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +19,19 @@ public class RoutineRequest {
     static public class RoutineExercise {
         String name;
         int count;
+
+        public RoutineExercise(String name, int count) {
+            this.name = name;
+            this.count = count;
+        }
+    }
+
+    @Builder
+    public RoutineRequest(String routineName, List<RoutineExercise> exercise, int breakTime, int totalTime){
+        this.routineName = routineName;
+        this.exercise = exercise;
+        this.breakTime = breakTime;
+        this.totalTime = totalTime;
     }
 }
 
