@@ -66,7 +66,7 @@ const renderTime = ({ remainingTime }) => {
 }
 
 function MyExercise({ Toolbar, myVideo, chat }) {
-  console.log("비디오", myVideo)
+  // console.log("비디오", myVideo)
   // const videoEle = myVideo.props.myVideoRef.current
 
   return (

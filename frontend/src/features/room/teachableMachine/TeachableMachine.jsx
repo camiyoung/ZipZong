@@ -26,7 +26,7 @@ export default class TeachableMachine extends Component {
 
   componentDidMount() {
     this.videoRef = this.props.myVideoRef
-    console.log("비디오 ", this.videoRef.current)
+    // console.log("비디오 ", this.videoRef.current)
 
     this.makeModel()
   }
@@ -44,7 +44,7 @@ export default class TeachableMachine extends Component {
     this.videoRef.current.width = this.videoRef.current.offsetWidth
     this.videoRef.current.height = this.videoRef.current.offsetHeight
     this.canvas = this.canvasRef.current
-    console.log("캔버스", this.canvas)
+    // console.log("캔버스", this.canvas)
     this.canvas.width = this.videoRef.current.width
     this.canvas.height = this.videoRef.current.height
     this.setState({ ctx: this.canvas.getContext("2d") })
