@@ -4,8 +4,8 @@ import { http } from "../../api/axios"
 export const getRoutine = createAsyncThunk(
   "routine/search",
   async (groupId) => {
-    console.log("그룹 루틴 조회", res.data)
     const res = await http.get(`routine/${groupId}`)
+    console.log("그룹 루틴 조회", res.data)
     return res.data
   }
 ) // 조회
@@ -28,25 +28,14 @@ export const deleteRoutine = createAsyncThunk("routine/", async (routineId) => {
 export const routineSlice = createSlice({
   name: "routine",
   initialState: {
-    routines: [
-      {
-        routineId: 52156,
-        routineName: "슬기세트",
-        exercise: [
-          { name: "PUSHUP", count: 5 },
-          { name: "PUSHUP", count: 5 },
-        ],
-        breaktime: 60,
-        totaltime: 300,
-      },
-    ],
+    routines: [],
   },
   reducers: {},
   extraReducers(builder) {
-    // builder.addCase(getRoutine.fulfilled, (state, action) => {
-    //   console.log(action.payload)
-    //   // state.routines = action.payload.data
-    // })
+    builder.addCase(getRoutine.fulfilled, (state, action) => {
+      console.log(action.payload.data)
+      state.routines = action.payload.data
+    })
   },
 })
 

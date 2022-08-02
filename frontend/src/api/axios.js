@@ -46,7 +46,7 @@ function Instance() {
               Number(refreshDataList[5])
         ) {
           //access token & refresh token 둘 다 만료됐을 시
-          window.location.href("/login")
+          // window.location.href("/login")
         }
         // access token 만료 & refresh token 만료되지 않았을 시
         // axios 요청 -> refresh/ ->
@@ -75,6 +75,7 @@ function Instance() {
       return response
     },
     (error) => {
+      console.log(error)
       // 에러 코드 받기
       // E003 - 토큰 만료 오류
       //로그아웃 후 login page로 리다이렉트
