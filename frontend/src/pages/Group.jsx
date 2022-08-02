@@ -7,12 +7,28 @@ import MemberList from "../features/group/MemberList"
 import Line from "../components/Line"
 import ExerciseInfo from "../features/group/ExerciseInfo"
 import GroupExerciseInfo from "../features/group/GroupExerciseInfo"
+
 export default function Group() {
+  const test = [
+    {
+      repIcon: "basic",
+      name: "name",
+      nickname: "nickname1",
+      createdAt: "2022-08-01T19:36:38.6339584",
+      role: "LEADER",
+    },
+    {
+      repIcon: "basic",
+      name: "name",
+      nickname: "nickname2",
+      createdAt: "2022-08-01T19:36:38.6339584",
+      role: "FOLLOWER",
+    },
+  ]
   const dispatch = useDispatch()
   const location = useLocation()
   const fetchTeamId = location.pathname.split("/")[2]
-  const teamName = useSelector((state) => state.group)
-  console.log(teamName)
+  const teamName = useSelector((state) => state)
   const teamId = 1
 
   useEffect(() => {
