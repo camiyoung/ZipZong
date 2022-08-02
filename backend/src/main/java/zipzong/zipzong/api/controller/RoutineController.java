@@ -42,9 +42,9 @@ public class RoutineController {
 
     //루틴 수정
     @PutMapping("/{routineId}")
-    public ResponseEntity<BasicResponse<Long>> routineModify(@RequestBody RoutineRequest routineRequest,@PathVariable Long routineId) {
-        routineService.updateRoutine(routineId, routineRequest);
-        return new ResponseEntity<>(makeBasicResponse(SUCCESS, routineId), HttpStatus.CREATED);
+    public ResponseEntity<BasicResponse<Long>> routineModify(@RequestBody RoutineRequest routineRequest, @PathVariable Long routineId) {
+        Long teamId = routineService.updateRoutine(routineId, routineRequest);
+        return new ResponseEntity<>(makeBasicResponse(SUCCESS, teamId), HttpStatus.CREATED);
     }
 
     private <T> BasicResponse<T> makeBasicResponse(String message, T data) {
