@@ -1,9 +1,3 @@
-const accessTokenExpiration = localStorage.getItem("accessTokenExpiration")
-const refreshTokenExpiration = localStorage.getItem("refreshTokenExpiration")
-const accessDateList = accessTokenExpiration.split("-")
-const accessYMD = `${accessDateList[0]}-${accessDateList[1]}-${accessDateList[2]}`
-const refreshDataList = refreshTokenExpiration.split("-")
-const refreshYMD = `${refreshDataList[0]}-${refreshDataList[1]}-${refreshDataList[2]}`
 const today = new Date()
 const year = today.getFullYear()
 const tmpMonth = today.getMonth() + 1
@@ -16,6 +10,9 @@ const seconds = today.getSeconds()
 const todayYMD = `${year}-${month}-${day}`
 
 export function AccessTokenExpireCheck() {
+  const accessTokenExpiration = localStorage.getItem("accessTokenExpiration")
+  const accessDateList = accessTokenExpiration.split("-")
+  const accessYMD = `${accessDateList[0]}-${accessDateList[1]}-${accessDateList[2]}`
   if (todayYMD > accessYMD) {
     return true
   } else if (
@@ -32,6 +29,9 @@ export function AccessTokenExpireCheck() {
 }
 
 export function RefreshTokenExpireCheck() {
+  const refreshTokenExpiration = localStorage.getItem("refreshTokenExpiration")
+  const refreshDataList = refreshTokenExpiration.split("-")
+  const refreshYMD = `${refreshDataList[0]}-${refreshDataList[1]}-${refreshDataList[2]}`
   if (todayYMD > refreshYMD) {
     return true
   } else if (

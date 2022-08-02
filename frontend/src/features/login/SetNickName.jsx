@@ -8,7 +8,6 @@ import {
   selectNickname,
   nicknamePush,
 } from "./memberReducer"
-import axios from "axios"
 export default function SetNickName() {
   const dispatch = useDispatch()
   const navigate = useNavigate()

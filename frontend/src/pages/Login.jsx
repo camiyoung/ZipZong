@@ -1,14 +1,10 @@
 import React from "react"
 // import { useLocation } from "react-router-dom"
-import { useSelector, useDispatch } from "react-redux"
-import { checkMemberId } from "../features/login/memberReducer"
 
 import NotLoggedInYet from "../features/login/NotLoggedInYet"
 import SetNickName from "../features/login/SetNickName"
 
 export default function Login() {
-  const dispatch = useDispatch()
-  const memberId = useSelector((state) => state.memberId)
   // const location = useLocation()
   const accessToken = new URL(window.location.href).searchParams.get(
     "accessToken"
@@ -28,15 +24,13 @@ export default function Login() {
   const collectedMemberId = new URL(window.location.href).searchParams.get(
     "memberId"
   )
-  dispatch(checkMemberId(collectedMemberId))
   if (accessToken) {
     localStorage.setItem("accessToken", accessToken)
     localStorage.setItem("refreshToken", refreshToken)
     localStorage.setItem("accessTokenExpiration", accessTokenExpiration)
     localStorage.setItem("refreshTokenExpiration", refreshTokenExpiration)
-    localStorage.setItem("memberId", memberId)
+    localStorage.setItem("memberId", collectedMemberId)
   }
-
   return (
     <div className="flex">
       <div className="w-6/12 h-screen">
@@ -47,7 +41,7 @@ export default function Login() {
         />
       </div>
       {/* 로그인되면 버튼들이 보이지 않음 */}
-      {/* {hasNickName ? window.location.href("/mypage") : null} */}
+      {hasNickName ? window.location.href("/mypage") : null}
       {accessToken ? <SetNickName /> : <NotLoggedInYet />}
     </div>
   )
