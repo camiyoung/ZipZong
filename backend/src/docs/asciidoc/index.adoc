@@ -41,3 +41,15 @@ operation::team-set-repIcon[snippets='http-request,request-fields,http-response,
 operation::team-add-Icon[snippets='http-request,request-fields,http-response,response-fields']
 === 팀 정보 변경
 operation::team-change-teamInfo[snippets='http-request,request-fields,http-response,response-fields']
+
+[[Routine-API]]
+== Routine API
+
+=== 팀별 루틴 생성
+operation::create-routine-by-team[snippets='http-request,path-parameters,http-response,response-fields']
+=== 팀별 루틴 조회
+operation::get-routine-by-team[snippets='http-request,path-parameters,http-response,response-fields']
+=== 루틴 수정
+operation::modify-routine-by-routineId[snippets='http-request,path-parameters,http-response,response-fields']
+=== 루틴 삭제
+operation::delete-routine-by-routineId[snippets='http-request,path-parameters,http-response,response-fields']
