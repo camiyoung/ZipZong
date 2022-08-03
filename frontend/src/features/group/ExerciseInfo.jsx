@@ -1,6 +1,8 @@
-import React from "react"
+import React, { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import CalendarForm from "../../components/calendar/CalendarForm"
 import ImageIcon from "../../components/icon/ImageIcon"
+import { teamTotalExerciseCount } from "./groupReducer"
 
 const dayExerciseInfo = [
   {
@@ -87,9 +89,13 @@ function Ranking() {
 }
 
 export default function ExerciseInfo() {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(teamTotalExerciseCount())
+  }, [])
+  const shieldCount = useSelector((state) => state.group.shieldCount)
   let totalTime = 9
   let streak = 3
-  let sheildCount = 1
   return (
     <div className="flex mt-10 flex-col flex-wrap">
       <div className="flex">
@@ -138,7 +144,7 @@ export default function ExerciseInfo() {
       </div>
       <br />
       <Ranking />
-      <p>현재 스트릭 쉴드를 {sheildCount}개 소지 중입니다.</p>
+      <p>현재 스트릭 쉴드를 {shieldCount}개 소지 중입니다.</p>
     </div>
   )
 }
