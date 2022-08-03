@@ -87,7 +87,6 @@ export const memberSlice = createSlice({
       state.memberNickname = action.payload.data.data.nickname
       state.memberProvider = action.payload.data.data.provider
       state.memberRepIcon = action.payload.data.data.repIcon
-      console.log(state)
     })
     builder.addCase(nicknameChange.fulfilled, (state, action) => {
       console.log(state)

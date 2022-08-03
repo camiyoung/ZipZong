@@ -84,9 +84,6 @@ export const myPageSlice = createSlice({
     registeredTeam: [],
   },
   reducers: {
-    checkMemberId: (state, action) => {
-      state.memberId = action.payload
-    },
     changeYear: (state, action) => {
       state.selectedYear = action.payload
     },
@@ -112,6 +109,6 @@ export const myPageSlice = createSlice({
     })
   },
 })
-export const { checkMemberId, changeYear, changeMonth } = myPageSlice.actions
+export const { changeYear, changeMonth } = myPageSlice.actions
 
 export default myPageSlice.reducer
