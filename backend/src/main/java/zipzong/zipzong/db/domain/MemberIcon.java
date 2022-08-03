@@ -24,7 +24,7 @@ public class MemberIcon {
     @Column(name = "member_icon_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 

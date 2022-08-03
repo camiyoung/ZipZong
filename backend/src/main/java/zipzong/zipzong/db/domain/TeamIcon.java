@@ -23,7 +23,7 @@ public class TeamIcon {
     @Column(name = "team_icon_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
 
