@@ -51,6 +51,7 @@ function Instance() {
       return response
     },
     (error) => {
+      console.log(error)
       // 에러 코드 받기
       // E003 - 토큰 만료 오류
       console.log(error)

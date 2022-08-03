@@ -1,6 +1,9 @@
+import { useDispatch, useSelector } from "react-redux"
 import React, { useState } from "react"
 import Modal from "../../components/modal/Modal"
 import Button from "../../components/button/Button"
+import { createRoutine, modifyRoutine } from "./routineReducer"
+import { useNavigate } from "react-router-dom"
 
 export default function RoutineButton({
   routineName,
@@ -8,9 +11,12 @@ export default function RoutineButton({
   breakTime,
   routineId,
 }) {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [errorMessage, setError] = useState("")
   const [isOpen, setOpen] = useState(false)
   const modalClose = () => setOpen(false)
+  const routines = useSelector((state) => state.routine.routines)
 
   return (
     <div className="flex justify-center">
@@ -40,8 +46,13 @@ export default function RoutineButton({
               breakTime,
               totalTime,
             }
-
             console.log(newRoutine)
+            if (routineId) {
+              dispatch(modifyRoutine({ routineId, routine: newRoutine }))
+            } else {
+              dispatch(createRoutine({ groupId: 1, routine: newRoutine }))
+            }
+            navigate("/routine")
           }
         }}
       >

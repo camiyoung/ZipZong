@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import { useSelector } from "react-redux"
+import React, { useState, useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
 
 import ImageIcon from "../../components/icon/ImageIcon"
 import Modal from "../../components/modal/Modal"
@@ -7,11 +7,19 @@ import Button from "../../components/button/Button"
 import Card from "../../components/card/Card"
 import { Link } from "react-router-dom"
 import ChangeLanguage from "./ChangeLanguage"
+import { getRoutine, deleteRoutine } from "./routineReducer"
 
 export default function RoutineList() {
-  const routines = useSelector((state) => state.routine.routines)
+  const dispatch = useDispatch()
   const [isOpen, setOpen] = useState(false)
   const modalClose = () => setOpen(false)
+
+  const routines = useSelector((state) => state.routine.routines)
+
+  useEffect(() => {
+    dispatch(getRoutine(1))
+  }, [dispatch, isOpen])
+
   return (
     <div className="flex">
       <Modal isOpen={isOpen} modalClose={modalClose}>
@@ -23,7 +31,7 @@ export default function RoutineList() {
         </div>
       </Modal>
       {routines.map(
-        ({ routineId, routineName, exercise, breaktime }, index) => {
+        ({ routineId, routineName, exercise, breakTime }, index) => {
           return (
             <div className="m-3" key={routineId}>
               <Card size="middle">
@@ -40,10 +48,12 @@ export default function RoutineList() {
                     )
                   })}
                   <div className="flex justify-center">
-                    쉬는 시간 {breaktime}초
+                    쉬는 시간 {breakTime}초
                   </div>
                   <div className="flex justify-center p-3">
-                    총 운동 시간 : {exercise.length * 60 + breaktime} 초
+                    총 운동 시간 :{" "}
+                    {exercise.length * 60 + (exercise.length - 1) * breakTime}{" "}
+                    초
                   </div>
                   <div className="flex justify-center">
                     <Link to={`/routine/modify/${routineId}`}>
@@ -55,7 +65,7 @@ export default function RoutineList() {
                       className="bg-secondary-300 m-2 w-[50px] rounded-xl flex justify-center text-sm items-center pointer hover:bg-secondary-500"
                       onClick={() => {
                         setOpen(true)
-                        routines.splice(index, 1)
+                        dispatch(deleteRoutine(routineId))
                       }}
                     >
                       삭제
