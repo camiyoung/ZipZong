@@ -16,7 +16,6 @@ export default function RoutineButton({
   const [errorMessage, setError] = useState("")
   const [isOpen, setOpen] = useState(false)
   const modalClose = () => setOpen(false)
-  const routines = useSelector((state) => state.routine.routines)
 
   return (
     <div className="flex justify-center">
