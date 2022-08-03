@@ -14,6 +14,7 @@ import zipzong.zipzong.db.repository.history.TeamHistoryRepository;
 import zipzong.zipzong.db.repository.memberteam.MemberRepository;
 import zipzong.zipzong.db.repository.memberteam.RegistrationRepository;
 import zipzong.zipzong.db.repository.memberteam.TeamRepository;
+import zipzong.zipzong.enums.CheckExist;
 import zipzong.zipzong.exception.CustomException;
 import zipzong.zipzong.exception.CustomExceptionList;
 
@@ -43,6 +44,7 @@ public class ExerciseService {
             Registration registration = registrationRepository.findByMemberIdAndTeamId(memberId, teamId).orElseThrow(
                     () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR)
             );
+
             LocalDate today = LocalDate.now();
 
             if(exerciseRepository.findByRegistrationIdAndExerciseDate(registration.getId(), today).isEmpty()) {
@@ -418,5 +420,28 @@ public class ExerciseService {
         response.setPerformMemberTotals(performMemberTotals);
 
         return response;
+    }
+
+    public ExerciseTeamTodayResponse exerciseMemberToday(Long teamId) {
+        ExerciseTeamTodayResponse exerciseTeamTodayResponse = new ExerciseTeamTodayResponse();
+
+        List<ExerciseTeamTodayResponse.NiceMember> niceMembers = new ArrayList<>();
+
+        List<Registration> registrations = registrationRepository.findAllByTeamId(teamId);
+        System.out.println(registrations);
+        for(Registration registration : registrations) {
+            if(registration.getIsResign() == CheckExist.Y) continue;
+            if(exerciseRepository.findByRegistrationIdAndExerciseDate(registration.getId(), LocalDate.now()).isEmpty())
+                continue;
+            ExerciseTeamTodayResponse.NiceMember niceMember = new ExerciseTeamTodayResponse.NiceMember();
+            niceMember.setMemberId(registration.getMember().getId());
+            niceMember.setNickName(registration.getMember().getNickname());
+
+            niceMembers.add(niceMember);
+        }
+
+        exerciseTeamTodayResponse.setNiceMembers(niceMembers);
+
+        return exerciseTeamTodayResponse;
     }
 }

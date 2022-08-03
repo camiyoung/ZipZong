@@ -78,6 +78,13 @@ public class ExerciseController {
         return new ResponseEntity<>(makeBasicResponse(SUCCESS, response), HttpStatus.OK);
     }
 
+    @GetMapping("/today/team")
+    public ResponseEntity<BasicResponse<ExerciseTeamTodayResponse>> exerciseTeamToday(@RequestParam Long teamId) {
+        ExerciseTeamTodayResponse response = exerciseService.exerciseMemberToday(teamId);
+
+        return new ResponseEntity<>(makeBasicResponse(SUCCESS, response), HttpStatus.OK);
+    }
+
     private <T> BasicResponse<T> makeBasicResponse(String message, T data) {
         return BasicResponse.<T>builder()
                 .message(message)

@@ -281,6 +281,31 @@ public class ExerciseServiceTest {
         Assertions.assertThat(response.getPerformMemberTotals().get(0).getPerformName().equals("PUSHUP")).isTrue();
     }
 
+    @Test
+    @DisplayName("오늘 운동한 팀원 목록 조회")
+    void exerciseMemberToday() throws Exception {
+        // given
+        Member member1Temp = makeMember("황승주", "las1260@naver.com", "황승주").orElseThrow();
+        Member member2Temp = makeMember("츄츄", "platinadark@gmail.com", "츄츄").orElseThrow();
+        Team team = makeTeam().orElseThrow();
+        memberRepository.save(member1Temp);
+        memberRepository.save(member2Temp);
+        teamRepository.save(team);
+
+        Member member1 = memberRepository.findByNickname("황승주").orElseThrow();
+        Member member2 = memberRepository.findByNickname("츄츄").orElseThrow();
+        registrationService.createTeam(team, member1.getId());
+        registrationService.joinTeam(team.getId(), member2.getId());
+
+        // when
+        exerciseService.saveMemberExerciseInfo(team.getId(),makePersonalResultList(member1.getId(), member2.getId()));
+        ExerciseTeamTodayResponse exerciseTeamTodayResponse = exerciseService.exerciseMemberToday(team.getId());
+
+        // then
+        System.out.println(exerciseRepository.findAll().get(0).getExerciseDate());
+        Assertions.assertThat(exerciseTeamTodayResponse.getNiceMembers().size() == 2).isTrue();
+    }
+
     private Optional<Member> makeMember(String name, String email, String nickname) {
         Member member = Member
                 .builder()
