@@ -33,7 +33,8 @@ const renderBreakTime = ({ remainingTime }) => {
   )
 }
 
-export const Timer = ({ type, duration }) => {
+export const Timer = ({ action, timerOpen }) => {
+  const { type, duration } = action
   const colors = type === "breaktime" ? breaktimeColor : exerciseColor
 
   return (
