@@ -28,6 +28,7 @@ function App() {
           <Route path="/group/:teamId" element={<Group />} />
           <Route path="/group" element={<Group />} />
 
+          <Route path="/groupset/:teamId" element={<GroupSet />} />
           <Route path="/groupset" element={<GroupSet />} />
           <Route path="/routine" element={<Routine />} />
           <Route path="/routine/make" element={<RoutineMake />} />
