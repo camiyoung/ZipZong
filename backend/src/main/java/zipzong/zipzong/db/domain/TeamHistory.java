@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,6 +26,9 @@ public class TeamHistory {
 
     @Column(name = "current_strick")
     private int currentStrick;
+
+    @Column(name = "hall_of_fame_date")
+    private LocalDateTime hallOfFameDate;
 
     @OneToOne(mappedBy = "teamHistory", fetch = FetchType.LAZY)
     private Team team;

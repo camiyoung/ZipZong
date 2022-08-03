@@ -22,8 +22,8 @@ public enum CustomExceptionList {
     JOIN_INFO_NOT_EXIST(HttpStatus.NOT_FOUND, "E008", "가입정보가 유효하지 않습니다."),
     NO_AUTHENTICATION_ERROR(HttpStatus.FORBIDDEN, "E009", "접근 권한이 없습니다."),
     ROUTINE_NOT_FOUND(HttpStatus.NOT_FOUND, "E010", "존재하지 않는 루틴입니다."),
-    SHIELD_COUNT_NO_NEGATIVE(HttpStatus.INTERNAL_SERVER_ERROR, "E011", "보유한 쉴드가 없습니다.");
-
+    SHIELD_COUNT_NO_NEGATIVE(HttpStatus.INTERNAL_SERVER_ERROR, "E011", "보유한 쉴드가 없습니다."),
+    RANK_NOT_FOUND_ERROR(HttpStatus.NOT_FOUND, "E012", "랭킹이 조회되지 않습니다.");
 
     private final HttpStatus status;
     private final String code;

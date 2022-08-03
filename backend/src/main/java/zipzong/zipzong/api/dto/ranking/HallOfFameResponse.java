@@ -19,7 +19,7 @@ public class HallOfFameResponse {
         int rank;
         String teamIcon;
         String teamName;
-        LocalDateTime satisfiedDate;
+        int satisfiedTime;
     }
 
     @Getter
