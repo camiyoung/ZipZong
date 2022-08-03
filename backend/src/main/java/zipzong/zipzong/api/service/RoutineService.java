@@ -3,21 +3,20 @@ package zipzong.zipzong.api.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import zipzong.zipzong.api.dto.routine.RoutineRequest;
+import zipzong.zipzong.api.dto.routine.RoutineResponse;
 import zipzong.zipzong.db.domain.Routine;
 import zipzong.zipzong.db.domain.RoutineDetail;
 import zipzong.zipzong.db.domain.Team;
-import zipzong.zipzong.api.dto.routine.RoutineRequest;
-import zipzong.zipzong.api.dto.routine.RoutineResponse;
+import zipzong.zipzong.db.repository.memberteam.TeamRepository;
 import zipzong.zipzong.db.repository.routine.RoutineDetailRepository;
 import zipzong.zipzong.db.repository.routine.RoutineRepository;
-import zipzong.zipzong.db.repository.memberteam.TeamRepository;
 import zipzong.zipzong.exception.CustomException;
 import zipzong.zipzong.exception.CustomExceptionList;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static zipzong.zipzong.api.dto.routine.RoutineResponse.createRoutineResponse;
 
@@ -56,36 +55,34 @@ public class RoutineService {
     public List<RoutineResponse> searchRoutine(Long teamId) {
         List<RoutineResponse> routineList = new ArrayList<>();
         List<Routine> routines = routineRepository.findRoutineByTeam(getTeamInfo(teamId));
-        for (int i = 0; i < routines.size(); i++) {
-            Routine routine = routines.get(i);
+        for (Routine routine : routines) {
             List<RoutineResponse.RoutineExercise> exercises = new ArrayList<>();
             List<RoutineDetail> routineDetailList = routineDetailRepository.findRoutineDetailByRoutineId(routine.getId());
-            for (int j = 0; j < routineDetailList.size(); j++) {
-                String name = routineDetailList.get(j).getName();
-                int count = routineDetailList.get(j).getExerciseCount();
+            for (RoutineDetail routineDetail : routineDetailList) {
+                String name = routineDetail.getName();
+                int count = routineDetail.getExerciseCount();
                 exercises.add(new RoutineResponse.RoutineExercise(name, count));
             }
             routineList.add(createRoutineResponse(routine.getName(), routine.getId(), exercises, routine.getBreakTime(), routine.getTotalTime()));
         }
         return routineList;
-
-
     }
 
     /*
     운동 루틴 수정
      */
-    public void updateRoutine(Long teamId, Long routineId, RoutineRequest routineRequest) {
-        Routine routine = Routine.updateRoutine(routineRequest, routineId, getTeamInfo(teamId));
+    public Long updateRoutine(Long routineId, RoutineRequest routineRequest) {
+        Routine routine = Routine.updateRoutine(routineRequest, routineId, getRoutine(routineId).getTeam());
         routineRepository.save(routine);
         List<RoutineDetail> routineDetailList = routineDetailRepository.findRoutineDetailByRoutineId(routineId);
-        for (int i = 0; i < routineDetailList.size(); i++) {
-            routineDetailRepository.delete(routineDetailList.get(i));
+        for (RoutineDetail routineDetail : routineDetailList) {
+            routineDetailRepository.delete(routineDetail);
         }
         for (int i = 0; i < routineRequest.getExercise().size(); i++) {
             RoutineDetail routineDetail = RoutineDetail.createRoutineDetail(getRoutine(routineId), i + 1, routineRequest.getExercise().get(i));
             routineDetailRepository.save(routineDetail);
         }
+        return getRoutine(routineId).getTeam().getId();
     }
 
     private Team getTeamInfo(Long teamId) {

@@ -69,20 +69,22 @@ export default function MemberList() {
     <div className="flex mt-10 w-full flex-wrap">
       {/* 모달 영역 */}
       <Modal isOpen={isOpen} modalClose={modalClose}>
-        <p className="text-3xl font-semibold text-center mb-5">초대링크</p>
-        <div className="flex justify-center items-center">
-          <input
-            type="text"
-            ref={copyLinkRef}
-            value={"http  ://localhost:3000/invite?groundId=id"}
-            className="mr-3"
-          />
-          <Button
-            onClick={() => copyTextUrl()}
-            text="복사"
-            width="w-20"
-          ></Button>
-        </div>
+        <form>
+          <p className="text-3xl font-semibold text-center mb-5">초대링크</p>
+          <div className="flex justify-center items-center">
+            <input
+              type="text"
+              ref={copyLinkRef}
+              defaultValue={"http://localhost:3000/invite?groundId=id"}
+              className="mr-3"
+            />
+            <Button
+              onClick={() => copyTextUrl()}
+              text="복사"
+              width="w-20"
+            ></Button>
+          </div>
+        </form>
       </Modal>
       {/* 모달 영역 끝 */}
       {Members.map(({ memberName, Icon, hasDone }, idx) => {

@@ -71,18 +71,6 @@ export const memberIconList = createAsyncThunk(
   }
 )
 
-// 회원 Icon 추가
-export const memberIconCreate = createAsyncThunk(
-  "member/icon",
-  async (nickname, icon) => {
-    const { data } = await http.post("/member/icon", {
-      nickname: nickname,
-      icon: icon,
-    })
-    return data
-  }
-)
-
 export const myPageSlice = createSlice({
   name: "mypage",
   initialState: {
@@ -96,9 +84,6 @@ export const myPageSlice = createSlice({
     registeredTeam: [],
   },
   reducers: {
-    checkMemberId: (state, action) => {
-      state.memberId = action.payload
-    },
     changeYear: (state, action) => {
       state.selectedYear = action.payload
     },
@@ -120,9 +105,10 @@ export const myPageSlice = createSlice({
     )
     builder.addCase(registrationTeam.fulfilled, (state, action) => {
       state.registeredTeam = action.payload.data.data
+      console.log(state.registeredTeam)
     })
   },
 })
-export const { checkMemberId, changeYear, changeMonth } = myPageSlice.actions
+export const { changeYear, changeMonth } = myPageSlice.actions
 
 export default myPageSlice.reducer
