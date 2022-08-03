@@ -7,6 +7,8 @@ import zipzong.zipzong.db.domain.*;
 import zipzong.zipzong.api.dto.exercise.request.ExerciseResultRequest;
 import zipzong.zipzong.db.repository.exercise.ExerciseDetailRepository;
 import zipzong.zipzong.db.repository.exercise.ExerciseRepository;
+import zipzong.zipzong.db.repository.exercise.MemberCalendarRepository;
+import zipzong.zipzong.db.repository.exercise.TeamCalendarRepository;
 import zipzong.zipzong.db.repository.history.MemberHistoryDetailRepository;
 import zipzong.zipzong.db.repository.history.MemberHistoryRepository;
 import zipzong.zipzong.db.repository.history.TeamHistoryDetailRepository;
@@ -34,8 +36,10 @@ public class ExerciseService {
     private final ExerciseDetailRepository exerciseDetailRepository;
     private final TeamHistoryRepository teamHistoryRepository;
     private final TeamHistoryDetailRepository teamHistoryDetailRepository;
+    private final TeamCalendarRepository teamCalendarRepository;
     private final MemberHistoryRepository memberHistoryRepository;
     private final MemberHistoryDetailRepository memberHistoryDetailRepository;
+    private final MemberCalendarRepository memberCalendarRepository;
 
     public void saveMemberExerciseInfo(Long teamId, List<ExerciseResultRequest.PersonalResult> personalResults) {
 
@@ -46,6 +50,16 @@ public class ExerciseService {
             );
 
             LocalDate today = LocalDate.now();
+
+            // 오늘 개인 첫 운동이라면 스탬프 찍기
+            if(memberCalendarRepository.findByMemberIdAndCheckDate(memberId, today).isEmpty()) {
+                MemberCalendar memberCalendar = MemberCalendar
+                        .builder()
+                        .member(registration.getMember())
+                        .checkDate(today)
+                        .build();
+                memberCalendarRepository.save(memberCalendar);
+            }
 
             if(exerciseRepository.findByRegistrationIdAndExerciseDate(registration.getId(), today).isEmpty()) {
                 Exercise first = Exercise.builder()

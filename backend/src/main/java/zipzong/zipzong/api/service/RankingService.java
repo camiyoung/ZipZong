@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import zipzong.zipzong.api.dto.ranking.HallOfFameResponse;
 import zipzong.zipzong.api.dto.ranking.TeamRankingResponse;
@@ -28,6 +29,17 @@ public class RankingService {
     private final RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
 
     final ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
+
+    private static final Long BOUNDARY = 5L;
+
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void comprehensiveUpdate() {
+        // 스트릭 갱신하면서
+        // 21일 달성 팀 실드 추가
+        // 운동 미완료 + 실드 보유 시 실드 소모로 스트릭 유지
+        //
+
+    }
 
     public List<HallOfFameResponse.HallOfFame> getHallOfFames() {
         String rankingBoard = "halloffame";
@@ -128,9 +140,9 @@ public class RankingService {
         Long ranking = zSetOperations.reverseRank(rankingBoard, teamId);
         if(ranking == null) throw new CustomException(CustomExceptionList.RANK_NOT_FOUND_ERROR);
 
-        long start = ranking - 5L;
-        long end = ranking + 5L;
-        if(ranking - 5 < 0) start = 0L;
+        long start = ranking - BOUNDARY;
+        long end = ranking + BOUNDARY;
+        if(ranking - BOUNDARY < 0) start = 0L;
         Set<ZSetOperations.TypedTuple<String>> rankSet = zSetOperations.reverseRangeWithScores(rankingBoard, start, end);
 
         if(rankSet == null) throw new CustomException(CustomExceptionList.RANK_NOT_FOUND_ERROR);
@@ -166,9 +178,9 @@ public class RankingService {
         Long ranking = zSetOperations.reverseRank(rankingBoard, teamId);
         if(ranking == null) throw new CustomException(CustomExceptionList.RANK_NOT_FOUND_ERROR);
 
-        long start = ranking - 5L;
-        long end = ranking + 5L;
-        if(ranking - 5 < 0) start = 0L;
+        long start = ranking - BOUNDARY;
+        long end = ranking + BOUNDARY;
+        if(ranking - BOUNDARY < 0) start = 0L;
         Set<ZSetOperations.TypedTuple<String>> rankSet = zSetOperations.reverseRangeWithScores(rankingBoard, start, end);
 
         if(rankSet == null) throw new CustomException(CustomExceptionList.RANK_NOT_FOUND_ERROR);

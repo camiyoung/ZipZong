@@ -4,11 +4,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import zipzong.zipzong.api.dto.exercise.request.ExerciseResultRequest;
 import zipzong.zipzong.api.dto.exercise.response.*;
 import zipzong.zipzong.api.service.ExerciseService;
@@ -16,6 +13,8 @@ import zipzong.zipzong.api.service.RegistrationService;
 import zipzong.zipzong.db.domain.*;
 import zipzong.zipzong.db.repository.exercise.ExerciseDetailRepository;
 import zipzong.zipzong.db.repository.exercise.ExerciseRepository;
+import zipzong.zipzong.db.repository.exercise.MemberCalendarRepository;
+import zipzong.zipzong.db.repository.exercise.TeamCalendarRepository;
 import zipzong.zipzong.db.repository.history.MemberHistoryDetailRepository;
 import zipzong.zipzong.db.repository.history.MemberHistoryRepository;
 import zipzong.zipzong.db.repository.history.TeamHistoryDetailRepository;
@@ -54,13 +53,17 @@ public class ExerciseServiceTest {
     MemberHistoryDetailRepository memberHistoryDetailRepository;
     @Autowired
     TeamIconRepository teamIconRepository;
+    @Autowired
+    TeamCalendarRepository teamCalendarRepository;
+    @Autowired
+    MemberCalendarRepository memberCalendarRepository;
 
     ExerciseService exerciseService;
     RegistrationService registrationService;
 
     @BeforeEach
     void setup() {
-        exerciseService = new ExerciseService(memberRepository, teamRepository, registrationRepository, exerciseRepository, exerciseDetailRepository, teamHistoryRepository, teamHistoryDetailRepository, memberHistoryRepository, memberHistoryDetailRepository);
+        exerciseService = new ExerciseService(memberRepository, teamRepository, registrationRepository, exerciseRepository, exerciseDetailRepository, teamHistoryRepository, teamHistoryDetailRepository, teamCalendarRepository, memberHistoryRepository, memberHistoryDetailRepository, memberCalendarRepository);
         registrationService = new RegistrationService(teamRepository, memberRepository, registrationRepository, teamIconRepository);
     }
 
