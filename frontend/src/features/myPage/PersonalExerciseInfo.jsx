@@ -67,12 +67,8 @@ export default function ExerciseInfo() {
     dispatch(memberExerciseHistorySumCheck(memberId))
     dispatch(registrationTeam(memberId))
   }, [])
-  // 날짜별 운동 기록들 출력
-  // console.log(memberExeriseHistories)
-  let totalTime = 9
 
-  // 개인이 가입한 팀
-  // console.log(registeredTeams)
+  let totalTime = 9
 
   return (
     <div className="flex mt-10 flex-col">
