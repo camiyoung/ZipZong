@@ -81,6 +81,8 @@ operation::exercise-member-history[snippets='http-request,request-parameters,htt
 operation::create-routine-by-team[snippets='http-request,path-parameters,http-response,response-fields']
 === 팀별 루틴 조회
 operation::get-routine-by-team[snippets='http-request,path-parameters,http-response,response-fields']
+=== 루틴별 운동 조회
+operation::get-routine-detail-by-routine[snippets='http-request,path-parameters,http-response,response-fields']
 === 루틴 수정
 operation::modify-routine-by-routineId[snippets='http-request,path-parameters,http-response,response-fields']
 === 루틴 삭제

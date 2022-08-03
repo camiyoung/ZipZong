@@ -50,7 +50,7 @@ public class RoutineService {
     }
 
     /*
-    운동 루틴 조회
+    그룹별 운동 루틴 조회
      */
     public List<RoutineResponse> searchRoutine(Long teamId) {
         List<RoutineResponse> routineList = new ArrayList<>();
@@ -66,6 +66,22 @@ public class RoutineService {
             routineList.add(createRoutineResponse(routine.getName(), routine.getId(), exercises, routine.getBreakTime(), routine.getTotalTime()));
         }
         return routineList;
+    }
+
+    /*
+    루틴의 운동 목록 조회
+     */
+    public RoutineResponse searchDetailRoutine(Long routineId) {
+        Routine routine = getRoutine(routineId);
+        List<RoutineResponse.RoutineExercise> exercises = new ArrayList<>();
+        List<RoutineDetail> routineDetailList = routineDetailRepository.findRoutineDetailByRoutineId(routine.getId());
+        for (RoutineDetail routineDetail : routineDetailList) {
+            String name = routineDetail.getName();
+            int count = routineDetail.getExerciseCount();
+            exercises.add(new RoutineResponse.RoutineExercise(name, count));
+        }
+        RoutineResponse response = createRoutineResponse(routine.getName(), routine.getId(), exercises, routine.getBreakTime(), routine.getTotalTime());
+        return response;
     }
 
     /*

@@ -96,6 +96,27 @@ public class RoutineServiceTest {
 
     @Order(3)
     @Test
+    void searchDetailRoutine() {
+        //given
+        List<RoutineRequest.RoutineExercise> exercises = new ArrayList<>();
+        exercises.add(new RoutineRequest.RoutineExercise("PUSHUP", 24));
+        exercises.add(new RoutineRequest.RoutineExercise("BURPEE", 5));
+        RoutineRequest routineRequest = RoutineRequest.builder()
+                .routineName("routine1")
+                .exercise(exercises)
+                .breakTime(60)
+                .totalTime(180)
+                .build();
+        routineService.createRoutine(teamId, routineRequest);
+        //when
+        RoutineResponse routine = routineService.searchDetailRoutine(3L);
+
+        //then
+        Assertions.assertEquals(routine.getRoutineName(), "routine1");
+    }
+
+    @Order(4)
+    @Test
     void updateRoutine() {
         //given
         List<RoutineRequest.RoutineExercise> exercises = new ArrayList<>();
@@ -118,10 +139,10 @@ public class RoutineServiceTest {
                 .breakTime(60)
                 .totalTime(180)
                 .build();
-        routineService.updateRoutine(3L, updateRoutineRequest);
+        routineService.updateRoutine(4L, updateRoutineRequest);
 
         //then
-        Routine routine = routineRepository.findById(3L).orElseThrow();
+        Routine routine = routineRepository.findById(4L).orElseThrow();
         Assertions.assertEquals(routine.getName(), "updateRoutine");
 
     }

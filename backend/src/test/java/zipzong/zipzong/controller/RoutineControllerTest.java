@@ -136,6 +136,40 @@ public class RoutineControllerTest {
     }
 
     @Test
+    @DisplayName("루틴별 운동 조회")
+    void searchDetailRoutine() throws Exception {
+        //given
+        Long routineId = 1L;
+        RoutineResponse routineResponse = makeRoutineResponse().get(0);
+        given(routineService.searchDetailRoutine(anyLong())).willReturn(routineResponse);
+
+        //when
+        RequestBuilder requestBuilder = RestDocumentationRequestBuilders.get("/routine/detail/{routineId}", routineId);
+        ResultActions resultActions = mockMvc.perform(requestBuilder);
+
+        //then
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.routineName").value("routine1"))
+                .andDo(document("get-routine-detail-by-routine",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("routineId").description("루틴 아이디")
+                        ),
+                        responseFields(
+                                fieldWithPath("message").description("메시지"),
+                                fieldWithPath("data.routineName").description("루틴이름 "),
+                                fieldWithPath("data.routineId").description("루틴 아이디 "),
+                                fieldWithPath("data.exercise.[].name").description("루틴의 운동 이름 "),
+                                fieldWithPath("data.exercise.[].count").description("루틴의 운동 횟수 "),
+                                fieldWithPath("data.breakTime").description("휴식 시간"),
+                                fieldWithPath("data.totalTime").description("운동 총 시간")
+                        )
+                ));
+
+    }
+
+    @Test
     @DisplayName("팀의 루틴 수정")
     void modifyRoutine() throws Exception {
         //given
