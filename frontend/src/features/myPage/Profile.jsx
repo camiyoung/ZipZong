@@ -43,6 +43,7 @@ export default function Profile() {
   const modalClose = () => setOpen(false)
   const [nickname, setNickname] = useState("")
   const [icon, setIcon] = useState(rabbit)
+  const [errorMessage, setErrorMessage] = useState("나 진좌 너무 힘들다")
   const stateNickname = useSelector((state) => state.member.memberNickname)
   useEffect(() => {
     // setNickname(stateNickname)
@@ -98,10 +99,18 @@ export default function Profile() {
             })}
           </div>
 
-          <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-            <button type="submit" className="bg-lightBlue">
-              정보 수정
-            </button>
+          <div className="py-3 flex mt-3">
+            <div className="flex w-[322px] text-sm items-center text-red-600">
+              {errorMessage}
+            </div>
+            <div className="r-0">
+              <button
+                type="submit"
+                className="bg-lightBlue rounded-md border border-gray-300 shadow-sm px-4 py-2 text-base font-medium text-gray-700 hover:bg-primary-300 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+              >
+                정보 수정
+              </button>
+            </div>
           </div>
         </form>
       </Modal>
