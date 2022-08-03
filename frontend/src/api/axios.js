@@ -20,7 +20,6 @@ function Instance() {
           //access token & refresh token 둘 다 만료됐을 시
           window.location.replace("/login")
         } else {
-          console.log("여기 들어가죠>")
           // access token 만료 & refresh token 만료되지 않았을 시
           axios
             .get("http://localhost:8080/oauth/refresh", {
@@ -29,8 +28,6 @@ function Instance() {
               },
             })
             .then((res) => {
-              console.log("여기 나와야 함", res.data)
-              console.log(res)
               localStorage.setItem("accessToken", res.data.accessToken)
               localStorage.setItem(
                 "accessTokenExpiration",

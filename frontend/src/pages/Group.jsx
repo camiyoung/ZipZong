@@ -9,39 +9,28 @@ import ExerciseInfo from "../features/group/ExerciseInfo"
 import GroupExerciseInfo from "../features/group/GroupExerciseInfo"
 
 export default function Group() {
-  const test = [
-    {
-      repIcon: "basic",
-      name: "name",
-      nickname: "nickname1",
-      createdAt: "2022-08-01T19:36:38.6339584",
-      role: "LEADER",
-    },
-    {
-      repIcon: "basic",
-      name: "name",
-      nickname: "nickname2",
-      createdAt: "2022-08-01T19:36:38.6339584",
-      role: "FOLLOWER",
-    },
-  ]
   const dispatch = useDispatch()
   const location = useLocation()
   const fetchTeamId = location.pathname.split("/")[2]
-  const teamName = useSelector((state) => state)
+  const teamName = useSelector((state) => state.group.teamName)
+  const teamMembers = useSelector((state) => state.group.teamMembers)
+  const teamContent = useSelector((state) => state.group.teamContent)
+  const teamLeader = useSelector((state) => state.group.teamLeader)
+  console.log(teamLeader)
   const teamId = 1
+  console.log("그룹페이지", teamName)
 
   useEffect(() => {
     dispatch(teamInfo(fetchTeamId))
-  }, [])
+  }, [dispatch])
   return (
     <div className="w-[60%] mx-auto">
       <div className="flex">
         <GroupInfo
-          groupname="그룹1"
-          groupleader="신슬기"
-          groupPeopleNumber="4"
-          groupExplanation="집에서 운동 안 하는 사람들끼리 집에서 운동하는 웹 만들기로 함 ㅋㅋ 07. 15는 다 같이 휴식하는 날"
+          groupname={teamName}
+          groupleader={teamLeader.nickname}
+          groupPeopleNumber={teamMembers.length}
+          groupExplanation={teamContent}
         />
       </div>
       <div className="flex justify-center flex-col items-center mt-20">
