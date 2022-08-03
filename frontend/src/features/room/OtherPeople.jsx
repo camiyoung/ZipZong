@@ -1,10 +1,9 @@
 import React from "react"
 import StreamComponent from "./openVidu/stream/StreamComponent"
 
-const tmp = ["유저1", "유저2", "유저3", "유저4"]
 const Video = ({ user, streamId }) => {
   return (
-    <div className="w-full   my-2">
+    <div className="w-full my-1">
       <StreamComponent user={user} streamId={streamId} />
     </div>
   )
@@ -12,7 +11,7 @@ const Video = ({ user, streamId }) => {
 
 export default function OtherPeople({ subscribers }) {
   return (
-    <div className=" h-full w-1/6 flex flex-col items-center justify-center  pl-5 ">
+    <div className=" h-full w-full flex flex-col items-center justify-center  p-2  overflow-auto ">
       {subscribers.map((sub, i) => (
         <Video
           user={sub}

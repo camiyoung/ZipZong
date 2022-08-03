@@ -1,8 +1,9 @@
-import React from "react"
+import React, { useState } from "react"
 import Button from "../../components/button/Button"
 import Timer from "../../components/timer/Timer"
 import { CountdownCircleTimer } from "react-countdown-circle-timer"
 import TeachableMachine from "./teachableMachine/TeachableMachine"
+import WorkOut from "./workout/WorkOut"
 
 const TodoList = () => {
   return (
@@ -51,55 +52,43 @@ const ExerciseInfo = () => {
   )
 }
 
-const renderTime = ({ remainingTime }) => {
-  if (remainingTime === 0) {
-    return <div className="timer">완료!</div>
+function MyExercise({ Toolbar, myVideo, chat, isRoomAdmin }) {
+  const [isExercising, setExercising] = useState(false)
+
+  console.log("방 관리자?", isRoomAdmin)
+
+  const startExercise = () => {
+    console.log("운동 시작")
+    setExercising(true)
+  }
+  const finishExercise = () => {
+    console.log("운동 종료")
+    setExercising(false)
   }
 
-  return (
-    <div className="flex flex-col items-center">
-      <div className="">Remaining</div>
-      <div className=" text-4xl">{remainingTime}</div>
-      <div className="">seconds</div>
-    </div>
+  const startButton = (
+    <button className="bg-mainBlue border " onClick={startExercise}>
+      운동 시작하기
+    </button>
   )
-}
 
-function MyExercise({ Toolbar, myVideo, chat }) {
-  // console.log("비디오", myVideo)
-  // const videoEle = myVideo.props.myVideoRef.current
+  const finishButton = (
+    <button className=" bg-red-400 border " onClick={finishExercise}>
+      운동 종료하기
+    </button>
+  )
 
   return (
-    <div className="flex  h-full w-[90%] pl-2 ">
-      <div className=" w-[75%] h-full p-3 relative  " id="videoArea">
-        {myVideo && <TeachableMachine myVideoRef={myVideo.props.myVideoRef} />}
-        {<div className="w-full h-full ">{myVideo}</div>}
-        <div className=" z-30 absolute top-10 left-10 bg-white border-4 rounded-full">
-          <CountdownCircleTimer
-            isPlaying
-            duration={10}
-            colors={["#337699", "#0ea5e9", "#34d399", "#d9f99d"]}
-            colorsTime={[10, 6, 3, 0]}
-            onComplete={() => ({ shouldRepeat: true, delay: 1 })}
-          >
-            {renderTime}
-          </CountdownCircleTimer>
-        </div>
-        <div className="w-full h-[10%] flex justify-between items-center absolute bottom-5">
-          {Toolbar}
-        </div>
+    <div className="flex  h-full w-full pl-2  relative ">
+      {myVideo && isExercising && <WorkOut myVideo={myVideo} />}
+      {<div className="w-full h-full ">{myVideo}</div>}
+
+      <div id="button " className="absolute top-5 left-5 z-50">
+        {isRoomAdmin && !isExercising && startButton}
+        {isExercising && finishButton}
       </div>
-      <div className=" w-[25%] min-w-[250px] h-full p-3 " id="sideArea">
-        <div className="w-full h-full flex flex-col  rounded-2xl">
-          <div id="info" className="h-2/6 p-4">
-            <div className=" w-full h-full ">
-              <ExerciseInfo />
-            </div>
-          </div>
-          <div id="chat" className="h-4/6">
-            {chat}
-          </div>
-        </div>
+      <div className="w-full h-[10%] flex justify-between items-center absolute bottom-5">
+        {Toolbar}
       </div>
     </div>
   )
