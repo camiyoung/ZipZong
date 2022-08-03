@@ -41,12 +41,13 @@ export default function Group() {
       })
     )
     modalClose()
+    console.log(memberInfoTeam)
     // 모달을 닫은 후 추가된 그룹이 보여야하는데 보이지 않음
     // dispatch(registrationTeam(memberId))
   }
   useEffect(() => {
     dispatch(registrationTeam(memberId))
-  }, [])
+  }, [memberInfoTeam])
 
   return (
     // 모달

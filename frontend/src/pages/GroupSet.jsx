@@ -18,7 +18,7 @@ export default function GroupSet() {
     dispatch(teamInfo(fetchTeamId))
   }, [])
 
-  function deleteTeamFunction() {
+  const deleteTeamFunction = () => {
     dispatch(teamDelete({ teamId: fetchTeamId, memberId: memberId }))
     navigate("/mypage")
   }
@@ -41,7 +41,7 @@ export default function GroupSet() {
       </div>
       <Modal isOpen={isOpen} modalClose={modalClose}>
         <p>정말 그룹을 삭제하시겠습니까?</p>
-        <Button text="예" onClick={() => deleteTeamFunction()} />
+        <Button text="예" onClick={deleteTeamFunction} />
         <Button text="아니오" onClick={() => modalClose()} />
       </Modal>
     </div>
