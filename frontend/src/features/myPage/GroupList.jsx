@@ -6,6 +6,7 @@ import Card from "../../components/card/Card"
 import Modal from "../../components/modal/Modal"
 import SmallTextInput from "../../components/input/SmallTextInput"
 import LargeTextInput from "../../components/input/LargeTextInput"
+import { NavLink } from "react-router-dom"
 
 const Groups = [
   {
@@ -39,8 +40,9 @@ export default function Group() {
         memberId: memberId,
       })
     )
-    // modalClose()
-    window.location.reload()
+    modalClose()
+    // 모달을 닫은 후 추가된 그룹이 보여야하는데 보이지 않음
+    // dispatch(registrationTeam(memberId))
   }
   useEffect(() => {
     dispatch(registrationTeam(memberId))
@@ -106,19 +108,21 @@ export default function Group() {
         </div>
       </Modal>
 
-      {memberInfoTeam.map(({ teamName, icon, count }, idx) => {
+      {memberInfoTeam.map(({ teamName, icon, count, groupId }, idx) => {
         return (
-          <div className="flex p-3" key={idx}>
-            <Card size="middle">
-              <div className="flex justify-center p-3">
-                <Icon image={icon} size="xLarge" />
-              </div>
-              <p className="p-4 font-bold flex justify-center text-lg">
-                {" "}
-                {teamName}{" "}
-              </p>
-            </Card>
-          </div>
+          <NavLink key={idx} to={`/group/${groupId}`}>
+            <div className="flex p-3">
+              <Card size="middle">
+                <div className="flex justify-center p-3">
+                  <Icon image={icon} size="xLarge" />
+                </div>
+                <p className="p-4 font-bold flex justify-center text-lg">
+                  {" "}
+                  {teamName}{" "}
+                </p>
+              </Card>
+            </div>
+          </NavLink>
         )
       })}
       <div onClick={() => setOpen(true)} className="flex p-3">

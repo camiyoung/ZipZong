@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { NavLink, useLocation } from "react-router-dom"
+import { NavLink, useLocation, useNavigate } from "react-router-dom"
 import { teamInfo } from "../../features/group/groupReducer"
 import Card from "../card/Card"
 import ImageIcon from "../icon/ImageIcon"
@@ -47,8 +47,10 @@ const GroupList = ({ setVisible, groups }) => {
 
 // 로그아웃 버튼 눌렀을 시 발동
 const Logout = () => {
-  localStorage.setItem("token", null)
-  localStorage.setItem("user", null)
+  const navigate = useNavigate()
+  // 로그아웃 버튼을 누르면 로컬스토리지 비우고 navigate을 하고 싶지만 동작 안함
+  localStorage.clear()
+  navigate("/login")
 }
 
 const InfoList = ({ setVisible }) => {

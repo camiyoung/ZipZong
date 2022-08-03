@@ -1,5 +1,6 @@
-import React, { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import React, { useEffect, useState } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import { useNavigate, useLocation } from "react-router-dom"
 import Card from "../../components/card/Card"
 import ImageIcon from "../../components/icon/ImageIcon"
 import UserIcon from "../../components/icon/UserIcon"
@@ -8,15 +9,36 @@ import Modal from "../../components/modal/Modal"
 import SmallTextInput from "../../components/input/SmallTextInput"
 import Select from "../../components/input/Select"
 import Radio from "../../components/input/Radio"
+import { teamInfo, teamResign } from "./groupReducer"
 
 function GroupManagement() {
   const navigate = useNavigate()
+  const location = useLocation()
+  const dispatch = useDispatch()
+  const fetchTeamId = location.pathname.split("/")[2]
+  const { memberId, memberNickname } = useSelector((state) => state.member)
+  const { teamLeader, teamMembers } = useSelector((state) => state.group)
   const [isLeader, setIsLeader] = useState(false)
+
+  // 모달 관련 UseState
   const [isOpen, setOpen] = useState(false)
+  const [isOpen2, setOpen2] = useState(false)
+  const modalClose2 = () => setOpen2(false)
   const modalClose = () => setOpen(false)
+
+  // useEffect
+  useEffect(() => {
+    dispatch(teamInfo(fetchTeamId))
+    if (teamLeader.nickname === memberNickname) {
+      setIsLeader(true)
+    } else {
+      setIsLeader(false)
+    }
+  }, [])
+
   return (
     <div className="w-full ml-10">
-      {/* 모달 영역 */}
+      {/* 모달 영역 1 */}
       <Modal isOpen={isOpen} modalClose={modalClose}>
         <form action="">
           <SmallTextInput inputName="방 제목"></SmallTextInput>
@@ -56,7 +78,20 @@ function GroupManagement() {
           </div>
         </div>
       </Modal>
-      {/* 모달 영역 끝 */}
+      {/* 모달 영역 1 끝 */}
+      {/* 모달 영역 2 시작 */}
+      <Modal isOpen={isOpen2} modalClose={modalClose2}>
+        <p style={{ color: "red" }}>정말 그룹을 탈퇴하시겠습니까?</p>
+        <Button
+          text="탈퇴"
+          onClick={() => {
+            dispatch(teamResign({ teamId: fetchTeamId, memberId: memberId }))
+            navigate("/mypage")
+          }}
+        />
+        <Button text="취소" onClick={() => modalClose()} />
+      </Modal>
+      {/* 모달 영역 2 끝 */}
       {/* 카드 영역 */}
       <div className="">
         <Card>
@@ -86,7 +121,7 @@ function GroupManagement() {
         그룹장 ->그룹 설정 및 관리 보임
         그룹원 -> 그룹 탈퇴 보임
         */}
-        {isLeader ? (
+        {isLeader && teamMembers.length > 2 ? (
           <Button
             text="그룹 설정 및 관리"
             round="round3xl"
@@ -99,6 +134,7 @@ function GroupManagement() {
             round="round3xl"
             height="h-10"
             width="w-full"
+            onClick={() => setOpen2(true)}
           />
         )}
       </div>
@@ -106,12 +142,10 @@ function GroupManagement() {
   )
 }
 
-export default function GroupInfo({
-  groupname,
-  groupleader,
-  groupPeopleNumber,
-  groupExplanation,
-}) {
+export default function GroupInfo() {
+  const { teamName, teamMembers, teamContent, teamLeader } = useSelector(
+    (state) => state.group
+  )
   return (
     <div className="w-full flex mt-5">
       <Card size="100%">
@@ -124,20 +158,20 @@ export default function GroupInfo({
 
           <div className="flex flex-col ml-10">
             <p className="text-xl">
-              <strong>{groupname}</strong>
+              <strong>{teamName}</strong>
             </p>
 
             <div className="flex" style={{ fontSize: "11px" }}>
-              <p>그룹장: {groupleader}</p>
+              <p>그룹장: {teamLeader.nickname}</p>
               <p className="flex">
                 <UserIcon />
-                {groupPeopleNumber} / 10
+                {teamMembers.length} / 10
               </p>
             </div>
           </div>
         </div>
         <hr className="mb-3 mt-2" />
-        <p className="text-md">{groupExplanation}</p>
+        <p className="text-md">{teamContent}</p>
       </Card>
 
       <GroupManagement />
