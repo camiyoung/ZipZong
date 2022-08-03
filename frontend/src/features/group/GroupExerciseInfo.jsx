@@ -41,7 +41,6 @@ export default function GroupExerciseInfo() {
   const location = useLocation()
   const fetchTeamId = location.pathname.split("/")[2]
   const { performTeamTotals } = useSelector((state) => state.group)
-  console.log(performTeamTotals)
 
   return (
     <div className="flex mt-10">

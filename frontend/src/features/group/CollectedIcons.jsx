@@ -35,8 +35,10 @@ export default function CollectedIcons() {
   const location = useLocation()
   const fetchTeamId = location.pathname.split("/")[2]
   const { icons, teamRepIcons } = useSelector((state) => state.group)
-  console.log("팀 아이콘들", icons)
-  useEffect(() => {}, [])
+
+  useEffect(() => {
+    // dispatch()
+  }, [])
 
   return (
     <Card

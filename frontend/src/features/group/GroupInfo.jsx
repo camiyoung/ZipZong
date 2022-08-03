@@ -122,7 +122,6 @@ function GroupManagement() {
         그룹장 ->그룹 설정 및 관리 보임
         그룹원 -> 그룹 탈퇴 보임
         */}
-        {console.log(isLeader, teamMembers)}
         {/* {isLeader && teamMembers.length > 2 ? ( */}
         {isLeader ? (
           <Button

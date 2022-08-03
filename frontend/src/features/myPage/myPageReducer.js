@@ -45,7 +45,7 @@ export const teamCreate = createAsyncThunk(
   async (info) => {
     const res = await http.post("registration/create", info)
     if (res.data.message === "success") {
-      alert("팀이 생성되었습니다!")
+      console.log("팀이 생성되었습니다.")
     }
   }
 )
