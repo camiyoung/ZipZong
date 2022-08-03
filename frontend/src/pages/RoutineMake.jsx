@@ -81,7 +81,6 @@ export default function RoutineMake() {
           exercise={routine}
           breakTime={breakTime}
           routineId={params.routineId}
-          routines={routines}
         />
       </div>
     </div>
