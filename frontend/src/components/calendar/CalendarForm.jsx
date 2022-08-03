@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
-import { changeYear, changeMonth } from "../../features/myPage/myPageReducer"
+import {
+  changeYear,
+  changeMonth,
+  memberExerciseHistoryCheck,
+} from "../../features/myPage/myPageReducer"
 import Calendar from "react-calendar"
 import "./Calendar.css"
 import moment from "moment"
@@ -11,10 +15,10 @@ export default function CalendarForm() {
   const [date, setDate] = useState(new Date())
   function loadDate(currentDate) {
     const validDate = currentDate || date
-    const m = validDate.getMonth() + 1
-    const y = validDate.getFullYear()
-    dispatch(changeYear(y))
-    dispatch(changeMonth(m))
+    const month = validDate.getMonth() + 1
+    const year = validDate.getFullYear()
+    dispatch(changeYear(year))
+    dispatch(changeMonth(month))
   }
   useEffect(() => {
     loadDate()

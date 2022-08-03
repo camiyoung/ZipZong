@@ -22,16 +22,47 @@ export const teamTotalExerciseCount = createAsyncThunk(
   }
 )
 
+// 회원의 팀 탈퇴
+export const teamResign = createAsyncThunk(
+  "registration/team/resign",
+  async (info) => {
+    const res = await http.put("registration/team/resign", info)
+    if (res.data.message === "success") {
+      return res
+    }
+  }
+)
 export const groupSlice = createSlice({
   name: "group",
   initialState: {
-    icons: [],
-    teamName: null,
-    teamContent: null,
-    teamRepIcons: null,
+    icons: ["addIcon1", "addIcon2"],
+    teamName: "teamName",
+    teamContent: "teamContent",
+    teamRepIcons: "basic",
     shieldCount: 0,
-    teamMembers: [],
-    teamLeader: null,
+    teamMembers: [
+      {
+        repIcon: "basic",
+        name: "name",
+        nickname: "nickname1",
+        createdAt: "2022-08-03T14:15:44.6943268",
+        role: "LEADER",
+      },
+      {
+        repIcon: "basic",
+        name: "name",
+        nickname: "nickname2",
+        createdAt: "2022-08-03T14:15:44.6943268",
+        role: "FOLLOWER",
+      },
+    ],
+    teamLeader: {
+      repIcon: "basic",
+      name: "name",
+      nickname: "nickname1",
+      createdAt: "2022-08-03T14:15:44.6943268",
+      role: "LEADER",
+    },
     teamCurrentStreak: 0,
     performTeamTotals: null,
   },

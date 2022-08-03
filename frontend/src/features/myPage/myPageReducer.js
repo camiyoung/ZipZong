@@ -105,7 +105,6 @@ export const myPageSlice = createSlice({
     )
     builder.addCase(registrationTeam.fulfilled, (state, action) => {
       state.registeredTeam = action.payload.data.data
-      console.log(state.registeredTeam)
     })
   },
 })

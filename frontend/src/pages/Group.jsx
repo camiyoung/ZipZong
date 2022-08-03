@@ -12,26 +12,13 @@ export default function Group() {
   const dispatch = useDispatch()
   const location = useLocation()
   const fetchTeamId = location.pathname.split("/")[2]
-  const teamName = useSelector((state) => state.group.teamName)
-  const teamMembers = useSelector((state) => state.group.teamMembers)
-  const teamContent = useSelector((state) => state.group.teamContent)
-  const teamLeader = useSelector((state) => state.group.teamLeader)
-  console.log(teamLeader)
-  const teamId = 1
-  console.log("그룹페이지", teamName)
-
   useEffect(() => {
     dispatch(teamInfo(fetchTeamId))
-  }, [dispatch])
+  }, [fetchTeamId])
   return (
     <div className="w-[60%] mx-auto">
       <div className="flex">
-        <GroupInfo
-          groupname={teamName}
-          groupleader={teamLeader.nickname}
-          groupPeopleNumber={teamMembers.length}
-          groupExplanation={teamContent}
-        />
+        <GroupInfo />
       </div>
       <div className="flex justify-center flex-col items-center mt-20">
         <div className="text-center">
