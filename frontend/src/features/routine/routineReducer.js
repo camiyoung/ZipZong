@@ -25,6 +25,9 @@ export const modifyRoutine = createAsyncThunk(
   async (info) => {
     const res = await http.put(`routine/${info.routineId}`, info.routine)
     console.log("그룹 루틴 수정", res.data)
+    const res2 = await http.get(`routine/${res.data.data}`)
+    console.log("그룹 루틴 재조회", res2)
+    return res2.data
   }
 ) // 수정
 
@@ -50,6 +53,11 @@ export const routineSlice = createSlice({
     builder.addCase(createRoutine.fulfilled, (state, action) => {
       console.log(action.payload)
       state.routines = action.payload.data
+      console.log("크리에이트에서 스테이트루틴", state.routines)
+    })
+    builder.addCase(modifyRoutine.fulfilled, (state, action) => {
+      state.routines = action.payload.data
+      console.log("모디파이에서 스테이트루틴", state.routines)
     })
   },
 })
