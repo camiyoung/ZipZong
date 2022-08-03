@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import zipzong.zipzong.aop.annotation.ExeTimer;
 import zipzong.zipzong.api.service.MemberService;
 import zipzong.zipzong.db.domain.Member;
 import zipzong.zipzong.api.dto.common.BasicResponse;
@@ -48,6 +49,7 @@ public class MemberController {
     /*
         회원 아이콘 리스트 조회
      */
+    @ExeTimer
     @GetMapping("/icon/{member-id}")
     public ResponseEntity<BasicResponse<List<String>>> getAllIconList(@PathVariable("member-id") Long memberId) {
         List<String> icons = memberService.getAllIcon(memberId);

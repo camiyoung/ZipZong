@@ -1,5 +1,7 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+import { useSelector, useDispatch } from "react-redux"
 import { NavLink, useLocation } from "react-router-dom"
+import { teamInfo } from "../../features/group/groupReducer"
 import Card from "../card/Card"
 import ImageIcon from "../icon/ImageIcon"
 import Logo from "../../assets/Logo.svg"
@@ -8,12 +10,26 @@ const NavItem = ({ children }) => {
   return <li className="m-2 flex justify-center items-center">{children}</li>
 }
 
-const GroupList = ({ setVisible }) => {
+const GroupList = ({ setVisible, groups }) => {
   return (
     <div className="absolute z-30 top-[4rem] right-[2.5em] ">
       <Card size="middle">
         <div onClick={() => setVisible(false)}>닫기 </div>
         <ul>
+          {groups.map(({ teamName, icon, count, groupId }, idx) => {
+            return (
+              <NavLink key={idx} to={`/group/${groupId}`}>
+                <li className="flex">
+                  <p className="text-sm">팀 아이콘: {icon}</p>
+                  <p className="text-sm">팀 이름: {teamName}</p>
+                  <p className="text-sm ml-2">{count}/10 명</p>
+                </li>
+              </NavLink>
+            )
+          })}
+          <NavLink to="/login">
+            <li style={{ color: "red" }}>드디어 로그인 버튼 만들었습니다</li>
+          </NavLink>
           <NavLink to="/group">
             <li>그룹 페이지</li>
           </NavLink>
@@ -49,6 +65,10 @@ const InfoList = ({ setVisible }) => {
 }
 
 export default function Navbar() {
+  // 회원이 가입한 팀 정보
+  const memberId = useSelector((state) => state.member.memberId)
+  const memberInfoTeam = useSelector((state) => state.mypage.registeredTeam)
+
   const [showGroup, setShowGroup] = useState(false)
   const [showInfo, setShowInfo] = useState(false)
   const location = useLocation()
@@ -56,8 +76,10 @@ export default function Navbar() {
   if (
     location.pathname.split("/")[1] === "room" ||
     location.pathname.split("/")[1] === "login"
-  )
+  ) {
     return
+  }
+
   return (
     <nav className="flex justify-between p-3 border">
       <div>
@@ -83,7 +105,9 @@ export default function Navbar() {
           >
             그룹 목록
           </div>
-          {showGroup && <GroupList setVisible={setShowGroup} />}
+          {showGroup && (
+            <GroupList setVisible={setShowGroup} groups={memberInfoTeam} />
+          )}
         </NavItem>
         <NavItem>
           <div
