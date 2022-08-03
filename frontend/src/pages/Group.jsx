@@ -1,7 +1,10 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useLocation } from "react-router-dom"
-import { teamInfo } from "../features/group/groupReducer"
+import {
+  teamInfo,
+  teamTotalExerciseCount,
+} from "../features/group/groupReducer"
 import GroupInfo from "../features/group/GroupInfo"
 import MemberList from "../features/group/MemberList"
 import Line from "../components/Line"
@@ -14,6 +17,7 @@ export default function Group() {
   const fetchTeamId = location.pathname.split("/")[2]
   useEffect(() => {
     dispatch(teamInfo(fetchTeamId))
+    dispatch(teamTotalExerciseCount(fetchTeamId))
   }, [fetchTeamId])
   return (
     <div className="w-[60%] mx-auto">

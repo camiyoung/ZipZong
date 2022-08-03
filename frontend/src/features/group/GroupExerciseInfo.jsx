@@ -1,4 +1,6 @@
-import React from "react"
+import React, { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { useLocation } from "react-router-dom"
 import ImageIcon from "../../components/icon/ImageIcon"
 
 const groupInfo = [
@@ -35,6 +37,12 @@ const groupInfo = [
 ]
 
 export default function GroupExerciseInfo() {
+  const dispatch = useDispatch()
+  const location = useLocation()
+  const fetchTeamId = location.pathname.split("/")[2]
+  const { performTeamTotals } = useSelector((state) => state.group)
+  console.log(performTeamTotals)
+
   return (
     <div className="flex mt-10">
       {groupInfo.map(
