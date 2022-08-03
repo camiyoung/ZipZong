@@ -7,6 +7,7 @@ import GroupSetMemberList from "../features/group/GroupSetMemberList"
 import Button from "../components/button/Button"
 import { teamDelete, teamInfo } from "../features/group/groupReducer"
 import Modal from "../components/modal/Modal"
+import { registrationTeam } from "../features/myPage/myPageReducer"
 
 export default function GroupSet() {
   const dispatch = useDispatch()
@@ -14,9 +15,15 @@ export default function GroupSet() {
   const location = useLocation()
   const fetchTeamId = location.pathname.split("/")[2]
   const { memberId } = useSelector((state) => state.member)
+  const { registeredTeam } = useSelector((state) => state.mypage)
   useEffect(() => {
     dispatch(teamInfo(fetchTeamId))
   }, [])
+
+  // 그룹 삭제 후 렌더링 하는 코드
+  useEffect(() => {
+    dispatch(registrationTeam(memberId))
+  }, [registeredTeam])
 
   const deleteTeamFunction = () => {
     dispatch(teamDelete({ teamId: fetchTeamId, memberId: memberId }))
