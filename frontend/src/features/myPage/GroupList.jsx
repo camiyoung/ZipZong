@@ -26,7 +26,7 @@ export default function Group() {
   const memberId = useSelector((state) => state.member.memberId)
 
   // 회원이 가입한 팀 정보
-  const memberInfoTeam = useSelector((state) => state.mypage.registeredTeam)
+  const { registeredTeam } = useSelector((state) => state.mypage)
 
   const [teamName, setTeamName] = useState("")
   const [teamContent, setTeamContent] = useState("")
@@ -41,13 +41,11 @@ export default function Group() {
       })
     )
     modalClose()
-    console.log(memberInfoTeam)
-    // 모달을 닫은 후 추가된 그룹이 보여야하는데 보이지 않음
     // dispatch(registrationTeam(memberId))
   }
   useEffect(() => {
     dispatch(registrationTeam(memberId))
-  }, [memberInfoTeam])
+  }, [registeredTeam])
 
   return (
     // 모달
@@ -109,7 +107,7 @@ export default function Group() {
         </div>
       </Modal>
 
-      {memberInfoTeam.map(({ teamName, icon, count, groupId }, idx) => {
+      {registeredTeam.map(({ teamName, icon, count, groupId }, idx) => {
         return (
           <NavLink key={idx} to={`/group/${groupId}`}>
             <div className="flex p-3">
