@@ -10,6 +10,8 @@ export default function ExerciseSelect({
   breakTime,
   setBreakTime,
 }) {
+  console.log(breakTime)
+
   return (
     <div>
       <div> </div>

@@ -18,7 +18,7 @@ export default function RoutineList() {
 
   useEffect(() => {
     dispatch(getRoutine(1))
-  }, [dispatch])
+  }, [dispatch, isOpen])
 
   return (
     <div className="flex">
