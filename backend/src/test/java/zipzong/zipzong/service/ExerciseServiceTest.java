@@ -127,8 +127,8 @@ public class ExerciseServiceTest {
         MemberHistoryDetail memberHistoryDetail = memberHistoryDetailRepository.findByMemberHistoryId(memberHistory.getId()).get(0);
         MemberHistoryDetail memberHistoryDetail2 = memberHistoryDetailRepository.findByMemberHistoryId(memberHistory2.getId()).get(0);
 
-        Assertions.assertThat(memberHistory.getCurrentStrick() == 0).isTrue();
-        Assertions.assertThat(memberHistory2.getMaximumStrick() == 0).isTrue();
+        Assertions.assertThat(memberHistory.getCurrentStrick() == 1).isTrue();
+        Assertions.assertThat(memberHistory2.getMaximumStrick() == 1).isTrue();
         Assertions.assertThat(memberHistoryDetail.getExerciseName().equals("PUSHUP")).isTrue();
         Assertions.assertThat(memberHistoryDetail2.getExerciseNum() == 8).isTrue();
     }
@@ -207,6 +207,7 @@ public class ExerciseServiceTest {
         System.out.println();
         Assertions.assertThat(response.getDailyHistories().size() == 31).isTrue();
         Assertions.assertThat(response.getDailyHistories().get(LocalDate.now().getDayOfMonth() - 1).getPerforms().get(0).getPerformName().equals("PUSHUP")).isTrue();
+        Assertions.assertThat(response.getDailyHistories().get(LocalDate.now().getDayOfMonth() - 1).getState().equals("FAIL")).isTrue();
     }
 
     @Test
@@ -227,11 +228,13 @@ public class ExerciseServiceTest {
 
         // when
         exerciseService.saveMemberExerciseInfo(team.getId(), makePersonalResultList(member1.getId(), member2.getId()));
+        exerciseService.updateMemberExerciseHistory(makePersonalResultList(member1.getId(), member2.getId()));
         ExerciseMemberHistoryResponse response = exerciseService.memberHistoryByYearAndMonth(member1.getId(), LocalDate.now().getYear(), LocalDate.now().getMonthValue());
 
         // then
         Assertions.assertThat(response.getDailyHistories().size() == 31).isTrue();
         Assertions.assertThat(response.getDailyHistories().get(LocalDate.now().getDayOfMonth() - 1).getPerforms().get(0).getPerformName().equals("PUSHUP")).isTrue();
+        Assertions.assertThat(response.getDailyHistories().get(LocalDate.now().getDayOfMonth() - 1).getState().equals("SUCCESS")).isTrue();
     }
 
     @Test
@@ -280,7 +283,7 @@ public class ExerciseServiceTest {
         ExerciseMemberTotalResponse response = exerciseService.totalMemberHistory(member1.getId());
 
         // then
-        Assertions.assertThat(response.getCurrentStrick() == 0).isTrue();
+        Assertions.assertThat(response.getCurrentStrick() == 1).isTrue();
         Assertions.assertThat(response.getPerformMemberTotals().get(0).getPerformName().equals("PUSHUP")).isTrue();
     }
 

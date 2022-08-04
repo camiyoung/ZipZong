@@ -33,6 +33,22 @@ public class TeamHistory {
     @OneToOne(mappedBy = "teamHistory", fetch = FetchType.LAZY)
     private Team team;
 
+    public void setMaximumStrick(int maximumStrick) {
+        this.maximumStrick = maximumStrick;
+    }
+
+    public void setCurrentStrick(int currentStrick) {
+        this.currentStrick = currentStrick;
+    }
+
+    public void setHallOfFameDate(LocalDateTime hallOfFameDate) {
+        this.hallOfFameDate = hallOfFameDate;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
     @Builder
     public TeamHistory(Long id, int maximumStrick, int currentStrick) {
         this.id = id;

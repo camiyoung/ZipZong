@@ -1,9 +1,8 @@
 package zipzong.zipzong.db.repository.exercise;
 
-import io.lettuce.core.dynamic.annotation.Param;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import zipzong.zipzong.db.domain.MemberCalendar;
 
 import java.time.LocalDate;
@@ -17,5 +16,5 @@ public interface MemberCalendarRepository extends JpaRepository<MemberCalendar, 
     @Query("select c from MemberCalendar c where c.member.id = :memberId " +
             "and YEAR(c.checkDate) = :year " +
             "and MONTH(c.checkDate) = :month")
-    List<MemberCalendar> isMonthExercised(@Param("memberId") Long memberId, int year, int month);
+    List<MemberCalendar> isMonthExercised(@Param("memberId") Long memberId, @Param("year") int year, @Param("month") int month);
 }

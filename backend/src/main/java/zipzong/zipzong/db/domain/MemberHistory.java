@@ -32,6 +32,13 @@ public class MemberHistory {
         this.member = member;
     }
 
+    public void setMaximumStrick(int maximumStrick) {
+        this.maximumStrick = maximumStrick;
+    }
+
+    public void setCurrentStrick(int currentStrick) {
+        this.currentStrick = currentStrick;
+    }
     @Builder
     public MemberHistory(Long id, int maximumStrick, int currentStrick) {
         this.id = id;

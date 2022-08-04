@@ -51,15 +51,6 @@ public class ExerciseService {
 
             LocalDate today = LocalDate.now();
 
-            // 오늘 개인 첫 운동이라면 스탬프 찍기
-            if(memberCalendarRepository.findByMemberIdAndCheckDate(memberId, today).isEmpty()) {
-                MemberCalendar memberCalendar = MemberCalendar
-                        .builder()
-                        .member(registration.getMember())
-                        .checkDate(today)
-                        .build();
-                memberCalendarRepository.save(memberCalendar);
-            }
 
             if(exerciseRepository.findByRegistrationIdAndExerciseDate(registration.getId(), today).isEmpty()) {
                 Exercise first = Exercise.builder()
@@ -103,6 +94,25 @@ public class ExerciseService {
                         .currentStrick(0)
                         .build();
                 member.setMemberHistory(memberHistory);
+            }
+
+            // 오늘 개인 첫 운동이라면 스탬프 찍기 + 현재 스트릭 및 최대 스트릭 갱신
+            if(memberCalendarRepository.findByMemberIdAndCheckDate(member.getId(), LocalDate.now()).isEmpty()) {
+                MemberCalendar memberCalendar = MemberCalendar
+                        .builder()
+                        .member(member)
+                        .checkDate(LocalDate.now())
+                        .build();
+                memberCalendarRepository.save(memberCalendar);
+
+                MemberHistory memberHistory = memberHistoryRepository.findByMemberId(member.getId()).orElseThrow(
+                        () -> new CustomException(CustomExceptionList.MEMBER_HISTORY_NOT_FOUND)
+                );
+
+                memberHistory.setCurrentStrick(memberHistory.getCurrentStrick() + 1);
+                if(memberHistory.getMaximumStrick() < memberHistory.getCurrentStrick()) {
+                    memberHistory.setMaximumStrick(memberHistory.getCurrentStrick());
+                }
             }
 
             MemberHistory memberHistory = member.getMemberHistory();
@@ -248,12 +258,27 @@ public class ExerciseService {
             map.put(day, performs);
         }
 
+        List<TeamCalendar> teamCalendars = teamCalendarRepository.isMonthExercised(teamId, year, month);
+
         for(int d = 1; d <= dayOfMonth; d++) {
             List<ExerciseTeamHistoryResponse.Perform> performs = map.getOrDefault(d, new ArrayList<>());
             ExerciseTeamHistoryResponse.DailyHistory dailyHistory = new ExerciseTeamHistoryResponse.DailyHistory();
             dailyHistory.setDay(d);
             dailyHistory.setTotalTime(performs.size());
             dailyHistory.setPerforms(new ArrayList<>());
+            dailyHistory.setState("FAIL");
+
+            for(TeamCalendar teamCalendar : teamCalendars) {
+                if(teamCalendar.getCheckDate().getDayOfMonth() == d) {
+                    if(teamCalendar.getState().equals("SHEILD")) {
+                        dailyHistory.setState("SHEILD");
+                        break;
+                    } else {
+                        dailyHistory.setState("SUCCESS");
+                        break;
+                    }
+                }
+            }
 
             Map<String, int[]> performInfo = new TreeMap<>();
             for(ExerciseTeamHistoryResponse.Perform perform : performs) {
@@ -319,12 +344,21 @@ public class ExerciseService {
             map.put(day, performs);
         }
 
+        List<MemberCalendar> memberCalendars = memberCalendarRepository.isMonthExercised(memberId, year, month);
+
         for(int d = 1; d <= dayOfMonth; d++) {
             List<ExerciseMemberHistoryResponse.Perform> performs = map.getOrDefault(d, new ArrayList<>());
             ExerciseMemberHistoryResponse.DailyHistory dailyHistory = new ExerciseMemberHistoryResponse.DailyHistory();
             dailyHistory.setDay(d);
             dailyHistory.setTotalTime(performs.size());
             dailyHistory.setPerforms(new ArrayList<>());
+            dailyHistory.setState("FAIL");
+
+            for(MemberCalendar memberCalendar : memberCalendars) {
+                if(memberCalendar.getCheckDate().getDayOfMonth() == d) {
+                    dailyHistory.setState("SUCCESS");
+                }
+            }
 
             Map<String, int[]> performInfo = new TreeMap<>();
             for(ExerciseMemberHistoryResponse.Perform perform : performs) {

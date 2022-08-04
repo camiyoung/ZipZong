@@ -128,6 +128,7 @@ public class ExerciseControllerTest {
                                 fieldWithPath("data.dailyHistories.[]").description("일자 별 운동기록"),
                                 fieldWithPath("data.dailyHistories.[].day").description("일자"),
                                 fieldWithPath("data.dailyHistories.[].totalTime").description("당일 운동시간"),
+                                fieldWithPath("data.dailyHistories.[].state").description("캘린더 표시상태"),
                                 fieldWithPath("data.dailyHistories.[].performs.[]").description("동작별 정보"),
                                 fieldWithPath("data.dailyHistories.[].performs.[].performName").description("동작별 정보"),
                                 fieldWithPath("data.dailyHistories.[].performs.[].performNum").description("동작별 횟수"),
@@ -198,6 +199,7 @@ public class ExerciseControllerTest {
                                 fieldWithPath("data.dailyHistories.[]").description("일자 별 운동기록"),
                                 fieldWithPath("data.dailyHistories.[].day").description("일자"),
                                 fieldWithPath("data.dailyHistories.[].totalTime").description("당일 운동시간"),
+                                fieldWithPath("data.dailyHistories.[].state").description("캘린더 표시 상태"),
                                 fieldWithPath("data.dailyHistories.[].performs.[]").description("동작별 정보"),
                                 fieldWithPath("data.dailyHistories.[].performs.[].performName").description("동작별 정보"),
                                 fieldWithPath("data.dailyHistories.[].performs.[].performNum").description("동작별 횟수"),
@@ -354,6 +356,7 @@ public class ExerciseControllerTest {
         dailyHistory.setDay(1);
         dailyHistory.setTotalTime(3);
         dailyHistory.setPerforms(performs);
+        dailyHistory.setState("SUCCESS");
 
         dailyHistories.add(dailyHistory);
 
@@ -411,6 +414,7 @@ public class ExerciseControllerTest {
         dailyHistory.setDay(1);
         dailyHistory.setTotalTime(3);
         dailyHistory.setPerforms(performs);
+        dailyHistory.setState("SUCCESS");
 
         dailyHistories.add(dailyHistory);
 
