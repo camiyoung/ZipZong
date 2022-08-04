@@ -22,7 +22,7 @@ const Groups = [
 export default function Group() {
   const dispatch = useDispatch()
   const [isOpen, setOpen] = useState(false)
-  const [errorMessage, setErrorMessage] = useState("살려주세용")
+  const [errorMessage, setErrorMessage] = useState("")
   const modalClose = () => setOpen(false)
   const memberId = useSelector((state) => state.member.memberId)
 
@@ -47,8 +47,6 @@ export default function Group() {
     } else {
       setErrorMessage("그룹 명을 한 글자 이상 작성해주세요.")
     }
-    // 모달을 닫은 후 추가된 그룹이 보여야하는데 보이지 않음
-    // dispatch(registrationTeam(memberId))
   }
   useEffect(() => {
     dispatch(registrationTeam(memberId))
