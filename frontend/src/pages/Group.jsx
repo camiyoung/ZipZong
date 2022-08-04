@@ -16,9 +16,13 @@ export default function Group() {
   const location = useLocation()
   const fetchTeamId = location.pathname.split("/")[2]
   useEffect(() => {
+    console.log("최초")
     dispatch(teamInfo(fetchTeamId))
     dispatch(teamTotalExerciseCount(fetchTeamId))
   }, [fetchTeamId])
+
+  const { inviteLink } = useSelector((state) => state.group)
+
   return (
     <div className="w-[60%] mx-auto">
       <div className="flex">
