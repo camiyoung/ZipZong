@@ -2,7 +2,7 @@ import "./Spinner.css"
 export const Spinner = () => {
   return (
     <section>
-      <div class="loading loading01">
+      <div className="loading loading01">
         <span>L</span>
         <span>O</span>
         <span>A</span>
