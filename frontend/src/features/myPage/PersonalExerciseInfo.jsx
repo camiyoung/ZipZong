@@ -76,7 +76,7 @@ export default function ExerciseInfo() {
         <div className="flex">
           <CalendarForm />
           <div
-            className="border mx-5 rounded-lg border-gray-400 min-w-min"
+            className="border mx-5 rounded-lg border-gray-400 min-w-min bg-white"
             style={{
               boxShadow: "0 12px 24px rgba(0, 0, 0, 0.2)",
               width: "270px",

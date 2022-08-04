@@ -22,6 +22,7 @@ const Groups = [
 export default function Group() {
   const dispatch = useDispatch()
   const [isOpen, setOpen] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
   const modalClose = () => setOpen(false)
   const memberId = useSelector((state) => state.member.memberId)
 
@@ -32,17 +33,20 @@ export default function Group() {
   const [teamContent, setTeamContent] = useState("")
 
   const teamCreateButton = () => {
-    dispatch(
-      teamCreate({
-        name: teamName,
-        content: teamContent,
-        repIcon: "basic",
-        memberId: memberId,
-      })
-    )
-    modalClose()
-    // 모달을 닫은 후 추가된 그룹이 보여야하는데 보이지 않음
-    // dispatch(registrationTeam(memberId))
+    if (teamName) {
+      dispatch(
+        teamCreate({
+          name: teamName,
+          content: teamContent,
+          repIcon: "basic",
+          memberId: memberId,
+        })
+      )
+      modalClose()
+      setErrorMessage("")
+    } else {
+      setErrorMessage("그룹 명을 한 글자 이상 작성해주세요.")
+    }
   }
   useEffect(() => {
     dispatch(registrationTeam(memberId))
@@ -55,24 +59,15 @@ export default function Group() {
         <div className="text-xl flex justify-center pb-5 font-bold">
           그룹 생성
         </div>
-        <div className="flex">
-          <div className="pr-5">
-            <div className="flex justify-center">그룹 아이콘</div>
-            <div>
-              <Icon size="xLarge" />
-            </div>
-          </div>
-          <div className="flex flex-col">
-            <div>
-              <div className="">
-                그룹 명
-                <div className="w-[280px]">
-                  <input
-                    type="text"
-                    className="
+        <div className="flex flex-col">
+          <div>
+            <div className="pb-1">그룹 명</div>
+            <div className="w-full">
+              <input
+                type="text"
+                className="w-full 
                     mb-3
                       h-9
-                      w-[280px]
                       block
                       bg-gray-50
                       rounded-lg
@@ -82,29 +77,46 @@ export default function Group() {
                       focus:ring-primary-400
                       focus:border-primary-400
                     "
-                    onChange={(e) => {
-                      setTeamName(e.target.value)
-                    }}
-                  />
-                </div>
-              </div>
+                onChange={(e) => {
+                  setTeamName(e.target.value)
+                }}
+              />
             </div>
-            <div>
-              그룹 설명
-              <div className="w-[280px]">
-                <LargeTextInput handler={setTeamContent} />
-              </div>
+            <div className="pb-1">그룹 설명</div>
+            <div className="w-full">
+              <textarea
+                className="w-full 
+                    mb-3
+                      h-20
+                      block
+                      bg-gray-50
+                      rounded-lg
+                      text-sm
+                      border
+                      border-gray-300
+                      focus:ring-primary-400
+                      focus:border-primary-400
+                    "
+                onChange={(e) => {
+                  setTeamContent(e.target.value)
+                }}
+              />
             </div>
           </div>
         </div>
-        <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse mt-4">
-          <button
-            onClick={teamCreateButton}
-            type="button"
-            className="bg-lightBlue rounded-md border border-gray-300 shadow-sm px-4 py-2 text-base font-medium text-gray-700 hover:bg-primary-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-          >
-            그룹 생성
-          </button>
+        <div className="pb-3 flex mt-3">
+          <div className="flex w-[322px] text-sm items-center text-red-600">
+            {errorMessage}
+          </div>
+          <div className="r-0">
+            <button
+              onClick={teamCreateButton}
+              type="button"
+              className="bg-lightBlue rounded-md border border-gray-300 shadow-sm px-4 py-2 text-base font-medium text-gray-700 hover:bg-primary-300 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+            >
+              그룹 생성
+            </button>
+          </div>
         </div>
       </Modal>
 
