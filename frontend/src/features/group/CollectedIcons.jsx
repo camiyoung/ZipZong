@@ -36,10 +36,6 @@ export default function CollectedIcons() {
   const fetchTeamId = location.pathname.split("/")[2]
   const { icons, teamRepIcons } = useSelector((state) => state.group)
 
-  useEffect(() => {
-    // dispatch()
-  }, [])
-
   return (
     <Card
       className="flex justify-center flex-col mx-5 rounded-lg mt-5"

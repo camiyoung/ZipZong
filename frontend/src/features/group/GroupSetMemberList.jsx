@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import ImageIcon from "../../components/icon/ImageIcon"
 import UserIcon from "../../components/icon/UserIcon"
 import Modal from "../../components/modal/Modal"
@@ -51,10 +51,10 @@ const members = [
 ]
 export default function GroupSetMemberList() {
   const { teamMembers, teamLeader } = useSelector((state) => state.group)
-
   const [isExpulsionOpen, setExpulsionOpen] = useState(false)
   const [user, setUser] = useState()
   const modalClose = () => setExpulsionOpen(false)
+  console.log(teamMembers)
 
   const GroupHover = ({ name, date, isLeader, imageUrl, idx }) => {
     const [isHovering, setIsHovering] = useState(false)

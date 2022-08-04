@@ -28,28 +28,6 @@ export const memberExerciseHistorySumCheck = createAsyncThunk(
   }
 )
 
-// 회원이 가입한 팀 정보 조회
-export const registrationTeam = createAsyncThunk(
-  "registration/member",
-  async (memberId) => {
-    const res = await http.get(`registration/member/${memberId}`)
-    if (res.data.message === "success") {
-      return res
-    }
-  }
-)
-
-// 팀 생성
-export const teamCreate = createAsyncThunk(
-  "registration/create",
-  async (info) => {
-    const res = await http.post("registration/create", info)
-    if (res.data.message === "success") {
-      console.log("팀이 생성되었습니다.")
-    }
-  }
-)
-
 // 회원 대표아이콘 설정
 export const memberIconSelect = createAsyncThunk(
   "member/rep-icon",
@@ -81,7 +59,6 @@ export const myPageSlice = createSlice({
     selectedMonth: null,
     memberCurrentStrick: 0,
     performMemberTotal: null,
-    registeredTeam: [],
   },
   reducers: {
     changeYear: (state, action) => {
@@ -103,9 +80,6 @@ export const myPageSlice = createSlice({
         state.memberCurrentStrick = action.payload.data.data.currentStrick
       }
     )
-    builder.addCase(registrationTeam.fulfilled, (state, action) => {
-      state.registeredTeam = action.payload.data.data
-    })
   },
 })
 export const { changeYear, changeMonth } = myPageSlice.actions

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { teamCreate, registrationTeam } from "./myPageReducer"
+import { teamCreate } from "../group/groupReducer"
+import { registrationTeam } from "./myPageReducer"
 import Icon from "../../components/icon/ImageIcon"
 import Card from "../../components/card/Card"
 import Modal from "../../components/modal/Modal"
@@ -26,11 +27,12 @@ export default function Group() {
   const memberId = useSelector((state) => state.member.memberId)
 
   // 회원이 가입한 팀 정보
-  const { registeredTeam } = useSelector((state) => state.mypage)
+  const { registeredTeam } = useSelector((state) => state.group)
 
   const [teamName, setTeamName] = useState("")
   const [teamContent, setTeamContent] = useState("")
 
+  // 그룹 생성하는 코드
   const teamCreateButton = () => {
     dispatch(
       teamCreate({
@@ -41,11 +43,9 @@ export default function Group() {
       })
     )
     modalClose()
-    // dispatch(registrationTeam(memberId))
   }
-  useEffect(() => {
-    dispatch(registrationTeam(memberId))
-  }, [registeredTeam])
+
+  // 그룹 생성시 재랜더링 하는 코드
 
   return (
     // 모달

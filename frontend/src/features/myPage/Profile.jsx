@@ -44,9 +44,6 @@ export default function Profile() {
   const [nickname, setNickname] = useState("")
   const [icon, setIcon] = useState(rabbit)
   const stateNickname = useSelector((state) => state.member.memberNickname)
-  useEffect(() => {
-    // setNickname(stateNickname)
-  }, [])
   const handleSubmit = (e) => {
     e.preventDefault()
     const validationResult = dispatch(nicknameValidation(nickname))
