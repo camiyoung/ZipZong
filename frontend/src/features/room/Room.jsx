@@ -10,15 +10,18 @@ import ChatComponent from "./openVidu/chat/ChatComponent"
 import ExerciseZone from "./ExerciseZone"
 import OtherPeople from "./OtherPeople"
 import SideBar from "./SideBar"
+import { Model } from "./teachableMachine/model"
 
 const localUser = new UserModel()
+const tmModel = new Model()
 
 class Room extends Component {
   constructor(props) {
     super(props)
     this.OPENVIDU_SERVER_URL = this.props.openviduServerUrl
       ? this.props.openviduServerUrl
-      : "https://3.39.251.36:443"
+      : "https://i7a805.p.ssafy.io:8443"
+
     this.OPENVIDU_SERVER_SECRET = this.props.openviduSecret
       ? this.props.openviduSecret
       : "MY_SECRET"
@@ -40,6 +43,7 @@ class Room extends Component {
       chatDisplay: "block",
       currentVideoDevice: undefined,
       isRoomAdmin: false,
+      tmModel: undefined,
     }
     this.myVideoRef = React.createRef()
 
@@ -62,7 +66,7 @@ class Room extends Component {
 
   componentDidMount() {
     window.addEventListener("beforeunload", this.onbeforeunload)
-
+    tmModel.loadModel() // teachable machine 로드
     this.joinSession()
   }
 
@@ -560,6 +564,7 @@ class Room extends Component {
             myVideo={myVideoStream}
             chat={chatComponent}
             isRoomAdmin={this.state.isRoomAdmin}
+            tmModel={tmModel}
           />
         </div>
         <div
