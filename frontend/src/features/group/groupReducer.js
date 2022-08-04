@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { http } from "../../api/axios"
 import { checkMemberId } from "../myPage/myPageReducer"
+import axios from "axios"
 
 // 팀 상세 정보 조회
 export const teamInfo = createAsyncThunk(
@@ -8,7 +9,9 @@ export const teamInfo = createAsyncThunk(
   async (teamId) => {
     const res = await http.get(`registration/team/${teamId}`)
     if (res.data.message === "success") {
-      return res
+      // 팀 초대 링크 조회
+      const res2 = await http.get(`team/invite-link/${teamId}`)
+      return [res.data, res2.data]
     }
   }
 )
@@ -110,38 +113,44 @@ export const teamDelete = createAsyncThunk(
   }
 )
 
-// 팀 초대 링크 조회
-export const teamInviteLink = createAsyncThunk(
-  "team/invite-link",
-  async (teamId) => {
-    const res = await http.get(`team/invite-link/${teamId}`)
-    if (res.data.message === "success") {
-      return res
-    }
-  }
-)
-
 // 팀 초대링크로 팀 아이디 조회
+// 여기는 axios 막으면 안됨
 export const teamLinkLookup = createAsyncThunk(
   "team/link",
   async (inviteLink) => {
-    const res = await http.get(`team/${inviteLink}`)
+    const res = await axios.get(`http://localhost:8080/team/${inviteLink}`)
     if ((res.data.message = "success")) {
       const teamIdByLink = res.data.data
-      const res2 = await http.get(`registration/team/${teamIdByLink}`)
+      const res2 = await axios.get(
+        `http://localhost:8080/registration/team/${teamIdByLink}`
+      )
 
       if (res2.data.message === "success") {
-        return res2
+        return [res.data, res2.data]
       }
     }
   }
 )
 
+// 팀 가입
+export const teamJoin = createAsyncThunk("registration/join", async (info) => {
+  console.log("팀 가입", info)
+  const res = await http.post("registration/join", info)
+  if (res.data.message === "success") {
+    const res2 = await http.get(`registration/member/${info.memberId}`)
+    console.log("팀 가입 2", res2)
+    if (res2.data.message === "success") {
+      return res2
+    }
+  }
+})
+
 export const groupSlice = createSlice({
   name: "group",
   initialState: {
+    inviteTeamId: null,
     registeredTeam: [],
-    inviteLink: "",
+    inviteLink: "inviteLink",
     icons: ["addIcon1", "addIcon2"],
     teamName: "teamName",
     teamContent: "teamContent",
@@ -174,20 +183,25 @@ export const groupSlice = createSlice({
     performTeamTotals: null,
   },
   reducers: {
-    sheildDown: (state, action) => {
-      state.shieldCount = action.payload
+    inviteTeamIdConfirm: (state, action) => {
+      state.inviteTeamId = action.payload
     },
   },
   extraReducers(builder) {
     builder.addCase(teamInfo.fulfilled, (state, action) => {
-      state.icons = action.payload.data.data.icons
-      state.teamName = action.payload.data.data.name
-      state.teamContent = action.payload.data.data.content
-      state.teamRepIcons = action.payload.data.data.repIcons
-      state.shieldCount = action.payload.data.data.shieldCount
-      const tmp = action.payload.data.data.members
+      state.icons = action.payload[0].data.icons
+      state.teamName = action.payload[0].data.name
+      state.teamContent = action.payload[0].data.content
+      state.teamRepIcons = action.payload[0].data.repIcons
+      state.shieldCount = action.payload[0].data.shieldCount
+      const tmp = action.payload[0].data.members
       state.teamMembers = tmp
       state.teamLeader = tmp.find(({ role }) => role === "LEADER")
+      console.log("1", state.inviteLink)
+
+      // invitelink를 teamInfo 불러올떄 state에 넣지만 상태가 변하지 않음.. (오류)
+      state.inviteLink = action.payload[1].data
+      console.log("2", state.inviteLink)
     })
 
     builder.addCase(teamTotalExerciseCount.fulfilled, (state, action) => {
@@ -199,35 +213,35 @@ export const groupSlice = createSlice({
       state.teamRepIcons = action.payload.data.data
     })
 
-    builder.addCase(teamInviteLink.fulfilled, (state, action) => {
-      state.inviteLink = action.payload.data.data
-    })
-
     builder.addCase(teamLinkLookup.fulfilled, (state, action) => {
-      state.icons = action.payload.data.data.icons
-      state.teamName = action.payload.data.data.name
-      state.teamContent = action.payload.data.data.content
-      state.teamRepIcons = action.payload.data.data.repIcons
-      state.shieldCount = action.payload.data.data.shieldCount
-      const tmp = action.payload.data.data.members
+      state.icons = action.payload[1].data.icons
+      state.teamName = action.payload[1].data.name
+      state.teamContent = action.payload[1].data.content
+      state.teamRepIcons = action.payload[1].data.repIcons
+      state.shieldCount = action.payload[1].data.shieldCount
+      const tmp = action.payload[1].data.members
       state.teamMembers = tmp
       state.teamLeader = tmp.find(({ role }) => role === "LEADER")
+
+      state.inviteTeamId = action.payload[0].data
     })
 
     builder.addCase(teamCreate.fulfilled, (state, action) => {
-      console.log("생성", action)
       state.registeredTeam = action.payload.data.data
     })
 
     builder.addCase(teamDelete.fulfilled, (state, action) => {
-      console.log("삭제", action)
       state.registeredTeam = action.payload.data.data
     })
 
     builder.addCase(registrationTeam.fulfilled, (state, action) => {
       state.registeredTeam = action.payload.data.data
     })
+
+    builder.addCase(teamJoin.fulfilled, (state, action) => {
+      state.registeredTeam = action.payload.data.data
+    })
   },
 })
-export const { sheildDown } = groupSlice.actions
+export const { inviteTeamIdConfirm } = groupSlice.actions
 export default groupSlice.reducer

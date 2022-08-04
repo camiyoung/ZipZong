@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useLocation } from "react-router-dom"
-import { teamLinkLookup } from "../features/group/groupReducer"
+import { teamJoin, teamLinkLookup } from "../features/group/groupReducer"
 import Button from "../components/button/Button"
 import UserIcon from "../components/icon/UserIcon"
 
@@ -10,20 +10,13 @@ export default function Invite() {
   const dispatch = useDispatch()
   const location = useLocation()
   const fetchGroundId = location.search.split("=")[1]
-  const { teamName, teamLeader, teamMembers, teamContent } = useSelector(
-    (state) => state.group
-  )
-
+  const { teamName, teamLeader, teamMembers, teamContent, inviteTeamId } =
+    useSelector((state) => state.group)
+  const { memberId } = useSelector((state) => state.member)
   useEffect(() => {
     dispatch(teamLinkLookup(fetchGroundId))
   }, [])
   const navigate = useNavigate()
-  // 그룹 이름을 받아와야 함
-  const groupLeader = "신슬기"
-  const groupExplanation =
-    "집에서 운동 안 하는 사람들끼리 집에서 운동하는 웹 만들기로 함 ㅋㅋ 07. 15는 다 같이 휴식하는 날"
-  let totalGroupMembers = 10
-  let currentGroupMembers = 4
 
   return (
     <div className="flex justify-center flex-col items-center">
@@ -46,7 +39,16 @@ export default function Invite() {
       <div className="flex mt-5">
         <Button
           text="수락"
-          onClick={() => navigate(`/login?invitedTeamId=${fetchGroundId}`)}
+          onClick={() => {
+            // 리프레쉬 토큰이 존재하면 팀 조인 후 마이페이지로 이동
+            if (localStorage.getItem("refreshToken")) {
+              dispatch(teamJoin({ teamId: inviteTeamId, memberId: memberId }))
+              navigate("/mypage")
+            } else {
+              localStorage.setItem("inviteTeamId", inviteTeamId)
+              navigate(`/login?invitedTeamId=${inviteTeamId}`)
+            }
+          }}
           bgColor="bg-info"
         />
 

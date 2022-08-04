@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react"
 import { useLocation } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { teamInviteLink } from "./groupReducer"
+
 import Modal from "../../components/modal/Modal"
 import NameSquare from "../../components/nameSquare/NameSquare"
 import ImageIcon from "../../components/icon/ImageIcon"
@@ -53,19 +53,13 @@ const Members = [
   },
 ]
 export default function MemberList() {
-  const dispatch = useDispatch()
-  const location = useLocation()
-  const fetchTeamId = location.pathname.split("/")[2]
   const { inviteLink } = useSelector((state) => state.group)
-
   const [isOpen, setOpen] = useState(false)
   const modalClose = () => setOpen(false)
   const copyLinkRef = useRef()
 
-  const teamInviteFunction = (teamId) => {
-    setOpen(true)
-    dispatch(teamInviteLink(teamId))
-  }
+  const [link, setLink] = useState("")
+
   const copyTextUrl = () => {
     copyLinkRef.current.focus()
     copyLinkRef.current.select()
@@ -119,10 +113,7 @@ export default function MemberList() {
           </div>
         )
       })}
-      <div
-        onClick={() => teamInviteFunction(fetchTeamId)}
-        className="hover:scale-125"
-      >
+      <div onClick={() => setOpen(true)} className="hover:scale-125">
         <NameSquare text="멤버를 초대해보세요!" cursor="pointer">
           <PlusIcon />
         </NameSquare>
