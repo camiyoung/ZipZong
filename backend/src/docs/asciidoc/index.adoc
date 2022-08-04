@@ -47,6 +47,8 @@ operation::team-change-teamInfo[snippets='http-request,request-fields,http-respo
 
 === 팀 생성
 operation::create-team[snippets='http-request,request-fields,http-response,response-fields']
+=== 팀 가입
+operation::join-team[snippets='http-request,request-fields,http-response,response-fields']
 === 팀 삭제
 operation::delete-team[snippets='http-request,request-fields,http-response,response-fields']
 === 팀 상세 정보 조회
