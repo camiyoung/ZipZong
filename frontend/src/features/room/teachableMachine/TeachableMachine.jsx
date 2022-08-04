@@ -135,23 +135,11 @@ export default class TeachableMachine extends Component {
   render() {
     return (
       <div className="w-full h-full absolute z-20">
-        <div className="w-[440px] h-[200px] bg-white absolute right-[-280px] border-4">
-          <div className="font-semibold">
-            <p> 1. 티처블 머신이 로딩되기까지 약 10s의 시간이 소요됩니다.</p>
-            <p>
-              2. 로딩이후 화면의 크기를 변경하면 skeleton 위치가 어긋납니다.
-            </p>
-            <p> 3. 로딩 이후 카메라를 switch하면 안됩니다!!</p>
-            <p></p>
-          </div>
-          {this.state.resEle ? (
-            <div className="border-2 border-mainBlue">
+        <div className="w-[200px] h-[200px] bg-white absolute right-0 border-4">
+          {this.state.resEle && (
+            <div>
               {this.state.resEle}
               count: {this.state.successCount}
-            </div>
-          ) : (
-            <div className="font-bold text-primary-500 text-2xl">
-              Teachable Machine 로딩중{" "}
             </div>
           )}
         </div>
