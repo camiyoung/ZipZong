@@ -8,12 +8,17 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import zipzong.zipzong.api.controller.TeamController;
+import zipzong.zipzong.api.dto.common.BasicResponse;
 import zipzong.zipzong.config.auth.OAuthService;
 import zipzong.zipzong.config.jwt.JwtService;
 import zipzong.zipzong.api.dto.team.response.ChangeTeamInfoResponse;
@@ -109,6 +114,37 @@ class TeamControllerTest {
         teamProfileRequest.setName("teamName");
         return teamProfileRequest;
     }
+
+    @Test
+    @DisplayName("팀 초대링크로 팀 아이디 조회")
+    void getTeamIdByInviteLink() throws  Exception {
+        //given
+        String inviteLink = "link";
+        Long teamId = 1L;
+        given(teamService.getTeamIdByInviteLink(any())).willReturn(teamId);
+
+        //when
+        RequestBuilder requestBuilder = RestDocumentationRequestBuilders.get("/team/{invite-link}", inviteLink);
+
+        ResultActions resultActions = mockMvc.perform(requestBuilder);
+
+        //then
+        resultActions.andExpect(status().isOk())
+                     .andExpect(jsonPath("$.data").value(teamId))
+                     .andDo(document("team-get-id-by-inviteLink",
+                             preprocessResponse(prettyPrint()),
+                             pathParameters(
+                                     parameterWithName("invite-link").description("팀의 초대 링크")
+                             ),
+
+                             responseFields(
+                                     fieldWithPath("message").description("메시지"),
+                                     fieldWithPath("data").description("팀 아이디")
+                             )
+                     ));
+    }
+
+
 
     @Test
     @DisplayName("대표 아이콘 설정 성공")

@@ -74,6 +74,16 @@ public class TeamController {
         return new ResponseEntity<>(makeBasicResponse(SUCCESS,inviteLink), HttpStatus.OK);
     }
 
+    /*
+        초대 링크로 팀 아이디 조회
+     */
+    @GetMapping("/{invite-link}")
+    public ResponseEntity<BasicResponse<Long>> getTeamIdByInviteLink(@PathVariable("invite-link") String inviteLink) {
+        Long teamId = teamService.getTeamIdByInviteLink(inviteLink);
+        return new ResponseEntity<>(makeBasicResponse(SUCCESS,teamId), HttpStatus.OK);
+    }
+
+
     private <T> BasicResponse<T> makeBasicResponse(String message, T data) {
         return BasicResponse.<T>builder()
                 .message(message)
