@@ -3,6 +3,7 @@ const sizeChart = {
   small: "w-6 h-6",
   smmiddle: "w-9 h-9",
   middle: "w-12 h-12",
+  mdlarge: "w-16 h-16",
   large: "w-24 h-24",
   xLarge: "w-32 h-32",
 }
