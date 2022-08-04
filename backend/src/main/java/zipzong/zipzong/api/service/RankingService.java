@@ -79,8 +79,6 @@ public class RankingService {
         //    각 팀의 모든 멤버의 기록을 조회하여 모두 운동했다면 현재 스트릭 및 최대 스트릭 갱신 + 팀 캘린더에 해당 날짜 state를 SUCCESS로 세팅
         //    모두 운동 하지 않았으나 보유한 실드가 있다면 실드 1개 소모 + 현재 스트릭 및 최대 스트릭 갱신 + 팀 캘린더에 해당 날짜 state를 SHIELD로 세팅
         //    모두 운동 하지 않았고 실드가 없다면 스트릭을 끊는다.
-        //    21일 달성 팀 실드 추가
-        //    66일 달성 팀 명예의 전당 달성일 기록
 
         List<Team> teams = teamRepository.findAll();
         for(Team team : teams) {
@@ -141,10 +139,12 @@ public class RankingService {
                 }
             }
 
+            //    21일 달성 팀 실드 추가
             if (teamHistory.getCurrentStrick() != 0 && teamHistory.getCurrentStrick() % 21 == 0) {
                 team.addShieldCount(1);
             }
 
+            //    66일 달성 팀 명예의 전당 달성일 기록
             if (teamHistory.getMaximumStrick() == 66) {
                 if (teamHistory.getHallOfFameDate() == null) {
                     teamHistory.setHallOfFameDate(LocalDate.now());
@@ -189,7 +189,7 @@ public class RankingService {
         String rankingBoard = "halloffame";
         Set<ZSetOperations.TypedTuple<String>> rankSet = zSetOperations.reverseRangeWithScores(rankingBoard, 0, 9);
 
-        if(rankSet == null) return new ArrayList<>();
+        if(rankSet.isEmpty()) return new ArrayList<>();
 
         List<HallOfFameResponse.HallOfFame> hallOfFames = new ArrayList<>();
 
@@ -220,7 +220,7 @@ public class RankingService {
         String rankingBoard = "strickrank";
         Set<ZSetOperations.TypedTuple<String>> rankSet = zSetOperations.reverseRangeWithScores(rankingBoard, 0, 9);
 
-        if(rankSet == null) return new ArrayList<>();
+        if(rankSet.isEmpty()) return new ArrayList<>();
 
         List<HallOfFameResponse.StrickRank> strickRanks = new ArrayList<>();
 
@@ -251,7 +251,7 @@ public class RankingService {
         String rankingBoard = "timerank";
         Set<ZSetOperations.TypedTuple<String>> rankSet = zSetOperations.reverseRangeWithScores(rankingBoard, 0, 9);
 
-        if(rankSet == null) return new ArrayList<>();
+        if(rankSet.isEmpty()) return new ArrayList<>();
 
         List<HallOfFameResponse.TimeRank> timeRanks = new ArrayList<>();
 
@@ -289,7 +289,7 @@ public class RankingService {
         if(ranking - BOUNDARY < 0) start = 0L;
         Set<ZSetOperations.TypedTuple<String>> rankSet = zSetOperations.reverseRangeWithScores(rankingBoard, start, end);
 
-        if(rankSet == null) return null;
+        if(rankSet.isEmpty()) return null;
 
         TeamRankingResponse.StrickRank strickRank = new TeamRankingResponse.StrickRank();
 
@@ -341,7 +341,7 @@ public class RankingService {
         if(ranking - BOUNDARY < 0) start = 0L;
         Set<ZSetOperations.TypedTuple<String>> rankSet = zSetOperations.reverseRangeWithScores(rankingBoard, start, end);
 
-        if(rankSet == null) return null;
+        if(rankSet.isEmpty()) return null;
 
         TeamRankingResponse.TimeRank timeRank = new TeamRankingResponse.TimeRank();
 
