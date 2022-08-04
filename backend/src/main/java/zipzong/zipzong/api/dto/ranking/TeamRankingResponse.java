@@ -8,12 +8,20 @@ import java.util.List;
 @Getter
 @Setter
 public class TeamRankingResponse {
-    List<StrickRank> strickRanks;
-    List<TimeRank> timeRanks;
+    StrickRank strickRank;
+    TimeRank timeRank;
 
     @Getter
     @Setter
     public static class StrickRank {
+        List<StrickRankDetail> over;
+        StrickRankDetail me;
+        List<StrickRankDetail> under;
+    }
+
+    @Getter
+    @Setter
+    public static class StrickRankDetail {
         int rank;
         String teamIcon;
         String teamName;
@@ -23,6 +31,14 @@ public class TeamRankingResponse {
     @Getter
     @Setter
     public static class TimeRank {
+        List<TimeRankDetail> over;
+        TimeRankDetail me;
+        List<TimeRankDetail> under;
+    }
+
+    @Getter
+    @Setter
+    public static class TimeRankDetail {
         int rank;
         String teamIcon;
         String teamName;

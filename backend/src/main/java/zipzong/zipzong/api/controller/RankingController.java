@@ -44,11 +44,11 @@ public class RankingController {
 
         TeamRankingResponse response = new TeamRankingResponse();
 
-        List<TeamRankingResponse.StrickRank> strickRanks = rankingService.getStrickRanks(teamId);
-        List<TeamRankingResponse.TimeRank> timeRanks = rankingService.getTimeRanks(teamId);
+        TeamRankingResponse.StrickRank strickRank = rankingService.getStrickRank(teamId);
+        TeamRankingResponse.TimeRank timeRank = rankingService.getTimeRank(teamId);
 
-        response.setStrickRanks(strickRanks);
-        response.setTimeRanks(timeRanks);
+        response.setStrickRank(strickRank);
+        response.setTimeRank(timeRank);
 
         return new ResponseEntity<>(makeBasicResponse(SUCCESS, response), HttpStatus.OK);
     }

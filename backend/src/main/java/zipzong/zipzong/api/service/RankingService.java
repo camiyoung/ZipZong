@@ -12,6 +12,7 @@ import zipzong.zipzong.db.repository.exercise.ExerciseRepository;
 import zipzong.zipzong.db.repository.exercise.MemberCalendarRepository;
 import zipzong.zipzong.db.repository.exercise.TeamCalendarRepository;
 import zipzong.zipzong.db.repository.history.MemberHistoryRepository;
+import zipzong.zipzong.db.repository.history.TeamHistoryDetailRepository;
 import zipzong.zipzong.db.repository.history.TeamHistoryRepository;
 import zipzong.zipzong.db.repository.memberteam.MemberRepository;
 import zipzong.zipzong.db.repository.memberteam.RegistrationRepository;
@@ -20,6 +21,7 @@ import zipzong.zipzong.exception.CustomException;
 import zipzong.zipzong.exception.CustomExceptionList;
 
 import javax.transaction.Transactional;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,7 @@ public class RankingService {
     private final ExerciseRepository exerciseRepository;
     private final TeamCalendarRepository teamCalendarRepository;
     private final TeamHistoryRepository teamHistoryRepository;
+    private final TeamHistoryDetailRepository teamHistoryDetailRepository;
     private final RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
 
     final ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
@@ -47,17 +50,26 @@ public class RankingService {
 
     @Scheduled(cron = "0 0 0 * * ?")
     public void comprehensiveUpdate() {
-        // # 정보 갱신 작업
+        // # Redis 초기화 작업
+        //  - redis의 정보를 모두 clear한다. (팀 해체 등의 이유)
+        redisTemplate.delete("halloffame");
+        redisTemplate.delete("strickrank");
+        redisTemplate.delete("timerank");
 
+        // # 정보 갱신 작업
+        //
         //  - 개인 기록
         //    멤버 캘린더를 확인하여 오늘 날짜에 대한 정보가 없다면 스트릭을 끊는다.
 
         List<Member> members = memberRepository.findAll();
         for(Member member : members) {
             if(memberCalendarRepository.findByMemberIdAndCheckDate(member.getId(), LocalDate.now()).isEmpty()) {
-                MemberHistory memberHistory = memberHistoryRepository.findByMemberId(member.getId()).orElseThrow(
-                        () -> new CustomException(CustomExceptionList.MEMBER_HISTORY_NOT_FOUND)
-                );
+                MemberHistory memberHistory = memberHistoryRepository.findByMemberId(member.getId()).orElse
+                        (MemberHistory.builder()
+                                .maximumStrick(0)
+                                .currentStrick(0)
+                                .build());
+
                 memberHistory.setCurrentStrick(0);
                 memberHistoryRepository.save(memberHistory);
             }
@@ -74,10 +86,10 @@ public class RankingService {
         for(Team team : teams) {
             boolean check = true;
             List<Registration> registrations = registrationRepository.findAllByTeamId(team.getId());
-            for(Registration registration : registrations) {
-                if(exerciseRepository.findByRegistrationIdAndExerciseDate(registration.getId(), LocalDate.now()).isEmpty()) {
-                        check = false;
-                        break;
+            for (Registration registration : registrations) {
+                if (exerciseRepository.findByRegistrationIdAndExerciseDate(registration.getId(), LocalDate.now()).isEmpty()) {
+                    check = false;
+                    break;
                 }
             }
 
@@ -87,10 +99,10 @@ public class RankingService {
                             .currentStrick(0)
                             .build());
 
-            if(check) {
+            if (check) {
                 teamHistory.setCurrentStrick(teamHistory.getCurrentStrick() + 1);
 
-                if(teamHistory.getMaximumStrick() < teamHistory.getCurrentStrick()) {
+                if (teamHistory.getMaximumStrick() < teamHistory.getCurrentStrick()) {
                     teamHistory.setMaximumStrick(teamHistory.getCurrentStrick());
                 }
 
@@ -103,15 +115,13 @@ public class RankingService {
                         .build();
 
                 teamCalendarRepository.save(teamCalendar);
-            }
-
-            else {
-                if(team.getShieldCount() > 0) {
+            } else {
+                if (team.getShieldCount() > 0) {
                     team.useShield();
 
                     teamHistory.setCurrentStrick(teamHistory.getCurrentStrick() + 1);
 
-                    if(teamHistory.getMaximumStrick() < teamHistory.getCurrentStrick()) {
+                    if (teamHistory.getMaximumStrick() < teamHistory.getCurrentStrick()) {
                         teamHistory.setMaximumStrick(teamHistory.getCurrentStrick());
                     }
 
@@ -125,46 +135,61 @@ public class RankingService {
 
                     teamCalendarRepository.save(teamCalendar);
 
-                }
-
-                else {
+                } else {
                     teamHistory.setCurrentStrick(0);
                     teamHistoryRepository.save(teamHistory);
                 }
             }
 
-            if(teamHistory.getCurrentStrick() != 0 && teamHistory.getCurrentStrick() % 21 == 0) {
+            if (teamHistory.getCurrentStrick() != 0 && teamHistory.getCurrentStrick() % 21 == 0) {
                 team.addShieldCount(1);
             }
 
-            if(teamHistory.getMaximumStrick() == 66) {
-                if(teamHistory.getHallOfFameDate() == null) {
+            if (teamHistory.getMaximumStrick() == 66) {
+                if (teamHistory.getHallOfFameDate() == null) {
                     teamHistory.setHallOfFameDate(LocalDate.now());
                 }
             }
+
+            // # 랭킹정보 Redis 삽입 작업
+            //
+            //  - 명예의 전당
+            //    모든 팀의 히스토리를 조회하여 명예의 전당 달성한 팀들만 뽑고 value는 teamId, score는 (현재날짜 - 달성날짜)로 저장
+            if(teamHistory.getHallOfFameDate() != null) {
+                String rankingBoard = "halloffame";
+
+                Duration duration = Duration.between(teamHistory.getHallOfFameDate(), LocalDate.now());
+                zSetOperations.add(rankingBoard, team.getId().toString(), duration.getSeconds());
+            }
+
+            //  - 최대 스트릭 랭킹
+            //    모든 팀의 히스토리의 최대 스트릭 길이를 조회하여 value는 teamId, score는 최대 스트릭 길이로 저장
+            if(teamHistory.getMaximumStrick() != 0) {
+                String rankingBoard = "strickrank";
+                zSetOperations.add(rankingBoard, team.getId().toString(), teamHistory.getMaximumStrick());
+            }
+
+            //  - 누적 시간 랭킹
+            //    모든 팀의 히스토리 디테일의 운동시간을 계산하여 value는 teamId, score는 누적운동 시간으로 저장
+            List<TeamHistoryDetail> teamHistoryDetails = teamHistoryDetailRepository.findByTeamHistoryId(teamHistory.getId());
+
+            int totalTime = 0;
+            for(TeamHistoryDetail teamHistoryDetail : teamHistoryDetails) {
+                totalTime += teamHistoryDetail.getExerciseTime();
+            }
+
+            if(totalTime != 0) {
+                String rankingBoard = "timerank";
+                zSetOperations.add(rankingBoard, team.getId().toString(), totalTime);
+            }
         }
-
-        // # 랭킹정보 Redis 삽입 작업
-        //  - redis의 정보를 모두 clear한다. (팀 해체 등의 이유)
-        //
-        //  - 명예의 전당
-        //    모든 팀의 히스토리를 조회하여 명예의 전당 달성한 팀들만 뽑고 value는 teamId, score는 (현재날짜 - 달성날짜)로 저장
-        //
-        //  - 누적 시간 랭킹
-        //    모든 팀의 히스토리 디테일의 운동시간을 계산하여 value는 teamId, score는 누적운동 시간으로 저장
-        //
-        //  - 최대 스트릭 랭킹
-        //    모든 팀의 히스토리의 최대 스트릭 길이를 조회하여 value는 teamId, score는 최대 스트릭 길이로 저장
-
-
-
     }
 
     public List<HallOfFameResponse.HallOfFame> getHallOfFames() {
         String rankingBoard = "halloffame";
         Set<ZSetOperations.TypedTuple<String>> rankSet = zSetOperations.reverseRangeWithScores(rankingBoard, 0, 9);
 
-        if(rankSet == null) throw new CustomException(CustomExceptionList.RANK_NOT_FOUND_ERROR);
+        if(rankSet == null) return new ArrayList<>();
 
         List<HallOfFameResponse.HallOfFame> hallOfFames = new ArrayList<>();
 
@@ -195,7 +220,7 @@ public class RankingService {
         String rankingBoard = "strickrank";
         Set<ZSetOperations.TypedTuple<String>> rankSet = zSetOperations.reverseRangeWithScores(rankingBoard, 0, 9);
 
-        if(rankSet == null) throw new CustomException(CustomExceptionList.RANK_NOT_FOUND_ERROR);
+        if(rankSet == null) return new ArrayList<>();
 
         List<HallOfFameResponse.StrickRank> strickRanks = new ArrayList<>();
 
@@ -226,7 +251,7 @@ public class RankingService {
         String rankingBoard = "timerank";
         Set<ZSetOperations.TypedTuple<String>> rankSet = zSetOperations.reverseRangeWithScores(rankingBoard, 0, 9);
 
-        if(rankSet == null) throw new CustomException(CustomExceptionList.RANK_NOT_FOUND_ERROR);
+        if(rankSet == null) return new ArrayList<>();
 
         List<HallOfFameResponse.TimeRank> timeRanks = new ArrayList<>();
 
@@ -253,20 +278,24 @@ public class RankingService {
         return timeRanks;
     }
 
-    public List<TeamRankingResponse.StrickRank> getStrickRanks(Long teamId) {
+    public TeamRankingResponse.StrickRank getStrickRank(Long teamId) {
         String rankingBoard = "strickrank";
 
         Long ranking = zSetOperations.reverseRank(rankingBoard, teamId);
-        if(ranking == null) throw new CustomException(CustomExceptionList.RANK_NOT_FOUND_ERROR);
+        if(ranking == null) return null;
 
         long start = ranking - BOUNDARY;
         long end = ranking + BOUNDARY;
         if(ranking - BOUNDARY < 0) start = 0L;
         Set<ZSetOperations.TypedTuple<String>> rankSet = zSetOperations.reverseRangeWithScores(rankingBoard, start, end);
 
-        if(rankSet == null) throw new CustomException(CustomExceptionList.RANK_NOT_FOUND_ERROR);
+        if(rankSet == null) return null;
 
-        List<TeamRankingResponse.StrickRank> strickRanks = new ArrayList<>();
+        TeamRankingResponse.StrickRank strickRank = new TeamRankingResponse.StrickRank();
+
+        List<TeamRankingResponse.StrickRankDetail> over = new ArrayList<>();
+        TeamRankingResponse.StrickRankDetail me = new TeamRankingResponse.StrickRankDetail();
+        List<TeamRankingResponse.StrickRankDetail> under = new ArrayList<>();
 
         int rank = (int)start;
         for(ZSetOperations.TypedTuple<String> tuple : rankSet) {
@@ -278,33 +307,47 @@ public class RankingService {
                     () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR)
             );
 
-            TeamRankingResponse.StrickRank strickRank = new TeamRankingResponse.StrickRank();
+            TeamRankingResponse.StrickRankDetail strickRankDetail = new TeamRankingResponse.StrickRankDetail();
 
-            strickRank.setRank(rank);
-            strickRank.setTeamIcon(team.getRepIcon());
-            strickRank.setTeamName(team.getName());
-            strickRank.setMaxStrick(maxStrick);
+            strickRankDetail.setRank(rank);
+            strickRankDetail.setTeamIcon(team.getRepIcon());
+            strickRankDetail.setTeamName(team.getName());
+            strickRankDetail.setMaxStrick(maxStrick);
 
-            strickRanks.add(strickRank);
+            if (rank < ranking.intValue() + 1) {
+                over.add(strickRankDetail);
+            } else if (rank == ranking.intValue() + 1) {
+                me = strickRankDetail;
+            } else {
+                under.add(strickRankDetail);
+            }
         }
 
-        return strickRanks;
+        strickRank.setOver(over);
+        strickRank.setMe(me);
+        strickRank.setUnder(under);
+
+        return strickRank;
     }
 
-    public List<TeamRankingResponse.TimeRank> getTimeRanks(Long teamId) {
+    public TeamRankingResponse.TimeRank getTimeRank(Long teamId) {
         String rankingBoard = "timerank";
 
         Long ranking = zSetOperations.reverseRank(rankingBoard, teamId);
-        if(ranking == null) throw new CustomException(CustomExceptionList.RANK_NOT_FOUND_ERROR);
+        if(ranking == null) return null;
 
         long start = ranking - BOUNDARY;
         long end = ranking + BOUNDARY;
         if(ranking - BOUNDARY < 0) start = 0L;
         Set<ZSetOperations.TypedTuple<String>> rankSet = zSetOperations.reverseRangeWithScores(rankingBoard, start, end);
 
-        if(rankSet == null) throw new CustomException(CustomExceptionList.RANK_NOT_FOUND_ERROR);
+        if(rankSet == null) return null;
 
-        List<TeamRankingResponse.TimeRank> timeRanks = new ArrayList<>();
+        TeamRankingResponse.TimeRank timeRank = new TeamRankingResponse.TimeRank();
+
+        List<TeamRankingResponse.TimeRankDetail> over = new ArrayList<>();
+        TeamRankingResponse.TimeRankDetail me = new TeamRankingResponse.TimeRankDetail();
+        List<TeamRankingResponse.TimeRankDetail> under = new ArrayList<>();
 
         int rank = (int)start;
         for(ZSetOperations.TypedTuple<String> tuple : rankSet) {
@@ -316,16 +359,26 @@ public class RankingService {
                     () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR)
             );
 
-            TeamRankingResponse.TimeRank timeRank = new TeamRankingResponse.TimeRank();
+            TeamRankingResponse.TimeRankDetail timeRankDetail = new TeamRankingResponse.TimeRankDetail();
 
-            timeRank.setRank(rank);
-            timeRank.setTeamIcon(team.getRepIcon());
-            timeRank.setTeamName(team.getName());
-            timeRank.setTotalTime(totalTime);
+            timeRankDetail.setRank(rank);
+            timeRankDetail.setTeamIcon(team.getRepIcon());
+            timeRankDetail.setTeamName(team.getName());
+            timeRankDetail.setTotalTime(totalTime);
 
-            timeRanks.add(timeRank);
+            if (rank < ranking.intValue() + 1) {
+                over.add(timeRankDetail);
+            } else if (rank == ranking.intValue() + 1) {
+                me = timeRankDetail;
+            } else {
+                under.add(timeRankDetail);
+            }
         }
 
-        return timeRanks;
+        timeRank.setOver(over);
+        timeRank.setMe(me);
+        timeRank.setUnder(under);
+
+        return timeRank;
     }
 }
