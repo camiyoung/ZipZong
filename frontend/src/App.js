@@ -17,7 +17,8 @@ import RoutineMake from "./pages/RoutineMake"
 
 function App() {
   return (
-    <div className="h-screen w-screen">
+    <div className="w-screen h-screen overflow-scroll bg-gradient-to-b from-secondary-100 to-lgBlue-200 ">
+      {/* // <div className="w-screen bg-gradient-to-r from-lgBlue-100 to-primary-300"> */}
       <BrowserRouter>
         <Navbar />
         <Routes>
