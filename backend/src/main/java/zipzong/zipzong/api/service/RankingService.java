@@ -1,19 +1,26 @@
 package zipzong.zipzong.api.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import zipzong.zipzong.api.dto.ranking.HallOfFameResponse;
 import zipzong.zipzong.api.dto.ranking.TeamRankingResponse;
-import zipzong.zipzong.db.domain.Team;
+import zipzong.zipzong.db.domain.*;
+import zipzong.zipzong.db.repository.exercise.ExerciseRepository;
+import zipzong.zipzong.db.repository.exercise.MemberCalendarRepository;
+import zipzong.zipzong.db.repository.exercise.TeamCalendarRepository;
+import zipzong.zipzong.db.repository.history.MemberHistoryRepository;
+import zipzong.zipzong.db.repository.history.TeamHistoryRepository;
+import zipzong.zipzong.db.repository.memberteam.MemberRepository;
+import zipzong.zipzong.db.repository.memberteam.RegistrationRepository;
 import zipzong.zipzong.db.repository.memberteam.TeamRepository;
 import zipzong.zipzong.exception.CustomException;
 import zipzong.zipzong.exception.CustomExceptionList;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -24,8 +31,14 @@ import java.util.Set;
 @Transactional
 public class RankingService {
 
+    private final MemberRepository memberRepository;
     private final TeamRepository teamRepository;
-
+    private final MemberCalendarRepository memberCalendarRepository;
+    private final MemberHistoryRepository memberHistoryRepository;
+    private final RegistrationRepository registrationRepository;
+    private final ExerciseRepository exerciseRepository;
+    private final TeamCalendarRepository teamCalendarRepository;
+    private final TeamHistoryRepository teamHistoryRepository;
     private final RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
 
     final ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
@@ -38,14 +51,99 @@ public class RankingService {
 
         //  - 개인 기록
         //    멤버 캘린더를 확인하여 오늘 날짜에 대한 정보가 없다면 스트릭을 끊는다.
-        //
+
+        List<Member> members = memberRepository.findAll();
+        for(Member member : members) {
+            if(memberCalendarRepository.findByMemberIdAndCheckDate(member.getId(), LocalDate.now()).isEmpty()) {
+                MemberHistory memberHistory = memberHistoryRepository.findByMemberId(member.getId()).orElseThrow(
+                        () -> new CustomException(CustomExceptionList.MEMBER_HISTORY_NOT_FOUND)
+                );
+                memberHistory.setCurrentStrick(0);
+                memberHistoryRepository.save(memberHistory);
+            }
+        }
+
         //  - 팀 기록
         //    각 팀의 모든 멤버의 기록을 조회하여 모두 운동했다면 현재 스트릭 및 최대 스트릭 갱신 + 팀 캘린더에 해당 날짜 state를 SUCCESS로 세팅
         //    모두 운동 하지 않았으나 보유한 실드가 있다면 실드 1개 소모 + 현재 스트릭 및 최대 스트릭 갱신 + 팀 캘린더에 해당 날짜 state를 SHIELD로 세팅
         //    모두 운동 하지 않았고 실드가 없다면 스트릭을 끊는다.
         //    21일 달성 팀 실드 추가
         //    66일 달성 팀 명예의 전당 달성일 기록
-        //
+
+        List<Team> teams = teamRepository.findAll();
+        for(Team team : teams) {
+            boolean check = true;
+            List<Registration> registrations = registrationRepository.findAllByTeamId(team.getId());
+            for(Registration registration : registrations) {
+                if(exerciseRepository.findByRegistrationIdAndExerciseDate(registration.getId(), LocalDate.now()).isEmpty()) {
+                        check = false;
+                        break;
+                }
+            }
+
+            TeamHistory teamHistory = teamHistoryRepository.findByTeamId(team.getId())
+                    .orElse(TeamHistory.builder()
+                            .maximumStrick(0)
+                            .currentStrick(0)
+                            .build());
+
+            if(check) {
+                teamHistory.setCurrentStrick(teamHistory.getCurrentStrick() + 1);
+
+                if(teamHistory.getMaximumStrick() < teamHistory.getCurrentStrick()) {
+                    teamHistory.setMaximumStrick(teamHistory.getCurrentStrick());
+                }
+
+                teamHistoryRepository.save(teamHistory);
+
+                TeamCalendar teamCalendar = TeamCalendar.builder()
+                        .team(team)
+                        .checkDate(LocalDate.now())
+                        .state("SUCCESS")
+                        .build();
+
+                teamCalendarRepository.save(teamCalendar);
+            }
+
+            else {
+                if(team.getShieldCount() > 0) {
+                    team.useShield();
+
+                    teamHistory.setCurrentStrick(teamHistory.getCurrentStrick() + 1);
+
+                    if(teamHistory.getMaximumStrick() < teamHistory.getCurrentStrick()) {
+                        teamHistory.setMaximumStrick(teamHistory.getCurrentStrick());
+                    }
+
+                    teamHistoryRepository.save(teamHistory);
+
+                    TeamCalendar teamCalendar = TeamCalendar.builder()
+                            .team(team)
+                            .checkDate(LocalDate.now())
+                            .state("SHIELD")
+                            .build();
+
+                    teamCalendarRepository.save(teamCalendar);
+
+                }
+
+                else {
+                    teamHistory.setCurrentStrick(0);
+                    teamHistoryRepository.save(teamHistory);
+                }
+            }
+
+            if(teamHistory.getCurrentStrick() != 0 && teamHistory.getCurrentStrick() % 21 == 0) {
+                team.addShieldCount(1);
+            }
+
+            if(teamHistory.getMaximumStrick() == 66) {
+                if(teamHistory.getHallOfFameDate() == null) {
+                    teamHistory.setHallOfFameDate(LocalDate.now());
+                }
+            }
+        }
+
         // # 랭킹정보 Redis 삽입 작업
         //  - redis의 정보를 모두 clear한다. (팀 해체 등의 이유)
         //
@@ -57,6 +155,7 @@ public class RankingService {
         //
         //  - 최대 스트릭 랭킹
         //    모든 팀의 히스토리의 최대 스트릭 길이를 조회하여 value는 teamId, score는 최대 스트릭 길이로 저장
+
 
 
     }

@@ -28,7 +28,7 @@ public class TeamHistory {
     private int currentStrick;
 
     @Column(name = "hall_of_fame_date")
-    private LocalDateTime hallOfFameDate;
+    private LocalDate hallOfFameDate;
 
     @OneToOne(mappedBy = "teamHistory", fetch = FetchType.LAZY)
     private Team team;
@@ -41,7 +41,7 @@ public class TeamHistory {
         this.currentStrick = currentStrick;
     }
 
-    public void setHallOfFameDate(LocalDateTime hallOfFameDate) {
+    public void setHallOfFameDate(LocalDate hallOfFameDate) {
         this.hallOfFameDate = hallOfFameDate;
     }
 

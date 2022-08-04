@@ -51,7 +51,6 @@ public class ExerciseService {
 
             LocalDate today = LocalDate.now();
 
-
             if(exerciseRepository.findByRegistrationIdAndExerciseDate(registration.getId(), today).isEmpty()) {
                 Exercise first = Exercise.builder()
                         .registration(registration)
