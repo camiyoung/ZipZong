@@ -72,7 +72,7 @@ const WorkOut = ({ myVideo, tmModel }) => {
   const changeNextAction = () => {
     const nextAction = routine.current[routineIdx.current]
     // addSuccessCount(routineIdx.current)
-    changeResList()
+    // changeResList()
     routineIdx.current++
     // console.log("다음 동작", nextAction, routineIdx)
     setCurrentAction(nextAction)
@@ -82,22 +82,20 @@ const WorkOut = ({ myVideo, tmModel }) => {
   }
 
   const updateSuccess = (count) => {
-    countePreExercise.current = count
-    addSuccessCount(countePreExercise.current)
+    console.log("루틴idx:", routineIdx.current, "운동 동작 끝! 횟수:", count)
+    const idx = routineIdx.current - 1
+    routine.current[idx].success = count
+    // changeResList()
+    console.log(routine.current)
     countePreExercise.current = 0
-  }
-
-  const addSuccessCount = (count = 0) => {
-    routine.current[routineIdx.current].success += count
-    changeResList()
   }
 
   const changeResList = () => {
     const list = routine.current.map((info) => {
-      // if (info.type === "breaktime") return <br />
+      if (info.type === "breaktime") return <br />
       return (
         <div>
-          운동 이름:{info.name} /목표 :{info.goal} / 성공 : {info.success}
+          {info.name} /목표 :{info.goal} / 성공 : {info.success}
           <br />
         </div>
       )
@@ -132,7 +130,7 @@ const WorkOut = ({ myVideo, tmModel }) => {
         />
       )}
       {/* {isRunning &&( */}
-      <div className="w-[300px] h-[500px] absolute top-0 -left-[200px] bg-white z-50 border-2 border-purple-300">
+      <div className="w-[300px] absolute bottom-0 left-0 bg-white z-50 border-2 border-purple-300">
         {resultList}
       </div>
       {/* )} */}
