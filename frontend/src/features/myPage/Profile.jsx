@@ -160,30 +160,34 @@ export default function Profile() {
           </div>
         </form>
       </Modal>
+
       <div className="flex">
-        <div className="w-3/6 m-3 p-5 bg-white rounded-3xl bg-opacity-75">
-          <div className="flex justify-center m-3">
-            <ImageIcon
-              image={icon}
-              size="smmiddle"
-              shape="round"
-              borderStyle="none"
-            />{" "}
-            <p className=" ml-3 text-2xl font-semibold">
-              {" "}
-              <span className="font-semibold">{stateNickname} </span> 님, 오늘도
-              즐거운 운동 되세요!{" "}
-            </p>
+        <div className="w-3/6 m-3 p-5 rounded-3xl bg-white shadow-sm">
+          <div className="flex m-3 justify-center items-center">
+            <div className="flex">
+              <ImageIcon
+                image={icon}
+                size="smmiddle"
+                shape="round"
+                borderStyle="none"
+              />{" "}
+              <p className=" ml-3 text-2xl font-semibold">
+                {" "}
+                <span className="font-semibold">{stateNickname} </span> 님,
+                오늘도 즐거운 운동 되세요!{" "}
+              </p>
+            </div>
           </div>
-          <div className="flex justify-center mb-3">수정 버튼</div>
         </div>
-        <div className="w-3/6 m-3 p-5 bg-lgBlue-200 rounded-3xl bg-opacity-75 flex flex-col item-center">
-          <div className="flex justify-center font-semibold text-3xl font-semibold">
-            🔥 오늘로 <span className="mx-2 text-red-500"> 7일 째</span> 운동
-            중이에요!
-          </div>
-          <div className="flex justify-center mt-1">
-            집중에서 총 7시간 운동을 했어요.
+        <div className="w-3/6 m-3 h-[120px] bg-gradient-to-l from-primary-200 shadow-sm to-lgBlue-300 rounded-3xl flex items-center justify-center">
+          <div>
+            <div className="flex justify-center font-semibold text-3xl font-semibold">
+              🔥 오늘로 <span className="mx-2 text-red-700"> 7일 째</span> 운동
+              중이에요!
+            </div>
+            <div className="flex justify-center mt-2 text-lg">
+              집중에서 총 2시간 30분 운동을 했어요.
+            </div>
           </div>
         </div>
       </div>
