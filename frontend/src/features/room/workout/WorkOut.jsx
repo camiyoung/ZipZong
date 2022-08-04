@@ -91,10 +91,11 @@ const WorkOut = ({ myVideo, tmModel }) => {
   }
 
   const changeResList = () => {
-    const list = routine.current.map((info) => {
-      if (info.type === "breaktime") return <br />
+    const list = routine.current.map((info, idx) => {
+      if (info.type === "breaktime")
+        return <div key={idx}>{info.duration}초 휴식 </div>
       return (
-        <div>
+        <div key={idx}>
           {info.name} /목표 :{info.goal} / 성공 : {info.success}
           <br />
         </div>
