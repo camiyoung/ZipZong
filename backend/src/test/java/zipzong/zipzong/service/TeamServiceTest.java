@@ -32,6 +32,23 @@ class TeamServiceTest {
     }
 
     @Test
+    @DisplayName("팀 초대 링크로 팀 아이디 조회")
+    void getTeamIdByInviteLink(){
+        //given
+        Team team = makeTeam("inviteLink");
+        Team savedTeam = teamRepository.save(team);
+
+        String inviteLink = savedTeam.getInviteLink();
+
+        //when
+        Long teamId = teamService.getTeamIdByInviteLink(inviteLink);
+
+        //then
+        Assertions.assertEquals(savedTeam.getId(), teamId);
+
+    }
+
+    @Test
     @DisplayName(" 팀 대표 아이콘 설정")
     void setRepIcon() {
         //given
