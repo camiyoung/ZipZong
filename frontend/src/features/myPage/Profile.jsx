@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react"
-import Button from "../../components/button/Button"
 import ImageIcon from "../../components/icon/ImageIcon"
 import Modal from "../../components/modal/Modal"
-import LargeTextInput from "../../components/input/LargeTextInput"
-import SmallTextInput from "../../components/input/SmallTextInput"
+import Card from "../../components/card/Card"
 import { memberIconSelect } from "./myPageReducer"
 import { nicknameValidation, nicknameChange } from "../login/memberReducer"
 import { useDispatch, useSelector } from "react-redux"
@@ -73,7 +71,7 @@ export default function Profile() {
   }
   return (
     // 모달
-    <div>
+    <div className="w-4/5 mt-5">
       <Modal isOpen={isOpen} modalClose={modalClose}>
         <form onSubmit={handleSubmit}>
           <div className="text-xl flex justify-center pb-5 font-bold">
@@ -162,8 +160,35 @@ export default function Profile() {
           </div>
         </form>
       </Modal>
+      <div className="flex">
+        <div className="w-3/6 m-3 p-5 bg-white rounded-3xl bg-opacity-75">
+          <div className="flex justify-center m-3">
+            <ImageIcon
+              image={icon}
+              size="smmiddle"
+              shape="round"
+              borderStyle="none"
+            />{" "}
+            <p className=" ml-3 text-2xl font-semibold">
+              {" "}
+              <span className="font-semibold">{stateNickname} </span> 님, 오늘도
+              즐거운 운동 되세요!{" "}
+            </p>
+          </div>
+          <div className="flex justify-center mb-3">수정 버튼</div>
+        </div>
+        <div className="w-3/6 m-3 p-5 bg-lgBlue-200 rounded-3xl bg-opacity-75 flex flex-col item-center">
+          <div className="flex justify-center font-semibold text-3xl font-semibold">
+            🔥 오늘로 <span className="mx-2 text-red-500"> 7일 째</span> 운동
+            중이에요!
+          </div>
+          <div className="flex justify-center mt-1">
+            집중에서 총 7시간 운동을 했어요.
+          </div>
+        </div>
+      </div>
 
-      <div className="flex items-center justify-center">
+      {/* <div className="flex items-center justify-center">
         <div className="w-[600px] h-12 bg-lightBlue border-2 m-2 rounded-3xl">
           <div className="flex items-center justify-center h-full w-full">
             <ImageIcon
@@ -183,7 +208,7 @@ export default function Profile() {
             ></Button>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

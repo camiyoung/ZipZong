@@ -12,7 +12,7 @@ export default function MyPage() {
     // dispatch(memberInfo(memberNickname))
   }, [])
   return (
-    <div>
+    <div className="">
       <div className="flex justify-center pt-4">
         <Profile />
       </div>
