@@ -6,11 +6,8 @@ import GroupList from "../features/myPage/GroupList"
 import { memberInfo } from "../features/login/memberReducer"
 
 export default function MyPage() {
-  const dispatch = useDispatch()
   const memberNickname = useSelector((state) => state.member.memberNickname)
-  useEffect(() => {
-    // dispatch(memberInfo(memberNickname))
-  }, [])
+  console.log(1)
   return (
     <div>
       <div className="flex justify-center pt-4">

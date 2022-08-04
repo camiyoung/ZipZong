@@ -5,9 +5,12 @@ import CollectedIcons from "../features/group/CollectedIcons"
 import GroupSetInfo from "../features/group/GroupSetInfo"
 import GroupSetMemberList from "../features/group/GroupSetMemberList"
 import Button from "../components/button/Button"
-import { teamDelete, teamInfo } from "../features/group/groupReducer"
+import {
+  registrationTeam,
+  teamDelete,
+  teamInfo,
+} from "../features/group/groupReducer"
 import Modal from "../components/modal/Modal"
-import { registrationTeam } from "../features/myPage/myPageReducer"
 
 export default function GroupSet() {
   const dispatch = useDispatch()
@@ -18,12 +21,10 @@ export default function GroupSet() {
   const { registeredTeam } = useSelector((state) => state.mypage)
   useEffect(() => {
     dispatch(teamInfo(fetchTeamId))
-  }, [])
 
-  // 그룹 삭제 후 렌더링 하는 코드
-  useEffect(() => {
+    // 그룹 삭제 후 렌더링 하는 코드
     dispatch(registrationTeam(memberId))
-  }, [registeredTeam])
+  }, [])
 
   const deleteTeamFunction = () => {
     dispatch(teamDelete({ teamId: fetchTeamId, memberId: memberId }))
@@ -43,13 +44,15 @@ export default function GroupSet() {
           text="그룹 삭제"
           height="h-10"
           bgColor="bg-danger"
-          onClick={() => setOpen(true)}
+          onClick={() => {
+            setOpen(true)
+          }}
         />
       </div>
       <Modal isOpen={isOpen} modalClose={modalClose}>
         <p>정말 그룹을 삭제하시겠습니까?</p>
         <Button text="예" onClick={deleteTeamFunction} />
-        <Button text="아니오" onClick={() => modalClose()} />
+        <Button text="아니오" onClick={modalClose} />
       </Modal>
     </div>
   )
