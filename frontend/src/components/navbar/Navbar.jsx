@@ -83,53 +83,55 @@ export default function Navbar() {
   }
 
   return (
-    <div className="flex justify-center border">
-      <nav className="w-3/5 flex justify-between py-3">
-        <div>
-          <NavLink to="/">
-            <img src={Logo} style={{ height: "60px" }} alt="logo" />
-          </NavLink>
-        </div>
-        <ul className="flex">
-          <NavItem>
-            <NavLink to="/room">운동방</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink to="/result">운동 결과</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink to="/rank">명예의 전당</NavLink>
-          </NavItem>
-          <NavItem>
-            <div
-              onClick={() => {
-                setShowGroup(true)
-              }}
-            >
-              그룹 목록
-            </div>
-            {showGroup && (
-              <GroupList setVisible={setShowGroup} groups={memberInfoTeam} />
-            )}
-          </NavItem>
-          <NavItem>
-            <div
-              onClick={() => {
-                setShowInfo(true)
-              }}
-            >
-              <NavLink to="/mypage">
-                <ImageIcon
-                  image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg"
-                  size="small"
-                  shape="round"
-                />
-              </NavLink>
-            </div>
-            {showInfo && <InfoList setVisible={setShowInfo} />}
-          </NavItem>
-        </ul>
-      </nav>
+    <div className="flex justify-center border-b">
+      <div className="w-screen flex justify-center">
+        <nav className="flex justify-between py-3 w-[1000px]">
+          <div>
+            <NavLink to="/">
+              <img src={Logo} style={{ height: "60px" }} alt="logo" />
+            </NavLink>
+          </div>
+          <ul className="flex">
+            <NavItem>
+              <NavLink to="/room">운동방</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink to="/result">운동 결과</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink to="/rank">명예의 전당</NavLink>
+            </NavItem>
+            <NavItem>
+              <div
+                onClick={() => {
+                  setShowGroup(true)
+                }}
+              >
+                그룹 목록
+              </div>
+              {showGroup && (
+                <GroupList setVisible={setShowGroup} groups={memberInfoTeam} />
+              )}
+            </NavItem>
+            <NavItem>
+              <div
+                onClick={() => {
+                  setShowInfo(true)
+                }}
+              >
+                <NavLink to="/mypage">
+                  <ImageIcon
+                    image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg"
+                    size="small"
+                    shape="round"
+                  />
+                </NavLink>
+              </div>
+              {showInfo && <InfoList setVisible={setShowInfo} />}
+            </NavItem>
+          </ul>
+        </nav>
+      </div>
     </div>
   )
 }
