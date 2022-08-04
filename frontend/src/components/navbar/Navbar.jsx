@@ -12,7 +12,7 @@ const NavItem = ({ children }) => {
 
 const GroupList = ({ setVisible, groups }) => {
   return (
-    <div className="absolute z-30 top-[4rem] right-[2.5em] ">
+    <div className="absolute z-30 top-[4rem] right-[2.5em]">
       <Card size="middle">
         <div onClick={() => setVisible(false)}>닫기 </div>
         <ul>
@@ -83,9 +83,9 @@ export default function Navbar() {
   }
 
   return (
-    <div className="flex justify-center border-b">
+    <div className="flex justify-center mt-3">
       <div className="w-screen flex justify-center">
-        <nav className="flex justify-between py-3 w-[1000px]">
+        <nav className="flex justify-between py-3 w-4/5">
           <div>
             <NavLink to="/">
               <img src={Logo} style={{ height: "60px" }} alt="logo" />
