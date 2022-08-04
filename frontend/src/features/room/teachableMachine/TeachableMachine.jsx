@@ -22,22 +22,28 @@ export default class TeachableMachine extends Component {
     this.videoRef = undefined
     this.canvasRef = React.createRef()
     this.canvas = undefined
+    this.tmModel = undefined
+    this.changeAction = this.changeAction.bind(this)
   }
 
   componentDidMount() {
     this.videoRef = this.props.myVideoRef
+    this.tmModel = this.props.tmModel
+
     this.makeModel()
   }
 
   componentWillUnmount() {
     console.log("티처블머신 컴포넌트 언마운트 ")
+    this.props.updateSuccess(this.state.successCount)
   }
 
   async makeModel() {
-    this.model = await tmPose.load(this.modelURL, this.metadataURL)
+    // this.model = await tmPose.load(this.modelURL, this.metadataURL)
+    this.model = this.tmModel.modelPushup
     this.maxPredictions = this.model.getTotalClasses()
-    console.log("최대 예측값:", this.maxPredictions)
-    console.log("모델:", this.model)
+    // console.log("최대 예측값:", this.maxPredictions)
+    // console.log("모델:", this.model)
     await this.init()
     this.loop()
   }
@@ -78,25 +84,42 @@ export default class TeachableMachine extends Component {
     this.setState({ resEle: predictionsList })
     this.updateCount(prediction)
   }
+
+  changeAction(action) {
+    this.beforAction = action
+  }
+
   updateCount(data) {
-    data.forEach(({ className, probability }) => {
-      //   console.log(className + ":" + probability)
-      const action = className
-      const prob = parseInt(probability.toFixed(2))
-      //   console.log(action)
-      if (prob === 1) {
-        // console.log("현재동작:", action, "이전 동작", this.beforAction)
-        if (action === "Sleepy_Right") {
-          if (this.beforAction === "Sleepy_Left") {
-            console.log("성공")
-            // this.beforAction = "Sleepy_Left"
-            this.setState((state) => ({
-              successCount: state.successCount + 1,
-            }))
-          }
-        }
-        this.beforAction = action
+    data.forEach((res) => {
+      const doneAction = this.tmModel.callbackPushup(
+        res,
+        this.beforAction,
+        this.changeAction
+      )
+
+      if (doneAction) {
+        this.setState((state) => ({
+          successCount: state.successCount + 1,
+        }))
       }
+
+      //   console.log(className + ":" + probability)
+      // const action = className
+      // const prob = parseInt(probability.toFixed(2))
+      // //   console.log(action)
+      // if (prob === 1) {
+      //   // console.log("현재동작:", action, "이전 동작", this.beforAction)
+      //   if (action === "Sleepy_Right") {
+      //     if (this.beforAction === "Sleepy_Left") {
+      //       console.log("성공")
+      //       // this.beforAction = "Sleepy_Left"
+      //       this.setState((state) => ({
+      //         successCount: state.successCount + 1,
+      //       }))
+      //     }
+      //   }
+      //   this.beforAction = action
+      // }
     })
   }
 
