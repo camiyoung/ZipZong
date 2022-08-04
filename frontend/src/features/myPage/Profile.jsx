@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import Button from "../../components/button/Button"
 import ImageIcon from "../../components/icon/ImageIcon"
 import Modal from "../../components/modal/Modal"
+import LargeTextInput from "../../components/input/LargeTextInput"
 import SmallTextInput from "../../components/input/SmallTextInput"
 import { memberIconSelect } from "./myPageReducer"
 import { nicknameValidation, nicknameChange } from "../login/memberReducer"
@@ -43,60 +44,107 @@ export default function Profile() {
   const modalClose = () => setOpen(false)
   const [nickname, setNickname] = useState("")
   const [icon, setIcon] = useState(rabbit)
-  const [errorMessage, setErrorMessage] = useState("나 진좌 너무 힘들다")
+  const [errorMessage, setErrorMessage] = useState("")
   const stateNickname = useSelector((state) => state.member.memberNickname)
   useEffect(() => {
     // setNickname(stateNickname)
   }, [])
   const handleSubmit = (e) => {
     e.preventDefault()
-    const validationResult = dispatch(nicknameValidation(nickname))
-    if (validationResult) {
-      dispatch(
-        nicknameChange({
-          origin: stateNickname,
-          nickname: nickname,
-          icon: icon,
-        })
-      )
-      // dispatch(memberIconSelect({ nickname: nickname, icon: icon }))
+    if (nickname) {
+      const validationResult = dispatch(nicknameValidation(nickname))
+      if (validationResult) {
+        dispatch(
+          nicknameChange({
+            origin: stateNickname,
+            nickname: nickname,
+            icon: icon,
+          })
+        )
+        // dispatch(memberIconSelect({ nickname: nickname, icon: icon }))
+        modalClose()
+        setErrorMessage("")
+      } else {
+        setErrorMessage("중복된 닉네임입니다.")
+      }
+    } else {
+      setErrorMessage("닉네임을 한 글자 이상 작성해주세요.")
     }
-    modalClose()
   }
   return (
     // 모달
     <div>
       <Modal isOpen={isOpen} modalClose={modalClose}>
         <form onSubmit={handleSubmit}>
-          <p className="text-3xl">수정</p>
-          <div className="flex items-center">
-            <p className="text-xl">대표 아이콘</p>
-            <ImageIcon image={icon} size="large" shape="round" />
+          <div className="text-xl flex justify-center pb-5 font-bold">
+            프로필 수정
           </div>
-          <SmallTextInput
-            inputName="닉네임"
-            onChange={({ target: { value } }) => setNickname(value)}
-          ></SmallTextInput>
-          <p className="text-xl">획득 아이콘</p>
-          <p className="text-sm mb-2">
-            그룹에서 운동을 통해 아이콘을 획득하실 수 있습니다.
-          </p>
-          <div className="flex overflow-scroll">
-            {User.Icons.map((icon, idx) => {
-              return (
-                <div
-                  onClick={() => {
-                    setIcon(icon)
-                  }}
-                  key={idx}
-                  className="mr-3 cursor-pointer"
-                >
-                  <div className="border hover:border-red-400">
-                    <ImageIcon image={icon} size="middle" shape="square" />
+          <div className="flex">
+            <div className="pr-5">
+              <div className="flex justify-center pb-3">대표 아이콘</div>
+              <div>
+                <ImageIcon image={icon} shape="round" size="xLarge" />
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <div>
+                <div className="">
+                  <div className="pb-2">닉네임</div>
+                  <div className="w-[280px]">
+                    <input
+                      type="text"
+                      className="
+                    mb-3
+                      h-9
+                      w-[280px]
+                      block
+                      bg-gray-50
+                      rounded-lg
+                      text-sm
+                      border
+                      border-gray-300
+                      focus:ring-primary-400
+                      focus:border-primary-400
+                    "
+                      onChange={(event) => {
+                        setNickname(event.target.value)
+                      }}
+                    />
                   </div>
                 </div>
-              )
-            })}
+              </div>
+              <div>
+                <div className="pb-2 flex">
+                  <span>아이콘 설정 </span>
+                  <span className="text-sm ml-1 text-gray-300 flex items-center">
+                    운동으로 아이콘을 모아보세요.
+                  </span>
+                </div>
+
+                <div className="flex w-[300px] flex-wrap">
+                  {User.Icons.map((icon, idx) => {
+                    return (
+                      <div
+                        onClick={() => {
+                          setIcon(icon)
+                        }}
+                        key={idx}
+                        className="mr-1 mb-1 cursor-pointer"
+                      >
+                        <div className="hover:border-primary-400 border-[2px] border-white border rounded-full ">
+                          <ImageIcon
+                            image={icon}
+                            size="smmiddle"
+                            shape="round"
+                            borderStyle="none"
+                          />
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="py-3 flex mt-3">
