@@ -23,13 +23,14 @@ export default function MyPage() {
   const memberNickname = useSelector((state) => state.member.memberNickname)
   return (
     <div className="">
-      <div className="flex justify-center pt-4">
+      <div className="flex justify-center mt-5">
         <Profile />
       </div>
+      {/* <p className="flex justify-center pt-10 font-bold text-3xl">CALENDAR</p> */}
       <div className="flex justify-center pb-10">
         <PersonalExerciseInfo />
       </div>
-      <div className="p-5">
+      <div className="p-5 flex justify-center">
         <GroupList />
       </div>
     </div>

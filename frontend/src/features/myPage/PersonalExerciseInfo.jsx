@@ -6,43 +6,34 @@ import {
 } from "./myPageReducer"
 import { registrationTeam } from "../group/groupReducer"
 import CalendarForm from "../../components/calendar/CalendarForm"
-import ImageIcon from "../../components/icon/ImageIcon"
+import ExerciseIcon from "../../components/icon/ExerciseIcon"
+import ChangeLanguage from "../routine/ChangeLanguage"
 
 const dayExerciseInfo = [
   {
-    exerciseType: "윗몸일으키기",
-    exerciseIcon:
-      "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
-    exerciseTime: 900,
-    exerciseCount: 1000,
+    performName: "PUSHUP",
+    performNum: 18,
+    performTime: 1,
   },
   {
-    exerciseType: "Test1",
-    exerciseIcon:
-      "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
-    exerciseTime: 780,
-    exerciseCount: 1001,
+    performName: "LEGRAISE",
+    performNum: 30,
+    performTime: 2,
   },
   {
-    exerciseType: "Test2",
-    exerciseIcon:
-      "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
-    exerciseTime: 600,
-    exerciseCount: 1004,
+    performName: "MOUNTAINCLIMING",
+    performNum: 30,
+    performTime: 2,
   },
   {
-    exerciseType: "Test4",
-    exerciseIcon:
-      "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
-    exerciseTime: 600,
-    exerciseCount: 1004,
+    performName: "BURPEE",
+    performNum: 30,
+    performTime: 2,
   },
   {
-    exerciseType: "Test3",
-    exerciseIcon:
-      "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
-    exerciseTime: 600,
-    exerciseCount: 1004,
+    performName: "SQUAT",
+    performNum: 30,
+    performTime: 2,
   },
 ]
 
@@ -71,44 +62,62 @@ export default function ExerciseInfo() {
   let totalTime = 9
 
   return (
-    <div className="flex mt-10 flex-col">
+    <div className="flex mt-10 flex-col w-4/5">
       <div className="flex">
-        <div className="flex">
+        <div className="flex w-full justify-center">
           <CalendarForm />
-          <div
-            className="border mx-5 rounded-lg border-gray-400 min-w-min bg-white"
-            style={{
-              boxShadow: "0 12px 24px rgba(0, 0, 0, 0.2)",
-              width: "270px",
-              height: "295.94px",
-            }}
-          >
-            <div className="p-3">
-              <p className="text-xl flex justify-center">
-                총 운동 시간: {totalTime} 시간
-              </p>
-              <p className="mt-1 text-md flex justify-center">
-                연속 {currentStreak}일째!
-              </p>
-            </div>
+          <div className="ml-10 rounded-3xl bg-white min-w-min h-[340px] w-[70%] flex shadow-md">
             <div
-              className="overflow-scroll scrollbar-hide"
-              style={{ height: "200px" }}
+              className="w-1/4 bg-lgBlue-400 h-full bg-gradient-to-b from-lgBlue-500 to-secondary-300 flex flex-col justify-center items-center"
+              style={{
+                borderRadius: "1rem 0px 0px 1rem",
+              }}
             >
-              {dayExerciseInfo.map(
-                ({ exerciseIcon, exerciseTime, exerciseCount }, idx) => {
-                  return (
-                    <div key={idx} className="flex m-5">
-                      <ImageIcon image={exerciseIcon} size="middle" />
-                      <div>
-                        <p>운동 개수: {exerciseCount}</p>
-                        <p>운동 시간: {exerciseTime}</p>
-                      </div>
-                    </div>
-                  )
-                }
-              )}
+              <p className="text-5xl text-white font-bold mb-3">2022년</p>
+              <p className="text-5xl text-white font-bold mb-5">1월 18일</p>
+              <p className="text-lg text-white font-normal">
+                {" "}
+                닉네임 님의 운동 기록
+              </p>
             </div>
+            <div className="w-3/4 h-full flex items-center justify-center">
+              <div className="flex justify-center w-10/12">
+                <div className="flex flex-wrap w-full justify-start">
+                  {dayExerciseInfo.map(
+                    ({ performName, performNum, performTime }, idx) => {
+                      return (
+                        <div key={idx} className="flex w-[33.33%] my-3">
+                          <ExerciseIcon
+                            size="large"
+                            shape=""
+                            image={performName}
+                          ></ExerciseIcon>
+                          <div className="flex flex-col justify-center items-center w-[70%]">
+                            <p className="font-semibold">
+                              {" "}
+                              <ChangeLanguage exercise={performName} />
+                            </p>
+                            <p>
+                              {" "}
+                              {performNum}회 / {performTime}분{" "}
+                            </p>
+                          </div>
+                        </div>
+                      )
+                    }
+                  )}
+                </div>
+              </div>
+            </div>
+            {/* <div className="w-full h-full">
+              <div className="p-3">
+              </div>
+              <div
+                className="overflow-scroll scrollbar-hide"
+                style={{ height: "200px" }}
+              >
+              </div>
+            </div> */}
           </div>
         </div>
       </div>
