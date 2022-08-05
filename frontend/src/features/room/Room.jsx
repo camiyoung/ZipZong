@@ -10,15 +10,19 @@ import ChatComponent from "./openVidu/chat/ChatComponent"
 import ExerciseZone from "./ExerciseZone"
 import OtherPeople from "./OtherPeople"
 import SideBar from "./SideBar"
+import { Model } from "./teachableMachine/model"
+import { Spinner } from "../../components/spinner/Spinner"
 
 const localUser = new UserModel()
+const tmModel = new Model()
 
 class Room extends Component {
   constructor(props) {
     super(props)
     this.OPENVIDU_SERVER_URL = this.props.openviduServerUrl
       ? this.props.openviduServerUrl
-      : "https://3.39.251.36:443"
+      : "https://i7a805.p.ssafy.io:8443"
+
     this.OPENVIDU_SERVER_SECRET = this.props.openviduSecret
       ? this.props.openviduSecret
       : "MY_SECRET"
@@ -40,6 +44,8 @@ class Room extends Component {
       chatDisplay: "block",
       currentVideoDevice: undefined,
       isRoomAdmin: false,
+      tmModel: undefined,
+      modelLoded: false,
     }
     this.myVideoRef = React.createRef()
 
@@ -60,9 +66,10 @@ class Room extends Component {
     this.checkSize = this.checkSize.bind(this)
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     window.addEventListener("beforeunload", this.onbeforeunload)
-
+    await tmModel.loadModel() // teachable machine 로드
+    this.setState({ modelLoded: true })
     this.joinSession()
   }
 
@@ -76,6 +83,7 @@ class Room extends Component {
   }
 
   joinSession() {
+    console.log("joinSession 시작")
     this.OV = new OpenVidu()
     this.OV.enableProdMode()
 
@@ -546,28 +554,41 @@ class Room extends Component {
         </div>
       ) : null
     return (
-      <div className="flex h-full bg-secondary-200 rounded-2xl">
-        <div
-          className="w-1/6  min-w-[300px]  border-4 border-green-700 "
-          id="subscribersArea"
-        >
-          <OtherPeople subscribers={this.state.subscribers} />
-        </div>
+      <div className="h-full">
+        {!this.state.modelLoded ? (
+          <div className="h-full flex  flex-col items-center justify-center">
+            <Spinner />
+            <div className="text-secondary-200">운동방에 입장 중입니다.</div>
+          </div>
+        ) : (
+          <div className="flex h-full bg-secondary-200 rounded-2xl">
+            <div
+              className="w-1/6  min-w-[300px]  border-4 border-green-700 "
+              id="subscribersArea"
+            >
+              <OtherPeople subscribers={this.state.subscribers} />
+            </div>
 
-        <div className="w-4/6 border-4 border-blue-500" id="ExerciseZoneArea">
-          <ExerciseZone
-            Toolbar={Toolbar}
-            myVideo={myVideoStream}
-            chat={chatComponent}
-            isRoomAdmin={this.state.isRoomAdmin}
-          />
-        </div>
-        <div
-          className="w-1/6  min-w-[300px]  border-2 border-red-400 "
-          id="sideBarArea"
-        >
-          <SideBar chatComponent={chatComponent} />
-        </div>
+            <div
+              className="w-4/6 border-4 border-blue-500"
+              id="ExerciseZoneArea"
+            >
+              <ExerciseZone
+                Toolbar={Toolbar}
+                myVideo={myVideoStream}
+                chat={chatComponent}
+                isRoomAdmin={this.state.isRoomAdmin}
+                tmModel={tmModel}
+              />
+            </div>
+            <div
+              className="w-1/6  min-w-[300px]  border-2 border-red-400 "
+              id="sideBarArea"
+            >
+              <SideBar chatComponent={chatComponent} />
+            </div>
+          </div>
+        )}
       </div>
     )
   }
