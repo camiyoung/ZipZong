@@ -50,12 +50,15 @@ public class OAuthController {
         String accessTokenExpiration = jwtService.dateToString(token.getAccessToken());
         String refreshTokenExpiration = jwtService.dateToString(token.getRefreshToken());
 
+        Boolean hasNickname = member.getNickname() == null ? false : true;
+
         return "redirect:" + UriComponentsBuilder.fromUriString("http://localhost:3000/login")
                                                  .queryParam("accessToken", token.getAccessToken())
                                                  .queryParam("refreshToken", token.getRefreshToken())
                                                  .queryParam("accessTokenExpiration", accessTokenExpiration)
                                                  .queryParam("refreshTokenExpiration", refreshTokenExpiration)
                                                  .queryParam("memberId", member.getId().toString())
+                                                 .queryParam("hasNickname", hasNickname.toString())
                                                  .build()
                                                  .toUriString();
 
@@ -74,8 +77,9 @@ public class OAuthController {
         String name = jwtService.getName(refreshToken);
 
         Member member = memberRepository.findByEmailAndProvider(email, provider)
-                .orElseThrow(() -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND_ERROR));
-        if(!member.getRefreshToken().equals(refreshToken)) {
+                                        .orElseThrow(() -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND_ERROR));
+        if (!member.getRefreshToken()
+                   .equals(refreshToken)) {
             throw new CustomException(CustomExceptionList.REFRESH_TOKEN_ERROR);
         }
         // 이 함수는 리프레시 토큰 분해해서 여기 email하고 소셜플랫폼 가지고 회원을 찾는데 못찾는거같은데요
