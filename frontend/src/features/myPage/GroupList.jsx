@@ -5,6 +5,7 @@ import { registrationTeam } from "./myPageReducer"
 import Icon from "../../components/icon/ImageIcon"
 import Card from "../../components/card/Card"
 import Modal from "../../components/modal/Modal"
+import UserIcon from "../../components/icon/UserIcon"
 import SmallTextInput from "../../components/input/SmallTextInput"
 import LargeTextInput from "../../components/input/LargeTextInput"
 import { NavLink } from "react-router-dom"
@@ -53,9 +54,11 @@ export default function Group() {
 
   // 그룹 생성시 재랜더링 하는 코드
 
+  const icon1 = "diamond"
+
   return (
     // 모달
-    <div className="flex justify-center sm:flex-row-reverse">
+    <div className="flex justify-center sm:flex-row-reverse w-full">
       <Modal isOpen={isOpen} modalClose={modalClose}>
         <div className="text-xl flex justify-center pb-5 font-bold">
           그룹 생성
@@ -121,35 +124,71 @@ export default function Group() {
         </div>
       </Modal>
 
-      {registeredTeam.map(({ teamName, icon, count, groupId }, idx) => {
-        return (
-          <NavLink key={idx} to={`/group/${groupId}`}>
-            <div className="flex p-3">
-              <Card size="middle">
-                <div className="flex justify-center p-3">
-                  <Icon image={icon} size="xLarge" />
+      <div className="w-4/5 flex">
+        {registeredTeam.map(({ teamName, icon, count, groupId }, idx) => {
+          return (
+            <div className="flex w-1/5 h-[140px] justify-center">
+              <div
+                className="w-11/12 shadow-md flex justify-center items-center bg-cover rounded-3xl"
+                style={{
+                  backgroundImage: `url(/images/rankPage/${icon1}.png)`,
+                }}
+              >
+                <div className="w-full h-full backdrop-blur-lg rounded-3xl">
+                  <NavLink key={idx} to={`/group/${groupId}`}>
+                    <div className="flex justify-center items-center w-full h-full">
+                      <div className="flex w-4/5">
+                        <Icon
+                          image={`/images/rankPage/${icon1}.png`}
+                          size="large"
+                          shape="round"
+                        />
+                        <div className="flex flex-col justify-center pl-3">
+                          <div className="font-bold text-xl pb-1">
+                            {teamName}
+                          </div>
+                          <div className="flex">
+                            <UserIcon />
+                            <span className="pl-1 text-sm">{count} / 10</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </NavLink>
                 </div>
-                <p className="p-4 font-bold flex justify-center text-lg">
-                  {" "}
-                  {teamName}{" "}
-                </p>
-              </Card>
+              </div>
             </div>
-          </NavLink>
-        )
-      })}
-      <div onClick={() => setOpen(true)} className="flex p-3">
-        <Card size="middle">
-          <div className="flex justify-center p-3">
-            <Icon
-              image="https://icons-for-free.com/download-icon-circle+more+plus+icon-1320183136549593898_512.png"
-              size="xLarge"
-            />
+          )
+        })}
+        <div
+          onClick={() => setOpen(true)}
+          className="flex w-1/5 justify-center"
+        >
+          <div className="w-11/12 shadow-md flex justify-center items-center rounded-3xl">
+            <div className="flex justify-center items-center w-full h-full  bg-white rounded-3xl">
+              <div className="flex w-4/5 ">
+                <Icon
+                  image="https://icons-for-free.com/download-icon-circle+more+plus+icon-1320183136549593898_512.png"
+                  size="large"
+                  borderStyle="none"
+                />
+                <div className="flex flex-col justify-center pl-3">
+                  <span className="pl-1 text-md">그룹을</span>
+                  <span className="pl-1 text-md">만들어보세요.</span>
+                </div>
+              </div>
+              {/* <div className="flex justify-center p-3">
+                <Icon
+                  image="https://icons-for-free.com/download-icon-circle+more+plus+icon-1320183136549593898_512.png"
+                  size="large"
+                />
+              </div>
+              <p className="p-4 font-bold flex justify-center text-lg">
+                그룹을 추가해보세요.
+              </p> */}
+            </div>
           </div>
-          <p className="p-4 font-bold flex justify-center text-lg">
-            그룹을 추가해보세요.
-          </p>
-        </Card>
+        </div>
       </div>
     </div>
   )

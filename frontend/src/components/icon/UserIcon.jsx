@@ -4,7 +4,7 @@ export default function UserIcon() {
   // https://heroicons.dev/ 에서 User 받아옴
   return (
     <svg
-      className="w-6 h-6"
+      className="w-5 h-5"
       fill="currentColor"
       viewBox="0 0 20 20"
       xmlns="http://www.w3.org/2000/svg"
