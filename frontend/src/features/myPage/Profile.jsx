@@ -177,7 +177,7 @@ export default function Profile() {
             </p>
           </div>
         </div>
-        <div className="w-3/6 m-3 h-[120px] moving-grad rounded-3xl flex items-center justify-center">
+        <div className="w-3/6 m-3 h-[120px] moving-grad rounded-3xl flex items-center justify-center shadow-md">
           {/* <div className="w-3/6 m-3 h-[120px] bg-gradient-to-l from-blue-200 shadow-md to-lgBlue-300 rounded-3xl flex items-center justify-center"> */}
           <div>
             <div className="flex justify-center text-3xl font-semibold moving-grad__txt">
