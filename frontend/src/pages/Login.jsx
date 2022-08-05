@@ -22,8 +22,8 @@ export default function Login() {
   const refreshTokenExpiration = new URL(window.location.href).searchParams.get(
     "refreshTokenExpiration"
   )
-  const hasNickName = new URL(window.location.href).searchParams.get(
-    "hasNickName"
+  const hasNickname = new URL(window.location.href).searchParams.get(
+    "hasNickname"
   )
   const collectedMemberId = new URL(window.location.href).searchParams.get(
     "memberId"
@@ -33,15 +33,15 @@ export default function Login() {
     localStorage.setItem("refreshToken", refreshToken)
     localStorage.setItem("accessTokenExpiration", accessTokenExpiration)
     localStorage.setItem("refreshTokenExpiration", refreshTokenExpiration)
-    localStorage.setItem("memberId", collectedMemberId)
+    localStorage.setItem("memberId", Number(collectedMemberId))
   }
   useEffect(() => {
     dispatch(checkMemberId(localStorage.getItem("memberId")))
+    // 닉네임 중복 확인
+    // if (hasNickname) {
+    //   navigate("/mypage")
+    // }
   }, [])
-  console.log(hasNickName)
-  if (hasNickName) {
-    navigate("/mypage")
-  }
   return (
     <div className="flex">
       <div className="w-6/12 h-screen">
