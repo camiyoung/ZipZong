@@ -47,7 +47,7 @@ public class Team {
     @Column(name = "shield_count")
     private int shieldCount;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "room_id")
     private Room room;
 
@@ -123,6 +123,10 @@ public class Team {
 
     public void setInviteLink(String inviteLink){
         this.inviteLink =inviteLink;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
 }

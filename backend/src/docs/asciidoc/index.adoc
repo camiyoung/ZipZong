@@ -87,3 +87,19 @@ operation::get-routine-detail-by-routine[snippets='http-request,path-parameters,
 operation::modify-routine-by-routineId[snippets='http-request,path-parameters,http-response,response-fields']
 === 루틴 삭제
 operation::delete-routine-by-routineId[snippets='http-request,path-parameters,http-response,response-fields']
+
+[[Room-API]]
+== Room API
+
+=== 팀별 운동방 생성
+operation::create-room-by-team[snippets='http-request,path-parameters,http-response,response-fields']
+=== 생성된 운동방에 입장
+operation::enter-room-by-team[snippets='http-request,path-parameters,http-response,response-fields']
+=== 방 상태(정보) 조회
+operation::get-room-status[snippets='http-request,path-parameters,http-response,response-fields']
+=== 방장이 아닌 회원이 방을 퇴장
+operation::leave-room[snippets='http-request,path-parameters,http-response,response-fields']
+=== 방장이 방을 퇴장
+operation::delete-room-by-creator[snippets='http-request,path-parameters,http-response,response-fields']
+=== 방 상태를 운동중으로 변경
+operation::start-room-by-teamId[snippets='http-request,path-parameters,http-response,response-fields']
