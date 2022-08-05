@@ -54,7 +54,7 @@ function Instance() {
       console.log(error)
       // 에러 코드 받기
       // E003 - 토큰 만료 오류
-      console.log(error)
+      console.log("Axios 에러입니다.", error)
       //로그아웃 후 login page로 리다이렉트
       if (error.response.data.code === "E003") {
         localStorage.clear()

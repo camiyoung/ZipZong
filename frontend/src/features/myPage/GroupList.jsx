@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { teamCreate, registrationTeam } from "./myPageReducer"
+import { teamCreate } from "../group/groupReducer"
+import { registrationTeam } from "./myPageReducer"
 import Icon from "../../components/icon/ImageIcon"
 import Card from "../../components/card/Card"
 import Modal from "../../components/modal/Modal"
@@ -27,11 +28,12 @@ export default function Group() {
   const memberId = useSelector((state) => state.member.memberId)
 
   // 회원이 가입한 팀 정보
-  const memberInfoTeam = useSelector((state) => state.mypage.registeredTeam)
+  const { registeredTeam } = useSelector((state) => state.group)
 
   const [teamName, setTeamName] = useState("")
   const [teamContent, setTeamContent] = useState("")
 
+  // 그룹 생성하는 코드
   const teamCreateButton = () => {
     if (teamName) {
       dispatch(
@@ -48,9 +50,8 @@ export default function Group() {
       setErrorMessage("그룹 명을 한 글자 이상 작성해주세요.")
     }
   }
-  useEffect(() => {
-    dispatch(registrationTeam(memberId))
-  }, [])
+
+  // 그룹 생성시 재랜더링 하는 코드
 
   return (
     // 모달
@@ -120,7 +121,7 @@ export default function Group() {
         </div>
       </Modal>
 
-      {memberInfoTeam.map(({ teamName, icon, count, groupId }, idx) => {
+      {registeredTeam.map(({ teamName, icon, count, groupId }, idx) => {
         return (
           <NavLink key={idx} to={`/group/${groupId}`}>
             <div className="flex p-3">

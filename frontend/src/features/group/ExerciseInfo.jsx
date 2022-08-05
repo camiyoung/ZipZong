@@ -93,9 +93,8 @@ export default function ExerciseInfo() {
   useEffect(() => {
     dispatch(teamTotalExerciseCount())
   }, [])
-  const shieldCount = useSelector((state) => state.group.shieldCount)
+  const { teamCurrentStreak, shieldCount } = useSelector((state) => state.group)
   let totalTime = 9
-  let streak = 3
   return (
     <div className="flex mt-10 flex-col flex-wrap">
       <div className="flex">
@@ -113,7 +112,7 @@ export default function ExerciseInfo() {
               <p className="text-[14px] mr-1">다같이 운동한 시간:</p>
               <p className="text-[18px]">{totalTime} 시간</p>
             </div>
-            <p className="mt-1 text-md">연속 {streak}일째!</p>
+            <p className="mt-1 text-md">연속 {teamCurrentStreak}일째!</p>
             <div
               className="overflow-scroll scrollbar-hide"
               style={{
