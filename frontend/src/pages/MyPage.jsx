@@ -34,7 +34,7 @@ export default function MyPage() {
     }
   }, [])
   return (
-    <div className="">
+    <div className="pb-10">
       <div className="flex justify-center mt-5">
         <Profile />
       </div>

@@ -17,7 +17,7 @@ import RoutineMake from "./pages/RoutineMake"
 
 function App() {
   return (
-    <div className="w-screen bg-gradient-to-b from-secondary-100 to-lgBlue-200 pb-20">
+    <div className="w-screen bg-gradient-to-b from-secondary-100 to-lgBlue-200">
       {/* // <div className="w-screen bg-gradient-to-r from-lgBlue-100 to-primary-300"> */}
       <BrowserRouter>
         <Navbar />
