@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import ImageIcon from "../../components/icon/ImageIcon"
 import Modal from "../../components/modal/Modal"
-import Card from "../../components/card/Card"
 import { memberIconSelect } from "./myPageReducer"
 import { nicknameValidation, nicknameChange } from "../login/memberReducer"
 import { useDispatch, useSelector } from "react-redux"
@@ -129,7 +128,7 @@ export default function Profile() {
                         key={idx}
                         className="mr-1 mb-1 cursor-pointer"
                       >
-                        <div className="hover:border-primary-400 border-[2px] border-white border rounded-full ">
+                        <div className="hover:border-primary-400 border-2 border-white rounded-full ">
                           <ImageIcon
                             image={icon}
                             size="smmiddle"
@@ -162,57 +161,33 @@ export default function Profile() {
       </Modal>
 
       <div className="flex">
-        <div className="w-3/6 m-3 p-5 rounded-3xl bg-white shadow-sm">
-          <div className="flex m-3 justify-center items-center">
-            <div className="flex">
-              <ImageIcon
-                image={icon}
-                size="smmiddle"
-                shape="round"
-                borderStyle="none"
-              />{" "}
-              <p className=" ml-3 text-2xl font-semibold">
-                {" "}
-                <span className="font-semibold">{stateNickname} </span> 님,
-                오늘도 즐거운 운동 되세요!{" "}
-              </p>
-            </div>
+        <div className="w-3/6 m-3 p-5 rounded-3xl bg-white shadow-md flex justify-center items-center">
+          <div className="flex m-3 justify-center items-center w-full h-full ">
+            <ImageIcon
+              image={icon}
+              size="smmiddle"
+              shape="round"
+              borderStyle="none"
+            />{" "}
+            <p className=" ml-3 text-2xl">
+              {" "}
+              <span className="font-semibold">{stateNickname} </span> 님, 오늘도
+              즐거운 운동 되세요!{" "}
+            </p>
           </div>
         </div>
-        <div className="w-3/6 m-3 h-[120px] bg-gradient-to-l from-primary-200 shadow-sm to-lgBlue-300 rounded-3xl flex items-center justify-center">
+        <div className="w-3/6 m-3 h-[120px] bg-gradient-to-l from-blue-200 shadow-md to-lgBlue-300 rounded-3xl flex items-center justify-center">
           <div>
-            <div className="flex justify-center font-semibold text-3xl font-semibold">
+            <div className="flex justify-center text-3xl font-semibold">
               🔥 오늘로 <span className="mx-2 text-red-700"> 7일 째</span> 운동
               중이에요!
             </div>
             <div className="flex justify-center mt-2 text-lg">
-              집중에서 총 2시간 30분 운동을 했어요.
+              오늘로 총 2시간 30분 째 집에서 운동중!
             </div>
           </div>
         </div>
       </div>
-
-      {/* <div className="flex items-center justify-center">
-        <div className="w-[600px] h-12 bg-lightBlue border-2 m-2 rounded-3xl">
-          <div className="flex items-center justify-center h-full w-full">
-            <ImageIcon
-              image={icon}
-              size="small"
-              shape="round"
-              borderStyle="none"
-            />
-            <p className="text-sm p-2">
-              <span className="font-semibold">{stateNickname} </span> 님, 오늘도
-              즐거운 운동 되세요!
-            </p>
-            <Button
-              onClick={() => setOpen(true)}
-              text="수정"
-              height="h-12"
-            ></Button>
-          </div>
-        </div>
-      </div> */}
     </div>
   )
 }
