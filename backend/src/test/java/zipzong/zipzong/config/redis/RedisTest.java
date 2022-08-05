@@ -38,8 +38,6 @@ public class RedisTest {
          */
         String rankingBoard = "test";
 
-
-
         zSetOperations.add(rankingBoard,"user1",10); //2등
         zSetOperations.add(rankingBoard,"user2",20); //1등
         zSetOperations.add(rankingBoard,"user3",1);  //3등

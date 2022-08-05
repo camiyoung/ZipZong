@@ -17,6 +17,7 @@ public class ExerciseMemberHistoryResponse {
     {
         private int day;
         private int totalTime;
+        private String state;
         private List<ExerciseMemberHistoryResponse.Perform> performs;
     }
 
