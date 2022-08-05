@@ -27,6 +27,7 @@ import zipzong.zipzong.db.repository.routine.RoutineRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -70,6 +71,7 @@ public class RoutineControllerTest {
         Long teamId = 1L;
         RoutineRequest routineRequest = makeRoutineRequest("routine1");
         String body = (new ObjectMapper()).writeValueAsString(routineRequest);
+        given(routineService.createRoutine(anyLong(), any())).willReturn(teamId);
 
         //when
         RequestBuilder requestBuilder = RestDocumentationRequestBuilders.post("/routine/{teamId}", teamId)
@@ -212,6 +214,8 @@ public class RoutineControllerTest {
     void deleteRoutine() throws Exception {
         //given
         Long routineId = 1L;
+        Long teamId = 1L;
+        given(routineService.deleteRoutine(anyLong())).willReturn(teamId);
 
         //when
         RequestBuilder requestBuilder = RestDocumentationRequestBuilders.delete("/routine/{routineId}", routineId);
@@ -219,7 +223,7 @@ public class RoutineControllerTest {
 
         //then
         resultActions.andExpect(status().isOk())
-                .andExpect(jsonPath("$.data").value("1"))
+                .andExpect(jsonPath("$.data").value(teamId))
                 .andDo(document("delete-routine-by-routineId",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),

@@ -33,20 +33,23 @@ public class RoutineService {
     /*
     운동 루틴 등록
      */
-    public void createRoutine(Long teamId, RoutineRequest routineRequest) {
+    public Long createRoutine(Long teamId, RoutineRequest routineRequest) {
         Routine routine = Routine.createRoutine(routineRequest, getTeamInfo(teamId));
         Long routineId = routineRepository.save(routine).getId();
         for (int i = 0; i < routineRequest.getExercise().size(); i++) {
             RoutineDetail routineDetail = RoutineDetail.createRoutineDetail(getRoutine(routineId), i + 1, routineRequest.getExercise().get(i));
             routineDetailRepository.save(routineDetail);
         }
+        return teamId;
     }
 
     /*
     운동 루틴 삭제
      */
-    public void deleteRoutine(Long routineId) {
+    public Long deleteRoutine(Long routineId) {
+        Long teamId = getRoutine(routineId).getTeam().getId();
         routineRepository.delete(getRoutine(routineId));
+        return teamId;
     }
 
     /*

@@ -22,15 +22,15 @@ public class RoutineController {
     //루틴 저장
     @PostMapping("/{teamId}")
     public ResponseEntity<BasicResponse<Long>> routineSave(@RequestBody RoutineRequest routineRequest, @PathVariable Long teamId) {
-        routineService.createRoutine(teamId, routineRequest);
-        return new ResponseEntity<>(makeBasicResponse(SUCCESS, teamId), HttpStatus.CREATED);
+        Long id = routineService.createRoutine(teamId, routineRequest);
+        return new ResponseEntity<>(makeBasicResponse(SUCCESS, id), HttpStatus.CREATED);
     }
 
     //루틴 삭제
     @DeleteMapping("/{routineId}")
     public ResponseEntity<BasicResponse<Long>> routineDelete(@PathVariable Long routineId) {
-        routineService.deleteRoutine(routineId);
-        return new ResponseEntity<>(makeBasicResponse(SUCCESS, routineId), HttpStatus.OK);
+        Long teamId = routineService.deleteRoutine(routineId);
+        return new ResponseEntity<>(makeBasicResponse(SUCCESS, teamId), HttpStatus.OK);
     }
 
     //그룹별 루틴 조회
