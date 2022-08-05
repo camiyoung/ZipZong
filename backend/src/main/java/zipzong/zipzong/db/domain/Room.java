@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 import zipzong.zipzong.enums.Mode;
+import zipzong.zipzong.enums.Status;
 
 import javax.persistence.*;
 
@@ -26,8 +27,14 @@ public class Room {
     @Column(name="room_name", nullable = false)
     private String name;
 
+    @Column(name="creator", nullable = false)
+    private String creator;
+
     @Enumerated(EnumType.STRING)
     private Mode mode;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
 
 }

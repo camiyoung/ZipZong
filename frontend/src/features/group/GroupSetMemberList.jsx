@@ -1,8 +1,9 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import ImageIcon from "../../components/icon/ImageIcon"
 import UserIcon from "../../components/icon/UserIcon"
 import Modal from "../../components/modal/Modal"
 import Button from "../../components/button/Button"
+import { useSelector } from "react-redux"
 
 const members = [
   {
@@ -49,9 +50,11 @@ const members = [
   },
 ]
 export default function GroupSetMemberList() {
+  const { teamMembers, teamLeader } = useSelector((state) => state.group)
   const [isExpulsionOpen, setExpulsionOpen] = useState(false)
   const [user, setUser] = useState()
   const modalClose = () => setExpulsionOpen(false)
+  console.log(teamMembers)
 
   const GroupHover = ({ name, date, isLeader, imageUrl, idx }) => {
     const [isHovering, setIsHovering] = useState(false)
@@ -109,7 +112,7 @@ export default function GroupSetMemberList() {
       <p className="text-3xl font-semibold mb-1">회원 명단</p>
       <p className="flex my-3">
         <UserIcon />
-        {members.length}명 / {10}명
+        {teamMembers.length}명 / {10}명
       </p>
       {members.map(({ name, date, isLeader, imageUrl }, idx) => {
         return (

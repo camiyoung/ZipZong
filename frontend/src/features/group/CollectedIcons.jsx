@@ -1,4 +1,6 @@
-import React from "react"
+import React, { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { useLocation } from "react-router-dom"
 import Card from "../../components/card/Card"
 import Button from "../../components/button/Button"
 import ImageIcon from "../../components/icon/ImageIcon"
@@ -29,6 +31,11 @@ const prizes = [
 ]
 
 export default function CollectedIcons() {
+  const dispatch = useDispatch()
+  const location = useLocation()
+  const fetchTeamId = location.pathname.split("/")[2]
+  const { icons, teamRepIcons } = useSelector((state) => state.group)
+
   return (
     <Card
       className="flex justify-center flex-col mx-5 rounded-lg mt-5"

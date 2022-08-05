@@ -1,12 +1,15 @@
 import React, { useEffect } from "react"
-// import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { checkMemberId } from "../features/login/memberReducer"
 import NotLoggedInYet from "../features/login/NotLoggedInYet"
 import SetNickName from "../features/login/SetNickName"
+import { inviteTeamIdConfirm } from "../features/group/groupReducer"
 
 export default function Login() {
-  // const location = useLocation()
+  const location = useLocation()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const accessToken = new URL(window.location.href).searchParams.get(
     "accessToken"
   )
@@ -19,8 +22,8 @@ export default function Login() {
   const refreshTokenExpiration = new URL(window.location.href).searchParams.get(
     "refreshTokenExpiration"
   )
-  const hasNickName = new URL(window.location.href).searchParams.get(
-    "hasNickName"
+  const hasNickname = new URL(window.location.href).searchParams.get(
+    "hasNickname"
   )
   const collectedMemberId = new URL(window.location.href).searchParams.get(
     "memberId"
@@ -30,11 +33,14 @@ export default function Login() {
     localStorage.setItem("refreshToken", refreshToken)
     localStorage.setItem("accessTokenExpiration", accessTokenExpiration)
     localStorage.setItem("refreshTokenExpiration", refreshTokenExpiration)
-    localStorage.setItem("memberId", collectedMemberId)
+    localStorage.setItem("memberId", Number(collectedMemberId))
   }
-  const dispatch = useDispatch()
   useEffect(() => {
     dispatch(checkMemberId(localStorage.getItem("memberId")))
+    // 닉네임 중복 확인
+    // if (hasNickname) {
+    //   navigate("/mypage")
+    // }
   }, [])
   return (
     <div className="flex">
@@ -46,7 +52,6 @@ export default function Login() {
         />
       </div>
       {/* 로그인되면 버튼들이 보이지 않음 */}
-      {hasNickName ? window.location.href("/mypage") : null}
       {accessToken ? <SetNickName /> : <NotLoggedInYet />}
     </div>
   )

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { NavLink, useLocation, useNavigate } from "react-router-dom"
-import { teamInfo } from "../../features/group/groupReducer"
+import { registrationTeam, teamInfo } from "../../features/group/groupReducer"
 import Card from "../card/Card"
 import ImageIcon from "../icon/ImageIcon"
 import Logo from "../../assets/Logo.svg"
@@ -67,17 +67,23 @@ const InfoList = ({ setVisible }) => {
 }
 
 export default function Navbar() {
-  // 회원이 가입한 팀 정보
-  const memberId = useSelector((state) => state.member.memberId)
-  const memberInfoTeam = useSelector((state) => state.mypage.registeredTeam)
-
+  const dispatch = useDispatch()
+  const { memberId } = useSelector((state) => state.member)
+  const { registeredTeam } = useSelector((state) => state.group)
   const [showGroup, setShowGroup] = useState(false)
   const [showInfo, setShowInfo] = useState(false)
   const location = useLocation()
 
+  // 회원이 가입한 팀 정보
+  // useEffect(() => {
+  //   dispatch(registrationTeam(memberId))
+  //   return () => console.log("회원이 가입한 팀", registeredTeam)
+  // }, [])
+
   if (
     location.pathname.split("/")[1] === "room" ||
-    location.pathname.split("/")[1] === "login"
+    location.pathname.split("/")[1] === "login" ||
+    location.pathname.split("/")[1] === "invite"
   ) {
     return
   }
@@ -110,7 +116,7 @@ export default function Navbar() {
                 그룹 목록
               </div>
               {showGroup && (
-                <GroupList setVisible={setShowGroup} groups={memberInfoTeam} />
+                <GroupList setVisible={setShowGroup} groups={registeredTeam} />
               )}
             </NavItem>
             <NavItem>

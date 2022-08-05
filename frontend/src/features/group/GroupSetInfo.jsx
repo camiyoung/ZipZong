@@ -5,15 +5,16 @@ import ImageIcon from "../../components/icon/ImageIcon"
 import SmallTextInput from "../../components/input/SmallTextInput"
 import LargeTextInput from "../../components/input/LargeTextInput"
 import Modal from "../../components/modal/Modal"
+import { useSelector } from "react-redux"
 
 export default function GroupSetInfo() {
+  const { teamName, teamContent, teamRepIcons } = useSelector(
+    (state) => state.group
+  )
+
   const [isOpen, setOpen] = useState(false)
   const modalClose = () => setOpen(false)
 
-  const groupName = "집에서 운동중"
-
-  const groupExplanation =
-    "집에서 운동 안 하는 사람들끼리 집에서 운동하는 웹 만들기로 함 ㅋㅋ 07.15는 다 같이 휴식하는 날"
   return (
     <div>
       {/* 모달 영역 */}
@@ -31,7 +32,7 @@ export default function GroupSetInfo() {
                 height="h-8"
                 text="닫기"
                 bgColor="bg-danger"
-                onClick={() => modalClose()}
+                onClick={modalClose}
                 type="submit"
               />
             </div>
@@ -49,8 +50,8 @@ export default function GroupSetInfo() {
           />
         </div>
         <div className="w-  8/12">
-          <p className="text-3xl font-semibold mb-3">{groupName}</p>
-          <p className="w-96">{groupExplanation}</p>
+          <p className="text-3xl font-semibold mb-3">{teamName}</p>
+          <p className="w-96">{teamContent}</p>
         </div>
         <Button
           onClick={() => setOpen(true)}
