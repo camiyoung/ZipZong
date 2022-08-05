@@ -40,6 +40,7 @@ export const memberInfo = createAsyncThunk("member/info/", async (nickname) => {
 export const nicknameChange = createAsyncThunk(
   "member/nicknameChange",
   async (info) => {
+    console.log("닉네임 변경", info)
     const res = await http.put("member/nickname", {
       origin: info.origin,
       nickname: info.nickname,
@@ -70,7 +71,7 @@ export const memberSlice = createSlice({
     },
     // 멤버 아이디 받기
     checkMemberId: (state, action) => {
-      state.memberId = action.payload
+      state.memberId = Number(action.payload)
     },
   },
   extraReducers(builder) {
