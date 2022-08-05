@@ -9,8 +9,6 @@ import SmallTextInput from "../../components/input/SmallTextInput"
 import LargeTextInput from "../../components/input/LargeTextInput"
 import { NavLink } from "react-router-dom"
 
-import LEGRAISE from "../../assets/exercise/LEGRAISE.png"
-
 const Groups = [
   {
     groupName: "집에서 운동중",
@@ -165,9 +163,9 @@ export default function Group() {
           onClick={() => setOpen(true)}
           className="flex w-1/5 justify-center"
         >
-          <div className="w-11/12 shadow-md flex justify-center items-center bg-cover">
+          <div className="w-11/12 shadow-md flex justify-center items-center rounded-3xl">
             <div className="flex justify-center items-center w-full h-full  bg-white rounded-3xl">
-              <div className="flex w-4/5">
+              <div className="flex w-4/5 ">
                 <Icon
                   image="https://icons-for-free.com/download-icon-circle+more+plus+icon-1320183136549593898_512.png"
                   size="large"
