@@ -24,6 +24,9 @@ public class Room {
     @JoinColumn(name="routine_id")
     private Routine routine;
 
+    @OneToOne(mappedBy = "room", fetch = FetchType.LAZY)
+    private Team team;
+
     @Column(name="room_name", nullable = false)
     private String name;
 
