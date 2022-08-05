@@ -1,7 +1,10 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useLocation } from "react-router-dom"
-import { teamInfo } from "../features/group/groupReducer"
+import {
+  teamInfo,
+  teamTotalExerciseCount,
+} from "../features/group/groupReducer"
 import GroupInfo from "../features/group/GroupInfo"
 import MemberList from "../features/group/MemberList"
 import Line from "../components/Line"
@@ -13,8 +16,13 @@ export default function Group() {
   const location = useLocation()
   const fetchTeamId = location.pathname.split("/")[2]
   useEffect(() => {
+    console.log("최초")
     dispatch(teamInfo(fetchTeamId))
+    dispatch(teamTotalExerciseCount(fetchTeamId))
   }, [fetchTeamId])
+
+  const { inviteLink } = useSelector((state) => state.group)
+
   return (
     <div className="w-[60%] mx-auto">
       <div className="flex">

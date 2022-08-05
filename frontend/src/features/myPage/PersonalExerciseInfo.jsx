@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from "react-redux"
 import {
   memberExerciseHistoryCheck,
   memberExerciseHistorySumCheck,
-  registrationTeam,
 } from "./myPageReducer"
+import { registrationTeam } from "../group/groupReducer"
 import CalendarForm from "../../components/calendar/CalendarForm"
 import ImageIcon from "../../components/icon/ImageIcon"
 

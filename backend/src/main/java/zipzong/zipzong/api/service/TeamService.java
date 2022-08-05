@@ -126,4 +126,11 @@ public class TeamService {
         return team.getInviteLink();
     }
 
+    public Long getTeamIdByInviteLink(String inviteLink) {
+        Team team = teamRepository.findByInviteLink(inviteLink)
+                                  .orElseThrow(() -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR));
+        return team.getId();
+    }
+
+
 }

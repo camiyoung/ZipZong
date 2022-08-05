@@ -1,4 +1,7 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useRef, useEffect } from "react"
+import { useLocation } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+
 import Modal from "../../components/modal/Modal"
 import NameSquare from "../../components/nameSquare/NameSquare"
 import ImageIcon from "../../components/icon/ImageIcon"
@@ -49,11 +52,13 @@ const Members = [
     hasDone: true,
   },
 ]
-
 export default function MemberList() {
+  const { inviteLink } = useSelector((state) => state.group)
   const [isOpen, setOpen] = useState(false)
   const modalClose = () => setOpen(false)
   const copyLinkRef = useRef()
+
+  const [link, setLink] = useState("")
 
   const copyTextUrl = () => {
     copyLinkRef.current.focus()
@@ -75,7 +80,7 @@ export default function MemberList() {
             <input
               type="text"
               ref={copyLinkRef}
-              defaultValue={"http://localhost:3000/invite?groundId=id"}
+              defaultValue={`http://localhost:3000/invite?groundId=${inviteLink}`}
               className="mr-3"
             />
             <Button
