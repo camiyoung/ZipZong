@@ -32,7 +32,8 @@ function GroupManagement() {
     if (teamLeader.nickname === memberNickname) {
       setIsLeader(true)
     } else {
-      setIsLeader(false)
+      // 실험적으로 그룹장으로 승급
+      setIsLeader(true)
     }
   }, [])
 
@@ -121,12 +122,14 @@ function GroupManagement() {
         그룹장 ->그룹 설정 및 관리 보임
         그룹원 -> 그룹 탈퇴 보임
         */}
-        {isLeader && teamMembers.length > 2 ? (
+        {/* {isLeader && teamMembers.length > 2 ? ( */}
+        {isLeader ? (
           <Button
             text="그룹 설정 및 관리"
             round="round3xl"
             height="h-10"
             width="w-full"
+            onClick={() => navigate(`/groupset/${fetchTeamId}`)}
           />
         ) : (
           <Button

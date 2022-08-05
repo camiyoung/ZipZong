@@ -46,9 +46,6 @@ export default function Profile() {
   const [icon, setIcon] = useState(rabbit)
   const [errorMessage, setErrorMessage] = useState("")
   const stateNickname = useSelector((state) => state.member.memberNickname)
-  useEffect(() => {
-    // setNickname(stateNickname)
-  }, [])
   const handleSubmit = (e) => {
     e.preventDefault()
     if (nickname) {
