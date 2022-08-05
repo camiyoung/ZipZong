@@ -54,11 +54,11 @@ export default function Group() {
 
   // 그룹 생성시 재랜더링 하는 코드
 
-  const icon1 = "diamond"
+  const icon1 = "sea.jpg"
 
   return (
     // 모달
-    <div className="flex justify-center sm:flex-row-reverse w-full">
+    <div className="w-4/5">
       <Modal isOpen={isOpen} modalClose={modalClose}>
         <div className="text-xl flex justify-center pb-5 font-bold">
           그룹 생성
@@ -124,37 +124,73 @@ export default function Group() {
         </div>
       </Modal>
 
-      <div className="w-4/5 flex">
+      <span className="flex justify-center mb-5 font-bold text-3xl p-2">
+        GROUP
+      </span>
+      <div className="flex">
         {registeredTeam.map(({ teamName, icon, count, groupId }, idx) => {
+          // return (
+          //   <div className="flex w-1/5 h-[140px] justify-center">
+          //     <div
+          //       className="w-11/12 shadow-md flex justify-center items-center bg-cover rounded-3xl"
+          //       style={{
+          //         backgroundImage: `url(/images/rankPage/${icon1})`,
+          //       }}
+          //     >
+          //       <div className="w-full h-full backdrop-blur-lg rounded-3xl">
+          //         <NavLink key={idx} to={`/group/${groupId}`}>
+          //           <div className="flex justify-center items-center w-full h-full">
+          //             <div className="flex w-4/5">
+          //               <Icon
+          //                 image={`/images/rankPage/${icon1}`}
+          //                 size="large"
+          //                 shape="round"
+          //               />
+          //               <div className="flex flex-col justify-center pl-3">
+          //                 <div className="font-bold text-xl pb-1">
+          //                   {teamName}
+          //                 </div>
+          //                 <div className="flex">
+          //                   <UserIcon />
+          //                   <span className="pl-1 text-sm">{count} / 10</span>
+          //                 </div>
+          //               </div>
+          //             </div>
+          //           </div>
+          //         </NavLink>
+          //       </div>
+          //     </div>
+          //   </div>
+          // )
           return (
-            <div className="flex w-1/5 h-[140px] justify-center">
+            <div className="flex w-1/5 h-[270px] justify-center">
               <div
                 className="w-11/12 shadow-md flex justify-center items-center bg-cover rounded-3xl"
                 style={{
-                  backgroundImage: `url(/images/rankPage/${icon1}.png)`,
+                  backgroundImage: `url(/images/rankPage/${icon1})`,
                 }}
               >
-                <div className="w-full h-full backdrop-blur-lg rounded-3xl">
-                  <NavLink key={idx} to={`/group/${groupId}`}>
-                    <div className="flex justify-center items-center w-full h-full">
-                      <div className="flex w-4/5">
+                <div className="w-full h-full backdrop-blur-lg rounded-3xl flex flex-col items-center">
+                  <div className="flex items-center justify-center w-full h-full">
+                    <NavLink key={idx} to={`/group/${groupId}`}>
+                      <div className="w-4/5">
                         <Icon
-                          image={`/images/rankPage/${icon1}.png`}
-                          size="large"
+                          image={`/images/rankPage/${icon1}`}
+                          size="xLarge2"
                           shape="round"
                         />
-                        <div className="flex flex-col justify-center pl-3">
-                          <div className="font-bold text-xl pb-1">
+                        <div className="justify-center pl-3">
+                          <div className="font-bold text-xl pt-3 pb-1 flex justify-center">
                             {teamName}
                           </div>
-                          <div className="flex">
+                          <div className="flex justify-center">
                             <UserIcon />
                             <span className="pl-1 text-sm">{count} / 10</span>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </NavLink>
+                    </NavLink>
+                  </div>
                 </div>
               </div>
             </div>
@@ -164,8 +200,8 @@ export default function Group() {
           onClick={() => setOpen(true)}
           className="flex w-1/5 justify-center"
         >
-          <div className="w-11/12 shadow-md flex justify-center items-center rounded-3xl">
-            <div className="flex justify-center items-center w-full h-full  bg-white rounded-3xl">
+          <div className="w-11/12 shadow-md flex justify-center items-center rounded-3xl cursor-pointer">
+            <div className="flex justify-center items-center w-full bg-white rounded-3xl h-[270px]">
               <div className="flex w-4/5 ">
                 <Icon
                   image="https://icons-for-free.com/download-icon-circle+more+plus+icon-1320183136549593898_512.png"
