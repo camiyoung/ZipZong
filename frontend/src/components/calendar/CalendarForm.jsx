@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
+import React, { useEffect, useMemo, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import {
   changeYear,
   changeMonth,
@@ -13,16 +13,30 @@ const dailyRecord = ["18-07-2022", "17-07-2022", "16-07-2022"]
 export default function CalendarForm() {
   const dispatch = useDispatch()
   const [date, setDate] = useState(new Date())
+  const [activeDate, setActiveDate] = useState("")
+  const { memberId } = useSelector((state) => state.member)
+  const { memberDailyHistory, selectedMonth, selectedYear } = useSelector(
+    (state) => state.mypage
+  )
   function loadDate(currentDate) {
     const validDate = currentDate || date
     const month = validDate.getMonth() + 1
     const year = validDate.getFullYear()
     dispatch(changeYear(year))
     dispatch(changeMonth(month))
+    dispatch(
+      memberExerciseHistoryCheck({
+        memberId: memberId,
+        year: year,
+        month: month,
+      })
+    )
   }
+  const memoActiveDate = useMemo(() => activeDate)
   useEffect(() => {
-    loadDate()
-  }, [date])
+    loadDate(date)
+    console.log("히스토리", memberDailyHistory)
+  }, [memoActiveDate])
 
   return (
     <div className="app w-1/4 ">
@@ -31,9 +45,10 @@ export default function CalendarForm() {
           className="react-calendar p-5 h-[340px] rounded-3xl shadow-md"
           onChange={setDate} // 해당 날짜의 운동 현황 보여줘야 함
           value={date}
-          onActiveStartDateChange={({ activeStartDate }) =>
+          onActiveStartDateChange={({ activeStartDate }) => {
+            setActiveDate(activeStartDate)
             loadDate(activeStartDate)
-          }
+          }}
           // 일요일 앞에 나오는 코드
           calendarType="Hebrew"
           // 연도는 못 보게 하는 코드
@@ -45,28 +60,41 @@ export default function CalendarForm() {
           formatDay={(locale, date) =>
             date.toLocaleString("en", { day: "numeric" })
           }
-          // 운동을 한 날짜는 하이라이트 칠하는 코드
           tileClassName={({ date, view }) => {
-            if (
-              dailyRecord.find((x) => x === moment(date).format("DD-MM-YYYY"))
-            ) {
-              if (moment(date).format("LLLL").split(",")[0] === "Saturday") {
-                return "highlight highlight-saturday"
-              } else if (
-                moment(date).format("LLLL").split(",")[0] === "Sunday"
-              ) {
-                return "highlight highlight-sunday"
+            memberDailyHistory.map(
+              ({ day, totalTime, state, performs }, index) => {
+                // 달력에 칠하기
+                return state === "success"
+                  ? "highlight highlight-saturday"
+                  : null
               }
-              return "highlight"
-            } else {
-              if (moment(date).format("LLLL").split(",")[0] === "Saturday") {
-                return "highlight-saturday"
-              } else if (
-                moment(date).format("LLLL").split(",")[0] === "Sunday"
-              ) {
-                return "highlight-sunday"
-              }
-            }
+            )
+
+            // if (memberDailyHistory[date.getDate() - 1] === 1) {
+            //   // 달력에 칠하기
+            //   return "highlight highlight-saturday"
+            // }
+            // console.log()
+            // if (
+            //   dailyRecord.find((x) => x === moment(date).format("DD-MM-YYYY"))
+            // ) {
+            //   if (moment(date).format("LLLL").split(",")[0] === "Saturday") {
+            //     return "highlight highlight-saturday"
+            //   } else if (
+            //     moment(date).format("LLLL").split(",")[0] === "Sunday"
+            //   ) {
+            //     return "highlight highlight-sunday"
+            //   }
+            //   return "highlight"
+            // } else {
+            //   if (moment(date).format("LLLL").split(",")[0] === "Saturday") {
+            //     return "highlight-saturday"
+            //   } else if (
+            //     moment(date).format("LLLL").split(",")[0] === "Sunday"
+            //   ) {
+            //     return "highlight-sunday"
+            //   }
+            // }
           }}
         ></Calendar>
       </div>

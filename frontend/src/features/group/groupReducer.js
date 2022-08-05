@@ -77,7 +77,6 @@ export const teamRepIconModify = createAsyncThunk(
 export const registrationTeam = createAsyncThunk(
   "registration/member",
   async (memberId) => {
-    console.log(1)
     const res = await http.get(`registration/member/${memberId}`)
     if (res.data.message === "success") {
       return res

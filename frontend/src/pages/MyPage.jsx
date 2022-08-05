@@ -1,26 +1,38 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useLayoutEffect, useState } from "react"
 import Profile from "../features/myPage/Profile"
 import { useSelector, useDispatch } from "react-redux"
 import PersonalExerciseInfo from "../features/myPage/PersonalExerciseInfo"
 import GroupList from "../features/myPage/GroupList"
 import { memberInfo } from "../features/login/memberReducer"
+import { memberExerciseHistoryCheck } from "../features/myPage/myPageReducer"
 import { teamJoin } from "../features/group/groupReducer"
 export default function MyPage() {
   const dispatch = useDispatch()
   const { inviteTeamId } = useSelector((state) => state.group)
   const { memberId } = useSelector((state) => state.member)
+  // 최초 접속 시 현재 날짜 받아오기
+  const [date, setDate] = useState(new Date())
+  const month = date.getMonth() + 1
+  const year = date.getFullYear()
+
   useEffect(() => {
+    // 초대메시지 코드
     const checkInviteTeamId = localStorage.getItem("inviteTeamId")
     if (checkInviteTeamId) {
-      console.log("이건 팀 아이디", checkInviteTeamId)
-      console.log("멤버 아이디", memberId)
       dispatch(teamJoin({ teamId: checkInviteTeamId, memberId: memberId }))
-    }
-    return () => {
-      localStorage.removeItem("inviteTeamId")
+      return () => {
+        localStorage.removeItem("inviteTeamId")
+      }
+    } else {
+      // dispatch(
+      //   memberExerciseHistoryCheck({
+      //     memberId: memberId,
+      //     year: year,
+      //     month: month,
+      //   })
+      // )
     }
   }, [])
-  const memberNickname = useSelector((state) => state.member.memberNickname)
   return (
     <div className="">
       <div className="flex justify-center mt-5">
