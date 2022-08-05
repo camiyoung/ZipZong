@@ -3,3 +3,11 @@
 .App {
   font-family: "Noto Sans KR", sans-serif;
 }
+
+body::-webkit-scrollbar {
+  display: none;
+}
+body {
+  -ms-overflow-style: none; /* IE and 엣지 */
+  scrollbar-width: none; /* 파이어폭스 */
+}
