@@ -25,10 +25,10 @@ export default function CalendarForm() {
   }, [date])
 
   return (
-    <div className="app">
+    <div className="app w-1/4 ">
       <div className="calendar-container">
         <Calendar
-          className="react-calendar"
+          className="react-calendar p-5 h-[340px] rounded-3xl shadow-md"
           onChange={setDate} // 해당 날짜의 운동 현황 보여줘야 함
           value={date}
           onActiveStartDateChange={({ activeStartDate }) =>
@@ -68,7 +68,7 @@ export default function CalendarForm() {
               }
             }
           }}
-        />
+        ></Calendar>
       </div>
     </div>
   )

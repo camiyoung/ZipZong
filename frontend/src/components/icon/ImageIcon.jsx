@@ -6,6 +6,7 @@ const sizeChart = {
   mdlarge: "w-16 h-16",
   large: "w-24 h-24",
   xLarge: "w-32 h-32",
+  xLarge2: "w-36 h-36",
 }
 const shapeChart = {
   round: "rounded-full",
