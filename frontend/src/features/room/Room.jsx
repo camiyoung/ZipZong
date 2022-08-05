@@ -129,7 +129,7 @@ class Room extends Component {
 
   connect(token) {
     this.state.session
-      .connect(token, { clientData: this.state.myUserName })
+      .connect(token, { clientData: this.state.myUserName, admin: false })
       .then(() => {
         this.connectWebCam()
       })
@@ -198,6 +198,7 @@ class Room extends Component {
     this.setState(
       { currentVideoDevice: videoDevices[0], localUser: localUser },
       () => {
+        console.log("나!!!", this.state.localUser)
         this.state.localUser.getStreamManager().on("streamPlaying", (e) => {
           publisher.videos[0].video.parentElement.classList.remove(
             "custom-class"
@@ -284,7 +285,8 @@ class Room extends Component {
   subscribeToStreamCreated() {
     this.state.session.on("streamCreated", (event) => {
       const subscriber = this.state.session.subscribe(event.stream, undefined)
-      console.log("새 유저 참여:", subscriber)
+      console.log("새 유저 참여:", event)
+      console.log("세션 정보 :", this.state.session)
       // var subscribers = this.state.subscribers;
       subscriber.on("streamPlaying", (e) => {
         this.checkSomeoneShareScreen()
@@ -309,6 +311,7 @@ class Room extends Component {
     // On every Stream destroyed...
     this.state.session.on("streamDestroyed", (event) => {
       // Remove the stream from 'subscribers' array
+      console.log("유저 퇴장?", event)
       this.deleteSubscriber(event.stream)
       setTimeout(() => {
         this.checkSomeoneShareScreen()
@@ -348,6 +351,7 @@ class Room extends Component {
   }
 
   sendSignalUserChanged(data) {
+    console.log("시그널 보내기", data)
     const signalOptions = {
       data: JSON.stringify(data),
       type: "userChanged",
@@ -573,13 +577,17 @@ class Room extends Component {
               className="w-4/6 border-4 border-blue-500"
               id="ExerciseZoneArea"
             >
-              <ExerciseZone
-                Toolbar={Toolbar}
-                myVideo={myVideoStream}
-                chat={chatComponent}
-                isRoomAdmin={this.state.isRoomAdmin}
-                tmModel={tmModel}
-              />
+              {this.state.localUser !== undefined &&
+                this.state.localUser.getStreamManager() !== undefined && (
+                  <ExerciseZone
+                    Toolbar={Toolbar}
+                    myVideo={myVideoStream}
+                    chat={chatComponent}
+                    isRoomAdmin={this.state.isRoomAdmin}
+                    tmModel={tmModel}
+                    user={this.state.localUser}
+                  />
+                )}
             </div>
             <div
               className="w-1/6  min-w-[300px]  border-2 border-red-400 "
@@ -625,12 +633,14 @@ class Room extends Component {
         })
         .then((response) => {
           console.log("새로운 방 생성 ", response)
+          localUser.setRole("admin")
           this.setState({ isRoomAdmin: true })
           resolve(response.data.id)
         })
         .catch((response) => {
           var error = Object.assign({}, response)
           if (error.response && error.response.status === 409) {
+            console.log("이미 생성된 방에 참여", error.response)
             resolve(sessionId)
           } else {
             console.log(error)

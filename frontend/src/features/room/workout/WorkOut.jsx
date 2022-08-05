@@ -33,7 +33,7 @@ function useTimeout(callback, delay) {
   return timeoutRef
 }
 
-const WorkOut = ({ myVideo, tmModel }) => {
+const WorkOut = ({ myVideo, tmModel, user, finishExercise }) => {
   const { breaktime, exercise: exerciseInfos } = exersiceRoutine
   const routine = useRef([])
 
@@ -112,6 +112,7 @@ const WorkOut = ({ myVideo, tmModel }) => {
       setRunning(true)
     } else if (!isRunning && routineIdx.current === routine.current.length) {
       console.log("운동 루틴 종료!!!!!!")
+      finishExercise(routine.current)
     }
   }, [isRunning])
 
@@ -128,6 +129,7 @@ const WorkOut = ({ myVideo, tmModel }) => {
           finishAction={finishAction}
           tmModel={tmModel}
           updateSuccess={updateSuccess}
+          user={user}
         />
       )}
       {/* {isRunning &&( */}
@@ -146,6 +148,7 @@ const Start = ({
   finishAction,
   tmModel,
   updateSuccess,
+  user,
 }) => {
   console.log("현재 동작 정보", action)
 
@@ -158,6 +161,8 @@ const Start = ({
       console.log("현재 동작  Unmount")
     }
   }, [])
+
+  console.log("MY VIDEO ", myVideo)
   return (
     <div>
       <div className="w-full h-full absolute">
@@ -166,6 +171,7 @@ const Start = ({
             myVideoRef={myVideo.props.myVideoRef}
             tmModel={tmModel}
             updateSuccess={updateSuccess}
+            user={user}
           />
         )}
         {<Timer action={action} />}
