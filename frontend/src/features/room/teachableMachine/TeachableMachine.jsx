@@ -27,7 +27,15 @@ export default class TeachableMachine extends Component {
   }
 
   componentDidMount() {
-    this.videoRef = this.props.myVideoRef
+    console.log(
+      "티처블머신 컴포넌트 마운트",
+      this.props.user.getStreamManager().stream
+    )
+    console.log(
+      "티처블머신 컴포넌트 마운트",
+      this.props.user.getStreamManager().videos[0].video
+    )
+    this.videoRef = this.props.user.getStreamManager().videos[0].video
     this.tmModel = this.props.tmModel
 
     this.makeModel()
@@ -49,12 +57,12 @@ export default class TeachableMachine extends Component {
   }
 
   async init() {
-    this.videoRef.current.width = this.videoRef.current.offsetWidth
-    this.videoRef.current.height = this.videoRef.current.offsetHeight
+    this.videoRef.width = this.videoRef.offsetWidth
+    this.videoRef.height = this.videoRef.offsetHeight
     this.canvas = this.canvasRef.current
     // console.log("캔버스", this.canvas)
-    this.canvas.width = this.videoRef.current.width
-    this.canvas.height = this.videoRef.current.height
+    this.canvas.width = this.videoRef.width
+    this.canvas.height = this.videoRef.height
     this.setState({ ctx: this.canvas.getContext("2d") })
   }
 
@@ -68,10 +76,8 @@ export default class TeachableMachine extends Component {
   async predict() {
     // console.log("REF:", this.videoRef)
 
-    // const video = this.videoRef.current
-    const { pose, posenetOutput } = await this.model.estimatePose(
-      this.videoRef.current
-    )
+    // const video = this.videoRef
+    const { pose, posenetOutput } = await this.model.estimatePose(this.videoRef)
     // console.log(pose)
     const prediction = await this.model.predict(posenetOutput)
     const predictionsList = prediction.map((res, i) => (
