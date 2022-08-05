@@ -22,7 +22,7 @@ export default function MyPage() {
   }, [])
   const memberNickname = useSelector((state) => state.member.memberNickname)
   return (
-    <div>
+    <div className="">
       <div className="flex justify-center pt-4">
         <Profile />
       </div>

@@ -89,7 +89,7 @@ export default function Navbar() {
   }
 
   return (
-    <div className="flex justify-center mt-3">
+    <div className="flex justify-center py-3">
       <div className="w-screen flex justify-center">
         <nav className="flex justify-between py-3 w-4/5">
           <div>

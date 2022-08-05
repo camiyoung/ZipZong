@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react"
-import Button from "../../components/button/Button"
 import ImageIcon from "../../components/icon/ImageIcon"
 import Modal from "../../components/modal/Modal"
-import LargeTextInput from "../../components/input/LargeTextInput"
-import SmallTextInput from "../../components/input/SmallTextInput"
 import { memberIconSelect } from "./myPageReducer"
 import { nicknameValidation, nicknameChange } from "../login/memberReducer"
 import { useDispatch, useSelector } from "react-redux"
 import { checkMemberId } from "./myPageReducer"
+
+import "./Profile.css"
 
 // 동물 사진들
 import bee from "../../assets/animalIcon/bee.png"
@@ -70,7 +69,7 @@ export default function Profile() {
   }
   return (
     // 모달
-    <div>
+    <div className="w-4/5 mt-5">
       <Modal isOpen={isOpen} modalClose={modalClose}>
         <form onSubmit={handleSubmit}>
           <div className="text-xl flex justify-center pb-5 font-bold">
@@ -128,7 +127,7 @@ export default function Profile() {
                         key={idx}
                         className="mr-1 mb-1 cursor-pointer"
                       >
-                        <div className="hover:border-primary-400 border-[2px] border-white border rounded-full ">
+                        <div className="hover:border-primary-400 border-2 border-white rounded-full ">
                           <ImageIcon
                             image={icon}
                             size="smmiddle"
@@ -160,24 +159,32 @@ export default function Profile() {
         </form>
       </Modal>
 
-      <div className="flex items-center justify-center">
-        <div className="w-[600px] h-12 bg-lightBlue border-2 m-2 rounded-3xl">
-          <div className="flex items-center justify-center h-full w-full">
+      <div className="flex">
+        <div className="w-3/6 m-3 p-5 rounded-3xl bg-white shadow-md flex justify-center items-center">
+          <div className="flex m-3 justify-center items-center w-full h-full ">
             <ImageIcon
               image={icon}
-              size="small"
+              size="smmiddle"
               shape="round"
               borderStyle="none"
-            />
-            <p className="text-sm p-2">
+            />{" "}
+            <p className=" ml-3 text-2xl">
+              {" "}
               <span className="font-semibold">{stateNickname} </span> 님, 오늘도
-              즐거운 운동 되세요!
+              즐거운 운동 되세요!{" "}
             </p>
-            <Button
-              onClick={() => setOpen(true)}
-              text="수정"
-              height="h-12"
-            ></Button>
+          </div>
+        </div>
+        <div className="w-3/6 m-3 h-[120px] moving-grad rounded-3xl flex items-center justify-center">
+          {/* <div className="w-3/6 m-3 h-[120px] bg-gradient-to-l from-blue-200 shadow-md to-lgBlue-300 rounded-3xl flex items-center justify-center"> */}
+          <div>
+            <div className="flex justify-center text-3xl font-semibold moving-grad__txt">
+              🔥 오늘로 <span className="mx-2 text-red-700"> 7일 째</span> 운동
+              중이에요!
+            </div>
+            <div className="flex justify-center mt-2 text-lg">
+              오늘로 총 2시간 30분 째 집에서 운동중!
+            </div>
           </div>
         </div>
       </div>
