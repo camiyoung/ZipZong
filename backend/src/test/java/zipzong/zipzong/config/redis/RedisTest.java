@@ -64,5 +64,6 @@ public class RedisTest {
         Set<ZSetOperations.TypedTuple<String>> rankSet = zSetOperations.reverseRangeWithScores(rankingBoard, 0, -1);
         System.out.println(rankSet);
 
+        redisTemplate.delete("test");
     }
 }
