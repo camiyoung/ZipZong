@@ -2,23 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { http } from "../../api/axios"
 import { useDispatch } from "react-redux"
 
-// 회원 닉네임 중복 조회
-export const nicknameValidation = createAsyncThunk(
-  "member/duplicate",
-  async (nickname) => {
-    if (nickname.length > 0) {
-      const res = await http.get(`member/duplicate/${nickname}`)
-      if (res.data.data === "NON-DUPLICATE") {
-        return true
-      } else if (res.data.data === "DUPLICATE") {
-        return false
-      }
-    } else {
-      alert("닉네임을 입력해주세요")
-    }
-  }
-)
-
 // 회원 닉네임 설정
 export const nicknamePush = createAsyncThunk(
   "member/nickname",

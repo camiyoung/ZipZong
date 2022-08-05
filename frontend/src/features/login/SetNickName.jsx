@@ -2,26 +2,30 @@ import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import Button from "../../components/button/Button"
-import {
-  memberInfo,
-  nicknameValidation,
-  selectNickname,
-  nicknamePush,
-} from "./memberReducer"
+import { memberInfo, selectNickname, nicknamePush } from "./memberReducer"
+import { NicknameValidation } from "../../utils/NicknameValidation"
 export default function SetNickName() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [nickname, setNickname] = useState("")
-  const savedNickname = useSelector((state) => state.member.memberNickname)
+  const [errorMessage, setErrorMessage] = useState("")
   const memberId = useSelector((state) => state.member.memberId)
   const handleChange = ({ target: { value } }) => setNickname(value)
   const handleSubmit = (e) => {
     e.preventDefault()
-    const validationResult = dispatch(nicknameValidation(nickname)) // 닉네임 유효성 검사
-    if (validationResult) {
-      dispatch(nicknamePush({ memberId: memberId, nickname: nickname }))
+    if (nickname.length > 0) {
+      // 닉네임 유효성 검사
+      NicknameValidation(nickname).then((res) => {
+        if (res === "NON-DUPLICATE") {
+          dispatch(nicknamePush({ memberId: memberId, nickname: nickname }))
+          navigate("/mypage")
+        } else if (res === "DUPLICATE") {
+          setErrorMessage("중복된 닉네임입니다.")
+        }
+      })
+    } else {
+      setErrorMessage("닉네임을 한 글자 이상 작성해주세요.")
     }
-    navigate("/mypage")
   }
 
   return (
@@ -31,6 +35,9 @@ export default function SetNickName() {
       </p>
       <form onSubmit={handleSubmit} className="flex flex-col items-center">
         <input type="text" onChange={handleChange} />
+        <div className="flex w-[322px] text-sm items-center text-red-600">
+          {errorMessage}
+        </div>
         <Button
           type="submit"
           text="회원가입"
