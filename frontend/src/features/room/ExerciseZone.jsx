@@ -36,7 +36,7 @@ function MyExercise({ Toolbar, myVideo, isRoomAdmin, tmModel, user }) {
   const finishExercise = (data) => {
     console.log("운동 끝!! ", data)
     user.getStreamManager().stream.session.signal({
-      data,
+      data: JSON.stringify(data),
       type: "finish",
     })
   }

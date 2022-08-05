@@ -9,9 +9,6 @@ const exersiceRoutine = {
     { name: "LEGRAISE", count: 7 },
     { name: "PUSHUP", count: 7 },
     { name: "BURPEE", count: 7 },
-    { name: "LEGRAISE", count: 7 },
-    { name: "PUSHUP", count: 7 },
-    { name: "BURPEE", count: 7 },
   ],
   breaktime: 2,
 }
@@ -92,8 +89,7 @@ const WorkOut = ({ myVideo, tmModel, user, finishExercise }) => {
 
   const changeResList = () => {
     const list = routine.current.map((info, idx) => {
-      if (info.type === "breaktime")
-        return <div key={idx}>{info.duration}초 휴식 </div>
+      if (info.type === "breaktime") return <div key={idx}></div>
       return (
         <div key={idx}>
           {info.name} /목표 :{info.goal} / 성공 : {info.success}
