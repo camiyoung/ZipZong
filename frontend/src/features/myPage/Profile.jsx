@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react"
 import ImageIcon from "../../components/icon/ImageIcon"
 import Modal from "../../components/modal/Modal"
 import { memberIconSelect } from "./myPageReducer"
-import { nicknameValidation, nicknameChange } from "../login/memberReducer"
+import { NicknameValidation } from "../../utils/NicknameValidation"
+import { nicknameChange } from "../login/memberReducer"
 import { useDispatch, useSelector } from "react-redux"
 import { checkMemberId } from "./myPageReducer"
 
@@ -47,22 +48,23 @@ export default function Profile() {
   const stateNickname = useSelector((state) => state.member.memberNickname)
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (nickname) {
-      const validationResult = dispatch(nicknameValidation(nickname))
-      if (validationResult) {
-        dispatch(
-          nicknameChange({
-            origin: stateNickname,
-            nickname: nickname,
-            icon: icon,
-          })
-        )
-        // dispatch(memberIconSelect({ nickname: nickname, icon: icon }))
-        modalClose()
-        setErrorMessage("")
-      } else {
-        setErrorMessage("중복된 닉네임입니다.")
-      }
+    if (nickname.length > 0) {
+      // 닉네임 유효성 검사
+      NicknameValidation(nickname).then((res) => {
+        if (res === "NON-DUPLICATE") {
+          dispatch(
+            nicknameChange({
+              origin: stateNickname,
+              nickname: nickname,
+              icon: icon,
+            })
+          )
+          modalClose()
+          setErrorMessage("")
+        } else if (res === "DUPLICATE") {
+          setErrorMessage("중복된 닉네임입니다.")
+        }
+      })
     } else {
       setErrorMessage("닉네임을 한 글자 이상 작성해주세요.")
     }
