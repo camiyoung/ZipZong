@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import {
   changeYear,
   changeMonth,
@@ -13,15 +13,29 @@ const dailyRecord = ["18-07-2022", "17-07-2022", "16-07-2022"]
 export default function CalendarForm() {
   const dispatch = useDispatch()
   const [date, setDate] = useState(new Date())
+  const { memberId } = useSelector((state) => state.member)
+  const { memberDailyHistory, selectedMonth, selectedYear } = useSelector(
+    (state) => state.mypage
+  )
   function loadDate(currentDate) {
     const validDate = currentDate || date
     const month = validDate.getMonth() + 1
     const year = validDate.getFullYear()
     dispatch(changeYear(year))
     dispatch(changeMonth(month))
+    console.log("year", year, selectedYear)
+    console.log("month", month, selectedMonth)
+    dispatch(
+      memberExerciseHistoryCheck({
+        memberId: memberId,
+        year: year,
+        month: month,
+      })
+    )
   }
   useEffect(() => {
-    loadDate()
+    loadDate(date)
+    console.log("히스토리", memberDailyHistory)
   }, [date])
 
   return (
