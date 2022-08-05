@@ -1,0 +1,24 @@
+.moving-grad {
+  display: flex;
+  background: linear-gradient(270deg, #00daef, #cd8dff);
+  background-size: 200% 200%;
+  animation: MoveGrad 10s ease infinite;
+  align-items: center;
+  justify-content: center;
+}
+.moving-grad__txt {
+  font-weight: 700;
+  color: #fff;
+}
+
+@keyframes MoveGrad {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
