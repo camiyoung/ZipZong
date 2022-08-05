@@ -5,7 +5,7 @@ import { CountdownCircleTimer } from "react-countdown-circle-timer"
 import TeachableMachine from "./teachableMachine/TeachableMachine"
 import WorkOut from "./workout/WorkOut"
 
-function MyExercise({ Toolbar, myVideo, chat, isRoomAdmin }) {
+function MyExercise({ Toolbar, myVideo, chat, isRoomAdmin, tmModel }) {
   const [isExercising, setExercising] = useState(false)
 
   console.log("방 관리자?", isRoomAdmin)
@@ -33,7 +33,9 @@ function MyExercise({ Toolbar, myVideo, chat, isRoomAdmin }) {
 
   return (
     <div className="flex  h-full w-full pl-2  relative ">
-      {myVideo && isExercising && <WorkOut myVideo={myVideo} />}
+      {myVideo && isExercising && (
+        <WorkOut myVideo={myVideo} tmModel={tmModel} />
+      )}
       {<div className="w-full h-full ">{myVideo}</div>}
 
       <div id="button " className="absolute top-5 left-5 z-50">

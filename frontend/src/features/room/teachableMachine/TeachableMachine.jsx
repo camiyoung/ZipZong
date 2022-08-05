@@ -22,22 +22,28 @@ export default class TeachableMachine extends Component {
     this.videoRef = undefined
     this.canvasRef = React.createRef()
     this.canvas = undefined
+    this.tmModel = undefined
+    this.changeAction = this.changeAction.bind(this)
   }
 
   componentDidMount() {
     this.videoRef = this.props.myVideoRef
+    this.tmModel = this.props.tmModel
+
     this.makeModel()
   }
 
   componentWillUnmount() {
     console.log("티처블머신 컴포넌트 언마운트 ")
+    this.props.updateSuccess(this.state.successCount)
   }
 
   async makeModel() {
-    this.model = await tmPose.load(this.modelURL, this.metadataURL)
+    // this.model = await tmPose.load(this.modelURL, this.metadataURL)
+    this.model = this.tmModel.modelPushup
     this.maxPredictions = this.model.getTotalClasses()
-    console.log("최대 예측값:", this.maxPredictions)
-    console.log("모델:", this.model)
+    // console.log("최대 예측값:", this.maxPredictions)
+    // console.log("모델:", this.model)
     await this.init()
     this.loop()
   }
@@ -78,25 +84,42 @@ export default class TeachableMachine extends Component {
     this.setState({ resEle: predictionsList })
     this.updateCount(prediction)
   }
+
+  changeAction(action) {
+    this.beforAction = action
+  }
+
   updateCount(data) {
-    data.forEach(({ className, probability }) => {
-      //   console.log(className + ":" + probability)
-      const action = className
-      const prob = parseInt(probability.toFixed(2))
-      //   console.log(action)
-      if (prob === 1) {
-        // console.log("현재동작:", action, "이전 동작", this.beforAction)
-        if (action === "Sleepy_Right") {
-          if (this.beforAction === "Sleepy_Left") {
-            console.log("성공")
-            // this.beforAction = "Sleepy_Left"
-            this.setState((state) => ({
-              successCount: state.successCount + 1,
-            }))
-          }
-        }
-        this.beforAction = action
+    data.forEach((res) => {
+      const doneAction = this.tmModel.callbackPushup(
+        res,
+        this.beforAction,
+        this.changeAction
+      )
+
+      if (doneAction) {
+        this.setState((state) => ({
+          successCount: state.successCount + 1,
+        }))
       }
+
+      //   console.log(className + ":" + probability)
+      // const action = className
+      // const prob = parseInt(probability.toFixed(2))
+      // //   console.log(action)
+      // if (prob === 1) {
+      //   // console.log("현재동작:", action, "이전 동작", this.beforAction)
+      //   if (action === "Sleepy_Right") {
+      //     if (this.beforAction === "Sleepy_Left") {
+      //       console.log("성공")
+      //       // this.beforAction = "Sleepy_Left"
+      //       this.setState((state) => ({
+      //         successCount: state.successCount + 1,
+      //       }))
+      //     }
+      //   }
+      //   this.beforAction = action
+      // }
     })
   }
 
@@ -112,23 +135,11 @@ export default class TeachableMachine extends Component {
   render() {
     return (
       <div className="w-full h-full absolute z-20">
-        <div className="w-[440px] h-[200px] bg-white absolute right-[-280px] border-4">
-          <div className="font-semibold">
-            <p> 1. 티처블 머신이 로딩되기까지 약 10s의 시간이 소요됩니다.</p>
-            <p>
-              2. 로딩이후 화면의 크기를 변경하면 skeleton 위치가 어긋납니다.
-            </p>
-            <p> 3. 로딩 이후 카메라를 switch하면 안됩니다!!</p>
-            <p></p>
-          </div>
-          {this.state.resEle ? (
-            <div className="border-2 border-mainBlue">
+        <div className="w-[200px] h-[200px] bg-white absolute right-0 border-4">
+          {this.state.resEle && (
+            <div>
               {this.state.resEle}
               count: {this.state.successCount}
-            </div>
-          ) : (
-            <div className="font-bold text-primary-500 text-2xl">
-              Teachable Machine 로딩중{" "}
             </div>
           )}
         </div>

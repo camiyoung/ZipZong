@@ -11,6 +11,7 @@ import Card from "../components/card/Card"
 import Timer from "../components/timer/Timer"
 import CalendarForm from "../components/calendar/CalendarForm"
 import Modal from "../components/modal/Modal"
+import { Spinner } from "../components/spinner/Spinner"
 
 export default function Components() {
   const [isOpen, setOpen] = useState(false)
@@ -74,6 +75,8 @@ export default function Components() {
       </div>
       <hr></hr>
       <h1> 컴포넌트 목록 </h1>
+      <h2>Spinner</h2>
+      <Spinner />
 
       <h2>Buttons and Modals</h2>
       <div className="flex">
