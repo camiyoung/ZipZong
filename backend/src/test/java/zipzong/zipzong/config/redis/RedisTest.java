@@ -14,7 +14,6 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.Set;
 
 @SpringBootTest
-@ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.AUTO_CONFIGURED) // 실제 DB 사용하고 싶을때 NONE 사용
 public class RedisTest {
     @Autowired
