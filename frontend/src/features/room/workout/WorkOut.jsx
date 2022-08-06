@@ -8,7 +8,7 @@ const exersiceRoutine = {
   exercise: [
     { name: "LEGRAISE", count: 7 },
     { name: "PUSHUP", count: 7 },
-    { name: "BURPEE", count: 7 },
+    // { name: "BURPEE", count: 7 },
   ],
   breaktime: 2,
 }
@@ -50,7 +50,7 @@ const WorkOut = ({ myVideo, tmModel, user, finishExercise }) => {
     exerciseInfos.forEach((info) => {
       todo.push({
         type: "exercise",
-        duration: 10,
+        duration: 5,
         name: info.name,
         goal: info.count,
         success: 0,
@@ -79,7 +79,7 @@ const WorkOut = ({ myVideo, tmModel, user, finishExercise }) => {
   }
 
   const updateSuccess = (count) => {
-    console.log("루틴idx:", routineIdx.current, "운동 동작 끝! 횟수:", count)
+    // console.log("루틴idx:", routineIdx.current, "운동 동작 끝! 횟수:", count)
     const idx = routineIdx.current - 1
     routine.current[idx].success = count
     // changeResList()
@@ -107,7 +107,7 @@ const WorkOut = ({ myVideo, tmModel, user, finishExercise }) => {
       changeNextAction()
       setRunning(true)
     } else if (!isRunning && routineIdx.current === routine.current.length) {
-      console.log("운동 루틴 종료!!!!!!")
+      // console.log("운동 루틴 종료!!!!!!")
       finishExercise(routine.current)
     }
   }, [isRunning])
@@ -146,19 +146,19 @@ const Start = ({
   updateSuccess,
   user,
 }) => {
-  console.log("현재 동작 정보", action)
+  // console.log("현재 동작 정보", action)
 
   useTimeout(() => {
-    console.log("시간 종료 ")
+    // console.log("시간 종료 ")
     finishAction()
   }, action.duration * 1000)
   useEffect(() => {
     return () => {
-      console.log("현재 동작  Unmount")
+      // console.log("현재 동작  Unmount")
     }
   }, [])
 
-  console.log("MY VIDEO ", myVideo)
+  // console.log("MY VIDEO ", myVideo)
   return (
     <div>
       <div className="w-full h-full absolute">
