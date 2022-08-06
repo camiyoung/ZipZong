@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 @Controller
 @RequestMapping("/oauth")
@@ -47,12 +46,15 @@ public class OAuthController {
         String accessTokenExpiration = jwtService.dateToString(token.getAccessToken());
         String refreshTokenExpiration = jwtService.dateToString(token.getRefreshToken());
 
+        Boolean hasNickname = member.getNickname() == null ? false : true;
+
         return "redirect:" + UriComponentsBuilder.fromUriString("http://localhost:3000/login")
                                                  .queryParam("accessToken", token.getAccessToken())
                                                  .queryParam("refreshToken", token.getRefreshToken())
                                                  .queryParam("accessTokenExpiration", accessTokenExpiration)
                                                  .queryParam("refreshTokenExpiration", refreshTokenExpiration)
                                                  .queryParam("memberId", member.getId().toString())
+                                                 .queryParam("hasNickname", hasNickname.toString())
                                                  .build()
                                                  .toUriString();
 
@@ -71,8 +73,9 @@ public class OAuthController {
         String name = jwtService.getName(refreshToken);
 
         Member member = memberRepository.findByEmailAndProvider(email, provider)
-                .orElseThrow(() -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND_ERROR));
-        if(!member.getRefreshToken().equals(refreshToken)) {
+                                        .orElseThrow(() -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND_ERROR));
+        if (!member.getRefreshToken()
+                   .equals(refreshToken)) {
             throw new CustomException(CustomExceptionList.REFRESH_TOKEN_ERROR);
         }
 
@@ -89,6 +92,6 @@ public class OAuthController {
 
     private Member getAuthMember(Map<String, Object> attributes) {
         return memberRepository.findByEmailAndProvider((String) attributes.get("email"), (String) attributes.get("provider"))
-                               .orElseThrow(() -> new NoSuchElementException("Member Not Found"));
+                               .orElseThrow(() -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND_ERROR));
     }
 }

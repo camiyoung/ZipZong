@@ -38,8 +38,6 @@ public class RedisTest {
          */
         String rankingBoard = "test";
 
-
-
         zSetOperations.add(rankingBoard,"user1",10); //2등
         zSetOperations.add(rankingBoard,"user2",20); //1등
         zSetOperations.add(rankingBoard,"user3",1);  //3등
@@ -66,5 +64,6 @@ public class RedisTest {
         Set<ZSetOperations.TypedTuple<String>> rankSet = zSetOperations.reverseRangeWithScores(rankingBoard, 0, -1);
         System.out.println(rankSet);
 
+        redisTemplate.delete("test");
     }
 }

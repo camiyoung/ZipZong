@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -18,6 +19,7 @@ public class ExerciseTeamHistoryResponse {
     {
         private int day;
         private int totalTime;
+        private String state;
         private List<Perform> performs;
     }
 

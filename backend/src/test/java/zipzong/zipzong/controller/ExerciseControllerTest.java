@@ -128,6 +128,7 @@ public class ExerciseControllerTest {
                                 fieldWithPath("data.dailyHistories.[]").description("일자 별 운동기록"),
                                 fieldWithPath("data.dailyHistories.[].day").description("일자"),
                                 fieldWithPath("data.dailyHistories.[].totalTime").description("당일 운동시간"),
+                                fieldWithPath("data.dailyHistories.[].state").description("캘린더 표시상태"),
                                 fieldWithPath("data.dailyHistories.[].performs.[]").description("동작별 정보"),
                                 fieldWithPath("data.dailyHistories.[].performs.[].performName").description("동작별 정보"),
                                 fieldWithPath("data.dailyHistories.[].performs.[].performNum").description("동작별 횟수"),
@@ -198,6 +199,7 @@ public class ExerciseControllerTest {
                                 fieldWithPath("data.dailyHistories.[]").description("일자 별 운동기록"),
                                 fieldWithPath("data.dailyHistories.[].day").description("일자"),
                                 fieldWithPath("data.dailyHistories.[].totalTime").description("당일 운동시간"),
+                                fieldWithPath("data.dailyHistories.[].state").description("캘린더 표시 상태"),
                                 fieldWithPath("data.dailyHistories.[].performs.[]").description("동작별 정보"),
                                 fieldWithPath("data.dailyHistories.[].performs.[].performName").description("동작별 정보"),
                                 fieldWithPath("data.dailyHistories.[].performs.[].performNum").description("동작별 횟수"),
@@ -234,6 +236,35 @@ public class ExerciseControllerTest {
                                 fieldWithPath("data.performMemberTotals.[].performTotal").description("동작 총 횟수")
                         )
                 ));
+    }
+
+    @Test
+    @DisplayName("당일 팀 멤버 운동 현황 조회")
+    void teamMemberExerciseToday() throws Exception {
+        // given
+        ExerciseTeamTodayResponse exerciseTeamTodayResponse = makeExerciseTeamTodayResponse();
+        given(exerciseService.exerciseMemberToday(anyLong())).willReturn(exerciseTeamTodayResponse);
+
+        // when
+        RequestBuilder requestBuilder = RestDocumentationRequestBuilders.get("/exercise/today/team?teamId=1");
+        ResultActions resultActions = mockMvc.perform(requestBuilder);
+
+        // then
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.niceMembers.[0].memberId").value(1L))
+                .andDo(document("exercise-team-today",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestParameters(
+                                parameterWithName("teamId").description("팀 ID")
+                        ),
+                        responseFields(
+                                fieldWithPath("message").description("메시지"),
+                                fieldWithPath("data.niceMembers.[]").description("오늘 운동한 멤버 목록"),
+                                fieldWithPath("data.niceMembers.[].memberId").description("멤버 ID"),
+                                fieldWithPath("data.niceMembers.[].nickName").description("닉네임")
+                        )
+                        ));
     }
 
     private ExerciseResultRequest makeExerciseResultRequest() {
@@ -325,6 +356,7 @@ public class ExerciseControllerTest {
         dailyHistory.setDay(1);
         dailyHistory.setTotalTime(3);
         dailyHistory.setPerforms(performs);
+        dailyHistory.setState("SUCCESS");
 
         dailyHistories.add(dailyHistory);
 
@@ -382,6 +414,7 @@ public class ExerciseControllerTest {
         dailyHistory.setDay(1);
         dailyHistory.setTotalTime(3);
         dailyHistory.setPerforms(performs);
+        dailyHistory.setState("SUCCESS");
 
         dailyHistories.add(dailyHistory);
 
@@ -405,5 +438,25 @@ public class ExerciseControllerTest {
         exerciseMemberTotalResponse.setCurrentStrick(5);
 
         return exerciseMemberTotalResponse;
+    }
+
+    private ExerciseTeamTodayResponse makeExerciseTeamTodayResponse() {
+        ExerciseTeamTodayResponse exerciseTeamTodayResponse = new ExerciseTeamTodayResponse();
+        List<ExerciseTeamTodayResponse.NiceMember> niceMembers = new ArrayList<>();
+
+        ExerciseTeamTodayResponse.NiceMember niceMember1 = new ExerciseTeamTodayResponse.NiceMember();
+        ExerciseTeamTodayResponse.NiceMember niceMember2 = new ExerciseTeamTodayResponse.NiceMember();
+
+        niceMember1.setMemberId(1L);
+        niceMember1.setNickName("닉네임1");
+        niceMember2.setMemberId(2L);
+        niceMember2.setNickName("닉네임2");
+
+        niceMembers.add(niceMember1);
+        niceMembers.add(niceMember2);
+
+        exerciseTeamTodayResponse.setNiceMembers(niceMembers);
+
+        return exerciseTeamTodayResponse;
     }
 }

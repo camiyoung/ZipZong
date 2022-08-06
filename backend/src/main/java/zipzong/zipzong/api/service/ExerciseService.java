@@ -7,6 +7,8 @@ import zipzong.zipzong.db.domain.*;
 import zipzong.zipzong.api.dto.exercise.request.ExerciseResultRequest;
 import zipzong.zipzong.db.repository.exercise.ExerciseDetailRepository;
 import zipzong.zipzong.db.repository.exercise.ExerciseRepository;
+import zipzong.zipzong.db.repository.exercise.MemberCalendarRepository;
+import zipzong.zipzong.db.repository.exercise.TeamCalendarRepository;
 import zipzong.zipzong.db.repository.history.MemberHistoryDetailRepository;
 import zipzong.zipzong.db.repository.history.MemberHistoryRepository;
 import zipzong.zipzong.db.repository.history.TeamHistoryDetailRepository;
@@ -14,6 +16,7 @@ import zipzong.zipzong.db.repository.history.TeamHistoryRepository;
 import zipzong.zipzong.db.repository.memberteam.MemberRepository;
 import zipzong.zipzong.db.repository.memberteam.RegistrationRepository;
 import zipzong.zipzong.db.repository.memberteam.TeamRepository;
+import zipzong.zipzong.enums.CheckExist;
 import zipzong.zipzong.exception.CustomException;
 import zipzong.zipzong.exception.CustomExceptionList;
 
@@ -33,8 +36,10 @@ public class ExerciseService {
     private final ExerciseDetailRepository exerciseDetailRepository;
     private final TeamHistoryRepository teamHistoryRepository;
     private final TeamHistoryDetailRepository teamHistoryDetailRepository;
+    private final TeamCalendarRepository teamCalendarRepository;
     private final MemberHistoryRepository memberHistoryRepository;
     private final MemberHistoryDetailRepository memberHistoryDetailRepository;
+    private final MemberCalendarRepository memberCalendarRepository;
 
     public void saveMemberExerciseInfo(Long teamId, List<ExerciseResultRequest.PersonalResult> personalResults) {
 
@@ -43,6 +48,7 @@ public class ExerciseService {
             Registration registration = registrationRepository.findByMemberIdAndTeamId(memberId, teamId).orElseThrow(
                     () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR)
             );
+
             LocalDate today = LocalDate.now();
 
             if(exerciseRepository.findByRegistrationIdAndExerciseDate(registration.getId(), today).isEmpty()) {
@@ -87,6 +93,25 @@ public class ExerciseService {
                         .currentStrick(0)
                         .build();
                 member.setMemberHistory(memberHistory);
+            }
+
+            // 오늘 개인 첫 운동이라면 스탬프 찍기 + 현재 스트릭 및 최대 스트릭 갱신
+            if(memberCalendarRepository.findByMemberIdAndCheckDate(member.getId(), LocalDate.now()).isEmpty()) {
+                MemberCalendar memberCalendar = MemberCalendar
+                        .builder()
+                        .member(member)
+                        .checkDate(LocalDate.now())
+                        .build();
+                memberCalendarRepository.save(memberCalendar);
+
+                MemberHistory memberHistory = memberHistoryRepository.findByMemberId(member.getId()).orElseThrow(
+                        () -> new CustomException(CustomExceptionList.MEMBER_HISTORY_NOT_FOUND)
+                );
+
+                memberHistory.setCurrentStrick(memberHistory.getCurrentStrick() + 1);
+                if(memberHistory.getMaximumStrick() < memberHistory.getCurrentStrick()) {
+                    memberHistory.setMaximumStrick(memberHistory.getCurrentStrick());
+                }
             }
 
             MemberHistory memberHistory = member.getMemberHistory();
@@ -232,12 +257,27 @@ public class ExerciseService {
             map.put(day, performs);
         }
 
+        List<TeamCalendar> teamCalendars = teamCalendarRepository.isMonthExercised(teamId, year, month);
+
         for(int d = 1; d <= dayOfMonth; d++) {
             List<ExerciseTeamHistoryResponse.Perform> performs = map.getOrDefault(d, new ArrayList<>());
             ExerciseTeamHistoryResponse.DailyHistory dailyHistory = new ExerciseTeamHistoryResponse.DailyHistory();
             dailyHistory.setDay(d);
             dailyHistory.setTotalTime(performs.size());
             dailyHistory.setPerforms(new ArrayList<>());
+            dailyHistory.setState("FAIL");
+
+            for(TeamCalendar teamCalendar : teamCalendars) {
+                if(teamCalendar.getCheckDate().getDayOfMonth() == d) {
+                    if(teamCalendar.getState().equals("SHEILD")) {
+                        dailyHistory.setState("SHEILD");
+                        break;
+                    } else {
+                        dailyHistory.setState("SUCCESS");
+                        break;
+                    }
+                }
+            }
 
             Map<String, int[]> performInfo = new TreeMap<>();
             for(ExerciseTeamHistoryResponse.Perform perform : performs) {
@@ -303,12 +343,21 @@ public class ExerciseService {
             map.put(day, performs);
         }
 
+        List<MemberCalendar> memberCalendars = memberCalendarRepository.isMonthExercised(memberId, year, month);
+
         for(int d = 1; d <= dayOfMonth; d++) {
             List<ExerciseMemberHistoryResponse.Perform> performs = map.getOrDefault(d, new ArrayList<>());
             ExerciseMemberHistoryResponse.DailyHistory dailyHistory = new ExerciseMemberHistoryResponse.DailyHistory();
             dailyHistory.setDay(d);
             dailyHistory.setTotalTime(performs.size());
             dailyHistory.setPerforms(new ArrayList<>());
+            dailyHistory.setState("FAIL");
+
+            for(MemberCalendar memberCalendar : memberCalendars) {
+                if(memberCalendar.getCheckDate().getDayOfMonth() == d) {
+                    dailyHistory.setState("SUCCESS");
+                }
+            }
 
             Map<String, int[]> performInfo = new TreeMap<>();
             for(ExerciseMemberHistoryResponse.Perform perform : performs) {
@@ -418,5 +467,28 @@ public class ExerciseService {
         response.setPerformMemberTotals(performMemberTotals);
 
         return response;
+    }
+
+    public ExerciseTeamTodayResponse exerciseMemberToday(Long teamId) {
+        ExerciseTeamTodayResponse exerciseTeamTodayResponse = new ExerciseTeamTodayResponse();
+
+        List<ExerciseTeamTodayResponse.NiceMember> niceMembers = new ArrayList<>();
+
+        List<Registration> registrations = registrationRepository.findAllByTeamId(teamId);
+        System.out.println(registrations);
+        for(Registration registration : registrations) {
+            if(registration.getIsResign() == CheckExist.Y) continue;
+            if(exerciseRepository.findByRegistrationIdAndExerciseDate(registration.getId(), LocalDate.now()).isEmpty())
+                continue;
+            ExerciseTeamTodayResponse.NiceMember niceMember = new ExerciseTeamTodayResponse.NiceMember();
+            niceMember.setMemberId(registration.getMember().getId());
+            niceMember.setNickName(registration.getMember().getNickname());
+
+            niceMembers.add(niceMember);
+        }
+
+        exerciseTeamTodayResponse.setNiceMembers(niceMembers);
+
+        return exerciseTeamTodayResponse;
     }
 }
