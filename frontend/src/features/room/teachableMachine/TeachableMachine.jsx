@@ -27,14 +27,14 @@ export default class TeachableMachine extends Component {
   }
 
   componentDidMount() {
-    console.log(
-      "티처블머신 컴포넌트 마운트",
-      this.props.user.getStreamManager().stream
-    )
-    console.log(
-      "티처블머신 컴포넌트 마운트",
-      this.props.user.getStreamManager().videos[0].video
-    )
+    // console.log(
+    //   "티처블머신 컴포넌트 마운트",
+    //   this.props.user.getStreamManager().stream
+    // )
+    // console.log(
+    //   "티처블머신 컴포넌트 마운트",
+    //   this.props.user.getStreamManager().videos[0].video
+    // )
     this.videoRef = this.props.user.getStreamManager().videos[0].video
     this.tmModel = this.props.tmModel
 
@@ -42,7 +42,7 @@ export default class TeachableMachine extends Component {
   }
 
   componentWillUnmount() {
-    console.log("티처블머신 컴포넌트 언마운트 ")
+    // console.log("티처블머신 컴포넌트 언마운트 ")
     this.props.updateSuccess(this.state.successCount)
   }
 
@@ -60,7 +60,6 @@ export default class TeachableMachine extends Component {
     this.videoRef.width = this.videoRef.offsetWidth
     this.videoRef.height = this.videoRef.offsetHeight
     this.canvas = this.canvasRef.current
-    // console.log("캔버스", this.canvas)
     this.canvas.width = this.videoRef.width
     this.canvas.height = this.videoRef.height
     this.setState({ ctx: this.canvas.getContext("2d") })
@@ -74,11 +73,7 @@ export default class TeachableMachine extends Component {
   }
 
   async predict() {
-    // console.log("REF:", this.videoRef)
-
-    // const video = this.videoRef
     const { pose, posenetOutput } = await this.model.estimatePose(this.videoRef)
-    // console.log(pose)
     const prediction = await this.model.predict(posenetOutput)
     const predictionsList = prediction.map((res, i) => (
       <div key={i}>
@@ -108,24 +103,6 @@ export default class TeachableMachine extends Component {
           successCount: state.successCount + 1,
         }))
       }
-
-      //   console.log(className + ":" + probability)
-      // const action = className
-      // const prob = parseInt(probability.toFixed(2))
-      // //   console.log(action)
-      // if (prob === 1) {
-      //   // console.log("현재동작:", action, "이전 동작", this.beforAction)
-      //   if (action === "Sleepy_Right") {
-      //     if (this.beforAction === "Sleepy_Left") {
-      //       console.log("성공")
-      //       // this.beforAction = "Sleepy_Left"
-      //       this.setState((state) => ({
-      //         successCount: state.successCount + 1,
-      //       }))
-      //     }
-      //   }
-      //   this.beforAction = action
-      // }
     })
   }
 
