@@ -58,8 +58,8 @@ export default function RankPage() {
   }
 
   return (
-    <div className="flex  justify-center items-center flex-col w-full ">
-      <div className="w-full relative">
+    <div className=" w-full flex justify-center pt-10 pb-20 ">
+      <div className="w-4/5 relative flex justify-center  items-center flex-col">
         <audio autoPlay ref={audioRef} loop>
           <source src="music/rank2.m4a" type="audio/x-m4a" />
         </audio>
@@ -81,9 +81,9 @@ export default function RankPage() {
           )}
         </div>
         <section
-          className=" w-full h-screen relative flex justify-center items-center "
+          className=" w-full h-[80vh] relative flex justify-center items-center rounded-3xl "
           style={{
-            backgroundImage: `url(${bg_rank2})`,
+            backgroundImage: `url(/images/rankPage/rank_bg.png)`,
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
@@ -136,7 +136,7 @@ export default function RankPage() {
         </section>
 
         {/* 랭킹 섹션 */}
-        <section className=" w-full flex  ">
+        <section className=" w-full flex mt-20 bg-white rounded-3xl pb-10">
           <div className=" w-1/2 flex flex-col justify-center items-center">
             <h2 className="text-center  text-2xl p-2 rounded-3xl m-2 w-4/6  font-bold">
               타임랭킹
