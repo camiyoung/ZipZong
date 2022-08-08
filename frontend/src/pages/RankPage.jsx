@@ -35,7 +35,7 @@ export default function RankPage() {
         </section>
 
         {/* 랭킹 섹션 */}
-        <section className=" w-full flex mt-20 bg-white rounded-3xl pb-10">
+        <section className=" w-full flex mt-20 bg-white rounded-3xl pb-10 shadow-md">
           <div className=" w-1/2 flex flex-col justify-center items-center">
             <RankList
               title={"타임 랭킹"}

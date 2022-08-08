@@ -1,3 +1,6 @@
+// import "flowbite"
+import { Carousel } from "flowbite-react"
+
 const rankList = [
   "그룹1",
   "그룹2",
@@ -11,6 +14,28 @@ const rankList = [
   "그룹10",
 ]
 
+const RankSlider = () => {
+  return (
+    <Carousel
+      indicators={false}
+      slideInterval={3000}
+      slide={true}
+      leftControl=" "
+      rightControl=" "
+    >
+      <div className="flex h-full items-center justify-center bg-primary-100  ">
+        그룹 1 00/00/00 66일 달성!
+      </div>
+      <div className="flex h-full items-center justify-center bg-primary-100  ">
+        그룹 2 00/00/00 66일 달성!
+      </div>
+      <div className="flex h-full items-center justify-center bg-primary-100  ">
+        그룹 3 00/00/00 66일 달성!
+      </div>
+    </Carousel>
+  )
+}
+
 const ListItemSamll = ({ text }) => {
   return (
     <li className="w-1/3  " key={text}>
@@ -22,7 +47,7 @@ const ListItemSamll = ({ text }) => {
 export const TopRank = ({ list = rankList }) => {
   return (
     <div
-      className=" relative  w-full  h-full py-10 rounded-3xl flex  items-center justify-center "
+      className=" relative  w-full  h-full py-10 rounded-3xl flex  items-center justify-center shadow-md"
       style={{
         backgroundImage: `url(/images/rankPage/rank_bg.png)`,
         backgroundSize: "cover",
@@ -64,12 +89,8 @@ export const TopRank = ({ list = rankList }) => {
             </div>
           </div>
         </div>
-        <div className="w-full p-2  ">
-          <ul className="flex  w-full flex-wrap items-center h-[100px]">
-            {rankList.map((group, idx) => (
-              <ListItemSamll text={group} key={idx} />
-            ))}
-          </ul>
+        <div className=" h-16 w-4/5 shadow-md">
+          <RankSlider />
         </div>
       </div>
     </div>
