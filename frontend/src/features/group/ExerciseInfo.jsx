@@ -42,6 +42,18 @@ const dayExerciseInfo = [
   },
 ]
 function Ranking() {
+  const {
+    showYear,
+    showMonth,
+    showDay,
+    registeredTeam,
+    memberCurrentStrick,
+    memberDailyHistory,
+    stateDailyHistory,
+  } = useSelector((state) => state.mypage)
+  const { teamDailyHistory } = useSelector((state) => state.group)
+  console.log(showDay)
+  console.log(teamDailyHistory)
   return (
     <div className="w-full">
       <p className="text-xl text-center">
@@ -142,8 +154,8 @@ export default function ExerciseInfo() {
         </div>
       </div>
       <br />
-      <Ranking />
       <p>현재 스트릭 쉴드를 {shieldCount}개 소지 중입니다.</p>
+      <Ranking />
     </div>
   )
 }

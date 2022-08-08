@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { useLocation } from "react-router-dom"
 import {
   changeYear,
   changeMonth,
@@ -7,7 +8,9 @@ import {
   showYearChange,
   showMonthChange,
   showDayChange,
+  setDailyHistory,
 } from "../../features/myPage/myPageReducer"
+import { teamMonthHistoryCheck } from "../../features/group/groupReducer"
 import Calendar from "react-calendar"
 import "./Calendar.css"
 import moment from "moment"
@@ -15,12 +18,14 @@ const dailyRecord = ["18-07-2022", "17-07-2022", "16-07-2022"]
 
 export default function CalendarForm() {
   const dispatch = useDispatch()
+  const location = useLocation()
   const [date, setDate] = useState(new Date())
   const [activeDate, setActiveDate] = useState("")
   const { memberId } = useSelector((state) => state.member)
   const { memberDailyHistory, selectedMonth, selectedYear } = useSelector(
     (state) => state.mypage
   )
+  const isGroup = useState(location.pathname.split("/")[1])
 
   function loadDate(currentDate) {
     const validDate = currentDate || date
@@ -28,6 +33,17 @@ export default function CalendarForm() {
     const year = validDate.getFullYear()
     dispatch(changeYear(year))
     dispatch(changeMonth(month))
+
+    if (isGroup) {
+      let teamId = location.pathname.split("/")[2]
+      dispatch(
+        teamMonthHistoryCheck({
+          teamId: teamId,
+          year: year,
+          month: month,
+        })
+      )
+    }
     dispatch(
       memberExerciseHistoryCheck({
         memberId: memberId,
@@ -38,13 +54,18 @@ export default function CalendarForm() {
   }
   useEffect(() => {
     loadDate(date)
-    console.log("히스토리", memberDailyHistory)
   }, [activeDate])
 
   useEffect(() => {
+    const tmpDay = date.getDate()
     dispatch(showYearChange(date.getFullYear()))
     dispatch(showMonthChange(date.getMonth() + 1))
-    dispatch(showDayChange(date.getDate()))
+    dispatch(showDayChange(tmpDay))
+
+    // 값이 있을때만 performs 객체 접근
+    if (memberDailyHistory.keys.length !== 0) {
+      dispatch(setDailyHistory(memberDailyHistory[tmpDay - 1].performs[0]))
+    }
   }, [date])
 
   return (
