@@ -8,47 +8,35 @@ import ImageIcon from "../../components/icon/ImageIcon"
 import PlusIcon from "../../components/icon/PlusIcon"
 import Button from "../../components/button/Button"
 
-// 동물 사진들
-import bee from "../../assets/animalIcon/bee.png"
-import elephant from "../../assets/animalIcon/elephant.png"
-import basic from "../../assets/animalIcon/basic.png"
-import ferret from "../../assets/animalIcon/ferret.png"
-import frog from "../../assets/animalIcon/frog.png"
-import pandaBear from "../../assets/animalIcon/panda-bear.png"
-import pig from "../../assets/animalIcon/pig.png"
-import rabbit from "../../assets/animalIcon/rabbit.png"
-import walrus from "../../assets/animalIcon/walrus.png"
-import yak from "../../assets/animalIcon/yak.png"
-
 const Members = [
   {
     memberName: "신슬기",
-    Icon: bee,
+    Icon: "bee",
     hasDone: true,
   },
   {
     memberName: "김준우",
-    Icon: elephant,
+    Icon: "elephant",
     hasDone: true,
   },
   {
     memberName: "박종민",
-    Icon: basic,
+    Icon: "basic",
     hasDone: true,
   },
   {
     memberName: "안지영",
-    Icon: ferret,
+    Icon: "ferret",
     hasDone: false,
   },
   {
     memberName: "채송지",
-    Icon: rabbit,
+    Icon: "rabbit",
     hasDone: false,
   },
   {
     memberName: "황승주",
-    Icon: pandaBear,
+    Icon: "pandaBear",
     hasDone: true,
   },
 ]
@@ -104,7 +92,7 @@ export default function MemberList() {
               borderSize="none"
             >
               <ImageIcon
-                image={Icon}
+                image={`images/animalIcon/${Icon}.png`}
                 size="middle"
                 shape="round"
                 className="m-4"

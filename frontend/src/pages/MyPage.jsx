@@ -23,14 +23,6 @@ export default function MyPage() {
       return () => {
         localStorage.removeItem("inviteTeamId")
       }
-    } else {
-      // dispatch(
-      //   memberExerciseHistoryCheck({
-      //     memberId: memberId,
-      //     year: year,
-      //     month: month,
-      //   })
-      // )
     }
   }, [])
   return (
