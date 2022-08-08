@@ -33,7 +33,7 @@ export default function RoutineMake() {
 
   return (
     <div className="">
-      <div className="flex p-10 justify-center font-extrabold text-3xl">
+      <div className="flex p-10 text-primary-700 justify-center font-extrabold text-3xl">
         루틴 관리
       </div>
       <div className="flex justify-center p-3">
