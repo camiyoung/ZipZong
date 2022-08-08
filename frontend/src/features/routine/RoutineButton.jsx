@@ -10,6 +10,7 @@ export default function RoutineButton({
   exercise,
   breakTime,
   routineId,
+  teamId,
 }) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -49,9 +50,9 @@ export default function RoutineButton({
             if (routineId) {
               dispatch(modifyRoutine({ routineId, routine: newRoutine }))
             } else {
-              dispatch(createRoutine({ groupId: 1, routine: newRoutine }))
+              dispatch(createRoutine({ teamId: teamId, routine: newRoutine }))
             }
-            navigate("/routine")
+            navigate(`/routine/${teamId}`)
           }
         }}
       >

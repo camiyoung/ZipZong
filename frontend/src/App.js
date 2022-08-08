@@ -17,8 +17,7 @@ import RoutineMake from "./pages/RoutineMake"
 
 function App() {
   return (
-    <div className="w-screen bg-gradient-to-b from-secondary-100 to-lgBlue-200">
-      {/* // <div className="w-screen bg-gradient-to-r from-lgBlue-100 to-primary-300"> */}
+    <div className="w-screen bg-gradient-to-b from-secondary-100 to-lgBlue-200 pb-10">
       <BrowserRouter>
         <Navbar />
         <Routes>
@@ -31,9 +30,9 @@ function App() {
 
           <Route path="/groupset/:teamId" element={<GroupSet />} />
           <Route path="/groupset" element={<GroupSet />} />
-          <Route path="/routine" element={<Routine />} />
-          <Route path="/routine/make" element={<RoutineMake />} />
-          <Route path="/routine/modify/:routineId" element={<RoutineMake />} />
+          <Route path="/routine/:teamId" element={<Routine />} />
+          <Route path="/routine/:teamId/make" element={<RoutineMake />} />
+          <Route path="/routine/:teamId/:routineId" element={<RoutineMake />} />
 
           <Route path="/login" element={<Login />} />
           <Route path="/room" element={<RoomPage />} />
