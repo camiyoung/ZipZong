@@ -7,6 +7,7 @@ import { faVolumeXmark, faVolumeUp } from "@fortawesome/free-solid-svg-icons"
 import AOS from "aos"
 import "aos/dist/aos.css"
 import { RankList } from "../features/rank/RankList"
+import { TopRank } from "../features/rank/TopRank"
 const rankList = [
   "그룹1",
   "그룹2",
@@ -19,27 +20,6 @@ const rankList = [
   "그룹9",
   "그룹10",
 ]
-
-const ListItem = ({ text, rank }) => {
-  return (
-    <li
-      className=" w-9/12 flex m-2 bg-lgBlue-100  p-4 pl-5 h-16"
-      key={rank}
-      data-aos="flip-down"
-    >
-      <div className="w-2/12">{rank + 1}등 </div>
-      <div className="w-10/12 text-center">{text}</div>
-    </li>
-  )
-}
-
-const ListItemSamll = ({ text }) => {
-  return (
-    <li className="w-1/3  " key={text}>
-      <div className="m-2  text-center bg-white">{text}</div>
-    </li>
-  )
-}
 
 export default function RankPage() {
   const [musicPlay, setMusicPlay] = useState(true)
@@ -81,59 +61,8 @@ export default function RankPage() {
             />
           )}
         </div>
-        <section
-          className=" w-full h-[80vh] relative flex justify-center items-center rounded-3xl "
-          style={{
-            backgroundImage: `url(/images/rankPage/rank_bg.png)`,
-            backgroundSize: "cover",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-          }}
-        >
-          <div className=" relative top-28 w-4/6 py-10 rounded-lg h-1/2">
-            <div className="  w-full p-3 max-h-60 ">
-              <div className="flex  h-full w-full justify-evenly ">
-                <div className="w-[33%] h-full  flex items-center animate-prize-silver relative bottom-10">
-                  <img
-                    src="/images/rankPage/ruby.png"
-                    alt=""
-                    className=" w-[80%] h-[80%] "
-                  />
-                  <div className="text-lg font-semibold absolute  flex justify-center items-center w-[80%] h-[80%]  ">
-                    그룹B
-                  </div>
-                </div>
-                <div className="w-[33%] h-full flex items-center animate-prize-gold relative bottom-24">
-                  <img
-                    src="/images/rankPage/diamond.png"
-                    alt=""
-                    className=" w-full h-full"
-                  />
-                  <div className="text-lg font-semibold  absolute  flex justify-center items-center w-full h-full ">
-                    그룹A
-                  </div>
-                </div>
-
-                <div className="w-[33%] h-full flex items-center animate-prize-bronze relative bottom-4 left-4">
-                  <img
-                    src="/images/rankPage/gold.png"
-                    alt=""
-                    className=" w-[75%] h-[75%]"
-                  />
-                  <div className="text-lg font-semibold absolute  flex justify-center items-center w-[75%] h-[75%] ">
-                    그룹C
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className=" h-2/5 w-full p-2  m-auto">
-              <ul className="flex  w-full flex-wrap items-center ">
-                {rankList.map((group, idx) => (
-                  <ListItemSamll text={group} key={idx} />
-                ))}
-              </ul>
-            </div>
-          </div>
+        <section className=" w-full h-[80vh] relative flex justify-center items-center rounded-3xl ">
+          <TopRank />
         </section>
 
         {/* 랭킹 섹션 */}
