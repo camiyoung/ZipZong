@@ -72,6 +72,7 @@ export default function GroupSetMemberList() {
         {isLeader ? <p className="w-min">👑</p> : null}
 
         {/* 그룹장 위임, 강퇴 컴포넌트 */}
+        <p>⚙️ </p>
         <div className={isHovering ? "show" : "hidden"} alt="">
           <button className="ml-5">그룹장 위임</button>
           <button

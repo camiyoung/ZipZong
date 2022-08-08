@@ -22,7 +22,7 @@ export default function Group() {
   }, [fetchTeamId])
 
   const { inviteLink } = useSelector((state) => state.group)
-
+  console.log()
   return (
     <div className="w-[60%] mx-auto">
       <div className="flex">
