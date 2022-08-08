@@ -48,7 +48,7 @@ public class OAuthController {
 
         Boolean hasNickname = member.getNickname() == null ? false : true;
 
-        return "redirect:" + UriComponentsBuilder.fromUriString("http://i7a805.p.ssafy.io/login")
+        return "redirect:" + UriComponentsBuilder.fromUriString("https://i7a805.p.ssafy.io/login")
                                                  .queryParam("accessToken", token.getAccessToken())
                                                  .queryParam("refreshToken", token.getRefreshToken())
                                                  .queryParam("accessTokenExpiration", accessTokenExpiration)
