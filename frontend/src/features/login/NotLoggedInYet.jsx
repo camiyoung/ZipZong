@@ -3,7 +3,7 @@ import ImageIcon from "../../components/icon/ImageIcon"
 
 export default function NotLoggedInYet() {
   const GOOGLE_REDIRECT_URI = process.env.REACT_APP_GOOGLE_REDIRECT_URI
-  const GOOGLE_REQUEST = `${GOOGLE_REDIRECT_URI}?redirect_uri=https://i7a805.p.ssafy.io/oauth/redirect`
+  const GOOGLE_REQUEST = `${GOOGLE_REDIRECT_URI}?redirect_uri=http://i7a805.p.ssafy.io/oauth/redirect`
   return (
     <div className="w-6/12 flex justify-center items-center flex-col">
       <p className="text-3xl font-bold mb-5">로그인 하세요</p>
