@@ -2,21 +2,18 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { http } from "../../api/axios"
 
 // 그룹 루틴 조회
-export const getRoutine = createAsyncThunk(
-  "routine/search",
-  async (groupId) => {
-    const res = await http.get(`routine/${groupId}`)
-    console.log("그룹 루틴 조회", res.data)
-    return res.data
-  }
-)
+export const getRoutine = createAsyncThunk("routine/search", async (teamId) => {
+  const res = await http.get(`routine/${teamId}`)
+  console.log("그룹 루틴 조회", res.data)
+  return res.data
+})
 
 // 그룹 루틴 생성
 export const createRoutine = createAsyncThunk(
   "routine/create",
   async (info) => {
-    await http.post(`routine/${info.groupId}`, info.routine)
-    const res = await http.get(`routine/${info.groupId}`)
+    await http.post(`routine/${info.teamId}`, info.routine)
+    const res = await http.get(`routine/${info.teamId}`)
     console.log("그룹 루틴 생성", res.data)
     return res.data
   }
@@ -40,6 +37,9 @@ export const deleteRoutine = createAsyncThunk(
   async (routineId) => {
     const res = await http.delete(`routine/${routineId}`)
     console.log("그룹 루틴 삭제", res)
+    const res2 = await http.get(`routine/${res.data.data}`)
+    console.log("그룹 루틴 재조회", res2)
+    return res2.data
   }
 )
 
@@ -58,6 +58,9 @@ export const routineSlice = createSlice({
       state.routines = action.payload.data
     })
     builder.addCase(modifyRoutine.fulfilled, (state, action) => {
+      state.routines = action.payload.data
+    })
+    builder.addCase(deleteRoutine.fulfilled, (state, action) => {
       state.routines = action.payload.data
     })
   },

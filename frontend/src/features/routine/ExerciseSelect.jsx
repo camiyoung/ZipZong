@@ -10,8 +10,6 @@ export default function ExerciseSelect({
   breakTime,
   setBreakTime,
 }) {
-  console.log(breakTime)
-
   return (
     <div>
       <div> </div>
@@ -56,8 +54,11 @@ export default function ExerciseSelect({
                           className="w-6 bg-lightBlue rounded-2xl hover:bg-mainBlue"
                           onClick={() => {
                             if (count > 6) {
-                              let newRoutine = [...routine]
-                              newRoutine[idx + index].count -= 5
+                              let newRoutine = routine.map((r, ridx) => {
+                                if (ridx === idx + index) {
+                                  return { name: r.name, count: r.count - 5 }
+                                } else return r
+                              })
                               setRoutine(newRoutine)
                             }
                           }}
@@ -71,8 +72,11 @@ export default function ExerciseSelect({
                           className="w-6 bg-lightBlue rounded-2xl hover:bg-mainBlue "
                           onClick={() => {
                             if (count <= 99) {
-                              let newRoutine = [...routine]
-                              newRoutine[idx + index].count += 5
+                              let newRoutine = routine.map((r, ridx) => {
+                                if (ridx === idx + index) {
+                                  return { name: r.name, count: r.count + 5 }
+                                } else return r
+                              })
                               setRoutine(newRoutine)
                             }
                           }}
