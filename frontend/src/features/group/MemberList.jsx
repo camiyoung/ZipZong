@@ -68,7 +68,7 @@ export default function MemberList() {
             <input
               type="text"
               ref={copyLinkRef}
-              defaultValue={`http://localhost:3000/invite?groundId=${inviteLink}`}
+              defaultValue={`https://i7a805.p.ssafy.io/invite?groundId=${inviteLink}`}
               className="mr-3"
             />
             <Button
