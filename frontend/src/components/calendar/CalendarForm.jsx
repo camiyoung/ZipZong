@@ -4,6 +4,9 @@ import {
   changeYear,
   changeMonth,
   memberExerciseHistoryCheck,
+  showYearChange,
+  showMonthChange,
+  showDayChange,
 } from "../../features/myPage/myPageReducer"
 import Calendar from "react-calendar"
 import "./Calendar.css"
@@ -18,6 +21,7 @@ export default function CalendarForm() {
   const { memberDailyHistory, selectedMonth, selectedYear } = useSelector(
     (state) => state.mypage
   )
+
   function loadDate(currentDate) {
     const validDate = currentDate || date
     const month = validDate.getMonth() + 1
@@ -32,11 +36,16 @@ export default function CalendarForm() {
       })
     )
   }
-  const memoActiveDate = useMemo(() => activeDate)
   useEffect(() => {
     loadDate(date)
     console.log("히스토리", memberDailyHistory)
-  }, [memoActiveDate])
+  }, [activeDate])
+
+  useEffect(() => {
+    dispatch(showYearChange(date.getFullYear()))
+    dispatch(showMonthChange(date.getMonth() + 1))
+    dispatch(showDayChange(date.getDate()))
+  }, [date])
 
   return (
     <div className="app w-1/4 ">
@@ -70,31 +79,31 @@ export default function CalendarForm() {
               }
             )
 
-            // if (memberDailyHistory[date.getDate() - 1] === 1) {
-            //   // 달력에 칠하기
-            //   return "highlight highlight-saturday"
-            // }
-            // console.log()
-            // if (
-            //   dailyRecord.find((x) => x === moment(date).format("DD-MM-YYYY"))
-            // ) {
-            //   if (moment(date).format("LLLL").split(",")[0] === "Saturday") {
-            //     return "highlight highlight-saturday"
-            //   } else if (
-            //     moment(date).format("LLLL").split(",")[0] === "Sunday"
-            //   ) {
-            //     return "highlight highlight-sunday"
-            //   }
-            //   return "highlight"
-            // } else {
-            //   if (moment(date).format("LLLL").split(",")[0] === "Saturday") {
-            //     return "highlight-saturday"
-            //   } else if (
-            //     moment(date).format("LLLL").split(",")[0] === "Sunday"
-            //   ) {
-            //     return "highlight-sunday"
-            //   }
-            // }
+            // 달력에 색 칠하기
+            if (memberDailyHistory[date.getDate() - 1] === 1) {
+              // 토요일은 파란색
+              return "highlight highlight-saturday"
+            }
+            if (
+              dailyRecord.find((x) => x === moment(date).format("DD-MM-YYYY"))
+            ) {
+              if (moment(date).format("LLLL").split(",")[0] === "Saturday") {
+                return "highlight highlight-saturday"
+              } else if (
+                moment(date).format("LLLL").split(",")[0] === "Sunday"
+              ) {
+                return "highlight highlight-sunday"
+              }
+              return "highlight"
+            } else {
+              if (moment(date).format("LLLL").split(",")[0] === "Saturday") {
+                return "highlight-saturday"
+              } else if (
+                moment(date).format("LLLL").split(",")[0] === "Sunday"
+              ) {
+                return "highlight-sunday"
+              }
+            }
           }}
         ></Calendar>
       </div>

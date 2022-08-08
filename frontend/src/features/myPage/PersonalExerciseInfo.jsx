@@ -44,15 +44,20 @@ export default function ExerciseInfo() {
   )
   const currentStreak = useSelector((state) => state.mypage.memberCurrentStrick)
   const memberId = useSelector((state) => state.member.memberId)
-  const year = useSelector((state) => state.mypage.selectedYear)
-  const month = useSelector((state) => state.mypage.selectedMonth)
-  const registeredTeams = useSelector((state) => state.mypage.registeredTeam)
+  const {
+    selectedMonth,
+    selectedYear,
+    showYear,
+    showMonth,
+    showDay,
+    registeredTeam,
+  } = useSelector((state) => state.mypage)
   useEffect(() => {
     dispatch(
       memberExerciseHistoryCheck({
         memberId: memberId,
-        year: year,
-        month: month,
+        year: selectedYear,
+        month: selectedMonth,
       })
     )
     dispatch(memberExerciseHistorySumCheck(memberId))
@@ -73,8 +78,10 @@ export default function ExerciseInfo() {
                 borderRadius: "1rem 0px 0px 1rem",
               }}
             >
-              <p className="text-5xl text-white font-bold mb-3">2022년</p>
-              <p className="text-5xl text-white font-bold mb-5">1월 18일</p>
+              <p className="text-5xl text-white font-bold mb-3">{showYear}년</p>
+              <p className="text-5xl text-white font-bold mb-5">
+                {showMonth}월 {showDay}일
+              </p>
               <p className="text-lg text-white font-normal">
                 {" "}
                 닉네임 님의 운동 기록

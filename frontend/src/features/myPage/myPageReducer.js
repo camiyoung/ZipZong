@@ -59,6 +59,9 @@ export const myPageSlice = createSlice({
     selectedMonth: null,
     memberCurrentStrick: 0,
     performMemberTotal: null,
+    showYear: null,
+    showMonth: null,
+    showDay: null,
   },
   reducers: {
     changeYear: (state, action) => {
@@ -66,6 +69,15 @@ export const myPageSlice = createSlice({
     },
     changeMonth: (state, action) => {
       state.selectedMonth = action.payload
+    },
+    showYearChange: (state, action) => {
+      state.showYear = action.payload
+    },
+    showMonthChange: (state, action) => {
+      state.showMonth = action.payload
+    },
+    showDayChange: (state, action) => {
+      state.showDay = action.payload
     },
   },
   extraReducers(builder) {
@@ -82,6 +94,12 @@ export const myPageSlice = createSlice({
     )
   },
 })
-export const { changeYear, changeMonth } = myPageSlice.actions
+export const {
+  changeYear,
+  changeMonth,
+  showYearChange,
+  showMonthChange,
+  showDayChange,
+} = myPageSlice.actions
 
 export default myPageSlice.reducer
