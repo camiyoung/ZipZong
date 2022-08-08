@@ -48,7 +48,7 @@ public class OAuthController {
 
         Boolean hasNickname = member.getNickname() == null ? false : true;
 
-        return "redirect:" + UriComponentsBuilder.fromUriString("http://localhost:3000/login")
+        return "redirect:" + UriComponentsBuilder.fromUriString("http://reactapp:3000/login")
                                                  .queryParam("accessToken", token.getAccessToken())
                                                  .queryParam("refreshToken", token.getRefreshToken())
                                                  .queryParam("accessTokenExpiration", accessTokenExpiration)
