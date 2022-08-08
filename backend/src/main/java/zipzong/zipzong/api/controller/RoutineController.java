@@ -22,22 +22,29 @@ public class RoutineController {
     //루틴 저장
     @PostMapping("/{teamId}")
     public ResponseEntity<BasicResponse<Long>> routineSave(@RequestBody RoutineRequest routineRequest, @PathVariable Long teamId) {
-        routineService.createRoutine(teamId, routineRequest);
-        return new ResponseEntity<>(makeBasicResponse(SUCCESS, teamId), HttpStatus.CREATED);
+        Long id = routineService.createRoutine(teamId, routineRequest);
+        return new ResponseEntity<>(makeBasicResponse(SUCCESS, id), HttpStatus.CREATED);
     }
 
     //루틴 삭제
     @DeleteMapping("/{routineId}")
     public ResponseEntity<BasicResponse<Long>> routineDelete(@PathVariable Long routineId) {
-        routineService.deleteRoutine(routineId);
-        return new ResponseEntity<>(makeBasicResponse(SUCCESS, routineId), HttpStatus.OK);
+        Long teamId = routineService.deleteRoutine(routineId);
+        return new ResponseEntity<>(makeBasicResponse(SUCCESS, teamId), HttpStatus.OK);
     }
 
-    //루틴 조회
+    //그룹별 루틴 조회
     @GetMapping("/{teamId}")
     public ResponseEntity<BasicResponse<List<RoutineResponse>>> routineLoad(@PathVariable Long teamId) {
         List<RoutineResponse> responses = routineService.searchRoutine(teamId);
         return new ResponseEntity<>(makeBasicResponse(SUCCESS, responses), HttpStatus.OK);
+    }
+
+    //루틴의 운동 리스트 조회
+    @GetMapping("/detail/{routineId}")
+    public ResponseEntity<BasicResponse<RoutineResponse>> routineDetailLoad(@PathVariable Long routineId) {
+        RoutineResponse response = routineService.searchDetailRoutine(routineId);
+        return new ResponseEntity<>(makeBasicResponse(SUCCESS, response), HttpStatus.OK);
     }
 
     //루틴 수정

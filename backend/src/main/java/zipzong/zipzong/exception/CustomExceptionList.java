@@ -25,6 +25,10 @@ public enum CustomExceptionList {
     SHIELD_COUNT_NO_NEGATIVE(HttpStatus.INTERNAL_SERVER_ERROR, "E011", "보유한 쉴드가 없습니다."),
     MEMBER_HISTORY_NOT_FOUND(HttpStatus.INTERNAL_SERVER_ERROR, "E012", "개인 운동 기록이 생성되지 않았습니다."),
     TEAM_HISTORY_NOT_FOUND(HttpStatus.INTERNAL_SERVER_ERROR, "E013", "팀 운동 기록이 생성되지 않았습니다.");
+    MEMBER_NOT_FOUND_ROOM(HttpStatus.NOT_FOUND,"E014", "운동방에 존재하지 않는 회원입니다."),
+    ROOM_NOT_FOUND_ERROR(HttpStatus.NOT_FOUND,"E015","존재하지 않는 운동방 입니다."),
+    MEMBER_ALREADY_ENTER_ROOM(HttpStatus.NOT_MODIFIED,"E016","회원이 이미 운동방에 있습니다.");
+
     private final HttpStatus status;
     private final String code;
     private String message;

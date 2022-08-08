@@ -33,24 +33,27 @@ public class RoutineService {
     /*
     운동 루틴 등록
      */
-    public void createRoutine(Long teamId, RoutineRequest routineRequest) {
+    public Long createRoutine(Long teamId, RoutineRequest routineRequest) {
         Routine routine = Routine.createRoutine(routineRequest, getTeamInfo(teamId));
         Long routineId = routineRepository.save(routine).getId();
         for (int i = 0; i < routineRequest.getExercise().size(); i++) {
             RoutineDetail routineDetail = RoutineDetail.createRoutineDetail(getRoutine(routineId), i + 1, routineRequest.getExercise().get(i));
             routineDetailRepository.save(routineDetail);
         }
+        return teamId;
     }
 
     /*
     운동 루틴 삭제
      */
-    public void deleteRoutine(Long routineId) {
+    public Long deleteRoutine(Long routineId) {
+        Long teamId = getRoutine(routineId).getTeam().getId();
         routineRepository.delete(getRoutine(routineId));
+        return teamId;
     }
 
     /*
-    운동 루틴 조회
+    그룹별 운동 루틴 조회
      */
     public List<RoutineResponse> searchRoutine(Long teamId) {
         List<RoutineResponse> routineList = new ArrayList<>();
@@ -66,6 +69,22 @@ public class RoutineService {
             routineList.add(createRoutineResponse(routine.getName(), routine.getId(), exercises, routine.getBreakTime(), routine.getTotalTime()));
         }
         return routineList;
+    }
+
+    /*
+    루틴의 운동 목록 조회
+     */
+    public RoutineResponse searchDetailRoutine(Long routineId) {
+        Routine routine = getRoutine(routineId);
+        List<RoutineResponse.RoutineExercise> exercises = new ArrayList<>();
+        List<RoutineDetail> routineDetailList = routineDetailRepository.findRoutineDetailByRoutineId(routine.getId());
+        for (RoutineDetail routineDetail : routineDetailList) {
+            String name = routineDetail.getName();
+            int count = routineDetail.getExerciseCount();
+            exercises.add(new RoutineResponse.RoutineExercise(name, count));
+        }
+        RoutineResponse response = createRoutineResponse(routine.getName(), routine.getId(), exercises, routine.getBreakTime(), routine.getTotalTime());
+        return response;
     }
 
     /*

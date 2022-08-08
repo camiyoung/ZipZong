@@ -1,13 +1,17 @@
 package zipzong.zipzong.db.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
+import zipzong.zipzong.api.dto.room.RoomRequest;
 import zipzong.zipzong.enums.Mode;
 import zipzong.zipzong.enums.Status;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,8 +28,6 @@ public class Room {
     @JoinColumn(name="routine_id")
     private Routine routine;
 
-    @OneToOne(mappedBy = "room", fetch = FetchType.LAZY)
-    private Team team;
 
     @Column(name="room_name", nullable = false)
     private String name;
@@ -38,6 +40,32 @@ public class Room {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    private List<RoomParticipant> roomParticipants = new ArrayList<>();
+
+    @Builder
+    public Room(Long id, Routine routine, String name, String creator, Mode mode, Status status){
+        this.id = id;
+        this.routine = routine;
+        this.name = name;
+        this.creator =creator;
+        this.mode = mode;
+        this.status = status;
+    }
+
+    public static Room createRoom(RoomRequest roomRequest, Routine routine, Status status){
+        Room room = Room.builder()
+                .routine(routine)
+                .name(roomRequest.getRoomName())
+                .creator(roomRequest.getCreator())
+                .mode(roomRequest.getMode())
+                .status(status)
+                .build();
+         return room;
+    }
+
+    public void setStatus(Status status){this.status = status;}
 
 
 }

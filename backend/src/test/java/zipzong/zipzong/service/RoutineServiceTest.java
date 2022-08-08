@@ -12,6 +12,8 @@ import zipzong.zipzong.db.repository.memberteam.RegistrationRepository;
 import zipzong.zipzong.db.repository.memberteam.TeamRepository;
 import zipzong.zipzong.db.repository.routine.RoutineDetailRepository;
 import zipzong.zipzong.db.repository.routine.RoutineRepository;
+import zipzong.zipzong.exception.CustomException;
+import zipzong.zipzong.exception.CustomExceptionList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +52,8 @@ public class RoutineServiceTest {
 
     }
 
-    @Order(1)
     @Test
+    @DisplayName("루틴 생성")
     void createRoutine() {
         //given
         List<RoutineRequest.RoutineExercise> exercises = new ArrayList<>();
@@ -68,13 +70,13 @@ public class RoutineServiceTest {
         routineService.createRoutine(teamId, routineRequest);
 
         //then
-        Routine routine = routineRepository.findById(1L).orElseThrow();
-        Assertions.assertEquals(routine.getName(), "routine1");
+        List<Routine> routine = routineRepository.findRoutineByTeam(getTeamInfo(teamId));
+        Assertions.assertEquals(routine.get(0).getName(), "routine1");
 
     }
 
-    @Order(2)
     @Test
+    @DisplayName("그룹별 루틴 조회")
     void searchRoutine() {
         //given
         List<RoutineRequest.RoutineExercise> exercises = new ArrayList<>();
@@ -94,8 +96,31 @@ public class RoutineServiceTest {
         Assertions.assertEquals(routines.get(0).getRoutineName(), "routine1");
     }
 
-    @Order(3)
     @Test
+    @DisplayName("루틴 아이디로 루틴 상세 정보 조회")
+    void searchDetailRoutine() {
+        //given
+        List<RoutineRequest.RoutineExercise> exercises = new ArrayList<>();
+        exercises.add(new RoutineRequest.RoutineExercise("PUSHUP", 24));
+        exercises.add(new RoutineRequest.RoutineExercise("BURPEE", 5));
+        RoutineRequest routineRequest = RoutineRequest.builder()
+                .routineName("routine1")
+                .exercise(exercises)
+                .breakTime(60)
+                .totalTime(180)
+                .build();
+        routineService.createRoutine(teamId, routineRequest);
+        Long routineId = routineRepository.findRoutineByTeam(getTeamInfo(teamId)).get(0).getId();
+
+        //when
+        RoutineResponse routine = routineService.searchDetailRoutine(routineId);
+
+        //then
+        Assertions.assertEquals(routine.getRoutineName(), "routine1");
+    }
+
+    @Test
+    @DisplayName("루틴 내용 수정")
     void updateRoutine() {
         //given
         List<RoutineRequest.RoutineExercise> exercises = new ArrayList<>();
@@ -108,6 +133,7 @@ public class RoutineServiceTest {
                 .totalTime(180)
                 .build();
         routineService.createRoutine(teamId, routineRequest);
+        Long routineId = routineRepository.findRoutineByTeam(getTeamInfo(teamId)).get(0).getId();
         //when
         List<RoutineRequest.RoutineExercise> updateExercises = new ArrayList<>();
         updateExercises.add(new RoutineRequest.RoutineExercise("PUSHUP", 2));
@@ -118,12 +144,17 @@ public class RoutineServiceTest {
                 .breakTime(60)
                 .totalTime(180)
                 .build();
-        routineService.updateRoutine(3L, updateRoutineRequest);
+        routineService.updateRoutine(routineId, updateRoutineRequest);
 
         //then
-        Routine routine = routineRepository.findById(3L).orElseThrow();
+        Routine routine = routineRepository.findById(routineId).orElseThrow();
         Assertions.assertEquals(routine.getName(), "updateRoutine");
 
+    }
+
+    private Team getTeamInfo(Long teamId) {
+        return teamRepository.findById(teamId)
+                .orElseThrow(() -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR));
     }
 
 }

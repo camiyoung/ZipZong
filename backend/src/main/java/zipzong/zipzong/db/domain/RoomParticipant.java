@@ -1,6 +1,7 @@
 package zipzong.zipzong.db.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
@@ -24,5 +25,20 @@ public class RoomParticipant {
 
     @Column(name="member_nickname", nullable = false)
     private String memberNickname;
+
+    @Builder
+    public RoomParticipant(Long id, Room room, String memberNickname){
+        this.id = id;
+        this.room = room;
+        this.memberNickname = memberNickname;
+    }
+
+    public static RoomParticipant createRoomParticipant(Room room, String memberNickname){
+        RoomParticipant roomParticipant = RoomParticipant.builder()
+                .room(room)
+                .memberNickname(memberNickname)
+                .build();
+        return roomParticipant;
+    }
 
 }

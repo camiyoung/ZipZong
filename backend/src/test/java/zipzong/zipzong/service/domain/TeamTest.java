@@ -1,4 +1,4 @@
-package zipzong.zipzong.domain;
+package zipzong.zipzong.service.domain;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
