@@ -1,25 +1,9 @@
 import React, { useEffect, useRef, useState } from "react"
-
-import bg_rank2 from "../assets/bg_rank2.png"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faVolumeXmark, faVolumeUp } from "@fortawesome/free-solid-svg-icons"
-
 import AOS from "aos"
 import "aos/dist/aos.css"
 import { RankList } from "../features/rank/RankList"
 import { TopRank } from "../features/rank/TopRank"
-const rankList = [
-  "그룹1",
-  "그룹2",
-  "그룹3",
-  "그룹4",
-  "그룹5",
-  "그룹6",
-  "그룹7",
-  "그룹8",
-  "그룹9",
-  "그룹10",
-]
+import { MusicPlayer } from "../features/rank/MusicPlayer"
 
 export default function RankPage() {
   const [musicPlay, setMusicPlay] = useState(true)
@@ -45,22 +29,7 @@ export default function RankPage() {
           <source src="music/rank2.m4a" type="audio/x-m4a" />
         </audio>
 
-        <div
-          className="absolute z-30 p-3 right-5 top-3 w-14 h-14 bg-white rounded-full justify-center items-center"
-          onClick={playMusic}
-        >
-          {musicPlay ? (
-            <FontAwesomeIcon
-              icon={faVolumeXmark}
-              className="w-full h-full text-red-300"
-            />
-          ) : (
-            <FontAwesomeIcon
-              icon={faVolumeUp}
-              className="w-full h-full text-red-300"
-            />
-          )}
-        </div>
+        <MusicPlayer isPlaying={musicPlay} clickButton={playMusic} />
         <section className=" w-full h-[80vh] relative flex justify-center items-center rounded-3xl ">
           <TopRank />
         </section>
