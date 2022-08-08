@@ -33,7 +33,7 @@ export default function RoutineList() {
           </div>
         </div>
       </Modal>
-      <div className="w-full flex justify-between">
+      <div className="w-full flex">
         {routines.map(({ routineId, routineName, exercise, breakTime }) => {
           return (
             <div className="w-[20%] m-2" key={routineId}>
@@ -45,7 +45,7 @@ export default function RoutineList() {
                   <div className="flex flex-col justify-center px-3">
                     {exercise.map(({ name, count }, index) => {
                       return (
-                        <div className="flex bg-white rounded-2xl py-1 border-b">
+                        <div className="flex bg-white py-1 border-b">
                           {/* <div className="w-1/6 flex justify-center">
                           {index + 1}
                         </div> */}
@@ -94,22 +94,24 @@ export default function RoutineList() {
             </div>
           )
         })}
+
         {routines.length < 5 ? (
-          <div
-            className="m-3"
-            onClick={() => navigate(`/routine/${params.teamId}/make`)}
-          >
-            <Card size="middle">
+          <div className="w-[20%] m-2">
+            <div
+              className="p-2 bg-white rounded-2xl border border-gray-200 shadow-md"
+              onClick={() => navigate(`/routine/${params.teamId}/make`)}
+            >
               <div className="flex justify-center p-2">
                 <ImageIcon
                   image="https://icons-for-free.com/download-icon-circle+more+plus+icon-1320183136549593898_512.png"
                   size="large"
+                  borderStyle="none"
                 />
               </div>
               <p className="p-2 font-bold flex justify-center text-lg">
                 루틴을 추가해보세요.
               </p>
-            </Card>
+            </div>
           </div>
         ) : null}
       </div>
