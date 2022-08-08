@@ -6,6 +6,7 @@ import { faVolumeXmark, faVolumeUp } from "@fortawesome/free-solid-svg-icons"
 
 import AOS from "aos"
 import "aos/dist/aos.css"
+import { RankList } from "../features/rank/RankList"
 const rankList = [
   "그룹1",
   "그룹2",
@@ -138,30 +139,16 @@ export default function RankPage() {
         {/* 랭킹 섹션 */}
         <section className=" w-full flex mt-20 bg-white rounded-3xl pb-10">
           <div className=" w-1/2 flex flex-col justify-center items-center">
-            <h2 className="text-center  text-2xl p-2 rounded-3xl m-2 w-4/6  font-bold">
-              타임랭킹
-            </h2>
-            <p className=" font-semibold">실시간으로 갱신됩니다.</p>
-            <div className="w-full">
-              <ul className=" flex flex-col justify-center items-center ">
-                {rankList.map((group, i) => (
-                  <ListItem text={group} rank={i} key={i} />
-                ))}
-              </ul>
-            </div>
+            <RankList
+              title={"타임 랭킹"}
+              description={"실시간으로 갱신됩니다."}
+            />
           </div>
           <div className=" w-1/2 flex flex-col justify-center items-center">
-            <h2 className="text-center  text-2xl p-2 rounded-3xl  m-2 w-4/6  font-bold">
-              컨티뉴 랭킹
-            </h2>
-            <p className=" font-semibold">AM 4:00을 기준으로 갱신됩니다.</p>
-            <div className="w-full">
-              <ul className=" flex flex-col justify-center items-center">
-                {rankList.map((group, i) => (
-                  <ListItem text={group} rank={i} key={i} />
-                ))}
-              </ul>
-            </div>
+            <RankList
+              title={"컨티뉴 랭킹"}
+              description={"AM 12:00을 기준으로 갱신됩니다."}
+            />
           </div>
         </section>
       </div>
