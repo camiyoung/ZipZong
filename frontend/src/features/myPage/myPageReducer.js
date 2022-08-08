@@ -7,7 +7,7 @@ export const memberExerciseHistoryCheck = createAsyncThunk(
   "exercise/history/member",
   async (info) => {
     const res = await http.get(
-      `exercise/history/member?memeberId=${info.memberId}&year=${info.year}&month=${info.month}`
+      `exercise/history/member?memberId=${info.memberId}&year=${info.year}&month=${info.month}`
     )
     if (res.data.message === "success") {
       return res
@@ -25,18 +25,6 @@ export const memberExerciseHistorySumCheck = createAsyncThunk(
     if (res.data.message === "success") {
       return res
     }
-  }
-)
-
-// 회원 대표아이콘 설정
-export const memberIconSelect = createAsyncThunk(
-  "member/rep-icon",
-  async (nickname, icon) => {
-    const { data } = await http.put("/member/rep-icon", {
-      nickname: nickname,
-      icon: icon,
-    })
-    return data
   }
 )
 
@@ -59,6 +47,10 @@ export const myPageSlice = createSlice({
     selectedMonth: null,
     memberCurrentStrick: 0,
     performMemberTotal: null,
+    showYear: null,
+    showMonth: null,
+    showDay: null,
+    stateDailyHistory: null,
   },
   reducers: {
     changeYear: (state, action) => {
@@ -66,6 +58,18 @@ export const myPageSlice = createSlice({
     },
     changeMonth: (state, action) => {
       state.selectedMonth = action.payload
+    },
+    showYearChange: (state, action) => {
+      state.showYear = action.payload
+    },
+    showMonthChange: (state, action) => {
+      state.showMonth = action.payload
+    },
+    showDayChange: (state, action) => {
+      state.showDay = action.payload
+    },
+    setDailyHistory: (state, action) => {
+      state.stateDailyHistory = action.payload
     },
   },
   extraReducers(builder) {
@@ -82,6 +86,13 @@ export const myPageSlice = createSlice({
     )
   },
 })
-export const { changeYear, changeMonth } = myPageSlice.actions
+export const {
+  changeYear,
+  changeMonth,
+  showYearChange,
+  showMonthChange,
+  showDayChange,
+  setDailyHistory,
+} = myPageSlice.actions
 
 export default myPageSlice.reducer
