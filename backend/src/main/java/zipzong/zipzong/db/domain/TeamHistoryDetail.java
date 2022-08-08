@@ -32,6 +32,7 @@ public class TeamHistoryDetail {
     @Column(name = "exercise_time")
     private int exerciseTime;
 
+
     @Builder
     TeamHistoryDetail(Long id, TeamHistory teamHistory, String exerciseName, int exerciseNum, int exerciseTime) {
         this.id = id;
