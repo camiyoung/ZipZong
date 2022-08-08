@@ -51,7 +51,7 @@ export const memberIconSelect = createAsyncThunk(
 export const memberSlice = createSlice({
   name: "member",
   initialState: {
-    memberId: 1,
+    memberId: null,
     memberName: null,
     memberEmail: null,
     memberProvider: null,
