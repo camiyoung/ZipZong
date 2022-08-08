@@ -116,7 +116,7 @@ function GroupManagement() {
           height="h-10"
           width="w-full"
           // 그룹장만 운동관리
-          onClick={() => navigate("/routine")}
+          onClick={() => navigate(`/routine/${fetchTeamId}`)}
         />
         {/*
         그룹장 ->그룹 설정 및 관리 보임

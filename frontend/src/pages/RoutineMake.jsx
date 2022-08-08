@@ -15,9 +15,10 @@ export default function RoutineMake() {
   const [breakTime, setBreakTime] = useState(15)
 
   const params = useParams()
+  console.log("여기 왔니", params)
 
   useEffect(() => {
-    if (Object.keys(params).length > 0) {
+    if (params.routineId) {
       console.log(params.routineId)
       console.log(routines)
       const modify = routines.find(
@@ -25,7 +26,7 @@ export default function RoutineMake() {
       )
       console.log(modify)
       setRoutine(modify.exercise)
-      setBreakTime(modify.breaktime)
+      setBreakTime(modify.breakTime)
       setRoutineName(modify.routineName)
     }
   }, [])
@@ -81,6 +82,7 @@ export default function RoutineMake() {
           exercise={routine}
           breakTime={breakTime}
           routineId={params.routineId}
+          teamId={params.teamId}
         />
       </div>
     </div>

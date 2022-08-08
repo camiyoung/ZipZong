@@ -129,39 +129,6 @@ export default function Group() {
       </span>
       <div className="flex">
         {registeredTeam.map(({ teamName, icon, count, groupId }, idx) => {
-          // return (
-          //   <div className="flex w-1/5 h-[140px] justify-center">
-          //     <div
-          //       className="w-11/12 shadow-md flex justify-center items-center bg-cover rounded-3xl"
-          //       style={{
-          //         backgroundImage: `url(/images/rankPage/${icon1})`,
-          //       }}
-          //     >
-          //       <div className="w-full h-full backdrop-blur-lg rounded-3xl">
-          //         <NavLink key={idx} to={`/group/${groupId}`}>
-          //           <div className="flex justify-center items-center w-full h-full">
-          //             <div className="flex w-4/5">
-          //               <Icon
-          //                 image={`/images/rankPage/${icon1}`}
-          //                 size="large"
-          //                 shape="round"
-          //               />
-          //               <div className="flex flex-col justify-center pl-3">
-          //                 <div className="font-bold text-xl pb-1">
-          //                   {teamName}
-          //                 </div>
-          //                 <div className="flex">
-          //                   <UserIcon />
-          //                   <span className="pl-1 text-sm">{count} / 10</span>
-          //                 </div>
-          //               </div>
-          //             </div>
-          //           </div>
-          //         </NavLink>
-          //       </div>
-          //     </div>
-          //   </div>
-          // )
           return (
             <div className="flex w-1/5 h-[270px] justify-center">
               <div
