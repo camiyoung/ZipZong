@@ -15,7 +15,6 @@ export const nicknamePush = createAsyncThunk(
 export const memberInfo = createAsyncThunk("member/info/", async (nickname) => {
   console.log(nickname)
   const res = await http.get(`member/info/${nickname}`)
-  console.log("res", res)
   return res
 })
 
@@ -70,12 +69,12 @@ export const memberSlice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(memberInfo.fulfilled, (state, action) => {
-      console.log("멤버인포빌더", action)
-      // state.memberName = action.payload["name"]
-      // state.memberEmail = action.payload["email"]
-      // state.memberProvider = action.payload["provider"]
-      // state.memberNickname = action.payload["nickname"]
+      state.memberName = action.payload.data.data.name
+      state.memberEmail = action.payload.data.data.email
+      state.memberProvider = action.payload.data.data.provider
+      state.memberNickname = action.payload.data.data.nickname
     })
+
     builder.addCase(nicknamePush.fulfilled, (state, action) => {
       state.memberName = action.payload.data.data.name
       state.memberEmail = action.payload.data.data.email

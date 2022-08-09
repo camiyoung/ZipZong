@@ -46,6 +46,7 @@ export default function MemberList() {
   const modalClose = () => setOpen(false)
   const copyLinkRef = useRef()
 
+  console.log("초대 링크", inviteLink)
   const [link, setLink] = useState("")
 
   const copyTextUrl = () => {
@@ -68,8 +69,9 @@ export default function MemberList() {
             <input
               type="text"
               ref={copyLinkRef}
-              defaultValue={`https://i7a805.p.ssafy.io/invite?groundId=${inviteLink}`}
+              value={`https://i7a805.p.ssafy.io/invite?groundId=${inviteLink}`}
               className="mr-3"
+              readOnly
             />
             <Button
               onClick={() => copyTextUrl()}
@@ -92,7 +94,7 @@ export default function MemberList() {
               borderSize="none"
             >
               <ImageIcon
-                image={`images/animalIcon/${Icon}.png`}
+                image={`images/badgeIcon/${Icon}.png`}
                 size="middle"
                 shape="round"
                 className="m-4"

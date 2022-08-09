@@ -20,7 +20,7 @@ export default function Profile() {
         <div className="w-3/6 m-3 p-5 rounded-3xl bg-white shadow-md flex justify-center items-center">
           <div className="flex m-3 justify-center items-center w-full h-full ">
             <ImageIcon
-              image={`images/animalIcon/${memberRepIcon}.png`}
+              image={`images/badgeIcon/${memberRepIcon}.png`}
               size="smmiddle"
               shape="round"
               borderStyle="none"

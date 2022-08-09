@@ -130,7 +130,7 @@ export default function Group() {
       <div className="flex">
         {registeredTeam.map(({ teamName, icon, count, groupId }, idx) => {
           return (
-            <div className="flex w-1/5 h-[270px] justify-center">
+            <div className="flex w-1/5 h-[270px] justify-center" key={idx}>
               <div
                 className="w-11/12 shadow-md flex justify-center items-center bg-cover rounded-3xl"
                 style={{
