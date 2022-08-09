@@ -35,7 +35,7 @@ export default function CollectedIcons() {
           return (
             <div className="mr-5 mt-5 cursor-pointer" key={idx}>
               <ImageIcon
-                image={`images/animalImage/${imageUrl}.png`}
+                image={`images/badgeIcon/${imageUrl}.png`}
                 shape="round"
                 className="mx-1"
                 size="large"

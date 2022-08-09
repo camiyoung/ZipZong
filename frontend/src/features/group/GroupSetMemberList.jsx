@@ -66,7 +66,11 @@ export default function GroupSetMemberList() {
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
       >
-        <ImageIcon image={imageUrl} size="small" shape="round" />
+        <ImageIcon
+          image={`images/badgeIcon/${imageUrl}.png`}
+          size="small"
+          shape="round"
+        />
         <p className="mx-2">{name}</p>
         <p className="ml-3">({date} 가입)</p>
         {isLeader ? <p className="w-min">👑</p> : null}
@@ -122,7 +126,7 @@ export default function GroupSetMemberList() {
             name={name}
             date={date}
             isLeader={isLeader}
-            imageUrl={imageUrl}
+            imageUrl={`images/badgeIcon/${imageUrl}.png`}
           />
         )
       })}

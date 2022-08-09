@@ -92,7 +92,7 @@ export default function MemberList() {
               borderSize="none"
             >
               <ImageIcon
-                image={`images/animalIcon/${Icon}.png`}
+                image={`images/badgeIcon/${Icon}.png`}
                 size="middle"
                 shape="round"
                 className="m-4"
