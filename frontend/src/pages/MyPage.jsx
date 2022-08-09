@@ -12,8 +12,6 @@ export default function MyPage() {
   const { memberId } = useSelector((state) => state.member)
   // 최초 접속 시 현재 날짜 받아오기
   const [date, setDate] = useState(new Date())
-  const month = date.getMonth() + 1
-  const year = date.getFullYear()
 
   // const storageNickname = localStorage.getItem("nickname")
 
