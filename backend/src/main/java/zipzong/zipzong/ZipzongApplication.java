@@ -14,11 +14,13 @@ import java.util.TimeZone;
 @EnableScheduling
 @EnableCaching
 public class ZipzongApplication {
+
 	@PostConstruct
-	public void started() {
-		// timezone KST 셋팅
-		TimeZone.setDefault(TimeZone.getTimeZone("KST"));
+	public void started(){
+		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
+
 	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(ZipzongApplication.class, args);
 	}
