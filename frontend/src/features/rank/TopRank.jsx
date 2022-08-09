@@ -24,7 +24,7 @@ const RankSlider = () => {
       rightControl=" "
     >
       {rankList.map((name, idx) => (
-        <div className="w-full h-full bg-[#ffffff85] text-[#9898cf]">
+        <div className="w-full h-full bg-[#ffffff85] text-[#9898cf]" key={idx}>
           <div className="flex h-full items-center justify-center  text-2xl font-medium">
             {name} 2022/08/09 66일 달성!
           </div>
@@ -66,7 +66,7 @@ export const TopRank = ({ list = rankList }) => {
               className=" w-[80%] h-[80%] "
             />
             <div className="text-lg font-semibold absolute  flex  flex-col justify-center items-center w-[80%] h-[80%]  ">
-              <Avatar img="/images/animalIcon/basic.png" />
+              <Avatar img="/images/badgeIcon/basic.png" />
               <div>그룹B</div>
             </div>
           </div>
@@ -77,7 +77,7 @@ export const TopRank = ({ list = rankList }) => {
               className=" w-full h-full"
             />
             <div className="text-lg font-semibold absolute  flex  flex-col justify-center items-center w-[80%] h-[80%]  ">
-              <Avatar img="/images/animalIcon/frog.png" />
+              <Avatar img="/images/badgeIcon/frog.png" />
               <div>그룹A</div>
             </div>
           </div>
@@ -89,7 +89,7 @@ export const TopRank = ({ list = rankList }) => {
               className=" w-[75%] h-[75%]"
             />
             <div className="text-lg font-semibold absolute  flex  flex-col justify-center items-center w-[80%] h-[80%]  ">
-              <Avatar img="/images/animalIcon/rabbit.png" />
+              <Avatar img="/images/badgeIcon/rabbit.png" />
               <div>그룹B</div>
             </div>
           </div>
