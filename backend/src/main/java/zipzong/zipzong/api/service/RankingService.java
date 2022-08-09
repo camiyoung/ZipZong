@@ -47,8 +47,10 @@ public class RankingService {
 
     private static final Long BOUNDARY = 5L;
 
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "1 0 0 * * ?")
     public void comprehensiveUpdate() {
+        LocalDate today = LocalDate.now().minusDays(1);
+
         // # Redis 초기화 작업
         //  - redis의 정보를 모두 clear한다. (팀 해체 등의 이유)
         redisTemplate.delete("halloffame");
@@ -62,7 +64,7 @@ public class RankingService {
 
         List<Member> members = memberRepository.findAll();
         for(Member member : members) {
-            if(memberCalendarRepository.findByMemberIdAndCheckDate(member.getId(), LocalDate.now()).isEmpty()) {
+            if(memberCalendarRepository.findByMemberIdAndCheckDate(member.getId(), today).isEmpty()) {
                 MemberHistory memberHistory = memberHistoryRepository.findByMemberId(member.getId()).orElse
                         (MemberHistory.builder()
                                 .maximumStrick(0)
@@ -84,7 +86,7 @@ public class RankingService {
             boolean check = true;
             List<Registration> registrations = registrationRepository.findAllByTeamId(team.getId());
             for (Registration registration : registrations) {
-                if (exerciseRepository.findByRegistrationIdAndExerciseDate(registration.getId(), LocalDate.now()).isEmpty()) {
+                if (exerciseRepository.findByRegistrationIdAndExerciseDate(registration.getId(), today).isEmpty()) {
                     check = false;
                     break;
                 }
@@ -107,7 +109,7 @@ public class RankingService {
 
                 TeamCalendar teamCalendar = TeamCalendar.builder()
                         .team(team)
-                        .checkDate(LocalDate.now())
+                        .checkDate(today)
                         .state("SUCCESS")
                         .build();
 
@@ -126,7 +128,7 @@ public class RankingService {
 
                     TeamCalendar teamCalendar = TeamCalendar.builder()
                             .team(team)
-                            .checkDate(LocalDate.now())
+                            .checkDate(today)
                             .state("SHIELD")
                             .build();
 
@@ -191,7 +193,7 @@ public class RankingService {
             //    66일 달성 팀 명예의 전당 달성일 기록
             if (teamHistory.getMaximumStrick() == 66) {
                 if (teamHistory.getHallOfFameDate() == null) {
-                    teamHistory.setHallOfFameDate(LocalDate.now());
+                    teamHistory.setHallOfFameDate(today);
                 }
             }
 
@@ -202,7 +204,7 @@ public class RankingService {
             if(teamHistory.getHallOfFameDate() != null) {
                 String rankingBoard = "halloffame";
 
-                Duration duration = Duration.between(teamHistory.getHallOfFameDate(), LocalDate.now());
+                Duration duration = Duration.between(teamHistory.getHallOfFameDate(), today);
                 zSetOperations.add(rankingBoard, team.getId().toString(), duration.getSeconds());
             }
 
