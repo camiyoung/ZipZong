@@ -91,5 +91,4 @@ public class ExerciseController {
                 .data(data)
                 .build();
     }
-
 }
