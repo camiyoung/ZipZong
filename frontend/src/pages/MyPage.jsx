@@ -15,12 +15,12 @@ export default function MyPage() {
   const month = date.getMonth() + 1
   const year = date.getFullYear()
 
-  const storageNickname = localStorage.getItem("nickname")
+  // const storageNickname = localStorage.getItem("nickname")
 
   useEffect(() => {
-    if (storageNickname) {
-      dispatch(memberInfo(storageNickname))
-    }
+    // if (storageNickname) {
+    //   dispatch(memberInfo(storageNickname))
+    // }
 
     // 초대메시지 코드
     const checkInviteTeamId = localStorage.getItem("inviteTeamId")
