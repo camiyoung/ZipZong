@@ -47,7 +47,7 @@ public class RankingService {
 
     private static final Long BOUNDARY = 5L;
 
-    @Scheduled(cron = "0 5 3 * * ?")
+    @Scheduled(cron = "0 20 3 * * ?")
     public void comprehensiveUpdate() {
         LocalDate today = LocalDate.now().minusDays(1);
 
@@ -84,7 +84,7 @@ public class RankingService {
         List<Team> teams = teamRepository.findAll();
         for(Team team : teams) {
             boolean check = true;
-            System.out.println("실행되는중!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println("실행되는중!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             List<Registration> registrations = registrationRepository.findAllByTeamId(team.getId());
             for (Registration registration : registrations) {
                 if (exerciseRepository.findByRegistrationIdAndExerciseDate(registration.getId(), today).isEmpty()) {
