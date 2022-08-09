@@ -33,8 +33,9 @@ export default function CalendarForm() {
     const year = validDate.getFullYear()
     dispatch(changeYear(year))
     dispatch(changeMonth(month))
-
-    if (isGroup) {
+    let teamId = location.pathname.split("/")[2]
+    console.log("loadData", isGroup, teamId)
+    if (isGroup[0] === "group") {
       let teamId = location.pathname.split("/")[2]
       dispatch(
         teamMonthHistoryCheck({
@@ -43,14 +44,15 @@ export default function CalendarForm() {
           month: month,
         })
       )
+    } else {
+      dispatch(
+        memberExerciseHistoryCheck({
+          memberId: memberId,
+          year: year,
+          month: month,
+        })
+      )
     }
-    dispatch(
-      memberExerciseHistoryCheck({
-        memberId: memberId,
-        year: year,
-        month: month,
-      })
-    )
   }
   useEffect(() => {
     loadDate(date)
@@ -61,10 +63,20 @@ export default function CalendarForm() {
     dispatch(showYearChange(date.getFullYear()))
     dispatch(showMonthChange(date.getMonth() + 1))
     dispatch(showDayChange(tmpDay))
+    if (memberDailyHistory.length !== 0) {
+      dispatch(setDailyHistory(memberDailyHistory[tmpDay - 1].performs))
+    }
+  }, [])
+
+  useEffect(() => {
+    const tmpDay = date.getDate()
+    dispatch(showYearChange(date.getFullYear()))
+    dispatch(showMonthChange(date.getMonth() + 1))
+    dispatch(showDayChange(tmpDay))
 
     // 값이 있을때만 performs 객체 접근
-    if (memberDailyHistory.keys.length !== 0) {
-      dispatch(setDailyHistory(memberDailyHistory[tmpDay - 1].performs[0]))
+    if (memberDailyHistory.length !== 0) {
+      dispatch(setDailyHistory(memberDailyHistory[tmpDay - 1].performs))
     }
   }, [date])
 
