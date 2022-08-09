@@ -35,6 +35,7 @@ export default function Login() {
     localStorage.setItem("accessTokenExpiration", accessTokenExpiration)
     localStorage.setItem("refreshTokenExpiration", refreshTokenExpiration)
     localStorage.setItem("memberId", Number(collectedMemberId))
+    localStorage.setItem("nickname", nickname)
   }
   useEffect(() => {
     dispatch(checkMemberId(Number(collectedMemberId)))
