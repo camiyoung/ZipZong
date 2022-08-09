@@ -52,21 +52,23 @@ export default function GroupExerciseInfo() {
 
   return (
     <div className="flex mt-10">
-      {performTeamTotals.map(({ performName, performTotal }, idx) => {
-        return (
-          <div key={idx} className="flex">
-            <ExerciseIcon
-              size="large"
-              shape="round"
-              image={performName}
-            ></ExerciseIcon>
-            <div className="flex flex-col mx-5">
-              <ChangeLanguage exercise={performName} />
-              <p>{performTotal}</p>
-            </div>
-          </div>
-        )
-      })}
+      {performTeamTotals
+        ? performTeamTotals.map(({ performName, performTotal }, idx) => {
+            return (
+              <div key={idx} className="flex">
+                <ExerciseIcon
+                  size="large"
+                  shape="round"
+                  image={performName}
+                ></ExerciseIcon>
+                <div className="flex flex-col mx-5">
+                  <ChangeLanguage exercise={performName} />
+                  <p>{performTotal}</p>
+                </div>
+              </div>
+            )
+          })
+        : null}
     </div>
   )
 }
