@@ -20,6 +20,7 @@ import zipzong.zipzong.exception.CustomExceptionList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,6 +59,7 @@ public class OAuthController {
                                                  .queryParam("hasNickname", hasNickname.toString())
                                                  .queryParam("nickname",member.getNickname())
                                                  .build()
+                                                 .encode(StandardCharsets.UTF_8)
                                                  .toUriString();
 
     }
