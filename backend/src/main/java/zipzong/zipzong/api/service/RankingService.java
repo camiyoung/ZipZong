@@ -47,7 +47,7 @@ public class RankingService {
 
     private static final Long BOUNDARY = 5L;
 
-    @Scheduled(cron = "1 0 0 * * ?")
+    @Scheduled(cron = "0 55 2 * * ?")
     public void comprehensiveUpdate() {
         LocalDate today = LocalDate.now().minusDays(1);
 
