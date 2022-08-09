@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom"
 import Card from "../../components/card/Card"
 import Button from "../../components/button/Button"
 import ImageIcon from "../../components/icon/ImageIcon"
+import { Tooltip } from "flowbite-react"
 
 const prizes = [
   "bee",
@@ -25,25 +26,35 @@ export default function CollectedIcons() {
   const { icons, teamRepIcons } = useSelector((state) => state.group)
 
   return (
-    <Card
-      className="flex justify-center flex-col mx-5 rounded-lg mt-5"
-      size="100%"
-    >
-      <p className="text-3xl font-semibold mb-1">획득 아이콘</p>
-      <div className="flex overflow-scroll">
-        {prizes.map((imageUrl, idx) => {
-          return (
-            <div className="mr-5 mt-5 cursor-pointer" key={idx}>
-              <ImageIcon
-                image={`images/badgeIcon/${imageUrl}.png`}
-                shape="round"
-                className="mx-1"
-                size="large"
-              />
-            </div>
-          )
-        })}
+    <div className="flex justify-center flex-col mx-5 rounded-lg mt-10 px-2 ">
+      <span className="text-3xl font-semibold mb-3">
+        획득 아이콘
+        <span className="text-base mb-3  font-medium ml-3">
+          아이콘을 클릭하면 그룹 대표 아이콘이 변경됩니다.
+        </span>
+      </span>
+
+      <div className="flex items-center rounded-3xl mt-5 shadow-md p-5 text-gray-400 bg-gradient-to-r to-gray-200 from-white">
+        <div className="flex flex-wrap">
+          {prizes.map((imageUrl, idx) => {
+            return (
+              <Tooltip
+                content="여기에 아이콘 어떻게 얻은건지 설명 들어갔으면 좋겠어요"
+                placement="bottom"
+              >
+                <div className="m-2 cursor-pointer" key={idx}>
+                  <ImageIcon
+                    image={`images/badgeIcon/${imageUrl}.png`}
+                    shape="round"
+                    className="mx-1"
+                    size="mdlarge"
+                  />
+                </div>
+              </Tooltip>
+            )
+          })}
+        </div>
       </div>
-    </Card>
+    </div>
   )
 }
