@@ -42,6 +42,7 @@ export default function Invite() {
           onClick={() => {
             // 리프레쉬 토큰이 존재하면 팀 조인 후 마이페이지로 이동
             if (localStorage.getItem("refreshToken")) {
+              console.log("맥주 먹고 싶다", inviteTeamId, memberId)
               dispatch(teamJoin({ teamId: inviteTeamId, memberId: memberId }))
               navigate("/mypage")
             } else {
