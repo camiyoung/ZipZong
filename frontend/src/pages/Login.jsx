@@ -49,7 +49,7 @@ export default function Login() {
       )
       console.log("닉네임 중복 확인", hasNickname, nickname)
     }
-    navigate("/mypage")
+    // navigate("/mypage")
   }, [])
   return (
     <div className="flex">
