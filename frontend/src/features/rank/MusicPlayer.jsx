@@ -10,12 +10,12 @@ export const MusicPlayer = ({ isPlaying, clickButton }) => {
       {isPlaying ? (
         <FontAwesomeIcon
           icon={faVolumeUp}
-          className="w-full h-full text-lgBlue-400"
+          className="w-full h-full text-lgBlue-500"
         />
       ) : (
         <FontAwesomeIcon
           icon={faVolumeXmark}
-          className="w-full h-full text-lgBlue-400"
+          className="w-full h-full text-lgBlue-500"
         />
       )}
     </div>
