@@ -152,7 +152,6 @@ export const teamMonthHistoryCheck = createAsyncThunk(
     const res = await http.get(
       `exercise/history/team?teamId=${info.teamId}&year=${info.year}&month=${info.month}`
     )
-    console.log("팀 월 단위 운동기록 조회", res)
     if (res.data.message === "success") {
       return res
     }
