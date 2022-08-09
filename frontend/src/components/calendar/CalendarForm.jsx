@@ -14,7 +14,7 @@ import { teamMonthHistoryCheck } from "../../features/group/groupReducer"
 import Calendar from "react-calendar"
 import "./Calendar.css"
 import moment from "moment"
-const dailyRecord = ["18-07-2022", "17-07-2022", "16-07-2022"]
+const dailyRecord = ["18-08-2022", "17-08-2022", "16-08-2022"]
 
 export default function CalendarForm() {
   const dispatch = useDispatch()
