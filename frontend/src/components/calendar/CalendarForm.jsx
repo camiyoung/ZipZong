@@ -55,7 +55,7 @@ export default function CalendarForm() {
     }
   }
   useEffect(() => {
-    loadDate(date)
+    loadDate(activeDate)
   }, [activeDate])
 
   useEffect(() => {
@@ -89,7 +89,6 @@ export default function CalendarForm() {
           value={date}
           onActiveStartDateChange={({ activeStartDate }) => {
             setActiveDate(activeStartDate)
-            loadDate(activeStartDate)
           }}
           // 일요일 앞에 나오는 코드
           calendarType="Hebrew"
