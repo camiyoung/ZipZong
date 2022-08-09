@@ -47,6 +47,7 @@ export default function Login() {
           nickname: nickname,
         })
       )
+      console.log("닉네임 중복 확인", hasNickname, nickname)
       return () => navigate("/mypage")
     }
   }, [])
