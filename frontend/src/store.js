@@ -8,6 +8,7 @@ import storage from "redux-persist/lib/storage"
 import groupReducer from "./features/group/groupReducer"
 import memberReducer from "./features/login/memberReducer"
 import myPageReducer from "./features/myPage/myPageReducer"
+import exerciseReducer from "./features/room/exerciseReducer"
 import routineReducer from "./features/routine/routineReducer"
 
 const reducers = combineReducers({
@@ -15,6 +16,7 @@ const reducers = combineReducers({
   mypage: myPageReducer,
   routine: routineReducer,
   group: groupReducer,
+  exercise: exerciseReducer,
 })
 
 // const persistConfig = {

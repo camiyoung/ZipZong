@@ -118,11 +118,13 @@ export const teamDelete = createAsyncThunk(
 export const teamLinkLookup = createAsyncThunk(
   "team/link",
   async (inviteLink) => {
-    const res = await axios.get(`http://localhost:8080/team/${inviteLink}`)
+    const res = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}team/${inviteLink}`
+    )
     if ((res.data.message = "success")) {
       const teamIdByLink = res.data.data
       const res2 = await axios.get(
-        `http://localhost:8080/registration/team/${teamIdByLink}`
+        `${process.env.REACT_APP_BASE_URL}registration/team/${teamIdByLink}`
       )
 
       if (res2.data.message === "success") {
@@ -134,20 +136,32 @@ export const teamLinkLookup = createAsyncThunk(
 
 // 팀 가입
 export const teamJoin = createAsyncThunk("registration/join", async (info) => {
-  console.log("팀 가입", info)
   const res = await http.post("registration/join", info)
   if (res.data.message === "success") {
     const res2 = await http.get(`registration/member/${info.memberId}`)
-    console.log("팀 가입 2", res2)
     if (res2.data.message === "success") {
       return res2
     }
   }
 })
 
+// 팀 월 단위 운동기록 조회
+export const teamMonthHistoryCheck = createAsyncThunk(
+  "exercise/history/team",
+  async (info) => {
+    const res = await http.get(
+      `exercise/history/team?teamId=${info.teamId}&year=${info.year}&month=${info.month}`
+    )
+    if (res.data.message === "success") {
+      return res
+    }
+  }
+)
+
 export const groupSlice = createSlice({
   name: "group",
   initialState: {
+    teamDailyHistory: [],
     inviteTeamId: null,
     registeredTeam: [],
     inviteLink: "inviteLink",
@@ -197,11 +211,9 @@ export const groupSlice = createSlice({
       const tmp = action.payload[0].data.members
       state.teamMembers = tmp
       state.teamLeader = tmp.find(({ role }) => role === "LEADER")
-      console.log("1", state.inviteLink)
 
       // invitelink를 teamInfo 불러올떄 state에 넣지만 상태가 변하지 않음.. (오류)
       state.inviteLink = action.payload[1].data
-      console.log("2", state.inviteLink)
     })
 
     builder.addCase(teamTotalExerciseCount.fulfilled, (state, action) => {
@@ -240,6 +252,10 @@ export const groupSlice = createSlice({
 
     builder.addCase(teamJoin.fulfilled, (state, action) => {
       state.registeredTeam = action.payload.data.data
+    })
+
+    builder.addCase(teamMonthHistoryCheck.fulfilled, (state, action) => {
+      state.teamDailyHistory = action.payload.data.data.dailyHistories
     })
   },
 })

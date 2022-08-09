@@ -1,24 +1,45 @@
 import React, { useEffect, useState } from "react"
-import Button from "../../components/button/Button"
-import Timer from "../../components/timer/Timer"
-import { CountdownCircleTimer } from "react-countdown-circle-timer"
-import TeachableMachine from "./teachableMachine/TeachableMachine"
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router"
+import {
+  getSessionInfo,
+  getAdminId,
+  setAllExerciseResult,
+  setMyExerciseResult,
+} from "./exerciseReducer"
 import WorkOut from "./workout/WorkOut"
 
 function MyExercise({ Toolbar, myVideo, isRoomAdmin, tmModel, user }) {
+  // console.log("userInfo ", user)
   const [isExercising, setExercising] = useState(false)
+  const [isFinished, setFinished] = useState(false)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const admin = useSelector(getAdminId)
+  let resultUsers = { teamId: "123", personalResults: [] }
   useEffect(() => {
-    console.log("myVideo", user.getStreamManager().videos[0].video)
-    console.log("운동방 로딩!! 유저 정보 ", user)
-
+    dispatch(getSessionInfo())
     user.getStreamManager().stream.session.on("signal:start", (event) => {
       console.log("운동 시작 이벤트 발생 !!!", event)
       setExercising(true)
     })
 
     user.getStreamManager().stream.session.on("signal:finish", (event) => {
-      console.log("운동 종료 ~ !!!", event)
+      console.log("운동 종료 이벤트 수신")
+      resultUsers.personalResults.push(JSON.parse(event.data))
       setExercising(false)
+      setTimeout(() => {
+        console.log("5초끝!")
+        console.log(resultUsers)
+        setFinished(true)
+      }, 5000)
+    })
+
+    user.getStreamManager().stream.session.on("signal:result", (event) => {
+      console.log("운동 결과 데이터 수신", event.data)
+      // setExercising(true)
+      dispatch(setAllExerciseResult(JSON.parse(event.data)))
+      navigate("/result")
     })
   }, [])
 
@@ -26,6 +47,39 @@ function MyExercise({ Toolbar, myVideo, isRoomAdmin, tmModel, user }) {
     if (!isExercising) {
     }
   }, [isExercising])
+  useEffect(() => {
+    if (isFinished) {
+      console.log("전송 끝 ")
+      const data = {
+        personalPercentages: [
+          {
+            nickname: "닉네임1",
+            percentage: 50,
+          },
+          {
+            nickname: "닉네임1",
+            percentage: 50,
+          },
+          {
+            nickname: "닉네임1",
+            percentage: 50,
+          },
+          {
+            nickname: "닉네임1",
+            percentage: 50,
+          },
+          {
+            nickname: "닉네임1",
+            percentage: 50,
+          },
+        ],
+      }
+      user.getStreamManager().stream.session.signal({
+        data: JSON.stringify(data),
+        type: "result",
+      })
+    }
+  }, [isFinished])
 
   const startExercise = () => {
     user.getStreamManager().stream.session.signal({
@@ -33,24 +87,27 @@ function MyExercise({ Toolbar, myVideo, isRoomAdmin, tmModel, user }) {
       type: "start",
     })
   }
-  const finishExercise = (data) => {
-    console.log("운동 끝!! ", data)
+  const finishExercise = (result) => {
+    setExercising(false)
+    const data = result.filter((res) => res.type === "exercise")
+    const res = { memberId: user.connectionId }
+    const exerciseRes = data.map(
+      ({ name: exerciseName, success: performNum, goal: targetNum }) => {
+        return { exerciseName, performNum, targetNum }
+      }
+    )
+    res.personalResults = exerciseRes
+
+    console.log("운동 끝!! ", res)
+
+    // console.log("방장 ID!!", admin)
     user.getStreamManager().stream.session.signal({
-      data: JSON.stringify(data),
+      data: JSON.stringify(res),
       type: "finish",
+      to: [admin],
     })
+    dispatch(setMyExerciseResult(res))
   }
-
-  // console.log("방 관리자?", isRoomAdmin)
-
-  // const startExercise = () => {
-  //   console.log("운동 시작")
-  //   setExercising(true)
-  // }
-  // const finishExercise = () => {
-  //   console.log("운동 종료")
-  //   setExercising(false)
-  // }
 
   const startButton = (
     <button className="bg-mainBlue border " onClick={startExercise}>
@@ -78,7 +135,7 @@ function MyExercise({ Toolbar, myVideo, isRoomAdmin, tmModel, user }) {
 
       <div id="button " className="absolute top-5 left-5 z-50">
         {isRoomAdmin && !isExercising && startButton}
-        {/* {isExercising && finishButton} */}
+        {isExercising && finishButton}
       </div>
       <div className="w-full h-[10%] flex justify-between items-center absolute bottom-5">
         {Toolbar}

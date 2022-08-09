@@ -1,5 +1,6 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { useLocation } from "react-router"
 import CalendarForm from "../../components/calendar/CalendarForm"
 import ImageIcon from "../../components/icon/ImageIcon"
 import { teamTotalExerciseCount } from "./groupReducer"
@@ -42,6 +43,17 @@ const dayExerciseInfo = [
   },
 ]
 function Ranking() {
+  const {
+    showYear,
+    showMonth,
+    showDay,
+    registeredTeam,
+    memberCurrentStrick,
+    memberDailyHistory,
+    stateDailyHistory,
+  } = useSelector((state) => state.mypage)
+  const { teamDailyHistory } = useSelector((state) => state.group)
+  console.log(teamDailyHistory)
   return (
     <div className="w-full">
       <p className="text-xl text-center">
@@ -89,9 +101,11 @@ function Ranking() {
 }
 
 export default function ExerciseInfo() {
+  const location = useLocation()
+  const fetchTeamId = location.pathname.split("/")[2]
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(teamTotalExerciseCount())
+    dispatch(teamTotalExerciseCount(fetchTeamId))
   }, [])
   const { teamCurrentStreak, shieldCount } = useSelector((state) => state.group)
   let totalTime = 9
@@ -125,7 +139,7 @@ export default function ExerciseInfo() {
                   return (
                     <div key={idx} className="flex m-5">
                       <ImageIcon
-                        image={exerciseIcon}
+                        image={`images/badgeIcon/${exerciseIcon}.png`}
                         size="middle"
                         shape="round"
                       />
@@ -142,8 +156,8 @@ export default function ExerciseInfo() {
         </div>
       </div>
       <br />
-      <Ranking />
       <p>현재 스트릭 쉴드를 {shieldCount}개 소지 중입니다.</p>
+      <Ranking />
     </div>
   )
 }

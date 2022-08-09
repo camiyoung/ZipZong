@@ -129,7 +129,10 @@ class Room extends Component {
 
   connect(token) {
     this.state.session
-      .connect(token, { clientData: this.state.myUserName, admin: false })
+      .connect(token, {
+        clientData: this.state.myUserName,
+        admin: this.state.isRoomAdmin,
+      })
       .then(() => {
         this.connectWebCam()
       })
@@ -198,7 +201,12 @@ class Room extends Component {
     this.setState(
       { currentVideoDevice: videoDevices[0], localUser: localUser },
       () => {
-        console.log("나!!!", this.state.localUser)
+        console.log(
+          "내 connectionID",
+          this.state.localUser.getConnectionId(),
+          "닉네임",
+          this.state.localUser.getNickname()
+        )
         this.state.localUser.getStreamManager().on("streamPlaying", (e) => {
           publisher.videos[0].video.parentElement.classList.remove(
             "custom-class"
@@ -285,8 +293,8 @@ class Room extends Component {
   subscribeToStreamCreated() {
     this.state.session.on("streamCreated", (event) => {
       const subscriber = this.state.session.subscribe(event.stream, undefined)
-      console.log("새 유저 참여:", event)
-      console.log("세션 정보 :", this.state.session)
+      // console.log("새 유저 참여:", event)
+      // console.log("세션 정보 :", this.state.session)
       // var subscribers = this.state.subscribers;
       subscriber.on("streamPlaying", (e) => {
         this.checkSomeoneShareScreen()
@@ -311,7 +319,7 @@ class Room extends Component {
     // On every Stream destroyed...
     this.state.session.on("streamDestroyed", (event) => {
       // Remove the stream from 'subscribers' array
-      console.log("유저 퇴장?", event)
+      // console.log("유저 퇴장?", event)
       this.deleteSubscriber(event.stream)
       setTimeout(() => {
         this.checkSomeoneShareScreen()
@@ -326,7 +334,7 @@ class Room extends Component {
       remoteUsers.forEach((user) => {
         if (user.getConnectionId() === event.from.connectionId) {
           const data = JSON.parse(event.data)
-          console.log("EVENTO REMOTE: ", event.data)
+          // console.log("EVENTO REMOTE: ", event.data)
           if (data.isAudioActive !== undefined) {
             user.setAudioActive(data.isAudioActive)
           }
@@ -351,7 +359,7 @@ class Room extends Component {
   }
 
   sendSignalUserChanged(data) {
-    console.log("시그널 보내기", data)
+    // console.log("시그널 보내기", data)
     const signalOptions = {
       data: JSON.stringify(data),
       type: "userChanged",
@@ -622,7 +630,7 @@ class Room extends Component {
   createSession(sessionId) {
     return new Promise((resolve, reject) => {
       var data = JSON.stringify({ customSessionId: sessionId })
-      console.log("크리에이트 세션의 body :", data)
+      // console.log("크리에이트 세션의 body :", data)
       axios
         .post(this.OPENVIDU_SERVER_URL + "/openvidu/api/sessions", data, {
           headers: {

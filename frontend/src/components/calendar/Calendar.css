@@ -62,9 +62,9 @@
 abbr[title] {
   text-decoration: none;
 }
-.react-calendar__month-view__days__day--weekend {
+/* .react-calendar__month-view__days__day--weekend:first {
   color: #d10000;
-}
+} */
 
 .react-calendar__tile {
   max-width: 100%;
@@ -108,7 +108,7 @@ abbr[title] {
   background-color: #f8f8fa;
 }
 .highlight {
-  background-color: #8ccfd5;
+  background-image: url("../../../public/images/badgeIcon/basic.png");
 }
 .highlight-sunday {
   color: red;
