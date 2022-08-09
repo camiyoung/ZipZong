@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import { useLocation } from "react-router-dom"
 import ImageIcon from "../../components/icon/ImageIcon"
 import UserIcon from "../../components/icon/UserIcon"
 import Modal from "../../components/modal/Modal"
 import Button from "../../components/button/Button"
-import { useSelector } from "react-redux"
+import { defaultFormat } from "moment"
 
 const members = [
   {
@@ -50,11 +52,15 @@ const members = [
   },
 ]
 export default function GroupSetMemberList() {
+  const dispatch = useDispatch()
+  const location = useLocation()
+
+  const fetchTeamId = location.pathname.split("/")[2]
   const { teamMembers, teamLeader } = useSelector((state) => state.group)
+  const { memberId } = useSelector((state) => state.member)
   const [isExpulsionOpen, setExpulsionOpen] = useState(false)
   const [user, setUser] = useState()
   const modalClose = () => setExpulsionOpen(false)
-  console.log(teamMembers)
 
   const GroupHover = ({ name, date, isLeader, imageUrl, idx }) => {
     const [isHovering, setIsHovering] = useState(false)
@@ -93,16 +99,31 @@ export default function GroupSetMemberList() {
     )
   }
 
+  console.log("리더", teamLeader)
   return (
     <div className="mx-5 mt-10">
-      {/* 모달 */}
+      {/* 회원 강퇴 모달 */}
       <Modal isOpen={isExpulsionOpen} modalClose={modalClose}>
         <div className="flex flex-col">
           <p className="text-xl font-bold flex justify-center">
             {user} 회원님을 정말 탈퇴하시겠습니까?
           </p>
           <div className="flex justify-around mt-5">
-            <Button height="h-7" width="w-32" text="예" bgColor="bg-info" />
+            <Button
+              height="h-7"
+              width="w-32"
+              text="예"
+              bgColor="bg-info"
+              // onClick={() =>
+              //   dispatch(
+              //     teamExpel({
+              //       leaderId: leaderId,
+              //       followerId: memberId,
+              //       teamId: fetchTeamId,
+              //     })
+              //   )
+              // }
+            />
             <Button
               height="h-7"
               width="w-32"
