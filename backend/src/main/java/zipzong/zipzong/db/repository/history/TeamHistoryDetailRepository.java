@@ -12,4 +12,10 @@ public interface TeamHistoryDetailRepository extends JpaRepository<TeamHistoryDe
     @EntityGraph(attributePaths = {"teamHistory"})
     @Query("select d from TeamHistoryDetail d where d.teamHistory.id = :teamHistoryId")
     List<TeamHistoryDetail> findByTeamHistoryId(@Param("teamHistoryId") Long teamHistoryId);
+
+    @EntityGraph(attributePaths = {"teamHistory, Team"})
+    @Query("select d from TeamHistoryDetail d where d.teamHistory.id in " +
+            "(select h from TeamHistory h where h.team.id = :teamId)")
+    List<TeamHistoryDetail> teamAllTime(@Param("teamId") Long teamId);
+
 }

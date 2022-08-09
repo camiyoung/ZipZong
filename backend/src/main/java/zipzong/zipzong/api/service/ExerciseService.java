@@ -15,6 +15,7 @@ import zipzong.zipzong.db.repository.history.TeamHistoryDetailRepository;
 import zipzong.zipzong.db.repository.history.TeamHistoryRepository;
 import zipzong.zipzong.db.repository.memberteam.MemberRepository;
 import zipzong.zipzong.db.repository.memberteam.RegistrationRepository;
+import zipzong.zipzong.db.repository.memberteam.TeamIconRepository;
 import zipzong.zipzong.db.repository.memberteam.TeamRepository;
 import zipzong.zipzong.enums.CheckExist;
 import zipzong.zipzong.exception.CustomException;
@@ -37,6 +38,7 @@ public class ExerciseService {
     private final TeamHistoryRepository teamHistoryRepository;
     private final TeamHistoryDetailRepository teamHistoryDetailRepository;
     private final TeamCalendarRepository teamCalendarRepository;
+    private final TeamIconRepository teamIconRepository;
     private final MemberHistoryRepository memberHistoryRepository;
     private final MemberHistoryDetailRepository memberHistoryDetailRepository;
     private final MemberCalendarRepository memberCalendarRepository;
@@ -490,5 +492,44 @@ public class ExerciseService {
         exerciseTeamTodayResponse.setNiceMembers(niceMembers);
 
         return exerciseTeamTodayResponse;
+    }
+
+    public void teamBadgeUpdate(Long teamId) {
+        List<TeamHistoryDetail> teamHistoryDetails = teamHistoryDetailRepository.teamAllTime(teamId);
+
+        int totalTime = 0;
+
+        for(TeamHistoryDetail teamHistoryDetail : teamHistoryDetails) {
+            totalTime += teamHistoryDetail.getExerciseTime();
+        }
+
+        if(totalTime >= 60 * 10000 && teamIconRepository.findByTeamIdAndIconName(teamId, "groupMaxExerciseTime10000").isEmpty()) {
+            TeamIcon teamIcon = TeamIcon.builder()
+                    .team(teamRepository.findById(teamId).orElseThrow(
+                            () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR)))
+                    .iconName("groupMaxExerciseTime10000")
+                    .build();
+        }
+        else if(totalTime >= 60 * 1000 && teamIconRepository.findByTeamIdAndIconName(teamId, "groupMaxExerciseTime1000").isEmpty()) {
+            TeamIcon teamIcon = TeamIcon.builder()
+                    .team(teamRepository.findById(teamId).orElseThrow(
+                            () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR)))
+                    .iconName("groupMaxExerciseTime1000")
+                    .build();
+        }
+        else if(totalTime >= 60 * 100 && teamIconRepository.findByTeamIdAndIconName(teamId, "groupMaxExerciseTime100").isEmpty()) {
+            TeamIcon teamIcon = TeamIcon.builder()
+                    .team(teamRepository.findById(teamId).orElseThrow(
+                            () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR)))
+                    .iconName("groupMaxExerciseTime100")
+                    .build();
+        }
+        else if(totalTime >= 60 * 10 && teamIconRepository.findByTeamIdAndIconName(teamId, "groupMaxExerciseTime10").isEmpty()) {
+            TeamIcon teamIcon = TeamIcon.builder()
+                    .team(teamRepository.findById(teamId).orElseThrow(
+                            () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR)))
+                    .iconName("groupMaxExerciseTime10")
+                    .build();
+        }
     }
 }

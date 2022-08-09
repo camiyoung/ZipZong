@@ -39,6 +39,9 @@ public class ExerciseController {
         // 그룹별 누적 운동 기록 갱신(teamHistory, teamHistoryDetail 테이블)
         exerciseService.updateTeamExerciseHistory(teamId, personalResults);
 
+        // 그룹별 실시간 뱃지 갱신
+        exerciseService.teamBadgeUpdate(teamId);
+
         // 멤버 별 평균 달성률 계산(return)
         ExerciseResultResponse response = exerciseService.calculatePercentageAvg(personalResults);
 

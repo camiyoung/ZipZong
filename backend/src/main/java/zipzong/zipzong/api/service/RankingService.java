@@ -14,9 +14,7 @@ import zipzong.zipzong.db.repository.exercise.TeamCalendarRepository;
 import zipzong.zipzong.db.repository.history.MemberHistoryRepository;
 import zipzong.zipzong.db.repository.history.TeamHistoryDetailRepository;
 import zipzong.zipzong.db.repository.history.TeamHistoryRepository;
-import zipzong.zipzong.db.repository.memberteam.MemberRepository;
-import zipzong.zipzong.db.repository.memberteam.RegistrationRepository;
-import zipzong.zipzong.db.repository.memberteam.TeamRepository;
+import zipzong.zipzong.db.repository.memberteam.*;
 import zipzong.zipzong.exception.CustomException;
 import zipzong.zipzong.exception.CustomExceptionList;
 
@@ -42,14 +40,17 @@ public class RankingService {
     private final TeamCalendarRepository teamCalendarRepository;
     private final TeamHistoryRepository teamHistoryRepository;
     private final TeamHistoryDetailRepository teamHistoryDetailRepository;
+    private final TeamIconRepository teamIconRepository;
     private final RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
 
     final ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
 
     private static final Long BOUNDARY = 5L;
 
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 54 3 * * ?")
     public void comprehensiveUpdate() {
+        LocalDate today = LocalDate.now().minusDays(1);
+
         // # Redis 초기화 작업
         //  - redis의 정보를 모두 clear한다. (팀 해체 등의 이유)
         redisTemplate.delete("halloffame");
@@ -63,7 +64,7 @@ public class RankingService {
 
         List<Member> members = memberRepository.findAll();
         for(Member member : members) {
-            if(memberCalendarRepository.findByMemberIdAndCheckDate(member.getId(), LocalDate.now()).isEmpty()) {
+            if(memberCalendarRepository.findByMemberIdAndCheckDate(member.getId(), today).isEmpty()) {
                 MemberHistory memberHistory = memberHistoryRepository.findByMemberId(member.getId()).orElse
                         (MemberHistory.builder()
                                 .maximumStrick(0)
@@ -83,9 +84,10 @@ public class RankingService {
         List<Team> teams = teamRepository.findAll();
         for(Team team : teams) {
             boolean check = true;
+            System.out.println("실행되는중!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             List<Registration> registrations = registrationRepository.findAllByTeamId(team.getId());
             for (Registration registration : registrations) {
-                if (exerciseRepository.findByRegistrationIdAndExerciseDate(registration.getId(), LocalDate.now()).isEmpty()) {
+                if (exerciseRepository.findByRegistrationIdAndExerciseDate(registration.getId(), today).isEmpty()) {
                     check = false;
                     break;
                 }
@@ -108,7 +110,7 @@ public class RankingService {
 
                 TeamCalendar teamCalendar = TeamCalendar.builder()
                         .team(team)
-                        .checkDate(LocalDate.now())
+                        .checkDate(today)
                         .state("SUCCESS")
                         .build();
 
@@ -127,16 +129,61 @@ public class RankingService {
 
                     TeamCalendar teamCalendar = TeamCalendar.builder()
                             .team(team)
-                            .checkDate(LocalDate.now())
+                            .checkDate(today)
                             .state("SHIELD")
                             .build();
 
                     teamCalendarRepository.save(teamCalendar);
 
+                    // 최초 실드 사용 뱃지 추가
+                    if (teamIconRepository.findByTeamIdAndIconName(team.getId(), "groupShieldFirstUse").isEmpty()){
+                        TeamIcon teamIcon = TeamIcon.builder()
+                                .team(team)
+                                .iconName("groupShieldFirstUse")
+                                .build();
+                        teamIconRepository.save(teamIcon);
+                    }
+
                 } else {
                     teamHistory.setCurrentStrick(0);
                     teamHistoryRepository.save(teamHistory);
                 }
+            }
+
+            // 최초 3일 스트릭 뱃지 추가
+            if (teamHistory.getCurrentStrick() == 3 && teamIconRepository.findByTeamIdAndIconName(team.getId(), "groupMaxStreak3Days").isEmpty()){
+                TeamIcon teamIcon = TeamIcon.builder()
+                        .team(team)
+                        .iconName("groupMaxStreak3Days")
+                        .build();
+                teamIconRepository.save(teamIcon);
+            }
+
+            // 최초 7일 스트릭 뱃지 추가
+            if (teamHistory.getCurrentStrick() == 7 && teamIconRepository.findByTeamIdAndIconName(team.getId(), "groupMaxStreak7Days").isEmpty()){
+                TeamIcon teamIcon = TeamIcon.builder()
+                        .team(team)
+                        .iconName("groupMaxStreak7Days")
+                        .build();
+                teamIconRepository.save(teamIcon);
+            }
+
+            // 최초 21일 스트릭 뱃지 추가
+            if (teamHistory.getCurrentStrick() == 21 && teamIconRepository.findByTeamIdAndIconName(team.getId(), "groupMaxStreak21Days").isEmpty()){
+                TeamIcon teamIcon = TeamIcon.builder()
+                        .team(team)
+                        .iconName("groupMaxStreak21Days")
+                        .build();
+                teamIconRepository.save(teamIcon);
+            }
+
+            // 최초 66일 스트릭 뱃지 추가
+            if (teamHistory.getCurrentStrick() == 66 && teamIconRepository.findByTeamIdAndIconName(team.getId(), "groupMaxStreak66Days").isEmpty()){
+                TeamIcon teamIcon = TeamIcon.builder()
+                        .team(team)
+                        .iconName("groupMaxStreak66Days")
+                        .build();
+                teamIconRepository.save(teamIcon);
             }
 
             //    21일 달성 팀 실드 추가
@@ -147,7 +194,7 @@ public class RankingService {
             //    66일 달성 팀 명예의 전당 달성일 기록
             if (teamHistory.getMaximumStrick() == 66) {
                 if (teamHistory.getHallOfFameDate() == null) {
-                    teamHistory.setHallOfFameDate(LocalDate.now());
+                    teamHistory.setHallOfFameDate(today);
                 }
             }
 
@@ -158,7 +205,7 @@ public class RankingService {
             if(teamHistory.getHallOfFameDate() != null) {
                 String rankingBoard = "halloffame";
 
-                Duration duration = Duration.between(teamHistory.getHallOfFameDate(), LocalDate.now());
+                Duration duration = Duration.between(teamHistory.getHallOfFameDate(), today);
                 zSetOperations.add(rankingBoard, team.getId().toString(), duration.getSeconds());
             }
 

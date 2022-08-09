@@ -63,7 +63,7 @@ public class ExerciseServiceTest {
 
     @BeforeEach
     void setup() {
-        exerciseService = new ExerciseService(memberRepository, teamRepository, registrationRepository, exerciseRepository, exerciseDetailRepository, teamHistoryRepository, teamHistoryDetailRepository, teamCalendarRepository, memberHistoryRepository, memberHistoryDetailRepository, memberCalendarRepository);
+        exerciseService = new ExerciseService(memberRepository, teamRepository, registrationRepository, exerciseRepository, exerciseDetailRepository, teamHistoryRepository, teamHistoryDetailRepository, teamCalendarRepository, teamIconRepository, memberHistoryRepository, memberHistoryDetailRepository, memberCalendarRepository);
         registrationService = new RegistrationService(teamRepository, memberRepository, registrationRepository, teamIconRepository);
     }
 
