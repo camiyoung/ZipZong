@@ -137,7 +137,7 @@ export default function ExerciseInfo() {
                   return (
                     <div key={idx} className="flex m-5">
                       <ImageIcon
-                        image={exerciseIcon}
+                        image={`images/badgeIcon/${exerciseIcon}.png`}
                         size="middle"
                         shape="round"
                       />

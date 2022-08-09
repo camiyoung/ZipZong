@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
-import { checkMemberId } from "../features/login/memberReducer"
+import { checkMemberId, nicknamePush } from "../features/login/memberReducer"
 import NotLoggedInYet from "../features/login/NotLoggedInYet"
 import SetNickName from "../features/login/SetNickName"
 import { inviteTeamIdConfirm } from "../features/group/groupReducer"
@@ -28,6 +28,7 @@ export default function Login() {
   const collectedMemberId = new URL(window.location.href).searchParams.get(
     "memberId"
   )
+  const nickname = new URL(window.location.href).searchParams.get("nickname")
   if (accessToken) {
     localStorage.setItem("accessToken", accessToken)
     localStorage.setItem("refreshToken", refreshToken)
@@ -36,11 +37,18 @@ export default function Login() {
     localStorage.setItem("memberId", Number(collectedMemberId))
   }
   useEffect(() => {
-    dispatch(checkMemberId(localStorage.getItem("memberId")))
+    dispatch(checkMemberId(Number(collectedMemberId)))
+
     //닉네임 중복 확인
-    // if (hasNickname) {
-    //   navigate("/mypage")
-    // }
+    if (hasNickname && nickname != "") {
+      dispatch(
+        nicknamePush({
+          memberId: Number(collectedMemberId),
+          nickname: nickname,
+        })
+      )
+      return () => navigate("/mypage")
+    }
   }, [])
   return (
     <div className="flex">

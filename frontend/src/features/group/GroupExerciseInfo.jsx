@@ -49,7 +49,7 @@ export default function GroupExerciseInfo() {
           return (
             <div key={idx} className="flex">
               <ImageIcon
-                image={groupExerciseIcon}
+                image={`images/badgeIcon/${groupExerciseIcon}.png`}
                 size="middle"
                 shape="round"
               />
