@@ -50,12 +50,12 @@ export const memberIconSelect = createAsyncThunk(
 export const memberSlice = createSlice({
   name: "member",
   initialState: {
-    memberId: 1,
-    memberName: "[서울_공통8반_박종민]",
-    memberEmail: "qooktree@gmail.com",
-    memberProvider: "google",
-    memberNickname: "sdfc",
-    memberRepIcon: "basic",
+    memberId: null,
+    memberName: null,
+    memberEmail: null,
+    memberProvider: null,
+    memberNickname: null,
+    memberRepIcon: null,
   },
   reducers: {
     // 로그아웃
