@@ -14,9 +14,7 @@ import zipzong.zipzong.db.repository.exercise.TeamCalendarRepository;
 import zipzong.zipzong.db.repository.history.MemberHistoryRepository;
 import zipzong.zipzong.db.repository.history.TeamHistoryDetailRepository;
 import zipzong.zipzong.db.repository.history.TeamHistoryRepository;
-import zipzong.zipzong.db.repository.memberteam.MemberRepository;
-import zipzong.zipzong.db.repository.memberteam.RegistrationRepository;
-import zipzong.zipzong.db.repository.memberteam.TeamRepository;
+import zipzong.zipzong.db.repository.memberteam.*;
 import zipzong.zipzong.exception.CustomException;
 import zipzong.zipzong.exception.CustomExceptionList;
 
@@ -42,6 +40,7 @@ public class RankingService {
     private final TeamCalendarRepository teamCalendarRepository;
     private final TeamHistoryRepository teamHistoryRepository;
     private final TeamHistoryDetailRepository teamHistoryDetailRepository;
+    private final TeamIconRepository teamIconRepository;
     private final RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
 
     final ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
@@ -133,10 +132,55 @@ public class RankingService {
 
                     teamCalendarRepository.save(teamCalendar);
 
+                    // 최초 실드 사용 뱃지 추가
+                    if (teamIconRepository.findByTeamIdAndIconName(team.getId(), "groupShieldFirstUse").isEmpty()){
+                        TeamIcon teamIcon = TeamIcon.builder()
+                                .team(team)
+                                .iconName("groupShieldFirstUse")
+                                .build();
+                        teamIconRepository.save(teamIcon);
+                    }
+
                 } else {
                     teamHistory.setCurrentStrick(0);
                     teamHistoryRepository.save(teamHistory);
                 }
+            }
+
+            // 최초 3일 스트릭 뱃지 추가
+            if (teamHistory.getCurrentStrick() == 3 && teamIconRepository.findByTeamIdAndIconName(team.getId(), "groupMaxStreak3Days").isEmpty()){
+                TeamIcon teamIcon = TeamIcon.builder()
+                        .team(team)
+                        .iconName("groupMaxStreak3Days")
+                        .build();
+                teamIconRepository.save(teamIcon);
+            }
+
+            // 최초 7일 스트릭 뱃지 추가
+            if (teamHistory.getCurrentStrick() == 7 && teamIconRepository.findByTeamIdAndIconName(team.getId(), "groupMaxStreak7Days").isEmpty()){
+                TeamIcon teamIcon = TeamIcon.builder()
+                        .team(team)
+                        .iconName("groupMaxStreak7Days")
+                        .build();
+                teamIconRepository.save(teamIcon);
+            }
+
+            // 최초 21일 스트릭 뱃지 추가
+            if (teamHistory.getCurrentStrick() == 21 && teamIconRepository.findByTeamIdAndIconName(team.getId(), "groupMaxStreak21Days").isEmpty()){
+                TeamIcon teamIcon = TeamIcon.builder()
+                        .team(team)
+                        .iconName("groupMaxStreak21Days")
+                        .build();
+                teamIconRepository.save(teamIcon);
+            }
+
+            // 최초 66일 스트릭 뱃지 추가
+            if (teamHistory.getCurrentStrick() == 66 && teamIconRepository.findByTeamIdAndIconName(team.getId(), "groupMaxStreak66Days").isEmpty()){
+                TeamIcon teamIcon = TeamIcon.builder()
+                        .team(team)
+                        .iconName("groupMaxStreak66Days")
+                        .build();
+                teamIconRepository.save(teamIcon);
             }
 
             //    21일 달성 팀 실드 추가
