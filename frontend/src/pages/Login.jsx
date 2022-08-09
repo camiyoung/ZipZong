@@ -38,9 +38,9 @@ export default function Login() {
   useEffect(() => {
     dispatch(checkMemberId(localStorage.getItem("memberId")))
     //닉네임 중복 확인
-    if (hasNickname) {
-      navigate("/mypage")
-    }
+    // if (hasNickname) {
+    //   navigate("/mypage")
+    // }
   }, [])
   return (
     <div className="flex">
