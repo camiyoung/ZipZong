@@ -24,8 +24,10 @@ const RankSlider = () => {
       rightControl=" "
     >
       {rankList.map((name, idx) => (
-        <div className="flex h-full items-center justify-center bg-gradient-to-r text-2xl font-bold from-purple-400 to-pink-600 bg-clip-text text-transparent ">
-          {name} 2022/08/09 66일 달성!
+        <div className="w-full h-full bg-[#ffffff85] text-[#9898cf]">
+          <div className="flex h-full items-center justify-center  text-2xl font-medium">
+            {name} 2022/08/09 66일 달성!
+          </div>
         </div>
       ))}
     </Carousel>
@@ -35,7 +37,7 @@ const RankSlider = () => {
 export const TopRank = ({ list = rankList }) => {
   return (
     <div
-      className=" relative  w-full  h-full py-10 rounded-3xl flex  items-center justify-center shadow-md"
+      className=" relative  w-full  h-full rounded-3xl flex  items-center justify-center shadow-md"
       style={{
         backgroundImage: `url(/images/rankPage/rank_bg.png)`,
         backgroundSize: "cover",
@@ -45,14 +47,14 @@ export const TopRank = ({ list = rankList }) => {
     >
       <div className="  w-full  p-3   flex flex-col items-center justify-center ">
         <div>
-          <h1 className="text-5xl font-extrabold  font-sans text-center ">
+          <h1 className="text-5xl font-extrabold  text-center ">
             <span>💎 </span>
             <span className="bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
               명예의 전당
             </span>
             <span> 💎</span>
           </h1>
-          <p className="text-center font-sans font-semibold mt-4 text-lg">
+          <p className="text-center font-semibold mt-4 text-lg">
             66일 연속 운동을 달성한 그룹입니다 !
           </p>
         </div>
@@ -92,7 +94,7 @@ export const TopRank = ({ list = rankList }) => {
             </div>
           </div>
         </div>
-        <div className=" h-16 w-4/5 shadow-md">
+        <div className=" h-16 w-4/5">
           <RankSlider />
         </div>
       </div>

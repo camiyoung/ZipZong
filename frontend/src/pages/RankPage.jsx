@@ -35,8 +35,8 @@ export default function RankPage() {
         </section>
 
         {/* 랭킹 섹션 */}
-        <section className=" w-full flex mt-20 bg-gradient-to-r from-[#e5d1ed] to-[#c6f2ef] rounded-3xl pb-10 shadow-md">
-          <div className=" w-1/2 flex flex-col justify-center items-center">
+        <section className=" w-full flex mt-20 py-10 pb-16 bg-gradient-to-r from-[#e5d1ed] to-[#c6f2ef] rounded-3xl  shadow-md">
+          <div className=" w-1/2 flex flex-col justify-center items-center ">
             <RankList
               title={"⏰ 타임 랭킹 ⏰ "}
               description={"실시간으로 갱신됩니다."}
@@ -44,7 +44,7 @@ export default function RankPage() {
           </div>
           <div className=" w-1/2 flex flex-col justify-center items-center ">
             <RankList
-              title={"🗓 컨티뉴 랭킹 🗓 "}
+              title={"🗓️ 컨티뉴 랭킹 🗓️"}
               description={"AM 12:00을 기준으로 갱신됩니다."}
             />
           </div>
