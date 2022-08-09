@@ -108,7 +108,7 @@ abbr[title] {
   background-color: #f8f8fa;
 }
 .highlight {
-  background-color: #8ccfd5;
+  background-image: url("../../../public/images/badgeIcon/basic.png");
 }
 .highlight-sunday {
   color: red;

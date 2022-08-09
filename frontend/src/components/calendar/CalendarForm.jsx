@@ -14,7 +14,7 @@ import { teamMonthHistoryCheck } from "../../features/group/groupReducer"
 import Calendar from "react-calendar"
 import "./Calendar.css"
 import moment from "moment"
-const dailyRecord = ["18-07-2022", "17-07-2022", "16-07-2022"]
+const dailyRecord = ["18-08-2022", "17-08-2022", "16-08-2022"]
 
 export default function CalendarForm() {
   const dispatch = useDispatch()
@@ -33,8 +33,9 @@ export default function CalendarForm() {
     const year = validDate.getFullYear()
     dispatch(changeYear(year))
     dispatch(changeMonth(month))
-
-    if (isGroup) {
+    let teamId = location.pathname.split("/")[2]
+    console.log("loadData", isGroup, teamId)
+    if (isGroup[0] === "group") {
       let teamId = location.pathname.split("/")[2]
       dispatch(
         teamMonthHistoryCheck({
@@ -43,18 +44,29 @@ export default function CalendarForm() {
           month: month,
         })
       )
+    } else {
+      dispatch(
+        memberExerciseHistoryCheck({
+          memberId: memberId,
+          year: year,
+          month: month,
+        })
+      )
     }
-    dispatch(
-      memberExerciseHistoryCheck({
-        memberId: memberId,
-        year: year,
-        month: month,
-      })
-    )
   }
   useEffect(() => {
-    loadDate(date)
+    loadDate(activeDate)
   }, [activeDate])
+
+  useEffect(() => {
+    const tmpDay = date.getDate()
+    dispatch(showYearChange(date.getFullYear()))
+    dispatch(showMonthChange(date.getMonth() + 1))
+    dispatch(showDayChange(tmpDay))
+    if (memberDailyHistory.length !== 0) {
+      dispatch(setDailyHistory(memberDailyHistory[tmpDay - 1].performs))
+    }
+  }, [])
 
   useEffect(() => {
     const tmpDay = date.getDate()
@@ -63,8 +75,8 @@ export default function CalendarForm() {
     dispatch(showDayChange(tmpDay))
 
     // 값이 있을때만 performs 객체 접근
-    if (memberDailyHistory.keys.length !== 0) {
-      dispatch(setDailyHistory(memberDailyHistory[tmpDay - 1].performs[0]))
+    if (memberDailyHistory.length !== 0) {
+      dispatch(setDailyHistory(memberDailyHistory[tmpDay - 1].performs))
     }
   }, [date])
 
@@ -77,7 +89,6 @@ export default function CalendarForm() {
           value={date}
           onActiveStartDateChange={({ activeStartDate }) => {
             setActiveDate(activeStartDate)
-            loadDate(activeStartDate)
           }}
           // 일요일 앞에 나오는 코드
           calendarType="Hebrew"
