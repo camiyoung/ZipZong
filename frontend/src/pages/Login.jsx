@@ -40,7 +40,7 @@ export default function Login() {
     dispatch(checkMemberId(Number(collectedMemberId)))
 
     //닉네임 중복 확인
-    if (hasNickname && nickname != "") {
+    if (hasNickname && nickname !== "") {
       dispatch(
         nicknamePush({
           memberId: Number(collectedMemberId),
@@ -49,7 +49,7 @@ export default function Login() {
       )
       console.log("닉네임 중복 확인", hasNickname, nickname)
     }
-    return () => navigate("/mypage")
+    navigate("/mypage")
   }, [])
   return (
     <div className="flex">
