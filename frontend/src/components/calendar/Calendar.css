@@ -108,7 +108,7 @@ abbr[title] {
   background-color: #f8f8fa;
 }
 .highlight {
-  background: url("../../../public/images/calendarIcon/goodWork.png");
+  background-image: url("../../../public/images/calendarIcon/goodWork.png");
 }
 .highlight-sunday {
   color: red;
