@@ -3,6 +3,10 @@ import { useSelector, useDispatch } from "react-redux"
 import {
   memberExerciseHistoryCheck,
   memberExerciseHistorySumCheck,
+  setDailyHistory,
+  showYearChange,
+  showMonthChange,
+  showDayChange,
 } from "./myPageReducer"
 import { registrationTeam } from "../group/groupReducer"
 import CalendarForm from "../../components/calendar/CalendarForm"
@@ -39,26 +43,53 @@ const dayExerciseInfo = [
 
 export default function ExerciseInfo() {
   const dispatch = useDispatch()
-  const memberExeriseHistories = useSelector(
-    (state) => state.mypage.memberDailyHistory
-  )
-  const currentStreak = useSelector((state) => state.mypage.memberCurrentStrick)
-  const memberId = useSelector((state) => state.member.memberId)
-  const year = useSelector((state) => state.mypage.selectedYear)
-  const month = useSelector((state) => state.mypage.selectedMonth)
-  const registeredTeams = useSelector((state) => state.mypage.registeredTeam)
+  const { memberId, memberNickname } = useSelector((state) => state.member)
+
+  const {
+    selectedMonth,
+    selectedYear,
+    showYear,
+    showMonth,
+    showDay,
+    registeredTeam,
+    memberCurrentStrick,
+    memberDailyHistory,
+    stateDailyHistory,
+  } = useSelector((state) => state.mypage)
   useEffect(() => {
-    dispatch(
-      memberExerciseHistoryCheck({
-        memberId: memberId,
-        year: year,
-        month: month,
-      })
-    )
+    if (selectedYear && selectedMonth) {
+      dispatch(
+        memberExerciseHistoryCheck({
+          memberId: memberId,
+          year: selectedYear,
+          month: selectedMonth,
+        })
+      )
+    }
+
+    const date = new Date()
     dispatch(memberExerciseHistorySumCheck(memberId))
     dispatch(registrationTeam(memberId))
-  }, [])
+    dispatch(showYearChange(date.getFullYear()))
+    dispatch(showMonthChange(date.getMonth() + 1))
+    dispatch(showDayChange(date.getDate()))
 
+    if (memberDailyHistory.length !== 0 && showDay) {
+      dispatch(setDailyHistory(memberDailyHistory[showDay - 1].performs))
+    }
+  }, [])
+  useEffect(() => {
+    if (memberDailyHistory.length !== 0 && showDay) {
+      setTodayExercise()
+    }
+  }, [memberDailyHistory, showDay])
+
+  const setTodayExercise = () => {
+    dispatch(setDailyHistory(memberDailyHistory[showDay - 1].performs))
+  }
+
+  // stateDailyHistory는 performs   -------->  dayExerciseInfo와 같은 방법으로 옵니다
+  console.log(stateDailyHistory)
   let totalTime = 9
 
   return (
@@ -73,38 +104,46 @@ export default function ExerciseInfo() {
                 borderRadius: "1rem 0px 0px 1rem",
               }}
             >
-              <p className="text-5xl text-white font-bold mb-3">2022년</p>
-              <p className="text-5xl text-white font-bold mb-5">1월 18일</p>
+              <p className="text-5xl text-white font-bold mb-3">{showYear}년</p>
+              <p className="text-5xl text-white font-bold mb-5">
+                {showMonth}월 {showDay}일
+              </p>
               <p className="text-lg text-white font-normal">
                 {" "}
-                닉네임 님의 운동 기록
+                {memberNickname} 님의 운동 기록
               </p>
             </div>
             <div className="w-3/4 h-full flex items-center justify-center">
               <div className="flex justify-center w-10/12">
                 <div className="flex flex-wrap w-full justify-start">
-                  {dayExerciseInfo.map(
-                    ({ performName, performNum, performTime }, idx) => {
-                      return (
-                        <div key={idx} className="flex w-[33.33%] my-3">
-                          <ExerciseIcon
-                            size="large"
-                            shape=""
-                            image={performName}
-                          ></ExerciseIcon>
-                          <div className="flex flex-col justify-center items-center w-[70%]">
-                            <p className="font-semibold">
-                              {" "}
-                              <ChangeLanguage exercise={performName} />
-                            </p>
-                            <p>
-                              {" "}
-                              {performNum}회 / {performTime}분{" "}
-                            </p>
+                  {stateDailyHistory === null ||
+                  stateDailyHistory.length === 0 ? (
+                    // true, false 순서를 바꾸면 정상적으로 작동함 -> 운동을 하면 결과, 없으면 운동 안했다는 메시지 출력
+                    <p>이 날은 운동을 하지 않았습니다!</p>
+                  ) : (
+                    stateDailyHistory.map(
+                      ({ performName, performNum, performTime }, idx) => {
+                        return (
+                          <div key={idx} className="flex w-[33.33%] my-3">
+                            <ExerciseIcon
+                              size="large"
+                              shape=""
+                              image={performName}
+                            ></ExerciseIcon>
+                            <div className="flex flex-col justify-center items-center w-[70%]">
+                              <div className="font-semibold">
+                                {" "}
+                                <ChangeLanguage exercise={performName} />
+                              </div>
+                              <p>
+                                {" "}
+                                {performNum}회 / {performTime}분{" "}
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                      )
-                    }
+                        )
+                      }
+                    )
                   )}
                 </div>
               </div>

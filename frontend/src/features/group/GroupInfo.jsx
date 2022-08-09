@@ -116,7 +116,7 @@ function GroupManagement() {
           height="h-10"
           width="w-full"
           // 그룹장만 운동관리
-          onClick={() => navigate("/routine")}
+          onClick={() => navigate(`/routine/${fetchTeamId}`)}
         />
         {/*
         그룹장 ->그룹 설정 및 관리 보임
@@ -146,15 +146,14 @@ function GroupManagement() {
 }
 
 export default function GroupInfo() {
-  const { teamName, teamMembers, teamContent, teamLeader } = useSelector(
-    (state) => state.group
-  )
+  const { teamName, teamMembers, teamContent, teamLeader, teamRepIcons } =
+    useSelector((state) => state.group)
   return (
     <div className="w-full flex mt-5">
       <Card size="100%">
         <div className="flex">
           <ImageIcon
-            image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg"
+            image={`images/badgeIcon/${teamRepIcons}.png`}
             size="middle"
             shape="round"
           />

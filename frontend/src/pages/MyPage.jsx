@@ -12,10 +12,14 @@ export default function MyPage() {
   const { memberId } = useSelector((state) => state.member)
   // 최초 접속 시 현재 날짜 받아오기
   const [date, setDate] = useState(new Date())
-  const month = date.getMonth() + 1
-  const year = date.getFullYear()
+
+  // const storageNickname = localStorage.getItem("nickname")
 
   useEffect(() => {
+    // if (storageNickname) {
+    //   dispatch(memberInfo(storageNickname))
+    // }
+
     // 초대메시지 코드
     const checkInviteTeamId = localStorage.getItem("inviteTeamId")
     if (checkInviteTeamId) {
@@ -23,18 +27,10 @@ export default function MyPage() {
       return () => {
         localStorage.removeItem("inviteTeamId")
       }
-    } else {
-      // dispatch(
-      //   memberExerciseHistoryCheck({
-      //     memberId: memberId,
-      //     year: year,
-      //     month: month,
-      //   })
-      // )
     }
   }, [])
   return (
-    <div className="">
+    <div className="pb-10">
       <div className="flex justify-center mt-5">
         <Profile />
       </div>

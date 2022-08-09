@@ -15,7 +15,6 @@ export const nicknamePush = createAsyncThunk(
 export const memberInfo = createAsyncThunk("member/info/", async (nickname) => {
   console.log(nickname)
   const res = await http.get(`member/info/${nickname}`)
-  console.log("res", res)
   return res
 })
 
@@ -33,6 +32,17 @@ export const nicknameChange = createAsyncThunk(
     } else {
       // 닉네임 중복 처리
       alert("닉네임이 중복되었습니다.")
+    }
+  }
+)
+
+// 회원 대표아이콘 설정
+export const memberIconSelect = createAsyncThunk(
+  "member/rep-icon",
+  async (info) => {
+    const res = await http.put("/member/rep-icon", info)
+    if (res.data.message === "success") {
+      return res
     }
   }
 )
@@ -59,12 +69,12 @@ export const memberSlice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(memberInfo.fulfilled, (state, action) => {
-      console.log("멤버인포빌더", action)
-      // state.memberName = action.payload["name"]
-      // state.memberEmail = action.payload["email"]
-      // state.memberProvider = action.payload["provider"]
-      // state.memberNickname = action.payload["nickname"]
+      state.memberName = action.payload.data.data.name
+      state.memberEmail = action.payload.data.data.email
+      state.memberProvider = action.payload.data.data.provider
+      state.memberNickname = action.payload.data.data.nickname
     })
+
     builder.addCase(nicknamePush.fulfilled, (state, action) => {
       state.memberName = action.payload.data.data.name
       state.memberEmail = action.payload.data.data.email
@@ -75,6 +85,10 @@ export const memberSlice = createSlice({
     builder.addCase(nicknameChange.fulfilled, (state, action) => {
       console.log(state)
       state.memberNickname = action.payload.data.data
+    })
+
+    builder.addCase(memberIconSelect.fulfilled, (state, action) => {
+      state.memberRepIcon = action.payload.data.data
     })
   },
 })

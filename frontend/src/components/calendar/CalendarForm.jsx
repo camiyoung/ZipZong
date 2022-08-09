@@ -1,42 +1,84 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { useLocation } from "react-router-dom"
 import {
   changeYear,
   changeMonth,
   memberExerciseHistoryCheck,
+  showYearChange,
+  showMonthChange,
+  showDayChange,
+  setDailyHistory,
 } from "../../features/myPage/myPageReducer"
+import { teamMonthHistoryCheck } from "../../features/group/groupReducer"
 import Calendar from "react-calendar"
 import "./Calendar.css"
 import moment from "moment"
-const dailyRecord = ["18-07-2022", "17-07-2022", "16-07-2022"]
+const dailyRecord = ["18-08-2022", "17-08-2022", "16-08-2022"]
 
 export default function CalendarForm() {
   const dispatch = useDispatch()
+  const location = useLocation()
   const [date, setDate] = useState(new Date())
   const [activeDate, setActiveDate] = useState("")
   const { memberId } = useSelector((state) => state.member)
   const { memberDailyHistory, selectedMonth, selectedYear } = useSelector(
     (state) => state.mypage
   )
+  const isGroup = useState(location.pathname.split("/")[1])
+
   function loadDate(currentDate) {
     const validDate = currentDate || date
     const month = validDate.getMonth() + 1
     const year = validDate.getFullYear()
     dispatch(changeYear(year))
     dispatch(changeMonth(month))
-    dispatch(
-      memberExerciseHistoryCheck({
-        memberId: memberId,
-        year: year,
-        month: month,
-      })
-    )
+    let teamId = location.pathname.split("/")[2]
+    console.log("loadData", isGroup, teamId)
+    if (isGroup[0] === "group") {
+      let teamId = location.pathname.split("/")[2]
+      dispatch(
+        teamMonthHistoryCheck({
+          teamId: teamId,
+          year: year,
+          month: month,
+        })
+      )
+    } else {
+      dispatch(
+        memberExerciseHistoryCheck({
+          memberId: memberId,
+          year: year,
+          month: month,
+        })
+      )
+    }
   }
-  const memoActiveDate = useMemo(() => activeDate)
   useEffect(() => {
-    loadDate(date)
-    console.log("히스토리", memberDailyHistory)
-  }, [memoActiveDate])
+    loadDate(activeDate)
+  }, [activeDate])
+
+  useEffect(() => {
+    const tmpDay = date.getDate()
+    dispatch(showYearChange(date.getFullYear()))
+    dispatch(showMonthChange(date.getMonth() + 1))
+    dispatch(showDayChange(tmpDay))
+    if (memberDailyHistory.length !== 0) {
+      dispatch(setDailyHistory(memberDailyHistory[tmpDay - 1].performs))
+    }
+  }, [])
+
+  useEffect(() => {
+    const tmpDay = date.getDate()
+    dispatch(showYearChange(date.getFullYear()))
+    dispatch(showMonthChange(date.getMonth() + 1))
+    dispatch(showDayChange(tmpDay))
+
+    // 값이 있을때만 performs 객체 접근
+    if (memberDailyHistory.length !== 0) {
+      dispatch(setDailyHistory(memberDailyHistory[tmpDay - 1].performs))
+    }
+  }, [date])
 
   return (
     <div className="app w-1/4 ">
@@ -47,7 +89,6 @@ export default function CalendarForm() {
           value={date}
           onActiveStartDateChange={({ activeStartDate }) => {
             setActiveDate(activeStartDate)
-            loadDate(activeStartDate)
           }}
           // 일요일 앞에 나오는 코드
           calendarType="Hebrew"
@@ -70,31 +111,31 @@ export default function CalendarForm() {
               }
             )
 
-            // if (memberDailyHistory[date.getDate() - 1] === 1) {
-            //   // 달력에 칠하기
-            //   return "highlight highlight-saturday"
-            // }
-            // console.log()
-            // if (
-            //   dailyRecord.find((x) => x === moment(date).format("DD-MM-YYYY"))
-            // ) {
-            //   if (moment(date).format("LLLL").split(",")[0] === "Saturday") {
-            //     return "highlight highlight-saturday"
-            //   } else if (
-            //     moment(date).format("LLLL").split(",")[0] === "Sunday"
-            //   ) {
-            //     return "highlight highlight-sunday"
-            //   }
-            //   return "highlight"
-            // } else {
-            //   if (moment(date).format("LLLL").split(",")[0] === "Saturday") {
-            //     return "highlight-saturday"
-            //   } else if (
-            //     moment(date).format("LLLL").split(",")[0] === "Sunday"
-            //   ) {
-            //     return "highlight-sunday"
-            //   }
-            // }
+            // 달력에 색 칠하기
+            if (memberDailyHistory[date.getDate() - 1] === 1) {
+              // 토요일은 파란색
+              return "highlight highlight-saturday"
+            }
+            if (
+              dailyRecord.find((x) => x === moment(date).format("DD-MM-YYYY"))
+            ) {
+              if (moment(date).format("LLLL").split(",")[0] === "Saturday") {
+                return "highlight highlight-saturday"
+              } else if (
+                moment(date).format("LLLL").split(",")[0] === "Sunday"
+              ) {
+                return "highlight highlight-sunday"
+              }
+              return "highlight"
+            } else {
+              if (moment(date).format("LLLL").split(",")[0] === "Saturday") {
+                return "highlight-saturday"
+              } else if (
+                moment(date).format("LLLL").split(",")[0] === "Sunday"
+              ) {
+                return "highlight-sunday"
+              }
+            }
           }}
         ></Calendar>
       </div>

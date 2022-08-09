@@ -16,7 +16,6 @@ export default function Group() {
   const location = useLocation()
   const fetchTeamId = location.pathname.split("/")[2]
   useEffect(() => {
-    console.log("최초")
     dispatch(teamInfo(fetchTeamId))
     dispatch(teamTotalExerciseCount(fetchTeamId))
   }, [fetchTeamId])
@@ -43,7 +42,7 @@ export default function Group() {
           </div>
           <ExerciseInfo />
         </div>
-
+        <MemberList inviteLink={inviteLink} />
         <div className="flex justify-center flex-col items-center mt-20">
           <div className="text-center">
             <p className="text-lg">그룹 운동 정보</p>
