@@ -166,7 +166,7 @@ const InfoList = ({ setVisible }) => {
                           dispatch(
                             memberIconSelect({
                               nickname: memberNickname,
-                              icon: icon,
+                              icon: `images/badgeIcon/${icon}.png`,
                             })
                           )
                         }}
@@ -175,7 +175,7 @@ const InfoList = ({ setVisible }) => {
                       >
                         <div className="hover:border-primary-400 border-2 border-white rounded-full ">
                           <ImageIcon
-                            image={`images/animalIcon/${icon}.png`}
+                            image={`images/badgeIcon/${icon}.png`}
                             size="smmiddle"
                             shape="round"
                             borderStyle="none"
