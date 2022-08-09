@@ -56,6 +56,7 @@ public class OAuthController {
                                                  .queryParam("refreshTokenExpiration", refreshTokenExpiration)
                                                  .queryParam("memberId", member.getId().toString())
                                                  .queryParam("hasNickname", hasNickname.toString())
+                                                 .queryParam("nickname",member.getNickname())
                                                  .build()
                                                  .toUriString();
 
