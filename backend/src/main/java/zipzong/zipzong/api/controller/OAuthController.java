@@ -49,6 +49,13 @@ public class OAuthController {
 
         Boolean hasNickname = member.getNickname() == null ? false : true;
 
+        String nickname;
+
+        if(hasNickname) {
+            nickname = member.getNickname();
+        } else {
+            nickname = "";
+        }
 
         return "redirect:" + UriComponentsBuilder.fromUriString("http://i7a805.p.ssafy.io/login")
                                                  .queryParam("accessToken", token.getAccessToken())
@@ -57,7 +64,7 @@ public class OAuthController {
                                                  .queryParam("refreshTokenExpiration", refreshTokenExpiration)
                                                  .queryParam("memberId", member.getId().toString())
                                                  .queryParam("hasNickname", hasNickname.toString())
-                                                 .queryParam("nickname",member.getNickname())
+                                                 .queryParam("nickname",nickname)
                                                  .build()
                                                  .encode(StandardCharsets.UTF_8)
                                                  .toUriString();
