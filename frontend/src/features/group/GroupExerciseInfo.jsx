@@ -1,7 +1,9 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useLocation } from "react-router-dom"
-import ImageIcon from "../../components/icon/ImageIcon"
+import ExerciseIcon from "../../components/icon/ExerciseIcon"
+import { teamTotalExerciseCount } from "./groupReducer"
+import ChangeLanguage from "../routine/ChangeLanguage"
 
 const groupInfo = [
   {
@@ -40,27 +42,31 @@ export default function GroupExerciseInfo() {
   const dispatch = useDispatch()
   const location = useLocation()
   const fetchTeamId = location.pathname.split("/")[2]
-  const { performTeamTotals } = useSelector((state) => state.group)
+  const { performTeamTotals, teamCurrentStreak } = useSelector(
+    (state) => state.group
+  )
+
+  useEffect(() => {
+    dispatch(teamTotalExerciseCount(fetchTeamId))
+  }, [])
 
   return (
     <div className="flex mt-10">
-      {groupInfo.map(
-        ({ groupExerciseIcon, groupExerciseName, groupExerciseCount }, idx) => {
-          return (
-            <div key={idx} className="flex">
-              <ImageIcon
-                image={`images/badgeIcon/${groupExerciseIcon}.png`}
-                size="middle"
-                shape="round"
-              />
-              <div className="flex flex-col mx-5">
-                <p>{groupExerciseName}</p>
-                <p>{groupExerciseCount}</p>
-              </div>
+      {performTeamTotals.map(({ performName, performTotal }, idx) => {
+        return (
+          <div key={idx} className="flex">
+            <ExerciseIcon
+              size="large"
+              shape="round"
+              image={performName}
+            ></ExerciseIcon>
+            <div className="flex flex-col mx-5">
+              <ChangeLanguage exercise={performName} />
+              <p>{performTotal}</p>
             </div>
-          )
-        }
-      )}
+          </div>
+        )
+      })}
     </div>
   )
 }

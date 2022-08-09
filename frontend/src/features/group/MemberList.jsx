@@ -41,12 +41,10 @@ const Members = [
   },
 ]
 export default function MemberList() {
-  const { inviteLink } = useSelector((state) => state.group)
+  const { inviteLink, teamMembers } = useSelector((state) => state.group)
   const [isOpen, setOpen] = useState(false)
   const modalClose = () => setOpen(false)
   const copyLinkRef = useRef()
-
-  console.log("초대 링크", inviteLink)
   const [link, setLink] = useState("")
 
   const copyTextUrl = () => {
@@ -57,7 +55,7 @@ export default function MemberList() {
       .writeText(copyLinkRef.current.value)
       .then(() => alert("링크를 복사했습니다."))
   }
-
+  console.log("팀 멤버들", teamMembers)
   return (
     // group 원들의 정보를 받아야 함
     <div className="flex mt-10 w-full flex-wrap">
@@ -82,19 +80,19 @@ export default function MemberList() {
         </form>
       </Modal>
       {/* 모달 영역 끝 */}
-      {Members.map(({ memberName, Icon, hasDone }, idx) => {
+      {teamMembers.map(({ nickname, repIcon, hasExercised }, idx) => {
         return (
           <div key={idx}>
             <NameSquare
               // 운동을 한 사람들만 초록색, 나머지는 빨간색
-              color={hasDone ? "green" : "red"}
+              color={hasExercised ? "green" : "red"}
               size="middle"
-              text={memberName}
+              text={nickname}
               borderColor="none"
               borderSize="none"
             >
               <ImageIcon
-                image={`images/badgeIcon/${Icon}.png`}
+                image={`images/badgeIcon/${repIcon}.png`}
                 size="middle"
                 shape="round"
                 className="m-4"
