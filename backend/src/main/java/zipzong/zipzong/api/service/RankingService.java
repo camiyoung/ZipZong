@@ -41,14 +41,13 @@ public class RankingService {
     private final TeamHistoryRepository teamHistoryRepository;
     private final TeamHistoryDetailRepository teamHistoryDetailRepository;
     private final TeamIconRepository teamIconRepository;
-    private final RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
-
-    final ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
-
+    private final RedisTemplate<String, String> redisTemplate;
     private static final Long BOUNDARY = 5L;
 
-    @Scheduled(cron = "0 8 18 * * ?")
+    @Scheduled(cron = "0 35 18 * * ?")
     public void comprehensiveUpdate() {
+
+        ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
         LocalDate today = LocalDate.now().minusDays(1);
 
         // # Redis 초기화 작업
@@ -232,6 +231,7 @@ public class RankingService {
     }
 
     public List<HallOfFameResponse.HallOfFame> getHallOfFames() {
+        ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
         String rankingBoard = "halloffame";
         Set<ZSetOperations.TypedTuple<String>> rankSet = zSetOperations.reverseRangeWithScores(rankingBoard, 0, 9);
 
@@ -263,6 +263,7 @@ public class RankingService {
     }
 
     public List<HallOfFameResponse.StrickRank> getStrickRanks() {
+        ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
         String rankingBoard = "strickrank";
         Set<ZSetOperations.TypedTuple<String>> rankSet = zSetOperations.reverseRangeWithScores(rankingBoard, 0, 9);
 
@@ -294,6 +295,7 @@ public class RankingService {
     }
 
     public List<HallOfFameResponse.TimeRank> getTimeRanks() {
+        ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
         String rankingBoard = "timerank";
         Set<ZSetOperations.TypedTuple<String>> rankSet = zSetOperations.reverseRangeWithScores(rankingBoard, 0, 9);
 
@@ -325,6 +327,7 @@ public class RankingService {
     }
 
     public TeamRankingResponse.StrickRank getStrickRank(Long teamId) {
+        ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
         String rankingBoard = "strickrank";
 
         Long ranking = zSetOperations.reverseRank(rankingBoard, teamId);
@@ -377,6 +380,7 @@ public class RankingService {
     }
 
     public TeamRankingResponse.TimeRank getTimeRank(Long teamId) {
+        ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
         String rankingBoard = "timerank";
 
         Long ranking = zSetOperations.reverseRank(rankingBoard, teamId);
