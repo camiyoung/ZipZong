@@ -180,6 +180,7 @@ public class RegistrationService {
 
     private MemberInfoRequest getMemberInfoRequest(Registration registration, Member member) {
         MemberInfoRequest memberInfoRequest = new MemberInfoRequest();
+        memberInfoRequest.setMemberId(member.getId());
         memberInfoRequest.setRole(registration.getRole());
         memberInfoRequest.setCreatedAt(registration.getJoinDate());
         memberInfoRequest.setName(member.getName());

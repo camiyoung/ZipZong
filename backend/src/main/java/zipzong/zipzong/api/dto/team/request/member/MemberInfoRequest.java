@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class MemberInfoRequest {
+    Long memberId;
     String repIcon;
     String name;
     String nickname;

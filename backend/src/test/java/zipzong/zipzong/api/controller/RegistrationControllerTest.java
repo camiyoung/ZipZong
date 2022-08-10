@@ -138,10 +138,11 @@ class RegistrationControllerTest {
                                      fieldWithPath("data.repIcons").description("팀 대표 아이콘"),
                                      fieldWithPath("data.shieldCount").description("쉴드 아이템 개수"),
                                      fieldWithPath("data.members.[].repIcon").description("회원 대표 아이콘"),
-                                     fieldWithPath("data.members.[].name").description("회원 대표 아이콘"),
-                                     fieldWithPath("data.members.[].nickname").description("회원 대표 아이콘"),
-                                     fieldWithPath("data.members.[].createdAt").description("회원 대표 아이콘"),
-                                     fieldWithPath("data.members.[].role").description("회원 대표 아이콘")
+                                     fieldWithPath("data.members.[].name").description("회원 이름"),
+                                     fieldWithPath("data.members.[].memberId").description("회원 아이디"),
+                                     fieldWithPath("data.members.[].nickname").description("회원 닉네임"),
+                                     fieldWithPath("data.members.[].createdAt").description("회원 가입일"),
+                                     fieldWithPath("data.members.[].role").description("회원 역할")
                              )
                      ));
     }
@@ -161,6 +162,7 @@ class RegistrationControllerTest {
         List<MemberInfoRequest> memberInfoRequestList = new ArrayList<>();
 
         MemberInfoRequest memberInfoRequest1 = new MemberInfoRequest();
+        memberInfoRequest1.setMemberId(1L);
         memberInfoRequest1.setName("name");
         memberInfoRequest1.setNickname("nickname1");
         memberInfoRequest1.setRepIcon("basic");
@@ -168,6 +170,7 @@ class RegistrationControllerTest {
         memberInfoRequest1.setRole(Role.LEADER);
 
         MemberInfoRequest memberInfoRequest2 = new MemberInfoRequest();
+        memberInfoRequest2.setMemberId(2L);
         memberInfoRequest2.setName("name");
         memberInfoRequest2.setNickname("nickname2");
         memberInfoRequest2.setRepIcon("basic");
