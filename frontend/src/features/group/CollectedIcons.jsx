@@ -34,7 +34,7 @@ export default function CollectedIcons() {
         </span>
       </span>
 
-      <div className="flex items-center rounded-3xl mt-5 shadow-md p-5 text-gray-400 bg-gradient-to-r to-gray-200 from-white">
+      <div className="flex items-center rounded-3xl mt-5 shadow-md p-5 from-white custom-border2">
         <div className="flex flex-wrap">
           {prizes.map((imageUrl, idx) => {
             return (

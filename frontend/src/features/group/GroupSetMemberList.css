@@ -26,7 +26,7 @@
 }
 
 .container:hover .overlay {
-  width: 170%;
+  width: 165%;
 }
 
 .text {
@@ -38,4 +38,12 @@
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   white-space: nowrap;
+}
+
+.textBtn {
+  background-color: rgba(100, 100, 100, 0.03);
+}
+
+.textBtn:hover {
+  background-color: rgba(100, 100, 100, 0.2);
 }
