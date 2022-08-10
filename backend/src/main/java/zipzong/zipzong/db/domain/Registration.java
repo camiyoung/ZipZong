@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Getter
 @Table(name = "registration",
         indexes = {
-                @Index(name = "member_team_idx", columnList = "member_id, team_id", unique = true),
+                @Index(name = "member_team_idx", columnList = "member_id, team_id"),
                 @Index(name = "team_idx", columnList = "team_id")
         })
 @EntityListeners(AuditingEntityListener.class)
@@ -43,6 +43,7 @@ public class Registration {
     @CreatedDate
     private LocalDateTime joinDate;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "is_resign")
     CheckExist isResign;
 

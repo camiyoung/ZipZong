@@ -86,7 +86,6 @@ public class RankingService {
         List<Team> teams = teamRepository.findAll();
         for(Team team : teams) {
             boolean check = true;
-            System.out.println("실행되는중!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             List<Registration> registrations = registrationRepository.findAllByTeamId(team.getId());
             for (Registration registration : registrations) {
                 if (exerciseRepository.findByRegistrationIdAndExerciseDate(registration.getId(), today).isEmpty()) {

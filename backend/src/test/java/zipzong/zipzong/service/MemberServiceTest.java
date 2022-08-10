@@ -15,6 +15,7 @@ import zipzong.zipzong.db.domain.Team;
 import zipzong.zipzong.api.dto.team.request.member.MemberResponse;
 import zipzong.zipzong.api.dto.nickname.NicknameSetResponse;
 import zipzong.zipzong.db.repository.memberteam.*;
+import zipzong.zipzong.enums.CheckExist;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ class MemberServiceTest {
 
     @BeforeEach
     void setup() {
-        memberService = new MemberService(memberRepository,memberIconRepository);
+        memberService = new MemberService(memberRepository, memberIconRepository, registrationRepository);
     }
 
     @Test
@@ -229,6 +230,21 @@ class MemberServiceTest {
         Assertions.assertEquals(memberIcons.get(0),icon1);
         Assertions.assertEquals(memberIcons.get(1),icon2);
     }
+
+    @Test
+    @DisplayName("회원 탈퇴")
+    void removeMember() {
+        // given
+        Member member = makeMember("nickname");
+        Member savedMember = memberRepository.save(member);
+
+        // when
+        memberService.removeUser(savedMember.getId());
+
+        // then
+        Assertions.assertTrue(memberRepository.findByEmailAndProvider(savedMember.getEmail(), savedMember.getProvider()).orElseThrow().getIsDeleted().equals(CheckExist.Y));
+    }
+
 
 
     private Member makeMember(String nickname) {

@@ -10,14 +10,29 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RegistrationRepository extends JpaRepository<Registration, Long> {
-    @EntityGraph(attributePaths = {"team"})
-    @Query("select r from Registration r where r.member.id =:memberId")
-    List<Registration> findJoinedTeam(@Param("memberId") Long memberId);
 
     @EntityGraph(attributePaths = {"team", "member"})
     @Query("select r from Registration r where r.team.id =:teamId")
     List<Registration> findTeamDetail(@Param("teamId") Long teamId);
-    Optional<Registration> findByMemberIdAndTeamId(Long memberId, Long teamId);
 
+    @EntityGraph(attributePaths = {"team"})
+    @Query("select r from Registration r where r.member.id =:memberId and r.isResign is null")
+    List<Registration> findJoinedTeamNoResigned(@Param("memberId") Long memberId);
+
+    @EntityGraph(attributePaths = {"team", "member"})
+    @Query("select r from Registration r where r.member.id = :memberId" +
+            " and r.team.id = :teamId and r.isResign is null")
+    Optional<Registration> findMemberIdAndTeamIdNoResigned(Long memberId, Long teamId);
+
+    @EntityGraph(attributePaths = {"member"})
+    @Query("select r from Registration r where r.team.id = :teamId" +
+            " and r.isResign is null")
+    List<Registration> findAllInTeamNoResigned(Long teamId);
+
+    @EntityGraph(attributePaths = {"team"})
+    @Query("select r from Registration r where r.member.id =:memberId")
+    List<Registration> findJoinedTeam (@Param("memberId") Long memberId);
+
+    Optional<Registration> findByMemberIdAndTeamId(Long memberId, Long teamId);
     List<Registration> findAllByTeamId(Long teamId);
 }

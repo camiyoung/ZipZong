@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -370,9 +371,8 @@ class MemberControllerTest {
                      .andDo(document("add-Icon",
                              preprocessRequest(prettyPrint()),
                              preprocessResponse(prettyPrint()),
-                             requestFields(
-                                     fieldWithPath("nickname").description("회원 닉네임"),
-                                     fieldWithPath("icon").description("추가할 아이콘")
+                             pathParameters(
+                                     parameterWithName("member-id").description("회원 아이디")
                              ),
 
                              responseFields(
@@ -380,6 +380,31 @@ class MemberControllerTest {
                                      fieldWithPath("data").description("추가된 아이콘")
                              )
                      ));
+    }
+
+    @Test
+    @DisplayName("회원 탈퇴")
+    void removeUser() throws Exception {
+        //given
+        given(memberService.removeUser(anyLong())).willReturn(true);
+
+        //when
+        RequestBuilder requestBuilder = RestDocumentationRequestBuilders.put("/member/remove/{memberId}", 1L);
+        ResultActions resultActions = mockMvc.perform(requestBuilder);
+
+        //then
+        resultActions
+                .andDo(document("remove-user",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("memberId").description("회원 아이디")
+                        ),
+                        responseFields(
+                                fieldWithPath("message").description("메시지"),
+                                fieldWithPath("data").description("true: 성공, false: 그룹장인 그룹 존재")
+                        )
+                ));
     }
 
     private IconResponse makeIconResponse() {

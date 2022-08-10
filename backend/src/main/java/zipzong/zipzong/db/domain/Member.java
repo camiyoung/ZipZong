@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 import zipzong.zipzong.api.dto.team.request.member.MemberResponse;
+import zipzong.zipzong.enums.CheckExist;
 
 import javax.persistence.*;
 
@@ -43,8 +44,12 @@ public class Member {
         this.memberHistory = memberHistory;
     }
 
-    @Column(name ="repIcon", nullable = false)
+    @Column(name ="rep_icon", nullable = false)
     private String repIcon;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name ="is_delete")
+    private CheckExist isDeleted;
 
 
     @Builder //생성을 Builder 패턴으로 하기 위해서
@@ -57,6 +62,10 @@ public class Member {
         this.repIcon = repIcon;
     }
 
+    public void setIsDeleted(CheckExist value) {
+        this.isDeleted = value;
+    }
+
     public void setRepIcon(String repIcon){
         this.repIcon = repIcon;
     }
@@ -66,6 +75,22 @@ public class Member {
     }
 
     public void changeNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
+
+    public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 

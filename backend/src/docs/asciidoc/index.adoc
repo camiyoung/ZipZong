@@ -27,6 +27,8 @@ operation::get-icons[snippets='http-request,path-parameters,http-response,respon
 operation::set-repIcon[snippets='http-request,request-fields,http-response,response-fields']
 === 회원 아이콘 추가
 operation::add-Icon[snippets='http-request,request-fields,http-response,response-fields']
+=== 회원 탈퇴
+operation::remove-user[snippets='http-request,path-parameters,http-response,response-fields']
 
 [[Team-API]]
 == Team API

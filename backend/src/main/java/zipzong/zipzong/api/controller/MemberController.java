@@ -1,5 +1,6 @@
 package zipzong.zipzong.api.controller;
 
+import io.lettuce.core.dynamic.annotation.Param;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -100,6 +101,15 @@ public class MemberController {
         memberService.updateNickName(nicknameChangeResponse.getOrigin(), nicknameChangeResponse.getNickname());
         return new ResponseEntity<>(makeBasicResponse(SUCCESS, nicknameChangeResponse.getNickname()), HttpStatus.CREATED);
     }
+
+    // 회원 탈퇴
+    @PutMapping("/remove/{memberId}")
+    public ResponseEntity<BasicResponse<Boolean>> removeMember(@PathVariable("memberId") Long memberId) {
+        Boolean isDeleted = memberService.removeUser(memberId);
+        if(isDeleted) return new ResponseEntity<>(makeBasicResponse(SUCCESS, true), HttpStatus.OK);
+        else return new ResponseEntity<>(makeBasicResponse("FAIL", false), HttpStatus.NOT_ACCEPTABLE);
+    }
+
 
     private <T> BasicResponse<T> makeBasicResponse(String message, T data) {
         return BasicResponse.<T>builder()

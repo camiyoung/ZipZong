@@ -68,8 +68,13 @@ public class RegistrationService {
         Member member = memberRepository.findById(memberId).orElseThrow(
                 () -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND_ERROR)
         );
-        Registration registration = Registration.joinRegistration(member, team);
-        return registrationRepository.save(registration);
+
+        if ((team.getIsDeleted() == null || team.getIsDeleted().equals(CheckExist.N))
+                && registrationRepository.findMemberIdAndTeamIdNoResigned(member.getId(), team.getId()).isEmpty()) {
+                Registration registration = Registration.joinRegistration(member, team);
+                return registrationRepository.save(registration);
+        }
+        return Registration.builder().build();
     }
 
     /*
