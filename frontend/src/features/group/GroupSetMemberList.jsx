@@ -12,45 +12,63 @@ const members = [
   {
     name: "신슬기",
     date: "2022.05.10",
-    imageUrl:
-      "https://img1.daumcdn.net/thumb/S180x180/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fsports%2Fplayer%2F300%2F14%2F111505.jpg&scode=default_face_profile_big_p",
+    imageUrl: "bee",
     isLeader: true,
   },
   {
     name: "김준우",
     date: "2022.06.01",
-    imageUrl:
-      "https://img1.daumcdn.net/thumb/S180x180/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fsports%2Fplayer%2F300%2F14%2F111505.jpg&scode=default_face_profile_big_p",
+    imageUrl: "frog",
     isLeader: false,
   },
-  {
-    name: "박종민",
-    date: "2022.06.16",
-    imageUrl:
-      "https://img1.daumcdn.net/thumb/S180x180/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fsports%2Fplayer%2F300%2F14%2F111505.jpg&scode=default_face_profile_big_p",
-    isLeader: false,
-  },
-  {
-    name: "안지영",
-    date: "2022.06.11",
-    imageUrl:
-      "https://img1.daumcdn.net/thumb/S180x180/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fsports%2Fplayer%2F300%2F14%2F111505.jpg&scode=default_face_profile_big_p",
-    isLeader: false,
-  },
-  {
-    name: "채송지",
-    date: "2022.07.14",
-    imageUrl:
-      "https://img1.daumcdn.net/thumb/S180x180/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fsports%2Fplayer%2F300%2F14%2F111505.jpg&scode=default_face_profile_big_p",
-    isLeader: false,
-  },
-  {
-    name: "황승주",
-    date: "2022.06.15",
-    imageUrl:
-      "https://img1.daumcdn.net/thumb/S180x180/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fsports%2Fplayer%2F300%2F14%2F111505.jpg&scode=default_face_profile_big_p",
-    isLeader: false,
-  },
+  // {
+  //   name: "박종민",
+  //   date: "2022.06.16",
+  //   imageUrl: "ferret",
+  //   isLeader: false,
+  // },
+  // {
+  //   name: "안지영",
+  //   date: "2022.06.11",
+  //   imageUrl: "elephant",
+  //   isLeader: false,
+  // },
+  // {
+  //   name: "채송지",
+  //   date: "2022.07.14",
+  //   imageUrl: "yak",
+  //   isLeader: false,
+  // },
+  // {
+  //   name: "황승주",
+  //   date: "2022.06.15",
+  //   imageUrl: "walrus",
+  //   isLeader: false,
+  // },
+  // {
+  //   name: "박종민",
+  //   date: "2022.06.16",
+  //   imageUrl: "ferret",
+  //   isLeader: false,
+  // },
+  // {
+  //   name: "안지영",
+  //   date: "2022.06.11",
+  //   imageUrl: "elephant",
+  //   isLeader: false,
+  // },
+  // {
+  //   name: "채송지",
+  //   date: "2022.07.14",
+  //   imageUrl: "yak",
+  //   isLeader: false,
+  // },
+  // {
+  //   name: "황승주",
+  //   date: "2022.06.15",
+  //   imageUrl: "walrus",
+  //   isLeader: false,
+  // },
 ]
 export default function GroupSetMemberList() {
   const dispatch = useDispatch()
@@ -59,41 +77,46 @@ export default function GroupSetMemberList() {
   const fetchTeamId = location.pathname.split("/")[2]
   const { teamMembers, teamLeader } = useSelector((state) => state.group)
   const { memberId } = useSelector((state) => state.member)
-  const [isExpulsionOpen, setExpulsionOpen] = useState(false)
   const [user, setUser] = useState()
-  const modalClose = () => setExpulsionOpen(false)
+
+  const [isExpulsionOpen, setExpulsionOpen] = useState(false)
+  const modalExpulsionClose = () => setExpulsionOpen(false)
+  const [isMandateOpen, setMandateOpen] = useState(false)
+  const modalMandateClose = () => setMandateOpen(false)
 
   const GroupHover = ({ name, date, isLeader, imageUrl, idx }) => {
     return (
       <div key={idx} className="flex mb-4">
-        <div className="flex p-4 rounded-tr-full rounded-br-full container w-[50%] bg-white shadow-sm">
+        <div className="flex p-4 rounded-tr-full rounded-br-full container w-[55%] shadow-md bg-white border-[#4abaee88] border-l-[20px]">
           <div className="flex image items-center px-2">
-            <ImageIcon
-              image={`images/badgeIcon/${imageUrl}.png`}
-              size="smmiddle"
-              shape="round"
-            />
+            <ImageIcon image={imageUrl} size="smmiddle" shape="round" />
             <span className="ml-3">{name}</span>
             <span className="mx-2">({date} 가입)</span>
             {isLeader ? <span className="w-min">👑</span> : null}
-
-            {/* 그룹장 위임, 강퇴 컴포넌트 */}
-            <div class="overlay rounded-tr-full rounded-br-full z-0">
-              <div class="text">
-                <button className="hover:bg-mainBlue px-3 py-1 rounded-xl">
-                  그룹장 위임
-                </button>
-                <button
-                  className="hover:bg-mainBlue px-3 py-1 rounded-xl"
-                  onClick={() => {
-                    setExpulsionOpen(true)
-                    setUser(name)
-                  }}
-                >
-                  그룹원 강퇴
-                </button>
+            {isLeader ? null : (
+              <div class="overlay rounded-tr-full rounded-br-full">
+                <div class="text">
+                  <button
+                    className="textBtn hover:bg-mainBlue px-3 py-1 rounded-xl text-white shadow-sm"
+                    onClick={() => {
+                      setMandateOpen(true)
+                      setUser(name)
+                    }}
+                  >
+                    그룹장 위임
+                  </button>
+                  <button
+                    className="textBtn hover:bg-mainBlue px-3 py-1 ml-3 rounded-xl text-white shadow-sm"
+                    onClick={() => {
+                      setExpulsionOpen(true)
+                      setUser(name)
+                    }}
+                  >
+                    그룹원 강퇴
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
@@ -104,34 +127,73 @@ export default function GroupSetMemberList() {
   return (
     <div className="ml-10 mt-5">
       {/* 회원 강퇴 모달 */}
-      <Modal isOpen={isExpulsionOpen} modalClose={modalClose}>
-        <div className="flex flex-col">
-          <p className="text-xl font-bold flex justify-center">
-            {user} 회원님을 정말 탈퇴 시키시겠습니까?
-          </p>
-          <div className="flex justify-around mt-5">
-            <Button
-              height="h-7"
-              width="w-32"
-              text="예"
-              bgColor="bg-info"
-              // onClick={() =>
-              //   dispatch(
-              //     teamExpel({
-              //       leaderId: leaderId,
-              //       followerId: memberId,
-              //       teamId: fetchTeamId,
-              //     })
-              //   )
-              // }
-            />
-            <Button
-              height="h-7"
-              width="w-32"
-              text="아니오"
-              bgColor="bg-danger"
-              onClick={() => setExpulsionOpen(false)}
-            />
+      <Modal isOpen={isExpulsionOpen} modalClose={modalExpulsionClose}>
+        <div className="mt-3 mb-3">
+          <div className="flex justify-center mb-1">
+            {user} 회원님을 정말 그룹에서 탈퇴 시키시겠습니까?
+          </div>
+          <div className="mb-3 text-red-600 text-sm flex justify-center">
+            탈퇴된 회원의 누적 운동 정보는 사라지지 않습니다.
+          </div>
+          <div className="flex justify-center pt-3">
+            <div>
+              <Button
+                text="아니오"
+                width="w-32"
+                bgColor="bg-info"
+                onClick={() => setExpulsionOpen(false)}
+              />
+            </div>
+            <div className="ml-3">
+              <Button
+                text="예"
+                bgColor="bg-danger"
+                width="w-32"
+                // 회원 강퇴 로직
+                // onClick={() =>
+                //   dispatch(
+                //     teamExpel({
+                //       leaderId: leaderId,
+                //       followerId: memberId,
+                //       teamId: fetchTeamId,
+                //     })
+                //   )
+                // }
+              />
+            </div>
+          </div>
+        </div>
+      </Modal>
+
+      {/* 그룹장 위임 모달 */}
+      <Modal isOpen={isMandateOpen} modalClose={modalMandateClose}>
+        <div className="mt-3 mb-3">
+          <div className="flex justify-center mb-1">
+            {user} 회원님께 그룹장 직위를 넘기시겠습니까?
+          </div>
+          <div className="mb-3 text-gray-600 text-sm flex justify-center">
+            위임 후 즉시 그룹 페이지로 이동됩니다.
+          </div>
+          <div className="flex justify-center pt-3">
+            <div>
+              <Button
+                text="아니오"
+                width="w-32"
+                bgColor="bg-info"
+                onClick={() => setMandateOpen(false)}
+              />
+            </div>
+            <div className="ml-3">
+              <Button
+                text="예"
+                bgColor="bg-danger"
+                width="w-32"
+                // 여기는 그룹장 위임 로직
+                // 위임 후 그룹 페이지로 리다이렉트 시켜주세요 (일반 멤버의 그룹 설정 접근 불가)
+                // onClick={() =>
+                // }
+              />
+            </div>
           </div>
         </div>
       </Modal>
@@ -142,6 +204,9 @@ export default function GroupSetMemberList() {
           <UserIcon />
           <span className="ml-1">
             {teamMembers.length}명 / {10}명
+          </span>
+          <span className="ml-4 text-gray-500">
+            그룹장 위임 또는 멤버 강퇴가 가능합니다.
           </span>
         </p>
       </div>
