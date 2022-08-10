@@ -5,64 +5,28 @@ import ImageIcon from "../../components/icon/ImageIcon"
 import UserIcon from "../../components/icon/UserIcon"
 import Modal from "../../components/modal/Modal"
 import Button from "../../components/button/Button"
-import { defaultFormat } from "moment"
+import { teamExpel } from "./groupReducer"
 
-const members = [
-  {
-    name: "신슬기",
-    date: "2022.05.10",
-    imageUrl:
-      "https://img1.daumcdn.net/thumb/S180x180/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fsports%2Fplayer%2F300%2F14%2F111505.jpg&scode=default_face_profile_big_p",
-    isLeader: true,
-  },
-  {
-    name: "김준우",
-    date: "2022.06.01",
-    imageUrl:
-      "https://img1.daumcdn.net/thumb/S180x180/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fsports%2Fplayer%2F300%2F14%2F111505.jpg&scode=default_face_profile_big_p",
-    isLeader: false,
-  },
-  {
-    name: "박종민",
-    date: "2022.06.16",
-    imageUrl:
-      "https://img1.daumcdn.net/thumb/S180x180/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fsports%2Fplayer%2F300%2F14%2F111505.jpg&scode=default_face_profile_big_p",
-    isLeader: false,
-  },
-  {
-    name: "안지영",
-    date: "2022.06.11",
-    imageUrl:
-      "https://img1.daumcdn.net/thumb/S180x180/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fsports%2Fplayer%2F300%2F14%2F111505.jpg&scode=default_face_profile_big_p",
-    isLeader: false,
-  },
-  {
-    name: "채송지",
-    date: "2022.07.14",
-    imageUrl:
-      "https://img1.daumcdn.net/thumb/S180x180/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fsports%2Fplayer%2F300%2F14%2F111505.jpg&scode=default_face_profile_big_p",
-    isLeader: false,
-  },
-  {
-    name: "황승주",
-    date: "2022.06.15",
-    imageUrl:
-      "https://img1.daumcdn.net/thumb/S180x180/?fname=https%3A%2F%2Ft1.daumcdn.net%2Fsports%2Fplayer%2F300%2F14%2F111505.jpg&scode=default_face_profile_big_p",
-    isLeader: false,
-  },
-]
 export default function GroupSetMemberList() {
   const dispatch = useDispatch()
   const location = useLocation()
 
   const fetchTeamId = location.pathname.split("/")[2]
   const { teamMembers, teamLeader } = useSelector((state) => state.group)
-  const { memberId } = useSelector((state) => state.member)
+  const { memberId, memberNickname } = useSelector((state) => state.member)
   const [isExpulsionOpen, setExpulsionOpen] = useState(false)
-  const [user, setUser] = useState()
+  const [user, setUser] = useState("")
+  const [selectedMemberId, setSelectedMemberId] = useState("")
   const modalClose = () => setExpulsionOpen(false)
 
-  const GroupHover = ({ name, date, isLeader, imageUrl, idx }) => {
+  const GroupHover = ({
+    nickname,
+    createdAt,
+    role,
+    repIcon,
+    memberId,
+    idx,
+  }) => {
     const [isHovering, setIsHovering] = useState(false)
 
     return (
@@ -73,23 +37,29 @@ export default function GroupSetMemberList() {
         onMouseLeave={() => setIsHovering(false)}
       >
         <ImageIcon
-          image={`images/badgeIcon/${imageUrl}.png`}
+          image={`images/badgeIcon/${repIcon}.png`}
           size="small"
           shape="round"
         />
-        <p className="mx-2">{name}</p>
-        <p className="ml-3">({date} 가입)</p>
-        {isLeader ? <p className="w-min">👑</p> : null}
+        <p className="mx-2">{nickname}</p>
+        <p className="ml-3">({createdAt} 가입)</p>
+        {role === "LEADER" ? <p className="w-min">👑</p> : null}
 
         {/* 그룹장 위임, 강퇴 컴포넌트 */}
         <p>⚙️ </p>
-        <div className={isHovering ? "show" : "hidden"} alt="">
+        <div
+          className={
+            isHovering && nickname !== memberNickname ? "show" : "hidden"
+          }
+          alt=""
+        >
           <button className="ml-5">그룹장 위임</button>
           <button
             className="ml-5"
             onClick={() => {
               setExpulsionOpen(true)
-              setUser(name)
+              setUser(nickname)
+              setSelectedMemberId(memberId)
             }}
           >
             그룹장 강퇴
@@ -114,15 +84,16 @@ export default function GroupSetMemberList() {
               width="w-32"
               text="예"
               bgColor="bg-info"
-              // onClick={() =>
-              //   dispatch(
-              //     teamExpel({
-              //       leaderId: leaderId,
-              //       followerId: memberId,
-              //       teamId: fetchTeamId,
-              //     })
-              //   )
-              // }
+              onClick={() => {
+                dispatch(
+                  teamExpel({
+                    leaderId: teamLeader.memberId,
+                    followerId: selectedMemberId,
+                    teamId: fetchTeamId,
+                  })
+                )
+                modalClose()
+              }}
             />
             <Button
               height="h-7"
@@ -138,19 +109,22 @@ export default function GroupSetMemberList() {
       <p className="text-3xl font-semibold mb-1">회원 명단</p>
       <p className="flex my-3">
         <UserIcon />
-        {teamMembers.length}명 / {10}명
+        {teamMembers.length}명 / {10}명{console.log(teamMembers)}
       </p>
-      {members.map(({ name, date, isLeader, imageUrl }, idx) => {
-        return (
-          <GroupHover
-            key={idx}
-            name={name}
-            date={date}
-            isLeader={isLeader}
-            imageUrl={`images/badgeIcon/${imageUrl}.png`}
-          />
-        )
-      })}
+      {teamMembers.map(
+        ({ nickname, createdAt, role, repIcon, memberId }, idx) => {
+          return (
+            <GroupHover
+              key={idx}
+              name={nickname}
+              date={createdAt}
+              isLeader={role}
+              imageUrl={`images/badgeIcon/${repIcon}.png`}
+              memberId={memberId}
+            />
+          )
+        }
+      )}
     </div>
   )
 }
