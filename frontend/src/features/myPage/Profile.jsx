@@ -5,12 +5,14 @@ import { memberIconSelect } from "./myPageReducer"
 import { NicknameValidation } from "../../utils/NicknameValidation"
 import { nicknameChange, memberInfo } from "../login/memberReducer"
 import { useDispatch, useSelector } from "react-redux"
-import { checkMemberId } from "./myPageReducer"
+import { checkMemberId, memberIconListReview } from "./myPageReducer"
 import "./Profile.css"
 
 export default function Profile() {
   const dispatch = useDispatch()
-  const { memberNickname, memberRepIcon } = useSelector((state) => state.member)
+  const { memberNickname, memberRepIcon, memberId } = useSelector(
+    (state) => state.member
+  )
   const { memberCurrentStrick } = useSelector((state) => state.mypage)
 
   // localStorage nickname
@@ -20,8 +22,9 @@ export default function Profile() {
     if (localStorageNickname) {
       dispatch(memberInfo(localStorageNickname))
     }
-  }, [])
 
+    dispatch(memberIconListReview(memberId))
+  }, [])
   return (
     // 모달
     <div className="w-4/5 mt-5">

@@ -28,12 +28,25 @@ export const memberExerciseHistorySumCheck = createAsyncThunk(
   }
 )
 
-// 회원 IconList 조회
-export const memberIconList = createAsyncThunk(
+// 회원 아이콘리스트 조회
+export const memberIconListReview = createAsyncThunk(
   "member/icon",
   async (memberId) => {
-    const data = await http.get(`/member/icon/${memberId}`)
-    return data
+    const res = await http.get(`member/icon/${memberId}`)
+    console.log(res)
+
+    // 원래 이런식으로 오는지 물어보기
+    //     {data: '', status: 200, statusText: '', headers: {…}, config: {…}, …}
+    // config: {transitional: {…}, transformRequest: Array(1), transformResponse: Array(1), timeout: 0, adapter: ƒ, …}
+    // data: ""
+    // headers: {cache-control: 'no-cache, no-store, max-age=0, must-revalidate', content-length: '0', expires: '0', pragma: 'no-cache'}
+    // request: XMLHttpRequest {onreadystatechange: null, readyState: 4, timeout: 0, withCredentials: false, upload: XMLHttpRequestUpload, …}
+    // status: 200
+    // statusText: ""
+    // [[Prototype]]: Object
+    if (res.data.message === "success") {
+      return res
+    }
   }
 )
 
@@ -84,6 +97,10 @@ export const myPageSlice = createSlice({
         state.memberCurrentStrick = action.payload.data.data.currentStrick
       }
     )
+
+    builder.addCase(memberIconListReview.fulfilled, (state, action) => {
+      state.memberIconList = action.payload.data
+    })
   },
 })
 export const {
