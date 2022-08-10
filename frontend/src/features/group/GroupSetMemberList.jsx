@@ -21,30 +21,30 @@ const members = [
     imageUrl: "frog",
     isLeader: false,
   },
-  // {
-  //   name: "박종민",
-  //   date: "2022.06.16",
-  //   imageUrl: "ferret",
-  //   isLeader: false,
-  // },
-  // {
-  //   name: "안지영",
-  //   date: "2022.06.11",
-  //   imageUrl: "elephant",
-  //   isLeader: false,
-  // },
-  // {
-  //   name: "채송지",
-  //   date: "2022.07.14",
-  //   imageUrl: "yak",
-  //   isLeader: false,
-  // },
-  // {
-  //   name: "황승주",
-  //   date: "2022.06.15",
-  //   imageUrl: "walrus",
-  //   isLeader: false,
-  // },
+  {
+    name: "박종민",
+    date: "2022.06.16",
+    imageUrl: "ferret",
+    isLeader: false,
+  },
+  {
+    name: "안지영",
+    date: "2022.06.11",
+    imageUrl: "elephant",
+    isLeader: false,
+  },
+  {
+    name: "채송지",
+    date: "2022.07.14",
+    imageUrl: "yak",
+    isLeader: false,
+  },
+  {
+    name: "황승주",
+    date: "2022.06.15",
+    imageUrl: "walrus",
+    isLeader: false,
+  },
   // {
   //   name: "박종민",
   //   date: "2022.06.16",
@@ -198,8 +198,10 @@ export default function GroupSetMemberList() {
         </div>
       </Modal>
 
-      <div className="flex items-center mb-5">
-        <p className="text-3xl font-semibold">회원 명단</p>
+      <div className="flex items-center mb-6">
+        <p className="text-3xl font-semibold">
+          <span className="text-md mr-1">📝</span>회원 명단
+        </p>
         <p className="flex items-center ml-3">
           <UserIcon />
           <span className="ml-1">

@@ -26,9 +26,9 @@ export default function CollectedIcons() {
   const { icons, teamRepIcons } = useSelector((state) => state.group)
 
   return (
-    <div className="flex justify-center flex-col mx-5 rounded-lg mt-10 pr-2">
+    <div className="flex justify-center flex-col mx-5 rounded-lg mt-14">
       <span className="text-3xl font-semibold mb-3">
-        획득 아이콘
+        <span className="text-md mr-2">🎨</span>획득 아이콘
         <span className="text-base mb-3  font-medium ml-3">
           아이콘을 클릭하면 그룹 대표 아이콘이 변경됩니다.
         </span>
