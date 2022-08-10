@@ -32,9 +32,9 @@ class Room extends Component {
     let sessionName = this.props.sessionName
       ? this.props.sessionName
       : "SessionA"
-    let userName = this.props.user
-      ? this.props.user
-      : "OpenVidu_User" + Math.floor(Math.random() * 100)
+    let userName = this.props.user ? this.props.user : "guest"
+
+    // localUser.setIcon = this.props.icon
     this.remotes = []
     this.localUserAccessAllowed = false
     this.state = {
@@ -195,6 +195,8 @@ class Room extends Component {
     localUser.setConnectionId(this.state.session.connection.connectionId)
     localUser.setScreenShareActive(false)
     localUser.setStreamManager(publisher)
+    // console.log(localUser)
+    localUser.setIcon(this.props.icon)
     this.subscribeToUserChanged()
     this.subscribeToStreamDestroyed()
     this.sendSignalUserChanged({
@@ -208,7 +210,9 @@ class Room extends Component {
           "내 connectionID",
           this.state.localUser.getConnectionId(),
           "닉네임",
-          this.state.localUser.getNickname()
+          this.state.localUser.getNickname(),
+          "아이콘",
+          this.state.localUser.getUserIcon()
         )
         this.state.localUser.getStreamManager().on("streamPlaying", (e) => {
           publisher.videos[0].video.parentElement.classList.remove(
