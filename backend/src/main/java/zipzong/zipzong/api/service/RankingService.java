@@ -52,9 +52,9 @@ public class RankingService {
 
         // # Redis 초기화 작업
         //  - redis의 정보를 모두 clear한다. (팀 해체 등의 이유)
-//        zSetOperations.remove("halloffame");
-//        zSetOperations.remove("strickrank");
-//        zSetOperations.remove("timerank");
+        zSetOperations.remove("halloffame");
+        zSetOperations.remove("strickrank");
+        zSetOperations.remove("timerank");
 
         // # 정보 갱신 작업
         //
