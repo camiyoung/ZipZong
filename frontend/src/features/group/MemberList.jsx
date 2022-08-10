@@ -47,7 +47,7 @@ export default function MemberList() {
         </form>
       </Modal>
       {/* 모달 영역 끝 */}
-      {teamMembers.map(({ nickname, repIcon, hasExercised }, idx) => {
+      {teamMembers.map(({ nickname, repIcon, hasExercised, memberId }, idx) => {
         return (
           <div key={idx}>
             <NameSquare

@@ -62,7 +62,7 @@ export default function GroupSetMemberList() {
               setSelectedMemberId(memberId)
             }}
           >
-            그룹장 강퇴
+            회원 강퇴
           </button>
         </div>
       </div>
