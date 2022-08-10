@@ -52,6 +52,7 @@ export default function GroupExerciseInfo() {
 
   return (
     <div className="flex mt-10">
+      {console.log(performTeamTotals)}
       {performTeamTotals
         ? performTeamTotals.map(({ performName, performTotal }, idx) => {
             return (
