@@ -209,7 +209,11 @@ public class ExerciseService {
                 double performNum = personalResultDetail.getPerformNum();
                 double targetNum = personalResultDetail.getTargetNum();
 
-                personalAvg += (performNum / targetNum) * 100;
+                double calculatedAvg = (performNum / targetNum) * 100;
+
+                if(calculatedAvg > 100) calculatedAvg = 100;
+
+                personalAvg += calculatedAvg;
             }
             personalAvg /= exerciseNum;
 
