@@ -9,7 +9,14 @@ import {
 } from "./exerciseReducer"
 import WorkOut from "./workout/WorkOut"
 
-function MyExercise({ Toolbar, myVideo, isRoomAdmin, tmModel, user }) {
+function MyExercise({
+  Toolbar,
+  myVideo,
+  isRoomAdmin,
+  tmModel,
+  user,
+  setError,
+}) {
   // console.log("userInfo ", user)
   const [isExercising, setExercising] = useState(false)
   const [isFinished, setFinished] = useState(false)
@@ -40,6 +47,12 @@ function MyExercise({ Toolbar, myVideo, isRoomAdmin, tmModel, user }) {
       // setExercising(true)
       dispatch(setAllExerciseResult(JSON.parse(event.data)))
       navigate("/result")
+    })
+
+    user.getStreamManager().stream.session.on("signal:exit", (event) => {
+      console.log("비정상종료 ", event.data)
+      setExercising(false)
+      setError()
     })
   }, [])
 

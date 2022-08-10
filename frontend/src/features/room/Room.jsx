@@ -12,6 +12,7 @@ import OtherPeople from "./OtherPeople"
 import SideBar from "./SideBar"
 import { Model } from "./teachableMachine/model"
 import { Spinner } from "../../components/spinner/Spinner"
+import ErrorPage from "./ErrorPage"
 
 const localUser = new UserModel()
 const tmModel = new Model()
@@ -19,6 +20,7 @@ const tmModel = new Model()
 class Room extends Component {
   constructor(props) {
     super(props)
+
     this.OPENVIDU_SERVER_URL = this.props.openviduServerUrl
       ? this.props.openviduServerUrl
       : "https://i7a805.p.ssafy.io:8443"
@@ -46,6 +48,7 @@ class Room extends Component {
       isRoomAdmin: false,
       tmModel: undefined,
       modelLoded: false,
+      error: false,
     }
     this.myVideoRef = React.createRef()
 
@@ -251,9 +254,6 @@ class Room extends Component {
       myUserName: "OpenVidu_User" + Math.floor(Math.random() * 100),
       localUser: undefined,
     })
-    if (this.props.leaveSession) {
-      this.props.leaveSession()
-    }
   }
   camStatusChanged() {
     localUser.setVideoActive(!localUser.isVideoActive())
@@ -319,7 +319,18 @@ class Room extends Component {
     // On every Stream destroyed...
     this.state.session.on("streamDestroyed", (event) => {
       // Remove the stream from 'subscribers' array
-      // console.log("유저 퇴장?", event)
+      const user = event.stream.connection
+      const data = JSON.parse(user.data)
+      const isAdmin = data.admin
+
+      if (isAdmin) {
+        const signalOptions = {
+          data: "방장 퇴장",
+          type: "exit",
+        }
+        this.state.session.signal(signalOptions)
+      }
+      console.log("유저 퇴장- uid:", user.connectionId, "방장?:", data.admin)
       this.deleteSubscriber(event.stream)
       setTimeout(() => {
         this.checkSomeoneShareScreen()
@@ -525,10 +536,15 @@ class Room extends Component {
     }
   }
 
+  setError = () => {
+    this.setState({ error: true })
+  }
+
   render() {
     const mySessionId = this.state.mySessionId
     const localUser = this.state.localUser
     var chatDisplay = { display: this.state.chatDisplay }
+
     const Toolbar = (
       <ToolbarComponent
         sessionId={mySessionId}
@@ -574,6 +590,15 @@ class Room extends Component {
           </div>
         ) : (
           <div className="flex h-full bg-secondary-200 rounded-2xl">
+            {this.state.error && (
+              <ErrorPage
+                title={"방장이 퇴장했습니다."}
+                message={[
+                  "운동이 종료됩니다.",
+                  "이 운동은 기록에 저장되지 않습니다.",
+                ]}
+              />
+            )}
             <div
               className="w-1/6  min-w-[300px]  border-4 border-green-700 "
               id="subscribersArea"
@@ -594,6 +619,8 @@ class Room extends Component {
                     isRoomAdmin={this.state.isRoomAdmin}
                     tmModel={tmModel}
                     user={this.state.localUser}
+                    setError={this.setError}
+                    leaveRoom={this.leaveSession}
                   />
                 )}
             </div>
