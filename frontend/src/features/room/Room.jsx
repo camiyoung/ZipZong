@@ -12,7 +12,7 @@ import OtherPeople from "./OtherPeople"
 import SideBar from "./SideBar"
 import { Model } from "./teachableMachine/model"
 import { Spinner } from "../../components/spinner/Spinner"
-import ErrorPage from "./ErrorPage"
+import AlertModal from "./AlertModal"
 
 const localUser = new UserModel()
 const tmModel = new Model()
@@ -48,7 +48,7 @@ class Room extends Component {
       isRoomAdmin: false,
       tmModel: undefined,
       modelLoded: false,
-      error: false,
+      alert: undefined,
     }
     this.myVideoRef = React.createRef()
 
@@ -536,8 +536,10 @@ class Room extends Component {
     }
   }
 
-  setError = () => {
-    this.setState({ error: true })
+  setAlert = (type) => {
+    this.setState({ alert: { type } }, () => {
+      console.log(this.state.alert)
+    })
   }
 
   render() {
@@ -590,13 +592,24 @@ class Room extends Component {
           </div>
         ) : (
           <div className="flex h-full bg-secondary-200 rounded-2xl">
-            {this.state.error && (
-              <ErrorPage
+            {this.state.alert?.type === "error" && (
+              <AlertModal
                 title={"방장이 퇴장했습니다."}
                 message={[
                   "운동이 종료됩니다.",
                   "이 운동은 기록에 저장되지 않습니다.",
                 ]}
+                type="error"
+              />
+            )}
+            {this.state.alert?.type === "alert" && (
+              <AlertModal
+                title={"운동 기록을 저장중입니다."}
+                message={[
+                  "저장이 완료되면 자동으로 결과 페이지로 이동합니다.",
+                  "현재 페이지를 닫지 말고 잠시만 기다려주세요.",
+                ]}
+                type="alret"
               />
             )}
             <div
@@ -619,7 +632,7 @@ class Room extends Component {
                     isRoomAdmin={this.state.isRoomAdmin}
                     tmModel={tmModel}
                     user={this.state.localUser}
-                    setError={this.setError}
+                    setAlert={this.setAlert}
                     leaveRoom={this.leaveSession}
                   />
                 )}
