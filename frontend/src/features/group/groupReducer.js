@@ -11,7 +11,10 @@ export const teamInfo = createAsyncThunk(
     if (res.data.message === "success") {
       // 팀 초대 링크 조회
       const res2 = await http.get(`team/invite-link/${teamId}`)
-      return [res.data, res2.data]
+
+      // 오늘 운동한 멤버리스트 조회
+      const res3 = await http.get(`exercise/today/team?teamId=${teamId}`)
+      return [res.data, res2.data, res3.data]
     }
   }
 )
@@ -208,11 +211,28 @@ export const groupSlice = createSlice({
       state.teamContent = action.payload[0].data.content
       state.teamRepIcons = action.payload[0].data.repIcons
       state.shieldCount = action.payload[0].data.shieldCount
+
+      const niceMembers = action.payload[2].data.niceMembers
       const tmp = action.payload[0].data.members
+      const exerciseStatus = {
+        hasExercised: false,
+      }
+
+      for (let x = 0; x < tmp.length; ++x) {
+        Object.assign(tmp[x], exerciseStatus)
+      }
+
+      niceMembers.forEach(({ nickname }) => {
+        for (let i = 0; i < tmp.length; ++i) {
+          if (nickname === tmp[i].nickname) {
+            tmp[i].hasExercised = true
+          }
+        }
+      })
       state.teamMembers = tmp
       state.teamLeader = tmp.find(({ role }) => role === "LEADER")
 
-      // invitelink를 teamInfo 불러올떄 state에 넣지만 상태가 변하지 않음.. (오류)
+      // 초대 링크 변경
       state.inviteLink = action.payload[1].data
     })
 
