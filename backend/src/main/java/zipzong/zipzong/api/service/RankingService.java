@@ -44,7 +44,7 @@ public class RankingService {
     private final RedisTemplate<String, String> redisTemplate;
     private static final Long BOUNDARY = 5L;
 
-    @Scheduled(cron = "0 23 19 * * ?")
+    @Scheduled(cron = "0 12 0 * * ?")
     public void comprehensiveUpdate() {
 
         ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
@@ -52,9 +52,9 @@ public class RankingService {
 
         // # Redis 초기화 작업
         //  - redis의 정보를 모두 clear한다. (팀 해체 등의 이유)
-        zSetOperations.remove("halloffame");
-        zSetOperations.remove("strickrank");
-        zSetOperations.remove("timerank");
+        if(Boolean.TRUE.equals(redisTemplate.hasKey("halloffame"))) zSetOperations.remove("halloffame");
+        if(Boolean.TRUE.equals(redisTemplate.hasKey("strickrank"))) zSetOperations.remove("strickrank");
+        if(Boolean.TRUE.equals(redisTemplate.hasKey("timerank"))) zSetOperations.remove("timerank");
 
         // # 정보 갱신 작업
         //
