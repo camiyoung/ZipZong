@@ -53,7 +53,6 @@ function Ranking() {
     stateDailyHistory,
   } = useSelector((state) => state.mypage)
   const { teamDailyHistory } = useSelector((state) => state.group)
-  console.log(teamDailyHistory)
   return (
     <div className="w-full">
       <p className="text-xl text-center">
