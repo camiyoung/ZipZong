@@ -3,7 +3,7 @@ import ImageIcon from "../../components/icon/ImageIcon"
 import Modal from "../../components/modal/Modal"
 import { memberIconSelect } from "./myPageReducer"
 import { NicknameValidation } from "../../utils/NicknameValidation"
-import { nicknameChange } from "../login/memberReducer"
+import { nicknameChange, memberInfo } from "../login/memberReducer"
 import { useDispatch, useSelector } from "react-redux"
 import { checkMemberId } from "./myPageReducer"
 import "./Profile.css"
@@ -12,6 +12,15 @@ export default function Profile() {
   const dispatch = useDispatch()
   const { memberNickname, memberRepIcon } = useSelector((state) => state.member)
   const { memberCurrentStrick } = useSelector((state) => state.mypage)
+
+  // localStorage nickname
+  const localStorageNickname = localStorage.getItem("nickname")
+
+  useEffect(() => {
+    if (localStorageNickname) {
+      dispatch(memberInfo(localStorageNickname))
+    }
+  }, [])
 
   return (
     // 모달
