@@ -49,9 +49,6 @@ const GroupList = ({ setVisible, groups }) => {
               </NavLink>
             )
           })}
-          <NavLink to="/login">
-            <li style={{ color: "red" }}>드디어 로그인 버튼 만들었습니다</li>
-          </NavLink>
           <NavLink to="/group">
             <li>그룹 페이지</li>
           </NavLink>
@@ -71,8 +68,11 @@ const InfoList = ({ setVisible }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [nickname, setNickname] = useState("")
-  const { memberNickname, memberRepIcon } = useSelector((state) => state.member)
+  const { memberNickname, memberRepIcon, memberIconList } = useSelector(
+    (state) => state.member
+  )
   const [errorMessage, setErrorMessage] = useState("")
+  const [allIcons, setAllIcons] = useState("")
 
   // Modal
   const [isOpen, setOpen] = useState(false)
@@ -103,6 +103,10 @@ const InfoList = ({ setVisible }) => {
       setErrorMessage("닉네임을 한 글자 이상 작성해주세요.")
     }
   }
+  console.log(memberIconList)
+  console.log(Icons)
+  console.log(Icons + memberIconList)
+  // setAllIcons(memberIconList + IcoIcons)
 
   return (
     <div>
@@ -235,7 +239,7 @@ const InfoList = ({ setVisible }) => {
             {/* 회원 탈퇴 */}
             <li
               className="text-xs"
-              style={{ color: "transparent", cursor: "pointer" }}
+              style={{ color: "red", cursor: "pointer" }}
               onClick={() => setOpen2(true)}
             >
               회원 탈퇴
