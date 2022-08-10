@@ -5,7 +5,7 @@ import ImageIcon from "../../components/icon/ImageIcon"
 import UserIcon from "../../components/icon/UserIcon"
 import Modal from "../../components/modal/Modal"
 import Button from "../../components/button/Button"
-import { teamExpel } from "./groupReducer"
+import { teamExpel, teamAssign } from "./groupReducer"
 
 export default function GroupSetMemberList() {
   const dispatch = useDispatch()
@@ -30,6 +30,42 @@ export default function GroupSetMemberList() {
     <div className="mx-5 mt-10">
       {/* 회원 강퇴 모달 */}
       <Modal isOpen={isExpulsionOpen} modalClose={modalClose}>
+        <div className="flex flex-col">
+          <p className="text-xl font-bold flex justify-center">
+            {user} 회원에게 그룹장을 위임하시겠습니까?
+          </p>
+          <div className="flex justify-around mt-5">
+            <Button
+              height="h-7"
+              width="w-32"
+              text="예"
+              bgColor="bg-info"
+              onClick={() => {
+                dispatch(
+                  teamAssign({
+                    leaderId: teamLeader.memberId,
+                    followerId: selectedMemberId,
+                    teamId: fetchTeamId,
+                  })
+                )
+                alert("그룹장이 변경되었습니다.")
+                navigate(`/group/${fetchTeamId}`)
+              }}
+            />
+            <Button
+              height="h-7"
+              width="w-32"
+              text="아니오"
+              bgColor="bg-danger"
+              onClick={() => setOpen2(false)}
+            />
+          </div>
+        </div>
+      </Modal>
+      {/* 회원 강퇴 모달 끝 */}
+
+      {/* 그룹장 위임 모달 시작 */}
+      <Modal isOpen={isOpen2} modalClose={modalClose2}>
         <div className="flex flex-col">
           <p className="text-xl font-bold flex justify-center">
             {user} 회원님을 정말 탈퇴하시겠습니까?
@@ -62,6 +98,7 @@ export default function GroupSetMemberList() {
           </div>
         </div>
       </Modal>
+      {/* 그룹장 위임 모달 끝 */}
 
       <p className="text-3xl font-semibold mb-1">회원 명단</p>
       <p className="flex my-3">
