@@ -1,6 +1,7 @@
 package zipzong.zipzong.api.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -44,7 +45,8 @@ public class RankingService {
     private final RedisTemplate<String, String> redisTemplate;
     private static final Long BOUNDARY = 5L;
 
-    @Scheduled(cron = "0 57 0 * * ?")
+    @Scheduled(cron = "0 19 1 * * ?")
+    @Cacheable(value = {"halloffame", "strickrank", "timerank"})
     public void comprehensiveUpdate() {
 
         ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
