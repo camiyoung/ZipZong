@@ -27,15 +27,15 @@ export default function CollectedIcons() {
   const { basicIcons, teamRepIcons } = useSelector((state) => state.group)
 
   return (
-    <div className="flex justify-center flex-col mx-5 rounded-lg mt-10 px-2 ">
+    <div className="flex justify-center flex-col mx-5 rounded-lg mt-14">
       <span className="text-3xl font-semibold mb-3">
-        획득 아이콘
+        <span className="text-md mr-2">🎨</span>획득 아이콘
         <span className="text-base mb-3  font-medium ml-3">
           아이콘을 클릭하면 그룹 대표 아이콘이 변경됩니다.
         </span>
       </span>
 
-      <div className="flex items-center rounded-3xl mt-5 shadow-md p-5 text-gray-400 bg-gradient-to-r to-gray-200 from-white">
+      <div className="flex items-center rounded-3xl mt-5 shadow-md p-5 from-white custom-border2">
         <div className="flex flex-wrap">
           {console.log(basicIcons)}
           {basicIcons.map((imageName, idx) => {
@@ -44,7 +44,7 @@ export default function CollectedIcons() {
                 content={<ShowExpression imageUrl={imageName} />}
                 placement="bottom"
               >
-                <div className="m-2 cursor-pointer" key={idx}>
+                <div className="m-2.5 cursor-pointer" key={idx}>
                   <ImageIcon
                     // 배포 주소로 다시 바꿔야 하는지 의문
                     // ${process.env.REACT_APP_BASE_URL}
