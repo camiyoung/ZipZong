@@ -7,6 +7,7 @@ import { NicknameValidation } from "../../utils/NicknameValidation"
 import {
   nicknameChange,
   memberIconSelect,
+  logout,
 } from "../../features/login/memberReducer"
 import Card from "../card/Card"
 import ImageIcon from "../icon/ImageIcon"
@@ -65,16 +66,9 @@ const GroupList = ({ setVisible, groups }) => {
   )
 }
 
-// 로그아웃 버튼 눌렀을 시 발동
-const Logout = () => {
-  const navigate = useNavigate()
-  // 로그아웃 버튼을 누르면 로컬스토리지 비우고 navigate을 하고 싶지만 동작 안함
-  localStorage.clear()
-  navigate("/login")
-}
-
 const InfoList = ({ setVisible }) => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [isOpen, setOpen] = useState(false)
   const modalClose = () => setOpen(false)
   const [nickname, setNickname] = useState("")
@@ -117,7 +111,7 @@ const InfoList = ({ setVisible }) => {
               <div className="flex justify-center pb-3">대표 아이콘</div>
               <div>
                 <ImageIcon
-                  image={`images/animalIcon/${memberRepIcon}.png`}
+                  image={`images/badgeIcon/${memberRepIcon}.png`}
                   shape="round"
                   size="xLarge"
                 />
@@ -210,7 +204,14 @@ const InfoList = ({ setVisible }) => {
           <div onClick={() => setVisible(false)}>닫기</div>
           <ul>
             <li onClick={() => setOpen(true)}>개인정보 수정</li>
-            <li onClick={() => <Logout />}>log out</li>
+            <li
+              onClick={() => {
+                dispatch(logout())
+                navigate("/login")
+              }}
+            >
+              log out
+            </li>
           </ul>
         </Card>
       </div>
@@ -281,7 +282,7 @@ export default function Navbar() {
                 }}
               >
                 <ImageIcon
-                  image={`images/animalIcon/${memberRepIcon}.png`}
+                  image={`images/badgeIcon/${memberRepIcon}.png`}
                   size="small"
                   shape="round"
                 />
