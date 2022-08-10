@@ -15,7 +15,7 @@ function MyExercise({
   isRoomAdmin,
   tmModel,
   user,
-  setError,
+  setAlert,
 }) {
   // console.log("userInfo ", user)
   const [isExercising, setExercising] = useState(false)
@@ -33,6 +33,7 @@ function MyExercise({
 
     user.getStreamManager().stream.session.on("signal:finish", (event) => {
       console.log("운동 종료 이벤트 수신")
+
       resultUsers.personalResults.push(JSON.parse(event.data))
       setExercising(false)
       setTimeout(() => {
@@ -52,7 +53,7 @@ function MyExercise({
     user.getStreamManager().stream.session.on("signal:exit", (event) => {
       console.log("비정상종료 ", event.data)
       setExercising(false)
-      setError()
+      setAlert("error")
     })
   }, [])
 
@@ -119,6 +120,7 @@ function MyExercise({
       type: "finish",
       to: [admin],
     })
+    setAlert("alert")
     dispatch(setMyExerciseResult(res))
   }
 
