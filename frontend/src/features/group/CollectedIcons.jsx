@@ -26,7 +26,7 @@ export default function CollectedIcons() {
   const { icons, teamRepIcons } = useSelector((state) => state.group)
 
   return (
-    <div className="flex justify-center flex-col mx-5 rounded-lg mt-10 px-2 ">
+    <div className="flex justify-center flex-col mx-5 rounded-lg mt-10 pr-2">
       <span className="text-3xl font-semibold mb-3">
         획득 아이콘
         <span className="text-base mb-3  font-medium ml-3">
@@ -42,7 +42,7 @@ export default function CollectedIcons() {
                 content="여기에 아이콘 어떻게 얻은건지 설명 들어갔으면 좋겠어요"
                 placement="bottom"
               >
-                <div className="m-2 cursor-pointer" key={idx}>
+                <div className="m-2.5 cursor-pointer" key={idx}>
                   <ImageIcon
                     image={`images/badgeIcon/${imageUrl}.png`}
                     shape="round"

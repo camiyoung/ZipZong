@@ -35,7 +35,7 @@ export default function GroupSet() {
   const modalClose = () => setOpen(false)
 
   return (
-    <div className="w-full flex justify-center mt-5">
+    <div className="w-full flex justify-center mt-5 h-screen">
       <div className="w-4/5">
         <div className="w-full flex">
           <div className="w-[50%]">

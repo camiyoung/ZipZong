@@ -13,7 +13,7 @@ export default function GroupSetInfo() {
   const modalClose = () => setOpen(false)
 
   return (
-    <div className="flex justify-center px-2">
+    <div className="flex justify-center pr-2">
       {/* 모달 영역 */}
       <Modal isOpen={isOpen} modalClose={modalClose}>
         <div className="text-xl flex justify-center pb-5 font-bold">
