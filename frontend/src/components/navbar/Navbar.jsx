@@ -4,6 +4,7 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom"
 import { registrationTeam, teamInfo } from "../../features/group/groupReducer"
 import Modal from "../modal/Modal"
 import { NicknameValidation } from "../../utils/NicknameValidation"
+import { Button } from "flowbite-react"
 import {
   nicknameChange,
   memberIconSelect,
@@ -69,11 +70,15 @@ const GroupList = ({ setVisible, groups }) => {
 const InfoList = ({ setVisible }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const [isOpen, setOpen] = useState(false)
-  const modalClose = () => setOpen(false)
   const [nickname, setNickname] = useState("")
   const { memberNickname, memberRepIcon } = useSelector((state) => state.member)
   const [errorMessage, setErrorMessage] = useState("")
+
+  // Modal
+  const [isOpen, setOpen] = useState(false)
+  const [isOpen2, setOpen2] = useState(false)
+  const modalClose = () => setOpen(false)
+  const modalClose2 = () => setOpen2(false)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -101,6 +106,7 @@ const InfoList = ({ setVisible }) => {
 
   return (
     <div>
+      {/* 개인 정보 수정 모달 시작 */}
       <Modal isOpen={isOpen} modalClose={modalClose}>
         <form onSubmit={handleSubmit}>
           <div className="text-xl flex justify-center pb-5 font-bold">
@@ -198,6 +204,19 @@ const InfoList = ({ setVisible }) => {
           </div>
         </form>
       </Modal>
+      {/* 개인 정보 수정 모달 끝 */}
+
+      {/* 회원탈퇴 모달 시작 */}
+      <Modal isOpen={isOpen2} modalClose={modalClose2}>
+        <p>정말 탈퇴하시겠습니까?</p>
+        <div classname="flex">
+          <Button size="xs">Yes</Button>
+          <Button size="xl" color="failure" onClick={modalClose2}>
+            No
+          </Button>
+        </div>
+      </Modal>
+      {/* 회원탈퇴 모달 끝 */}
 
       <div className="absolute z-30 top-[4rem] right-[2.5em] border">
         <Card size="middle">
@@ -211,6 +230,15 @@ const InfoList = ({ setVisible }) => {
               }}
             >
               log out
+            </li>
+
+            {/* 회원 탈퇴 */}
+            <li
+              className="text-xs"
+              style={{ color: "transparent", cursor: "pointer" }}
+              onClick={() => setOpen2(true)}
+            >
+              회원 탈퇴
             </li>
           </ul>
         </Card>
