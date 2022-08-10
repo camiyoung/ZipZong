@@ -9,7 +9,14 @@ import {
 } from "./exerciseReducer"
 import WorkOut from "./workout/WorkOut"
 
-function MyExercise({ Toolbar, myVideo, isRoomAdmin, tmModel, user }) {
+function MyExercise({
+  Toolbar,
+  myVideo,
+  isRoomAdmin,
+  tmModel,
+  user,
+  setAlert,
+}) {
   // console.log("userInfo ", user)
   const [isExercising, setExercising] = useState(false)
   const [isFinished, setFinished] = useState(false)
@@ -26,6 +33,7 @@ function MyExercise({ Toolbar, myVideo, isRoomAdmin, tmModel, user }) {
 
     user.getStreamManager().stream.session.on("signal:finish", (event) => {
       console.log("운동 종료 이벤트 수신")
+
       resultUsers.personalResults.push(JSON.parse(event.data))
       setExercising(false)
       setTimeout(() => {
@@ -40,6 +48,12 @@ function MyExercise({ Toolbar, myVideo, isRoomAdmin, tmModel, user }) {
       // setExercising(true)
       dispatch(setAllExerciseResult(JSON.parse(event.data)))
       navigate("/result")
+    })
+
+    user.getStreamManager().stream.session.on("signal:exit", (event) => {
+      console.log("비정상종료 ", event.data)
+      setExercising(false)
+      setAlert("error")
     })
   }, [])
 
@@ -106,6 +120,7 @@ function MyExercise({ Toolbar, myVideo, isRoomAdmin, tmModel, user }) {
       type: "finish",
       to: [admin],
     })
+    setAlert("alert")
     dispatch(setMyExerciseResult(res))
   }
 

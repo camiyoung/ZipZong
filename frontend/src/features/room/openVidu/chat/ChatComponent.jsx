@@ -1,8 +1,4 @@
 import React, { Component } from "react"
-// import IconButton from '@material-ui/core/IconButton';
-// import Fab from '@material-ui/core/Fab';
-// import HighlightOff from '@material-ui/icons/HighlightOff';
-// import Send from '@material-ui/icons/Send';
 
 import "./ChatComponent.css"
 // import { Tooltip } from "@material-ui/core"
@@ -30,20 +26,15 @@ export default class ChatComponent extends Component {
       .getStreamManager()
       .stream.session.on("signal:chat", (event) => {
         const data = JSON.parse(event.data)
+        // console.log("message 수신 : ", data)
         let messageList = this.state.messageList
         messageList.push({
           connectionId: event.from.connectionId,
           nickname: data.nickname,
           message: data.message,
+          icon: data.icon ? data.icon : "basic",
         })
-        const document = window.document
         setTimeout(() => {
-          const userImg = document.getElementById(
-            "userImg-" + (this.state.messageList.length - 1)
-          )
-          const video = document.getElementById("video-" + data.streamId)
-          const avatar = userImg.getContext("2d")
-          avatar.drawImage(video, 200, 120, 285, 285, 0, 0, 60, 60)
           this.props.messageReceived()
         }, 50)
         this.setState({ messageList: messageList })
@@ -62,7 +53,7 @@ export default class ChatComponent extends Component {
   }
 
   sendMessage() {
-    console.log(this.state.message)
+    // console.log(this.state.message, this.props.user.getUserIcon())
     if (this.props.user && this.state.message) {
       let message = this.state.message.replace(/ +(?= )/g, "")
       if (message !== "" && message !== " ") {
@@ -70,7 +61,9 @@ export default class ChatComponent extends Component {
           message: message,
           nickname: this.props.user.getNickname(),
           streamId: this.props.user.getStreamManager().stream.streamId,
+          icon: this.props.user.getUserIcon(),
         }
+
         this.props.user.getStreamManager().stream.session.signal({
           data: JSON.stringify(data),
           type: "chat",
@@ -109,10 +102,11 @@ export default class ChatComponent extends Component {
                     : " right")
                 }
               >
-                <canvas
+                <img
                   id={"userImg-" + i}
                   width="60"
                   height="60"
+                  src={`/images/badgeIcon/${data.icon}.png`}
                   className="user-img"
                 />
                 <div className="msg-detail">
