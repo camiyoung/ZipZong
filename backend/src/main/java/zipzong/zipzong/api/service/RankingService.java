@@ -45,7 +45,7 @@ public class RankingService {
     private final RedisTemplate<String, String> redisTemplate;
     private static final Long BOUNDARY = 5L;
 
-    @Scheduled(cron = "0 37 1 * * ?")
+    @Scheduled(cron = "0 59 1 * * ?")
     @Cacheable(value = {"halloffame", "strickrank", "timerank"})
     public void comprehensiveUpdate() {
 
@@ -217,6 +217,7 @@ public class RankingService {
                 zSetOperations.add(rankingBoard, team.getId().toString(), teamHistory.getMaximumStrick());
                 System.out.println("===============넣었다??======================");
                 System.out.println(zSetOperations.range("strickrank", 0, -1));
+                System.out.println(redisTemplate.hasKey("strickrank"));
             }
 
             //  - 누적 시간 랭킹
