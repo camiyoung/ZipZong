@@ -1,14 +1,12 @@
 package zipzong.zipzong.api.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import zipzong.zipzong.api.dto.ranking.HallOfFameResponse;
 import zipzong.zipzong.api.dto.ranking.TeamRankingResponse;
-import zipzong.zipzong.config.redis.RedisConfig;
 import zipzong.zipzong.db.domain.*;
 import zipzong.zipzong.db.repository.exercise.ExerciseRepository;
 import zipzong.zipzong.db.repository.exercise.MemberCalendarRepository;
@@ -49,7 +47,7 @@ public class RankingService {
 
     private static final Long BOUNDARY = 5L;
 
-    @Scheduled(cron = "0 20 14 * * ?")
+    @Scheduled(cron = "0 54 17 * * ?")
     public void comprehensiveUpdate() {
         LocalDate today = LocalDate.now().minusDays(1);
 
@@ -64,7 +62,7 @@ public class RankingService {
         //  - 개인 기록
         //    멤버 캘린더를 확인하여 오늘 날짜에 대한 정보가 없다면 스트릭을 끊는다.
 
-        List<Member> members = memberRepository.findAll();
+        List<Member> members = memberRepository.AllMembersNoDeleted();
         for(Member member : members) {
             if(memberCalendarRepository.findByMemberIdAndCheckDate(member.getId(), today).isEmpty()) {
                 MemberHistory memberHistory = memberHistoryRepository.findByMemberId(member.getId()).orElse
@@ -83,10 +81,10 @@ public class RankingService {
         //    모두 운동 하지 않았으나 보유한 실드가 있다면 실드 1개 소모 + 현재 스트릭 및 최대 스트릭 갱신 + 팀 캘린더에 해당 날짜 state를 SHIELD로 세팅
         //    모두 운동 하지 않았고 실드가 없다면 스트릭을 끊는다.
 
-        List<Team> teams = teamRepository.findAll();
+        List<Team> teams = teamRepository.getAllTeamNoDeleted();
         for(Team team : teams) {
             boolean check = true;
-            List<Registration> registrations = registrationRepository.findAllByTeamId(team.getId());
+            List<Registration> registrations = registrationRepository.findAllInTeamNoResigned(team.getId());
             for (Registration registration : registrations) {
                 if (exerciseRepository.findByRegistrationIdAndExerciseDate(registration.getId(), today).isEmpty()) {
                     check = false;
