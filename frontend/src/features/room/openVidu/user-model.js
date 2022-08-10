@@ -6,8 +6,8 @@ class UserModel {
   nickname
   streamManager
   type // 'remote' | 'local'
-  role
-  "admin | user "
+  role //"admin | user "
+  icon
 
   constructor() {
     this.connectionId = ""
@@ -18,6 +18,7 @@ class UserModel {
     this.streamManager = null
     this.type = "local"
     this.type = "user"
+    this.icon = "basic"
   }
 
   isAudioActive() {
@@ -38,6 +39,9 @@ class UserModel {
 
   getNickname() {
     return this.nickname
+  }
+  getUserIcon() {
+    return this.icon
   }
 
   getStreamManager() {
@@ -81,6 +85,9 @@ class UserModel {
   }
   setRole(role) {
     if ((role === "admin") | (role === "user")) this.role = role
+  }
+  setIcon(icon) {
+    if (icon !== undefined) this.icon = icon
   }
 }
 
