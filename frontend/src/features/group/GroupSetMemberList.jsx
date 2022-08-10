@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import ImageIcon from "../../components/icon/ImageIcon"
 import UserIcon from "../../components/icon/UserIcon"
 import Modal from "../../components/modal/Modal"
@@ -10,64 +10,20 @@ import { teamExpel } from "./groupReducer"
 export default function GroupSetMemberList() {
   const dispatch = useDispatch()
   const location = useLocation()
+  const navigate = useNavigate()
 
   const fetchTeamId = location.pathname.split("/")[2]
   const { teamMembers, teamLeader } = useSelector((state) => state.group)
   const { memberId, memberNickname } = useSelector((state) => state.member)
-  const [isExpulsionOpen, setExpulsionOpen] = useState(false)
   const [user, setUser] = useState("")
   const [selectedMemberId, setSelectedMemberId] = useState("")
+  const [isExpulsionOpen, setExpulsionOpen] = useState(false)
   const modalClose = () => setExpulsionOpen(false)
 
-  const GroupHover = ({
-    nickname,
-    createdAt,
-    role,
-    repIcon,
-    memberId,
-    idx,
-  }) => {
-    const [isHovering, setIsHovering] = useState(false)
+  const [isOpen2, setOpen2] = useState(false)
+  const modalClose2 = () => setOpen2(false)
 
-    return (
-      <div
-        key={idx}
-        className="flex mb-2 w-128"
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
-      >
-        <ImageIcon
-          image={`images/badgeIcon/${repIcon}.png`}
-          size="small"
-          shape="round"
-        />
-        <p className="mx-2">{nickname}</p>
-        <p className="ml-3">({createdAt} 가입)</p>
-        {role === "LEADER" ? <p className="w-min">👑</p> : null}
-
-        {/* 그룹장 위임, 강퇴 컴포넌트 */}
-        <p>⚙️ </p>
-        <div
-          className={
-            isHovering && nickname !== memberNickname ? "show" : "hidden"
-          }
-          alt=""
-        >
-          <button className="ml-5">그룹장 위임</button>
-          <button
-            className="ml-5"
-            onClick={() => {
-              setExpulsionOpen(true)
-              setUser(nickname)
-              setSelectedMemberId(memberId)
-            }}
-          >
-            회원 강퇴
-          </button>
-        </div>
-      </div>
-    )
-  }
+  console.log("팀 멤버들", teamMembers)
 
   console.log("리더", teamLeader)
   return (
@@ -92,7 +48,8 @@ export default function GroupSetMemberList() {
                     teamId: fetchTeamId,
                   })
                 )
-                modalClose()
+                alert("강퇴 완료되었습니다")
+                navigate(`/group/${fetchTeamId}`)
               }}
             />
             <Button
@@ -109,19 +66,49 @@ export default function GroupSetMemberList() {
       <p className="text-3xl font-semibold mb-1">회원 명단</p>
       <p className="flex my-3">
         <UserIcon />
-        {teamMembers.length}명 / {10}명{console.log(teamMembers)}
+        {teamMembers.length}명 / {10}명
       </p>
       {teamMembers.map(
         ({ nickname, createdAt, role, repIcon, memberId }, idx) => {
           return (
-            <GroupHover
-              key={idx}
-              name={nickname}
-              date={createdAt}
-              isLeader={role}
-              imageUrl={`images/badgeIcon/${repIcon}.png`}
-              memberId={memberId}
-            />
+            <div key={idx} className="flex mb-2 w-128">
+              <ImageIcon
+                image={`images/badgeIcon/${repIcon}.png`}
+                size="small"
+                shape="round"
+              />
+              <p className="mx-2">{nickname}</p>
+              <p className="ml-3">
+                ({createdAt.substr(0, 4)}년 {createdAt.substr(5, 2)}월{" "}
+                {createdAt.substr(8, 2)}일 가입)
+              </p>
+              {role === "LEADER" ? <p className="w-min">👑</p> : null}
+
+              {/* 그룹장 위임, 강퇴 컴포넌트 */}
+              <p>⚙️ </p>
+              <div alt="">
+                <button
+                  className="ml-5"
+                  onClick={() => {
+                    setOpen2(true)
+                    setUser(nickname)
+                    setSelectedMemberId(memberId)
+                  }}
+                >
+                  그룹장 위임
+                </button>
+                <button
+                  className="ml-5"
+                  onClick={() => {
+                    setExpulsionOpen(true)
+                    setUser(nickname)
+                    setSelectedMemberId(memberId)
+                  }}
+                >
+                  회원 강퇴
+                </button>
+              </div>
+            </div>
           )
         }
       )}
