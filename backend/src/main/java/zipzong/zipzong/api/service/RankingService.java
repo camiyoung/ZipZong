@@ -44,7 +44,7 @@ public class RankingService {
     private final RedisTemplate<String, String> redisTemplate;
     private static final Long BOUNDARY = 5L;
 
-    @Scheduled(cron = "0 30 0 * * ?")
+    @Scheduled(cron = "0 57 0 * * ?")
     public void comprehensiveUpdate() {
 
         ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
@@ -211,7 +211,10 @@ public class RankingService {
             //    모든 팀의 히스토리의 최대 스트릭 길이를 조회하여 value는 teamId, score는 최대 스트릭 길이로 저장
             if(teamHistory.getMaximumStrick() != 0) {
                 String rankingBoard = "strickrank";
+                System.out.println("=================넣고있다??===========================");
                 zSetOperations.add(rankingBoard, team.getId().toString(), teamHistory.getMaximumStrick());
+                System.out.println("===============넣었다??======================");
+                System.out.println(zSetOperations.range("strickrank", 0, -1));
             }
 
             //  - 누적 시간 랭킹
