@@ -88,10 +88,6 @@ export default function ExerciseInfo() {
     dispatch(setDailyHistory(memberDailyHistory[showDay - 1].performs))
   }
 
-  // stateDailyHistory는 performs   -------->  dayExerciseInfo와 같은 방법으로 옵니다
-  console.log(stateDailyHistory)
-  let totalTime = 9
-
   return (
     <div className="flex mt-10 flex-col w-4/5">
       <div className="flex">
