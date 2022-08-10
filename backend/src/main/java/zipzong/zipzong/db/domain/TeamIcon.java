@@ -27,7 +27,7 @@ public class TeamIcon {
     @JoinColumn(name = "team_id")
     private Team team;
 
-    @Column(name = "icon_name", unique = true)
+    @Column(name = "icon_name")
     String iconName;
 
     @Builder

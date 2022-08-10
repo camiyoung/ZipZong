@@ -45,7 +45,7 @@ public class RankingService {
     private final RedisTemplate<String, String> redisTemplate;
     private static final Long BOUNDARY = 5L;
 
-    @Scheduled(cron = "0 19 1 * * ?")
+    @Scheduled(cron = "0 37 1 * * ?")
     @Cacheable(value = {"halloffame", "strickrank", "timerank"})
     public void comprehensiveUpdate() {
 
