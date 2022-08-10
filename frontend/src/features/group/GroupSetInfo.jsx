@@ -79,7 +79,7 @@ export default function GroupSetInfo() {
       {/* 모달 영역 끝 */}
 
       <p className="text-3xl font-semibold mt-5 mb-5">
-        <span className="text-md text-">🤸‍♂️</span>그룹 프로필
+        <span className="text-md mr-[7px]">🤸‍♂️</span>그룹 프로필
       </p>
       <div className="flex items-center rounded-3xl bg-gradient-to-r from-white to-lgBlue-200 py-8 px-5 custom-border">
         <div className="w-1/5 flex justify-center items-center">
