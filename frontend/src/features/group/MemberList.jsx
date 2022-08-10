@@ -8,38 +8,6 @@ import ImageIcon from "../../components/icon/ImageIcon"
 import PlusIcon from "../../components/icon/PlusIcon"
 import Button from "../../components/button/Button"
 
-const Members = [
-  {
-    memberName: "신슬기",
-    Icon: "bee",
-    hasDone: true,
-  },
-  {
-    memberName: "김준우",
-    Icon: "elephant",
-    hasDone: true,
-  },
-  {
-    memberName: "박종민",
-    Icon: "basic",
-    hasDone: true,
-  },
-  {
-    memberName: "안지영",
-    Icon: "ferret",
-    hasDone: false,
-  },
-  {
-    memberName: "채송지",
-    Icon: "rabbit",
-    hasDone: false,
-  },
-  {
-    memberName: "황승주",
-    Icon: "pandaBear",
-    hasDone: true,
-  },
-]
 export default function MemberList() {
   const { inviteLink, teamMembers } = useSelector((state) => state.group)
   const [isOpen, setOpen] = useState(false)
