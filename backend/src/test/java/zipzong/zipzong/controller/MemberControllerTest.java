@@ -371,9 +371,11 @@ class MemberControllerTest {
                      .andDo(document("add-Icon",
                              preprocessRequest(prettyPrint()),
                              preprocessResponse(prettyPrint()),
-                             pathParameters(
-                                     parameterWithName("member-id").description("회원 아이디")
+                             requestFields(
+                                     fieldWithPath("nickname").description("회원 닉네임"),
+                                     fieldWithPath("icon").description("추가할 아이콘")
                              ),
+
 
                              responseFields(
                                      fieldWithPath("message").description("메시지"),
