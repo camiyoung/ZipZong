@@ -35,25 +35,33 @@ export default function GroupSet() {
   const modalClose = () => setOpen(false)
 
   return (
-    <div>
-      <GroupSetInfo />
-      <CollectedIcons />
-      <GroupSetMemberList />
-      <div className="mx-5 flex justify-end">
-        <Button
-          text="그룹 삭제"
-          height="h-10"
-          bgColor="bg-danger"
-          onClick={() => {
-            setOpen(true)
-          }}
-        />
+    <div className="w-full flex justify-center mt-5">
+      <div className="w-4/5">
+        <div className="w-full flex">
+          <div className="w-[50%]">
+            <GroupSetInfo />
+            <CollectedIcons />
+          </div>
+          <div className="w-[50%]">
+            <GroupSetMemberList />
+          </div>
+        </div>
+        <div className="mx-5 flex justify-end">
+          <Button
+            text="그룹 삭제"
+            height="h-10"
+            bgColor="bg-danger"
+            onClick={() => {
+              setOpen(true)
+            }}
+          />
+        </div>
+        <Modal isOpen={isOpen} modalClose={modalClose}>
+          <p>정말 그룹을 삭제하시겠습니까?</p>
+          <Button text="예" onClick={deleteTeamFunction} />
+          <Button text="아니오" onClick={modalClose} />
+        </Modal>
       </div>
-      <Modal isOpen={isOpen} modalClose={modalClose}>
-        <p>정말 그룹을 삭제하시겠습니까?</p>
-        <Button text="예" onClick={deleteTeamFunction} />
-        <Button text="아니오" onClick={modalClose} />
-      </Modal>
     </div>
   )
 }

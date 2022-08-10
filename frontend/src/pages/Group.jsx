@@ -23,32 +23,33 @@ export default function Group() {
   const { inviteLink } = useSelector((state) => state.group)
 
   return (
-    <div className="w-[60%] mx-auto">
-      <div className="flex">
-        <GroupInfo />
-      </div>
-      <div className="flex justify-center flex-col items-center mt-20">
-        <div className="text-center">
-          <p className="text-lg">멤버 리스트</p>
-          <Line />
+    <div className="w-full flex justify-center">
+      <div className="w-4/5 flex flex-col">
+        <div className="flex">
+          <GroupInfo />
+        </div>
+        <div className="flex justify-center flex-col items-center mt-20">
+          <div className="text-center">
+            <p className="text-lg">멤버 리스트</p>
+            <Line />
+          </div>
+          <MemberList inviteLink={inviteLink} />
+        </div>
+        <div className="flex justify-center flex-col items-center mt-20">
+          <div className="text-center">
+            <p className="text-lg">운동 정보</p>
+            <Line />
+          </div>
+          <ExerciseInfo />
         </div>
         <MemberList inviteLink={inviteLink} />
-      </div>
-
-      <div className="flex justify-center flex-col items-center mt-20">
-        <div className="text-center">
-          <p className="text-lg">운동 정보</p>
-          <Line />
+        <div className="flex justify-center flex-col items-center mt-20">
+          <div className="text-center">
+            <p className="text-lg">그룹 운동 정보</p>
+            <Line />
+          </div>
+          <GroupExerciseInfo />
         </div>
-        <ExerciseInfo />
-      </div>
-
-      <div className="flex justify-center flex-col items-center mt-20">
-        <div className="text-center">
-          <p className="text-lg">그룹 운동 정보</p>
-          <Line />
-        </div>
-        <GroupExerciseInfo />
       </div>
     </div>
   )
