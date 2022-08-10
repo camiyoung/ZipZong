@@ -1,12 +1,14 @@
 package zipzong.zipzong.api.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import zipzong.zipzong.api.dto.ranking.HallOfFameResponse;
 import zipzong.zipzong.api.dto.ranking.TeamRankingResponse;
+import zipzong.zipzong.config.redis.RedisConfig;
 import zipzong.zipzong.db.domain.*;
 import zipzong.zipzong.db.repository.exercise.ExerciseRepository;
 import zipzong.zipzong.db.repository.exercise.MemberCalendarRepository;
@@ -47,16 +49,15 @@ public class RankingService {
 
     private static final Long BOUNDARY = 5L;
 
-    @Scheduled(cron = "0 20 13 * * ?")
+    @Scheduled(cron = "0 40 13 * * ?")
     public void comprehensiveUpdate() {
         LocalDate today = LocalDate.now().minusDays(1);
 
         // # Redis 초기화 작업
         //  - redis의 정보를 모두 clear한다. (팀 해체 등의 이유)
-
-        if(Boolean.TRUE.equals(redisTemplate.hasKey("halloffame"))) redisTemplate.delete("halloffame");
-        if(Boolean.TRUE.equals(redisTemplate.hasKey("strickrank"))) redisTemplate.delete("strickrank");
-        if(Boolean.TRUE.equals(redisTemplate.hasKey("timerank"))) redisTemplate.delete("timerank");
+        zSetOperations.remove("halloffame");
+        zSetOperations.remove("strickrank");
+        zSetOperations.remove("timerank");
 
         // # 정보 갱신 작업
         //
