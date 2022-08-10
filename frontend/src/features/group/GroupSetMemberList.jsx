@@ -5,7 +5,6 @@ import ImageIcon from "../../components/icon/ImageIcon"
 import UserIcon from "../../components/icon/UserIcon"
 import Modal from "../../components/modal/Modal"
 import Button from "../../components/button/Button"
-import { defaultFormat } from "moment"
 
 const members = [
   {
@@ -68,21 +67,23 @@ export default function GroupSetMemberList() {
     return (
       <div
         key={idx}
-        className="flex mb-2 w-128"
+        className="flex mb-2 "
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
       >
-        <ImageIcon
-          image={`images/badgeIcon/${imageUrl}.png`}
-          size="small"
-          shape="round"
-        />
-        <p className="mx-2">{name}</p>
-        <p className="ml-3">({date} 가입)</p>
-        {isLeader ? <p className="w-min">👑</p> : null}
+        <div className="bg-white p-4 flex rounded-3xl items-center">
+          <ImageIcon
+            image={`images/badgeIcon/${imageUrl}.png`}
+            size="smmiddle"
+            shape="round"
+          />
+          <p className="mx-3">{name}</p>
+          <p className="">({date} 가입)</p>
+          {isLeader ? <p className="w-min">👑</p> : null}
 
-        {/* 그룹장 위임, 강퇴 컴포넌트 */}
-        <p>⚙️ </p>
+          {/* 그룹장 위임, 강퇴 컴포넌트 */}
+          <p>⚙️ </p>
+        </div>
         <div className={isHovering ? "show" : "hidden"} alt="">
           <button className="ml-5">그룹장 위임</button>
           <button
@@ -101,7 +102,7 @@ export default function GroupSetMemberList() {
 
   console.log("리더", teamLeader)
   return (
-    <div className="mx-5 mt-10">
+    <div className="mx-5 mt-5">
       {/* 회원 강퇴 모달 */}
       <Modal isOpen={isExpulsionOpen} modalClose={modalClose}>
         <div className="flex flex-col">
@@ -135,11 +136,15 @@ export default function GroupSetMemberList() {
         </div>
       </Modal>
 
-      <p className="text-3xl font-semibold mb-1">회원 명단</p>
-      <p className="flex my-3">
-        <UserIcon />
-        {teamMembers.length}명 / {10}명
-      </p>
+      <div className="flex items-center mb-5">
+        <p className="text-3xl font-semibold">회원 명단</p>
+        <p className="flex items-center ml-3">
+          <UserIcon />
+          <span className="ml-1">
+            {teamMembers.length}명 / {10}명
+          </span>
+        </p>
+      </div>
       {members.map(({ name, date, isLeader, imageUrl }, idx) => {
         return (
           <GroupHover
