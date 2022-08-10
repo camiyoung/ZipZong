@@ -1,3 +1,5 @@
+import "./GroupSetMemberList.css"
+
 import React, { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { useLocation } from "react-router-dom"
@@ -62,39 +64,37 @@ export default function GroupSetMemberList() {
   const modalClose = () => setExpulsionOpen(false)
 
   const GroupHover = ({ name, date, isLeader, imageUrl, idx }) => {
-    const [isHovering, setIsHovering] = useState(false)
-
     return (
-      <div
-        key={idx}
-        className="flex mb-2 "
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
-      >
-        <div className="bg-white p-4 flex rounded-3xl items-center">
-          <ImageIcon
-            image={`images/badgeIcon/${imageUrl}.png`}
-            size="smmiddle"
-            shape="round"
-          />
-          <p className="mx-3">{name}</p>
-          <p className="">({date} 가입)</p>
-          {isLeader ? <p className="w-min">👑</p> : null}
+      <div key={idx} className="flex mb-4">
+        <div className="flex p-4 rounded-tr-full rounded-br-full container w-[50%] bg-white shadow-sm">
+          <div className="flex image items-center px-2">
+            <ImageIcon
+              image={`images/badgeIcon/${imageUrl}.png`}
+              size="smmiddle"
+              shape="round"
+            />
+            <span className="ml-3">{name}</span>
+            <span className="mx-2">({date} 가입)</span>
+            {isLeader ? <span className="w-min">👑</span> : null}
 
-          {/* 그룹장 위임, 강퇴 컴포넌트 */}
-          <p>⚙️ </p>
-        </div>
-        <div className={isHovering ? "show" : "hidden"} alt="">
-          <button className="ml-5">그룹장 위임</button>
-          <button
-            className="ml-5"
-            onClick={() => {
-              setExpulsionOpen(true)
-              setUser(name)
-            }}
-          >
-            그룹장 강퇴
-          </button>
+            {/* 그룹장 위임, 강퇴 컴포넌트 */}
+            <div class="overlay rounded-tr-full rounded-br-full z-0">
+              <div class="text">
+                <button className="hover:bg-mainBlue px-3 py-1 rounded-xl">
+                  그룹장 위임
+                </button>
+                <button
+                  className="hover:bg-mainBlue px-3 py-1 rounded-xl"
+                  onClick={() => {
+                    setExpulsionOpen(true)
+                    setUser(name)
+                  }}
+                >
+                  그룹원 강퇴
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     )
@@ -102,12 +102,12 @@ export default function GroupSetMemberList() {
 
   console.log("리더", teamLeader)
   return (
-    <div className="mx-5 mt-5">
+    <div className="ml-10 mt-5">
       {/* 회원 강퇴 모달 */}
       <Modal isOpen={isExpulsionOpen} modalClose={modalClose}>
         <div className="flex flex-col">
           <p className="text-xl font-bold flex justify-center">
-            {user} 회원님을 정말 탈퇴하시겠습니까?
+            {user} 회원님을 정말 탈퇴 시키시겠습니까?
           </p>
           <div className="flex justify-around mt-5">
             <Button
