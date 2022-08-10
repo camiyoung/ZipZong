@@ -363,6 +363,7 @@ class MemberControllerTest {
         RequestBuilder requestBuilder = RestDocumentationRequestBuilders.post("/member/icon")
                                                                         .content(body)
                                                                         .contentType(MediaType.APPLICATION_JSON);
+
         ResultActions resultActions = mockMvc.perform(requestBuilder);
 
         //then
