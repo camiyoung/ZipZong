@@ -5,6 +5,7 @@ import Card from "../../components/card/Card"
 import Button from "../../components/button/Button"
 import ImageIcon from "../../components/icon/ImageIcon"
 import { Tooltip } from "flowbite-react"
+import ShowExpression from "./ShowExpression"
 
 const prizes = [
   "bee",
@@ -23,7 +24,7 @@ export default function CollectedIcons() {
   const dispatch = useDispatch()
   const location = useLocation()
   const fetchTeamId = location.pathname.split("/")[2]
-  const { icons, teamRepIcons } = useSelector((state) => state.group)
+  const { basicIcons, teamRepIcons } = useSelector((state) => state.group)
 
   return (
     <div className="flex justify-center flex-col mx-5 rounded-lg mt-14">
@@ -36,15 +37,18 @@ export default function CollectedIcons() {
 
       <div className="flex items-center rounded-3xl mt-5 shadow-md p-5 from-white custom-border2">
         <div className="flex flex-wrap">
-          {prizes.map((imageUrl, idx) => {
+          {console.log(basicIcons)}
+          {basicIcons.map((imageName, idx) => {
             return (
               <Tooltip
-                content="여기에 아이콘 어떻게 얻은건지 설명 들어갔으면 좋겠어요"
+                content={<ShowExpression imageUrl={imageName} />}
                 placement="bottom"
               >
                 <div className="m-2.5 cursor-pointer" key={idx}>
                   <ImageIcon
-                    image={`images/badgeIcon/${imageUrl}.png`}
+                    // 배포 주소로 다시 바꿔야 하는지 의문
+                    // ${process.env.REACT_APP_BASE_URL}
+                    image={`http://localhost:3000/images/badgeIcon/${imageName}.png`}
                     shape="round"
                     className="mx-1"
                     size="mdlarge"

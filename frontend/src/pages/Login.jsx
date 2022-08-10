@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux"
 import { checkMemberId, nicknamePush } from "../features/login/memberReducer"
 import NotLoggedInYet from "../features/login/NotLoggedInYet"
 import SetNickName from "../features/login/SetNickName"
-import { inviteTeamIdConfirm } from "../features/group/groupReducer"
+import { registrationTeam } from "../features/group/groupReducer"
 
 export default function Login() {
   const location = useLocation()
@@ -48,7 +48,8 @@ export default function Login() {
           nickname: nickname,
         })
       )
-      console.log("닉네임 중복 확인", hasNickname, nickname)
+
+      dispatch(registrationTeam(Number(collectedMemberId)))
     }
     // navigate("/mypage")
   }, [])

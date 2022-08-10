@@ -2,7 +2,7 @@ import "./GroupSetMemberList.css"
 
 import React, { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import ImageIcon from "../../components/icon/ImageIcon"
 import UserIcon from "../../components/icon/UserIcon"
 import Modal from "../../components/modal/Modal"
@@ -73,6 +73,7 @@ const members = [
 export default function GroupSetMemberList() {
   const dispatch = useDispatch()
   const location = useLocation()
+  const navigate = useNavigate()
 
   const fetchTeamId = location.pathname.split("/")[2]
   const { teamMembers, teamLeader } = useSelector((state) => state.group)
@@ -197,6 +198,7 @@ export default function GroupSetMemberList() {
           </div>
         </div>
       </Modal>
+      {/* 그룹장 위임 모달 끝 */}
 
       <div className="flex items-center mb-6">
         <p className="text-3xl font-semibold">

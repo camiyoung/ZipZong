@@ -4,9 +4,11 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom"
 import { registrationTeam, teamInfo } from "../../features/group/groupReducer"
 import Modal from "../modal/Modal"
 import { NicknameValidation } from "../../utils/NicknameValidation"
+import { Button } from "flowbite-react"
 import {
   nicknameChange,
   memberIconSelect,
+  logout,
 } from "../../features/login/memberReducer"
 import Card from "../card/Card"
 import ImageIcon from "../icon/ImageIcon"
@@ -65,21 +67,18 @@ const GroupList = ({ setVisible, groups }) => {
   )
 }
 
-// 로그아웃 버튼 눌렀을 시 발동
-const Logout = () => {
-  const navigate = useNavigate()
-  // 로그아웃 버튼을 누르면 로컬스토리지 비우고 navigate을 하고 싶지만 동작 안함
-  localStorage.clear()
-  navigate("/login")
-}
-
 const InfoList = ({ setVisible }) => {
   const dispatch = useDispatch()
-  const [isOpen, setOpen] = useState(false)
-  const modalClose = () => setOpen(false)
+  const navigate = useNavigate()
   const [nickname, setNickname] = useState("")
   const { memberNickname, memberRepIcon } = useSelector((state) => state.member)
   const [errorMessage, setErrorMessage] = useState("")
+
+  // Modal
+  const [isOpen, setOpen] = useState(false)
+  const [isOpen2, setOpen2] = useState(false)
+  const modalClose = () => setOpen(false)
+  const modalClose2 = () => setOpen2(false)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -107,6 +106,7 @@ const InfoList = ({ setVisible }) => {
 
   return (
     <div>
+      {/* 개인 정보 수정 모달 시작 */}
       <Modal isOpen={isOpen} modalClose={modalClose}>
         <form onSubmit={handleSubmit}>
           <div className="text-xl flex justify-center pb-5 font-bold">
@@ -117,7 +117,7 @@ const InfoList = ({ setVisible }) => {
               <div className="flex justify-center pb-3">대표 아이콘</div>
               <div>
                 <ImageIcon
-                  image={`images/animalIcon/${memberRepIcon}.png`}
+                  image={`images/badgeIcon/${memberRepIcon}.png`}
                   shape="round"
                   size="xLarge"
                 />
@@ -204,13 +204,42 @@ const InfoList = ({ setVisible }) => {
           </div>
         </form>
       </Modal>
+      {/* 개인 정보 수정 모달 끝 */}
+
+      {/* 회원탈퇴 모달 시작 */}
+      <Modal isOpen={isOpen2} modalClose={modalClose2}>
+        <p>정말 탈퇴하시겠습니까?</p>
+        <div classname="flex">
+          <Button size="xs">Yes</Button>
+          <Button size="xl" color="failure" onClick={modalClose2}>
+            No
+          </Button>
+        </div>
+      </Modal>
+      {/* 회원탈퇴 모달 끝 */}
 
       <div className="absolute z-30 top-[4rem] right-[2.5em] border">
         <Card size="middle">
           <div onClick={() => setVisible(false)}>닫기</div>
           <ul>
             <li onClick={() => setOpen(true)}>개인정보 수정</li>
-            <li onClick={() => <Logout />}>log out</li>
+            <li
+              onClick={() => {
+                dispatch(logout())
+                navigate("/login")
+              }}
+            >
+              log out
+            </li>
+
+            {/* 회원 탈퇴 */}
+            <li
+              className="text-xs"
+              style={{ color: "transparent", cursor: "pointer" }}
+              onClick={() => setOpen2(true)}
+            >
+              회원 탈퇴
+            </li>
           </ul>
         </Card>
       </div>
@@ -281,7 +310,7 @@ export default function Navbar() {
                 }}
               >
                 <ImageIcon
-                  image={`images/animalIcon/${memberRepIcon}.png`}
+                  image={`images/badgeIcon/${memberRepIcon}.png`}
                   size="small"
                   shape="round"
                 />

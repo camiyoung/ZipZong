@@ -161,14 +161,36 @@ export const teamMonthHistoryCheck = createAsyncThunk(
   }
 )
 
+// 팀 순위 정보 조회
+export const rankingTeam = createAsyncThunk("ranking/team", async (teamId) => {
+  const res = await http.get(`ranking/team/${teamId}`)
+  if (res.data.message === "success") {
+    return res
+  }
+})
+
 export const groupSlice = createSlice({
   name: "group",
   initialState: {
+    timeRank: [],
+    strickRank: [],
     teamDailyHistory: [],
     inviteTeamId: null,
     registeredTeam: [],
     inviteLink: "inviteLink",
-    icons: ["addIcon1", "addIcon2"],
+    icons: ["addIcon1"],
+    basicIcons: [
+      "basic",
+      "bee",
+      "elephant",
+      "ferret",
+      "frog",
+      "pandaBear",
+      "pig",
+      "rabbit",
+      "walrus",
+      "yak",
+    ],
     teamName: "teamName",
     teamContent: "teamContent",
     teamRepIcons: "basic",
@@ -276,6 +298,11 @@ export const groupSlice = createSlice({
 
     builder.addCase(teamMonthHistoryCheck.fulfilled, (state, action) => {
       state.teamDailyHistory = action.payload.data.data.dailyHistories
+    })
+
+    builder.addCase(rankingTeam.fulfilled, (state, action) => {
+      state.strickRank = action.payload.data.data.strickRank
+      state.timeRank = action.payload.data.data.timeRank
     })
   },
 })
