@@ -9,6 +9,8 @@ import {
   nicknameChange,
   memberIconSelect,
   logout,
+  initializeIsMemberGroupLeader,
+  memberRemove,
 } from "../../features/login/memberReducer"
 import Card from "../card/Card"
 import ImageIcon from "../icon/ImageIcon"
@@ -64,13 +66,12 @@ const GroupList = ({ setVisible, groups }) => {
   )
 }
 
-const InfoList = ({ setVisible }) => {
+const InfoList = ({ setVisible, memberId }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [nickname, setNickname] = useState("")
-  const { memberNickname, memberRepIcon, memberIconList } = useSelector(
-    (state) => state.member
-  )
+  const { memberNickname, memberRepIcon, memberIconList, isMemberGroupLeader } =
+    useSelector((state) => state.member)
   const [errorMessage, setErrorMessage] = useState("")
   const [allIcons, setAllIcons] = useState("")
 
@@ -103,10 +104,11 @@ const InfoList = ({ setVisible }) => {
       setErrorMessage("닉네임을 한 글자 이상 작성해주세요.")
     }
   }
-  console.log(memberIconList)
-  console.log(Icons)
-  console.log(Icons + memberIconList)
-  // setAllIcons(memberIconList + IcoIcons)
+
+  // 아이콘 목록 기본 아이콘과 회원이 가진 아이콘들 합치기
+  if (memberIconList) {
+    setAllIcons([...Icons, ...memberIconList])
+  }
 
   return (
     <div>
@@ -163,31 +165,33 @@ const InfoList = ({ setVisible }) => {
                 </div>
 
                 <div className="flex w-[300px] flex-wrap">
-                  {Icons.map((icon, idx) => {
-                    return (
-                      <div
-                        onClick={() => {
-                          dispatch(
-                            memberIconSelect({
-                              nickname: memberNickname,
-                              icon: `images/badgeIcon/${icon}.png`,
-                            })
-                          )
-                        }}
-                        key={idx}
-                        className="mr-1 mb-1 cursor-pointer"
-                      >
-                        <div className="hover:border-primary-400 border-2 border-white rounded-full ">
-                          <ImageIcon
-                            image={`images/badgeIcon/${icon}.png`}
-                            size="smmiddle"
-                            shape="round"
-                            borderStyle="none"
-                          />
-                        </div>
-                      </div>
-                    )
-                  })}
+                  {allIcons
+                    ? allIcons.map((icon, idx) => {
+                        return (
+                          <div
+                            onClick={() => {
+                              dispatch(
+                                memberIconSelect({
+                                  nickname: memberNickname,
+                                  icon: `images/badgeIcon/${icon}.png`,
+                                })
+                              )
+                            }}
+                            key={idx}
+                            className="mr-1 mb-1 cursor-pointer"
+                          >
+                            <div className="hover:border-primary-400 border-2 border-white rounded-full ">
+                              <ImageIcon
+                                image={`images/badgeIcon/${icon}.png`}
+                                size="smmiddle"
+                                shape="round"
+                                borderStyle="none"
+                              />
+                            </div>
+                          </div>
+                        )
+                      })
+                    : null}
                 </div>
               </div>
             </div>
@@ -214,7 +218,29 @@ const InfoList = ({ setVisible }) => {
       <Modal isOpen={isOpen2} modalClose={modalClose2}>
         <p>정말 탈퇴하시겠습니까?</p>
         <div classname="flex">
-          <Button size="xs">Yes</Button>
+          <Button
+            size="xs"
+            onClick={() => {
+              dispatch(memberRemove(memberId))
+
+              if (
+                isMemberGroupLeader === true ||
+                isMemberGroupLeader === false
+              ) {
+                if (isMemberGroupLeader === true) {
+                  dispatch(initializeIsMemberGroupLeader())
+                  navigate("/login")
+                } else {
+                  modalClose2()
+                  alert(
+                    "회원님이 그룹장인 그룹이 있습니다. 그룹장을 위임한 후 회원탈퇴를 진행해주세요!"
+                  )
+                }
+              }
+            }}
+          >
+            Yes
+          </Button>
           <Button size="xl" color="failure" onClick={modalClose2}>
             No
           </Button>
@@ -319,7 +345,9 @@ export default function Navbar() {
                   shape="round"
                 />
               </div>
-              {showInfo && <InfoList setVisible={setShowInfo} />}
+              {showInfo && (
+                <InfoList setVisible={setShowInfo} memberId={memberId} />
+              )}
             </NavItem>
           </ul>
         </nav>
