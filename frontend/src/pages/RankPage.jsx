@@ -9,10 +9,18 @@ import { http } from "../api/axios"
 export default function RankPage() {
   const [musicPlay, setMusicPlay] = useState(true)
   const audioRef = useRef()
+  const [rankingInfo, setRankingInfo] = useState()
   useEffect(() => {
     audioRef.current.volume = 0.1
     AOS.init()
+
+    http.get("ranking/info").then((res) => {
+      // console.log(res)
+      setRankingInfo(res.data.data)
+    })
   }, [])
+  // console.log(rankingInfo)
+
   const playMusic = () => {
     if (musicPlay) {
       audioRef.current.pause()
@@ -32,22 +40,28 @@ export default function RankPage() {
 
         <MusicPlayer isPlaying={musicPlay} clickButton={playMusic} />
         <section className=" w-full h-[80vh] relative flex justify-center items-center rounded-3xl ">
-          <TopRank />
+          {rankingInfo && <TopRank list={rankingInfo.hallOfFames} />}
         </section>
 
         {/* 랭킹 섹션 */}
         <section className=" w-full flex mt-20 py-10 pb-16 bg-gradient-to-r from-[#e5d1ed] to-[#c6f2ef] rounded-3xl  shadow-md">
           <div className=" w-1/2 flex flex-col justify-center items-center ">
-            <RankList
-              title={"⏰ 타임 랭킹 ⏰ "}
-              description={"실시간으로 갱신됩니다."}
-            />
+            {rankingInfo && (
+              <RankList
+                title={"⏰ 타임 랭킹 ⏰ "}
+                description={"실시간으로 갱신됩니다."}
+                list={rankingInfo.timeRanks}
+              />
+            )}
           </div>
           <div className=" w-1/2 flex flex-col justify-center items-center ">
-            <RankList
-              title={"🗓️ 컨티뉴 랭킹 🗓️"}
-              description={"AM 12:00을 기준으로 갱신됩니다."}
-            />
+            {rankingInfo && (
+              <RankList
+                title={"🗓️ 컨티뉴 랭킹 🗓️"}
+                description={"AM 12:00을 기준으로 갱신됩니다."}
+                list={rankingInfo.strickRanks}
+              />
+            )}
           </div>
         </section>
       </div>
