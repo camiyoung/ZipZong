@@ -5,6 +5,7 @@ import {
   teamInfo,
   teamTotalExerciseCount,
 } from "../features/group/groupReducer"
+import { getRoutine } from "../features/routine/routineReducer"
 import GroupInfo from "../features/group/GroupInfo"
 import MemberList from "../features/group/MemberList"
 import Line from "../components/Line"
@@ -18,6 +19,7 @@ export default function Group() {
   useEffect(() => {
     dispatch(teamInfo(fetchTeamId))
     dispatch(teamTotalExerciseCount(fetchTeamId))
+    dispatch(getRoutine(fetchTeamId))
   }, [fetchTeamId])
 
   const { inviteLink } = useSelector((state) => state.group)
@@ -42,7 +44,6 @@ export default function Group() {
           </div>
           <ExerciseInfo />
         </div>
-        <MemberList inviteLink={inviteLink} />
         <div className="flex justify-center flex-col items-center mt-20">
           <div className="text-center">
             <p className="text-lg">그룹 운동 정보</p>

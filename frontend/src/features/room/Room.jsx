@@ -12,6 +12,7 @@ import OtherPeople from "./OtherPeople"
 import SideBar from "./SideBar"
 import { Model } from "./teachableMachine/model"
 import { Spinner } from "../../components/spinner/Spinner"
+import AlertModal from "./AlertModal"
 
 const localUser = new UserModel()
 const tmModel = new Model()
@@ -19,6 +20,7 @@ const tmModel = new Model()
 class Room extends Component {
   constructor(props) {
     super(props)
+
     this.OPENVIDU_SERVER_URL = this.props.openviduServerUrl
       ? this.props.openviduServerUrl
       : "https://i7a805.p.ssafy.io:8443"
@@ -30,9 +32,9 @@ class Room extends Component {
     let sessionName = this.props.sessionName
       ? this.props.sessionName
       : "SessionA"
-    let userName = this.props.user
-      ? this.props.user
-      : "OpenVidu_User" + Math.floor(Math.random() * 100)
+    let userName = this.props.user ? this.props.user : "guest"
+
+    // localUser.setIcon = this.props.icon
     this.remotes = []
     this.localUserAccessAllowed = false
     this.state = {
@@ -46,6 +48,7 @@ class Room extends Component {
       isRoomAdmin: false,
       tmModel: undefined,
       modelLoded: false,
+      alert: undefined,
     }
     this.myVideoRef = React.createRef()
 
@@ -192,6 +195,8 @@ class Room extends Component {
     localUser.setConnectionId(this.state.session.connection.connectionId)
     localUser.setScreenShareActive(false)
     localUser.setStreamManager(publisher)
+    // console.log(localUser)
+    localUser.setIcon(this.props.icon)
     this.subscribeToUserChanged()
     this.subscribeToStreamDestroyed()
     this.sendSignalUserChanged({
@@ -205,7 +210,9 @@ class Room extends Component {
           "내 connectionID",
           this.state.localUser.getConnectionId(),
           "닉네임",
-          this.state.localUser.getNickname()
+          this.state.localUser.getNickname(),
+          "아이콘",
+          this.state.localUser.getUserIcon()
         )
         this.state.localUser.getStreamManager().on("streamPlaying", (e) => {
           publisher.videos[0].video.parentElement.classList.remove(
@@ -251,9 +258,6 @@ class Room extends Component {
       myUserName: "OpenVidu_User" + Math.floor(Math.random() * 100),
       localUser: undefined,
     })
-    if (this.props.leaveSession) {
-      this.props.leaveSession()
-    }
   }
   camStatusChanged() {
     localUser.setVideoActive(!localUser.isVideoActive())
@@ -319,7 +323,18 @@ class Room extends Component {
     // On every Stream destroyed...
     this.state.session.on("streamDestroyed", (event) => {
       // Remove the stream from 'subscribers' array
-      // console.log("유저 퇴장?", event)
+      const user = event.stream.connection
+      const data = JSON.parse(user.data)
+      const isAdmin = data.admin
+
+      if (isAdmin) {
+        const signalOptions = {
+          data: "방장 퇴장",
+          type: "exit",
+        }
+        this.state.session.signal(signalOptions)
+      }
+      console.log("유저 퇴장- uid:", user.connectionId, "방장?:", data.admin)
       this.deleteSubscriber(event.stream)
       setTimeout(() => {
         this.checkSomeoneShareScreen()
@@ -525,10 +540,17 @@ class Room extends Component {
     }
   }
 
+  setAlert = (type) => {
+    this.setState({ alert: { type } }, () => {
+      console.log(this.state.alert)
+    })
+  }
+
   render() {
     const mySessionId = this.state.mySessionId
     const localUser = this.state.localUser
     var chatDisplay = { display: this.state.chatDisplay }
+
     const Toolbar = (
       <ToolbarComponent
         sessionId={mySessionId}
@@ -574,6 +596,26 @@ class Room extends Component {
           </div>
         ) : (
           <div className="flex h-full bg-secondary-200 rounded-2xl">
+            {this.state.alert?.type === "error" && (
+              <AlertModal
+                title={"방장이 퇴장했습니다."}
+                message={[
+                  "운동이 종료됩니다.",
+                  "이 운동은 기록에 저장되지 않습니다.",
+                ]}
+                type="error"
+              />
+            )}
+            {this.state.alert?.type === "alert" && (
+              <AlertModal
+                title={"운동 기록을 저장중입니다."}
+                message={[
+                  "저장이 완료되면 자동으로 결과 페이지로 이동합니다.",
+                  "현재 페이지를 닫지 말고 잠시만 기다려주세요.",
+                ]}
+                type="alret"
+              />
+            )}
             <div
               className="w-1/6  min-w-[300px]  border-4 border-green-700 "
               id="subscribersArea"
@@ -594,6 +636,8 @@ class Room extends Component {
                     isRoomAdmin={this.state.isRoomAdmin}
                     tmModel={tmModel}
                     user={this.state.localUser}
+                    setAlert={this.setAlert}
+                    leaveRoom={this.leaveSession}
                   />
                 )}
             </div>

@@ -28,12 +28,14 @@ export const memberExerciseHistorySumCheck = createAsyncThunk(
   }
 )
 
-// 회원 IconList 조회
-export const memberIconList = createAsyncThunk(
+// 회원 아이콘리스트 조회
+export const memberIconListReview = createAsyncThunk(
   "member/icon",
   async (memberId) => {
-    const data = await http.get(`/member/icon/${memberId}`)
-    return data
+    const res = await http.get(`member/icon/${memberId}`)
+    if (res.data.message === "success") {
+      return res
+    }
   }
 )
 
@@ -84,6 +86,10 @@ export const myPageSlice = createSlice({
         state.memberCurrentStrick = action.payload.data.data.currentStrick
       }
     )
+
+    builder.addCase(memberIconListReview.fulfilled, (state, action) => {
+      state.memberIconList = action.payload.data
+    })
   },
 })
 export const {

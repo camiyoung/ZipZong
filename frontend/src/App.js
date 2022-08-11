@@ -36,6 +36,7 @@ function App() {
 
           <Route path="/login" element={<Login />} />
           <Route path="/room" element={<RoomPage />} />
+          <Route path="/room/:teamId" element={<RoomPage />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/rank" element={<RankPage />} />
           <Route path="/result" element={<ExerciseResultPage />} />

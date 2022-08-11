@@ -1,7 +1,11 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useLocation } from "react-router-dom"
-import { teamJoin, teamLinkLookup } from "../features/group/groupReducer"
+import {
+  teamJoin,
+  teamLinkLookup,
+  registrationTeam,
+} from "../features/group/groupReducer"
 import Button from "../components/button/Button"
 import UserIcon from "../components/icon/UserIcon"
 
@@ -10,11 +14,20 @@ export default function Invite() {
   const dispatch = useDispatch()
   const location = useLocation()
   const fetchGroundId = location.search.split("=")[1]
-  const { teamName, teamLeader, teamMembers, teamContent, inviteTeamId } =
-    useSelector((state) => state.group)
-  const { memberId } = useSelector((state) => state.member)
+  const {
+    teamName,
+    teamLeader,
+    teamMembers,
+    teamContent,
+    inviteTeamId,
+    registeredTeam,
+  } = useSelector((state) => state.group)
+  const memberId = localStorage.getItem("memberId")
   useEffect(() => {
     dispatch(teamLinkLookup(fetchGroundId))
+    if (memberId) {
+      dispatch(registrationTeam(memberId))
+    }
   }, [])
   const navigate = useNavigate()
 
@@ -41,14 +54,24 @@ export default function Invite() {
           text="수락"
           onClick={() => {
             // 리프레쉬 토큰이 존재하면 팀 조인 후 마이페이지로 이동
-            if (localStorage.getItem("refreshToken")) {
-              dispatch(
-                teamJoin({
-                  teamId: inviteTeamId,
-                  memberId: localStorage.getItem("memberId"),
-                })
-              )
-              navigate("/mypage")
+            let flag = 0
+            if (localStorage.getItem("refreshToken") && memberId) {
+              for (let i = 0; i < registeredTeam.legnth; ++i) {
+                if (inviteTeamId == registeredTeam[i].groupId) {
+                  flag = 1
+                }
+              }
+              if (flag === 0) {
+                dispatch(
+                  teamJoin({
+                    teamId: inviteTeamId,
+                    memberId: memberId,
+                  })
+                )
+                navigate("/mypage")
+              } else {
+                alert("팀에 이미 가입되어 있습니다.")
+              }
             } else {
               localStorage.setItem("inviteTeamId", inviteTeamId)
               navigate(`/login?invitedTeamId=${inviteTeamId}`)

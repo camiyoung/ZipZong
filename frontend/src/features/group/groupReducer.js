@@ -76,6 +76,14 @@ export const teamRepIconModify = createAsyncThunk(
   }
 )
 
+// 팀 모든 아이콘 조회
+export const teamAllIcons = createAsyncThunk("team/icons", async (teamId) => {
+  const res = await http.get(`team/icons/${teamId}`)
+  if (res.data.message === "success") {
+    return res
+  }
+})
+
 // 회원이 가입한 팀 정보 조회
 export const registrationTeam = createAsyncThunk(
   "registration/member",
@@ -161,14 +169,36 @@ export const teamMonthHistoryCheck = createAsyncThunk(
   }
 )
 
+// 팀 순위 정보 조회
+export const rankingTeam = createAsyncThunk("ranking/team", async (teamId) => {
+  const res = await http.get(`ranking/team/${teamId}`)
+  if (res.data.message === "success") {
+    return res
+  }
+})
+
 export const groupSlice = createSlice({
   name: "group",
   initialState: {
+    timeRank: [],
+    strickRank: [],
     teamDailyHistory: [],
     inviteTeamId: null,
     registeredTeam: [],
     inviteLink: "inviteLink",
-    icons: ["addIcon1", "addIcon2"],
+    icons: [],
+    basicIcons: [
+      "basic",
+      "bee",
+      "elephant",
+      "ferret",
+      "frog",
+      "pandaBear",
+      "pig",
+      "rabbit",
+      "walrus",
+      "yak",
+    ],
     teamName: "teamName",
     teamContent: "teamContent",
     teamRepIcons: "basic",
@@ -222,9 +252,9 @@ export const groupSlice = createSlice({
         Object.assign(tmp[x], exerciseStatus)
       }
 
-      niceMembers.forEach(({ nickname }) => {
+      niceMembers.forEach(({ nickName }) => {
         for (let i = 0; i < tmp.length; ++i) {
-          if (nickname === tmp[i].nickname) {
+          if (nickName === tmp[i].nickname) {
             tmp[i].hasExercised = true
           }
         }
@@ -276,6 +306,15 @@ export const groupSlice = createSlice({
 
     builder.addCase(teamMonthHistoryCheck.fulfilled, (state, action) => {
       state.teamDailyHistory = action.payload.data.data.dailyHistories
+    })
+
+    builder.addCase(rankingTeam.fulfilled, (state, action) => {
+      state.strickRank = action.payload.data.data.strickRank
+      state.timeRank = action.payload.data.data.timeRank
+    })
+
+    builder.addCase(teamAllIcons.fulfilled, (state, action) => {
+      state.icons = action.payload.data.data
     })
   },
 })

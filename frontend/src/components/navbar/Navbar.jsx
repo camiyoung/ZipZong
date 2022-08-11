@@ -4,27 +4,17 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom"
 import { registrationTeam, teamInfo } from "../../features/group/groupReducer"
 import Modal from "../modal/Modal"
 import { NicknameValidation } from "../../utils/NicknameValidation"
+import { Button } from "flowbite-react"
 import {
   nicknameChange,
   memberIconSelect,
+  logout,
+  initializeIsMemberGroupLeader,
+  memberRemove,
 } from "../../features/login/memberReducer"
 import Card from "../card/Card"
 import ImageIcon from "../icon/ImageIcon"
 import Logo from "../../assets/Logo.svg"
-
-const Icons = [
-  "basic",
-  "bee",
-  "elephant",
-  "basic",
-  "ferret",
-  "frog",
-  "pandaBear",
-  "pig",
-  "rabbit",
-  "walrus",
-  "yak",
-]
 
 const NavItem = ({ children }) => {
   return <li className="m-2 flex justify-center items-center">{children}</li>
@@ -47,9 +37,6 @@ const GroupList = ({ setVisible, groups }) => {
               </NavLink>
             )
           })}
-          <NavLink to="/login">
-            <li style={{ color: "red" }}>드디어 로그인 버튼 만들었습니다</li>
-          </NavLink>
           <NavLink to="/group">
             <li>그룹 페이지</li>
           </NavLink>
@@ -65,21 +52,21 @@ const GroupList = ({ setVisible, groups }) => {
   )
 }
 
-// 로그아웃 버튼 눌렀을 시 발동
-const Logout = () => {
-  const navigate = useNavigate()
-  // 로그아웃 버튼을 누르면 로컬스토리지 비우고 navigate을 하고 싶지만 동작 안함
-  localStorage.clear()
-  navigate("/login")
-}
-
-const InfoList = ({ setVisible }) => {
+const InfoList = ({ setVisible, memberId }) => {
   const dispatch = useDispatch()
-  const [isOpen, setOpen] = useState(false)
-  const modalClose = () => setOpen(false)
+  const navigate = useNavigate()
   const [nickname, setNickname] = useState("")
-  const { memberNickname, memberRepIcon } = useSelector((state) => state.member)
+  const { memberNickname, memberRepIcon, memberIconList, isMemberGroupLeader } =
+    useSelector((state) => state.member)
+  const { basicIcons } = useSelector((state) => state.group)
   const [errorMessage, setErrorMessage] = useState("")
+  const [allIcons, setAllIcons] = useState("")
+
+  // Modal
+  const [isOpen, setOpen] = useState(false)
+  const [isOpen2, setOpen2] = useState(false)
+  const modalClose = () => setOpen(false)
+  const modalClose2 = () => setOpen2(false)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -105,8 +92,15 @@ const InfoList = ({ setVisible }) => {
     }
   }
 
+  // 아이콘 목록 기본 아이콘과 회원이 가진 아이콘들 합치기
+  console.log(memberIconList)
+  if (memberIconList || memberIconList === []) {
+    setAllIcons([...basicIcons, ...memberIconList])
+  }
+
   return (
     <div>
+      {/* 개인 정보 수정 모달 시작 */}
       <Modal isOpen={isOpen} modalClose={modalClose}>
         <form onSubmit={handleSubmit}>
           <div className="text-xl flex justify-center pb-5 font-bold">
@@ -117,7 +111,7 @@ const InfoList = ({ setVisible }) => {
               <div className="flex justify-center pb-3">대표 아이콘</div>
               <div>
                 <ImageIcon
-                  image={`images/animalIcon/${memberRepIcon}.png`}
+                  image={`/images/badgeIcon/${memberRepIcon}.png`}
                   shape="round"
                   size="xLarge"
                 />
@@ -159,31 +153,33 @@ const InfoList = ({ setVisible }) => {
                 </div>
 
                 <div className="flex w-[300px] flex-wrap">
-                  {Icons.map((icon, idx) => {
-                    return (
-                      <div
-                        onClick={() => {
-                          dispatch(
-                            memberIconSelect({
-                              nickname: memberNickname,
-                              icon: `images/badgeIcon/${icon}.png`,
-                            })
-                          )
-                        }}
-                        key={idx}
-                        className="mr-1 mb-1 cursor-pointer"
-                      >
-                        <div className="hover:border-primary-400 border-2 border-white rounded-full ">
-                          <ImageIcon
-                            image={`images/badgeIcon/${icon}.png`}
-                            size="smmiddle"
-                            shape="round"
-                            borderStyle="none"
-                          />
-                        </div>
-                      </div>
-                    )
-                  })}
+                  {allIcons
+                    ? allIcons.map((icon, idx) => {
+                        return (
+                          <div
+                            onClick={() => {
+                              dispatch(
+                                memberIconSelect({
+                                  nickname: memberNickname,
+                                  icon: `/images/badgeIcon/${icon}.png`,
+                                })
+                              )
+                            }}
+                            key={idx}
+                            className="mr-1 mb-1 cursor-pointer"
+                          >
+                            <div className="hover:border-primary-400 border-2 border-white rounded-full ">
+                              <ImageIcon
+                                image={`/images/badgeIcon/${icon}.png`}
+                                size="smmiddle"
+                                shape="round"
+                                borderStyle="none"
+                              />
+                            </div>
+                          </div>
+                        )
+                      })
+                    : null}
                 </div>
               </div>
             </div>
@@ -204,13 +200,64 @@ const InfoList = ({ setVisible }) => {
           </div>
         </form>
       </Modal>
+      {/* 개인 정보 수정 모달 끝 */}
+
+      {/* 회원탈퇴 모달 시작 */}
+      <Modal isOpen={isOpen2} modalClose={modalClose2}>
+        <p>정말 탈퇴하시겠습니까?</p>
+        <div classname="flex">
+          <Button
+            size="xs"
+            onClick={() => {
+              dispatch(memberRemove(memberId))
+
+              if (
+                isMemberGroupLeader === true ||
+                isMemberGroupLeader === false
+              ) {
+                if (isMemberGroupLeader === true) {
+                  dispatch(initializeIsMemberGroupLeader())
+                  navigate("/login")
+                } else {
+                  modalClose2()
+                  alert(
+                    "회원님이 그룹장인 그룹이 있습니다. 그룹장을 위임한 후 회원탈퇴를 진행해주세요!"
+                  )
+                }
+              }
+            }}
+          >
+            Yes
+          </Button>
+          <Button size="xl" color="failure" onClick={modalClose2}>
+            No
+          </Button>
+        </div>
+      </Modal>
+      {/* 회원탈퇴 모달 끝 */}
 
       <div className="absolute z-30 top-[4rem] right-[2.5em] border">
         <Card size="middle">
           <div onClick={() => setVisible(false)}>닫기</div>
           <ul>
             <li onClick={() => setOpen(true)}>개인정보 수정</li>
-            <li onClick={() => <Logout />}>log out</li>
+            <li
+              onClick={() => {
+                dispatch(logout())
+                navigate("/login")
+              }}
+            >
+              log out
+            </li>
+
+            {/* 회원 탈퇴 */}
+            <li
+              className="text-xs"
+              style={{ color: "red", cursor: "pointer" }}
+              onClick={() => setOpen2(true)}
+            >
+              회원 탈퇴
+            </li>
           </ul>
         </Card>
       </div>
@@ -251,6 +298,11 @@ export default function Navbar() {
           </div>
           <ul className="flex">
             <NavItem>
+              <NavLink to="/login" style={{ color: "red" }}>
+                로그인
+              </NavLink>
+            </NavItem>
+            <NavItem>
               <NavLink to="/mypage">My page</NavLink>
             </NavItem>
             <NavItem>
@@ -281,12 +333,14 @@ export default function Navbar() {
                 }}
               >
                 <ImageIcon
-                  image={`images/animalIcon/${memberRepIcon}.png`}
+                  image={`/images/badgeIcon/${memberRepIcon}.png`}
                   size="small"
                   shape="round"
                 />
               </div>
-              {showInfo && <InfoList setVisible={setShowInfo} />}
+              {showInfo && (
+                <InfoList setVisible={setShowInfo} memberId={memberId} />
+              )}
             </NavItem>
           </ul>
         </nav>

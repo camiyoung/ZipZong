@@ -47,6 +47,17 @@ export const memberIconSelect = createAsyncThunk(
   }
 )
 
+// 회원 탈퇴
+export const memberRemove = createAsyncThunk(
+  "member/remove",
+  async (memberId) => {
+    const res = await http.put(`member/remove/${memberId}`)
+    if (res.data.message === "success") {
+      return res
+    }
+  }
+)
+
 export const memberSlice = createSlice({
   name: "member",
   initialState: {
@@ -56,6 +67,7 @@ export const memberSlice = createSlice({
     memberProvider: null,
     memberNickname: null,
     memberRepIcon: null,
+    isMemberGroupLeader: null,
   },
   reducers: {
     // 로그아웃
@@ -65,6 +77,9 @@ export const memberSlice = createSlice({
     // 멤버 아이디 받기
     checkMemberId: (state, action) => {
       state.memberId = Number(action.payload)
+    },
+    initializeIsMemberGroupLeader: (state) => {
+      state.isMemberGroupLeader = null
     },
   },
   extraReducers(builder) {
@@ -92,6 +107,7 @@ export const memberSlice = createSlice({
     })
   },
 })
-export const { checkMemberId, logout } = memberSlice.actions
+export const { checkMemberId, logout, initializeIsMemberGroupLeader } =
+  memberSlice.actions
 
 export default memberSlice.reducer
