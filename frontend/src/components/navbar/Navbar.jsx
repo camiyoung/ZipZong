@@ -69,7 +69,6 @@ const GroupList = ({ setVisible, groups }) => {
 const InfoList = ({ setVisible, memberId }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const [nickname, setNickname] = useState("")
   const { memberNickname, memberRepIcon, isMemberGroupLeader } = useSelector(
     (state) => state.member
   )
@@ -81,7 +80,9 @@ const InfoList = ({ setVisible, memberId }) => {
     if (!allIcons.includes(icon)) allIcons.push(icon)
   })
 
-  // console.log("memberIconlist", allIcons)
+  const [nickname, setNickname] = useState(memberNickname)
+  const [icon, setIcon] = useState(memberRepIcon)
+  const { basicIcons } = useSelector((state) => state.group)
   const [errorMessage, setErrorMessage] = useState("")
 
   // Modal
@@ -92,23 +93,43 @@ const InfoList = ({ setVisible, memberId }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    // 닉네임이 존재하고
     if (nickname.length > 0) {
-      // 닉네임 유효성 검사
-      NicknameValidation(nickname).then((res) => {
-        if (res === "NON-DUPLICATE") {
-          dispatch(
-            nicknameChange({
-              origin: memberNickname,
-              nickname: nickname,
-              icon: memberRepIcon,
-            })
-          )
-          modalClose()
-          setErrorMessage("")
-        } else if (res === "DUPLICATE") {
-          setErrorMessage("중복된 닉네임입니다.")
-        }
-      })
+      // 본인 닉네임이면 아이콘만 붙여주고 닫기
+      if (nickname === memberNickname) {
+        dispatch(
+          memberIconSelect({
+            nickname: memberNickname,
+            icon,
+          })
+        )
+        modalClose()
+        setErrorMessage("")
+      }
+      // 본인 닉네임이 아니라면 유효성 검사
+      else {
+        NicknameValidation(nickname).then((res) => {
+          if (res === "NON-DUPLICATE") {
+            dispatch(
+              nicknameChange({
+                origin: memberNickname,
+                nickname: nickname,
+                icon: memberRepIcon,
+              })
+            )
+            dispatch(
+              memberIconSelect({
+                nickname: memberNickname,
+                icon,
+              })
+            )
+            modalClose()
+            setErrorMessage("")
+          } else if (res === "DUPLICATE") {
+            setErrorMessage("중복된 닉네임입니다.")
+          }
+        })
+      }
     } else {
       setErrorMessage("닉네임을 한 글자 이상 작성해주세요.")
     }
@@ -132,7 +153,7 @@ const InfoList = ({ setVisible, memberId }) => {
               <div className="flex justify-center pb-3">대표 아이콘</div>
               <div>
                 <ImageIcon
-                  image={`/images/badgeIcon/${memberRepIcon}.png`}
+                  image={`/images/badgeIcon/${icon}.png`}
                   shape="round"
                   size="xLarge"
                 />
@@ -158,6 +179,7 @@ const InfoList = ({ setVisible, memberId }) => {
                       focus:ring-primary-400
                       focus:border-primary-400
                     "
+                      value={nickname}
                       onChange={(event) => {
                         setNickname(event.target.value)
                       }}
@@ -179,12 +201,7 @@ const InfoList = ({ setVisible, memberId }) => {
                         return (
                           <div
                             onClick={() => {
-                              dispatch(
-                                memberIconSelect({
-                                  nickname: memberNickname,
-                                  icon,
-                                })
-                              )
+                              setIcon(icon)
                             }}
                             key={idx}
                             className="mr-1 mb-1 cursor-pointer"
