@@ -1,20 +1,7 @@
 // import "flowbite"
 import { Carousel, Avatar } from "flowbite-react"
 
-const rankList = [
-  "그룹1",
-  "그룹2",
-  "그룹3",
-  "그룹4",
-  "그룹5",
-  "그룹6",
-  "그룹7",
-  "그룹8",
-  "그룹9",
-  "그룹10",
-]
-
-const RankSlider = () => {
+const RankSlider = ({ list }) => {
   return (
     <Carousel
       indicators={false}
@@ -23,10 +10,14 @@ const RankSlider = () => {
       leftControl=" "
       rightControl=" "
     >
-      {rankList.map((name, idx) => (
+      {list.map((group, idx) => (
         <div className="w-full h-full bg-[#ffffff85] text-[#9898cf]" key={idx}>
           <div className="flex h-full items-center justify-center  text-2xl font-medium">
-            {name} 2022/08/09 66일 달성!
+            {group.rank !== -1 ? (
+              <span>[{group.teamName}] 66일 연속 운동 성공!</span>
+            ) : (
+              <span> 연속 66일의 운동으로 명예의 전당에 도전해보세요 ! </span>
+            )}
           </div>
         </div>
       ))}
@@ -34,7 +25,21 @@ const RankSlider = () => {
   )
 }
 
-export const TopRank = ({ list = rankList }) => {
+const defaultItem = {
+  rank: -1,
+  teamIcon: undefined,
+  teamName: "",
+  satisfiedTime: "",
+}
+
+export const TopRank = ({ list }) => {
+  const rankList = [...list]
+  if (rankList.length < 10) {
+    for (let i = rankList.length; i < 10; i++) rankList.push(defaultItem)
+  }
+
+  const top3 = [rankList[0], rankList[1], rankList[2]]
+  const under3 = rankList.slice(3)
   return (
     <div
       className=" relative  w-full  h-full rounded-3xl flex  items-center justify-center shadow-md"
@@ -66,8 +71,16 @@ export const TopRank = ({ list = rankList }) => {
               className=" w-[80%] h-[80%] "
             />
             <div className="text-lg font-semibold absolute  flex  flex-col justify-center items-center w-[80%] h-[80%]  ">
-              <Avatar img="/images/badgeIcon/basic.png" />
-              <div>그룹B</div>
+              {top3[1].rank !== -1 ? (
+                <Avatar img={`/images/badgeIcon/${top3[1].teamIcon}.png`} />
+              ) : (
+                <Avatar rounded={true} />
+              )}
+
+              <div>{top3[1].teamName} </div>
+              <div className="font-medium text-base ">
+                {top3[1].rank !== -1 && <div>{top3[1].satisfiedTime} 분 </div>}
+              </div>
             </div>
           </div>
           <div className="w-[33%] h-full flex items-center justify-center animate-prize-gold relative ">
@@ -77,8 +90,16 @@ export const TopRank = ({ list = rankList }) => {
               className=" w-full h-full"
             />
             <div className="text-lg font-semibold absolute  flex  flex-col justify-center items-center w-[80%] h-[80%]  ">
-              <Avatar img="/images/badgeIcon/frog.png" />
-              <div>그룹A</div>
+              {top3[0].rank !== -1 ? (
+                <Avatar img={`/images/badgeIcon/${top3[0].teamIcon}.png`} />
+              ) : (
+                <Avatar rounded={true} />
+              )}
+
+              <div>{top3[0].teamName} </div>
+              <div className="font-medium text-base ">
+                {top3[0].rank !== -1 && <div>{top3[0].satisfiedTime} 분 </div>}
+              </div>
             </div>
           </div>
 
@@ -89,13 +110,21 @@ export const TopRank = ({ list = rankList }) => {
               className=" w-[75%] h-[75%]"
             />
             <div className="text-lg font-semibold absolute  flex  flex-col justify-center items-center w-[80%] h-[80%]  ">
-              <Avatar img="/images/badgeIcon/rabbit.png" />
-              <div>그룹B</div>
+              {top3[2].rank !== -1 ? (
+                <Avatar img={`/images/badgeIcon/${top3[2].teamIcon}.png`} />
+              ) : (
+                <Avatar rounded={true} />
+              )}
+
+              <div>{top3[2].teamName} </div>
+              <div className="font-medium text-base ">
+                {top3[2].rank !== -1 && <div>{top3[2].satisfiedTime} 분 </div>}
+              </div>
             </div>
           </div>
         </div>
         <div className=" h-16 w-4/5">
-          <RankSlider />
+          <RankSlider list={under3} />
         </div>
       </div>
     </div>
