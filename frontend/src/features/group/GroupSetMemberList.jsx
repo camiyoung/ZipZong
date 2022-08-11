@@ -241,7 +241,9 @@ export default function GroupSetMemberList() {
             name={name}
             date={date}
             isLeader={isLeader}
-            imageUrl={`images/badgeIcon/${imageUrl}.png`}
+            imageUrl={
+              process.env.PUBLIC_URL + `/images/badgeIcon/${imageUrl}.png`
+            }
             selectedMemberId={memberId}
           />
         )
