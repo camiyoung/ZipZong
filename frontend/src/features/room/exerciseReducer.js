@@ -59,5 +59,5 @@ export const exerciseReducer = createSlice({
 export const getAdminId = (state) => state.exercise.admin
 export const getResults = (state) => state.exercise.result
 export default exerciseReducer.reducer
-export const { setAllExerciseResult, setMyExerciseResult } =
+export const { setAllExerciseResult, setMyExerciseResult, setRoutine } =
   exerciseReducer.actions
