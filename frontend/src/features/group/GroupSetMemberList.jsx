@@ -7,6 +7,7 @@ import ImageIcon from "../../components/icon/ImageIcon"
 import UserIcon from "../../components/icon/UserIcon"
 import Modal from "../../components/modal/Modal"
 import Button from "../../components/button/Button"
+import { teamExpel, teamAssign } from "./groupReducer"
 
 const members = [
   {
@@ -77,15 +78,22 @@ export default function GroupSetMemberList() {
 
   const fetchTeamId = location.pathname.split("/")[2]
   const { teamMembers, teamLeader } = useSelector((state) => state.group)
-  const { memberId } = useSelector((state) => state.member)
   const [user, setUser] = useState()
+  const [otherMemberId, setOtherMemberId] = useState("")
 
   const [isExpulsionOpen, setExpulsionOpen] = useState(false)
   const modalExpulsionClose = () => setExpulsionOpen(false)
   const [isMandateOpen, setMandateOpen] = useState(false)
   const modalMandateClose = () => setMandateOpen(false)
 
-  const GroupHover = ({ name, date, isLeader, imageUrl, idx }) => {
+  const GroupHover = ({
+    name,
+    date,
+    isLeader,
+    imageUrl,
+    idx,
+    selectedMemberId,
+  }) => {
     return (
       <div key={idx} className="flex mb-4">
         <div className="flex p-4 rounded-tr-full rounded-br-full container w-[55%] shadow-md bg-white border-[#4abaee88] border-l-[20px]">
@@ -95,13 +103,14 @@ export default function GroupSetMemberList() {
             <span className="mx-2">({date} 가입)</span>
             {isLeader ? <span className="w-min">👑</span> : null}
             {isLeader ? null : (
-              <div class="overlay rounded-tr-full rounded-br-full">
-                <div class="text">
+              <div className="overlay rounded-tr-full rounded-br-full">
+                <div className="text">
                   <button
                     className="textBtn hover:bg-mainBlue px-3 py-1 rounded-xl text-white shadow-sm"
                     onClick={() => {
                       setMandateOpen(true)
                       setUser(name)
+                      setOtherMemberId(selectedMemberId)
                     }}
                   >
                     그룹장 위임
@@ -111,6 +120,7 @@ export default function GroupSetMemberList() {
                     onClick={() => {
                       setExpulsionOpen(true)
                       setUser(name)
+                      setOtherMemberId(selectedMemberId)
                     }}
                   >
                     그룹원 강퇴
@@ -124,7 +134,6 @@ export default function GroupSetMemberList() {
     )
   }
 
-  console.log("리더", teamLeader)
   return (
     <div className="ml-10 mt-5">
       {/* 회원 강퇴 모달 */}
@@ -151,15 +160,16 @@ export default function GroupSetMemberList() {
                 bgColor="bg-danger"
                 width="w-32"
                 // 회원 강퇴 로직
-                // onClick={() =>
-                //   dispatch(
-                //     teamExpel({
-                //       leaderId: leaderId,
-                //       followerId: memberId,
-                //       teamId: fetchTeamId,
-                //     })
-                //   )
-                // }
+                onClick={() => {
+                  dispatch(
+                    teamExpel({
+                      leaderId: teamLeader.memberId,
+                      followerId: otherMemberId,
+                      teamId: fetchTeamId,
+                    })
+                  )
+                  navigate(`/group/${fetchTeamId}`)
+                }}
               />
             </div>
           </div>
@@ -189,6 +199,16 @@ export default function GroupSetMemberList() {
                 text="예"
                 bgColor="bg-danger"
                 width="w-32"
+                onClick={() => {
+                  dispatch(
+                    teamAssign({
+                      leaderId: teamLeader.memberId,
+                      followerId: otherMemberId,
+                      teamId: fetchTeamId,
+                    })
+                  )
+                  navigate(`/group/${fetchTeamId}`)
+                }}
                 // 여기는 그룹장 위임 로직
                 // 위임 후 그룹 페이지로 리다이렉트 시켜주세요 (일반 멤버의 그룹 설정 접근 불가)
                 // onClick={() =>
@@ -214,7 +234,7 @@ export default function GroupSetMemberList() {
           </span>
         </p>
       </div>
-      {members.map(({ name, date, isLeader, imageUrl }, idx) => {
+      {members.map(({ name, date, isLeader, imageUrl, memberId }, idx) => {
         return (
           <GroupHover
             key={idx}
@@ -222,6 +242,7 @@ export default function GroupSetMemberList() {
             date={date}
             isLeader={isLeader}
             imageUrl={`images/badgeIcon/${imageUrl}.png`}
+            selectedMemberId={memberId}
           />
         )
       })}

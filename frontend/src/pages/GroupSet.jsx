@@ -4,11 +4,13 @@ import { useLocation, useNavigate } from "react-router-dom"
 import CollectedIcons from "../features/group/CollectedIcons"
 import GroupSetInfo from "../features/group/GroupSetInfo"
 import GroupSetMemberList from "../features/group/GroupSetMemberList"
+
 import Button from "../components/button/Button"
 import {
   registrationTeam,
   teamDelete,
   teamInfo,
+  teamAllIcons,
 } from "../features/group/groupReducer"
 import Modal from "../components/modal/Modal"
 
@@ -21,7 +23,7 @@ export default function GroupSet() {
   const { registeredTeam } = useSelector((state) => state.mypage)
   useEffect(() => {
     dispatch(teamInfo(fetchTeamId))
-
+    dispatch(teamAllIcons(fetchTeamId))
     // 그룹 삭제 후 렌더링 하는 코드
     dispatch(registrationTeam(memberId))
   }, [])
