@@ -48,7 +48,10 @@ export const teamExpel = createAsyncThunk(
   async (info) => {
     const res = await http.put("registration/team/expel", info)
     if (res.data.message === "success") {
-      return res
+      const res2 = await http.get(`registration/team/${info.teamId}`)
+      if (res2.data.message === "success") {
+        return res2
+      }
     }
   }
 )
@@ -177,6 +180,14 @@ export const rankingTeam = createAsyncThunk("ranking/team", async (teamId) => {
   }
 })
 
+// 팀 정보 변경
+export const teamInfoModify = createAsyncThunk("team/info", async (info) => {
+  const res = await http.put("team/info", info)
+  if (res.data.message === "success") {
+    return res
+  }
+})
+
 export const groupSlice = createSlice({
   name: "group",
   initialState: {
@@ -185,7 +196,7 @@ export const groupSlice = createSlice({
     teamDailyHistory: [],
     inviteTeamId: null,
     registeredTeam: [],
-    inviteLink: "inviteLink",
+    inviteLink: null,
     icons: [],
     basicIcons: [
       "basic",
@@ -199,8 +210,8 @@ export const groupSlice = createSlice({
       "walrus",
       "yak",
     ],
-    teamName: "teamName",
-    teamContent: "teamContent",
+    teamName: null,
+    teamContent: null,
     teamRepIcons: "basic",
     shieldCount: 0,
     teamMembers: [
@@ -315,6 +326,20 @@ export const groupSlice = createSlice({
 
     builder.addCase(teamAllIcons.fulfilled, (state, action) => {
       state.icons = action.payload.data.data
+    })
+
+    builder.addCase(teamInfoModify.fulfilled, (state, action) => {
+      state.teamContent = action.payload.data.data.content
+      state.teamName = action.payload.data.data.name
+    })
+
+    builder.addCase(teamExpel.fulfilled, (state, action) => {
+      state.icons = action.payload.data.data.icons
+      state.teamName = action.payload.data.data.name
+      state.teamContent = action.payload.data.data.content
+      state.teamRepIcons = action.payload.data.data.repIcons
+      state.shieldCount = action.payload.data.data.shieldCount
+      state.teamMembers = action.payload.data.data.members
     })
   },
 })

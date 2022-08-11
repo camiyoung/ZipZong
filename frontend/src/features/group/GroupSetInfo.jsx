@@ -1,14 +1,24 @@
 import React, { useState } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import { useLocation } from "react-router-dom"
 import Button from "../../components/button/Button"
 import ImageIcon from "../../components/icon/ImageIcon"
 import Modal from "../../components/modal/Modal"
-import { useSelector } from "react-redux"
+import { teamInfoModify } from "./groupReducer"
 
 export default function GroupSetInfo() {
+  const dispatch = useDispatch()
+  const location = useLocation()
   const { teamName, teamContent, teamRepIcons } = useSelector(
     (state) => state.group
   )
+  const fetchTeamId = location.pathname.split("/")[2]
 
+  // 그룹 프로필 수정
+  const [groupName, setGroupName] = useState("")
+  const [groupContent, setGroupContent] = useState("")
+
+  // Modal
   const [isOpen, setOpen] = useState(false)
   const modalClose = () => setOpen(false)
 
@@ -37,9 +47,7 @@ export default function GroupSetInfo() {
                       focus:ring-primary-400
                       focus:border-primary-400
                     "
-                onChange={(e) => {
-                  // 여기에 그룹 이름 변하는거 넣어주세요
-                }}
+                onChange={(e) => setGroupName(e.target.value)}
               />
             </div>
             <div className="pb-1">그룹 설명</div>
@@ -57,9 +65,7 @@ export default function GroupSetInfo() {
                       focus:ring-primary-400
                       focus:border-primary-400
                     "
-                onChange={(e) => {
-                  // 여기에 그룹 설명 변하는거 넣어주세요
-                }}
+                onChange={(e) => setGroupContent(e.target.value)}
               />
             </div>
           </div>
@@ -67,7 +73,16 @@ export default function GroupSetInfo() {
         <div className="pb-3 flex justify-end mt-3">
           <div className="r-0">
             <button
-              // onClick= 여기가 제출
+              onClick={() => {
+                dispatch(
+                  teamInfoModify({
+                    teamId: fetchTeamId,
+                    name: groupName,
+                    content: groupContent,
+                  })
+                )
+                modalClose()
+              }}
               type="button"
               className="bg-lightBlue rounded-md border border-gray-300 shadow-sm px-4 py-2 text-base font-medium text-gray-700 hover:bg-primary-300 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
             >
@@ -83,7 +98,6 @@ export default function GroupSetInfo() {
       </p>
       <div className="flex items-center rounded-3xl bg-gradient-to-r from-white to-lgBlue-200 py-8 px-5 custom-border">
         <div className="w-1/5 flex justify-center items-center">
-          {console.log(teamRepIcons)}
           {teamRepIcons ? (
             <ImageIcon
               size="large"
