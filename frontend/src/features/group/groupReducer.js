@@ -251,18 +251,14 @@ export const groupSlice = createSlice({
       for (let x = 0; x < tmp.length; ++x) {
         Object.assign(tmp[x], exerciseStatus)
       }
-      console.log("tmp", tmp)
-      console.log(niceMembers)
 
       niceMembers.forEach(({ nickName }) => {
         for (let i = 0; i < tmp.length; ++i) {
-          console.log("들어가지나", nickName, tmp[i].nickname)
           if (nickName === tmp[i].nickname) {
             tmp[i].hasExercised = true
           }
         }
       })
-      console.log("tmp After", tmp)
       state.teamMembers = tmp
       state.teamLeader = tmp.find(({ role }) => role === "LEADER")
 
