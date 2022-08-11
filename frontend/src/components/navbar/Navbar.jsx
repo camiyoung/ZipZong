@@ -16,6 +16,20 @@ import Card from "../card/Card"
 import ImageIcon from "../icon/ImageIcon"
 import Logo from "../../assets/Logo.svg"
 
+const Icons = [
+  "basic",
+  "bee",
+  "elephant",
+  "basic",
+  "ferret",
+  "frog",
+  "pandaBear",
+  "pig",
+  "rabbit",
+  "walrus",
+  "yak",
+]
+
 const NavItem = ({ children }) => {
   return <li className="m-2 flex justify-center items-center">{children}</li>
 }
@@ -56,11 +70,19 @@ const InfoList = ({ setVisible, memberId }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [nickname, setNickname] = useState("")
-  const { memberNickname, memberRepIcon, memberIconList, isMemberGroupLeader } =
-    useSelector((state) => state.member)
-  const { basicIcons } = useSelector((state) => state.group)
+  const { memberNickname, memberRepIcon, isMemberGroupLeader } = useSelector(
+    (state) => state.member
+  )
+
+  const memberIconList = useSelector((state) => state.mypage.memberIconList)
+  const allIcons = [...Icons]
+
+  memberIconList.forEach((icon) => {
+    if (!allIcons.includes(icon)) allIcons.push(icon)
+  })
+
+  // console.log("memberIconlist", allIcons)
   const [errorMessage, setErrorMessage] = useState("")
-  const [allIcons, setAllIcons] = useState("")
 
   // Modal
   const [isOpen, setOpen] = useState(false)
@@ -93,10 +115,9 @@ const InfoList = ({ setVisible, memberId }) => {
   }
 
   // 아이콘 목록 기본 아이콘과 회원이 가진 아이콘들 합치기
-  console.log(memberIconList)
-  if (memberIconList || memberIconList === []) {
-    setAllIcons([...basicIcons, ...memberIconList])
-  }
+  // if (memberIconList) {
+  //   setAllIcons([...Icons, ...memberIconList])
+  // }
 
   return (
     <div>
@@ -161,7 +182,7 @@ const InfoList = ({ setVisible, memberId }) => {
                               dispatch(
                                 memberIconSelect({
                                   nickname: memberNickname,
-                                  icon: `/images/badgeIcon/${icon}.png`,
+                                  icon,
                                 })
                               )
                             }}
@@ -205,7 +226,7 @@ const InfoList = ({ setVisible, memberId }) => {
       {/* 회원탈퇴 모달 시작 */}
       <Modal isOpen={isOpen2} modalClose={modalClose2}>
         <p>정말 탈퇴하시겠습니까?</p>
-        <div classname="flex">
+        <div className="flex">
           <Button
             size="xs"
             onClick={() => {
@@ -243,8 +264,8 @@ const InfoList = ({ setVisible, memberId }) => {
             <li onClick={() => setOpen(true)}>개인정보 수정</li>
             <li
               onClick={() => {
-                dispatch(logout())
-                navigate("/login")
+                localStorage.clear()
+                window.location.replace("/")
               }}
             >
               log out
