@@ -4,21 +4,27 @@ import { useDispatch, useSelector } from "react-redux"
 import Button from "../../components/button/Button"
 import { memberInfo, selectNickname, nicknamePush } from "./memberReducer"
 import { NicknameValidation } from "../../utils/NicknameValidation"
+import { http } from "../../api/axios"
 export default function SetNickName() {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  // const dispatch = useDispatch()
+  // const navigate = useNavigate()
   const [nickname, setNickname] = useState("")
   const [errorMessage, setErrorMessage] = useState("")
-  const memberId = useSelector((state) => state.member.memberId)
+  // const memberId = useSelector((state) => state.member.memberId)
+
   const handleChange = ({ target: { value } }) => setNickname(value)
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (nickname.length > 0) {
+      console.log(nickname)
       // 닉네임 유효성 검사
-      NicknameValidation(nickname).then((res) => {
+      NicknameValidation(nickname).then(async (res) => {
         if (res === "NON-DUPLICATE") {
-          dispatch(nicknamePush({ memberId: memberId, nickname: nickname }))
-          navigate("/mypage")
+          const memberId = localStorage.getItem("memberId")
+          const res = await http.post("member/nickname", { memberId, nickname })
+          const res_nickname = res.data.data.nickname
+          localStorage.setItem("nickname", res_nickname)
+          window.location.replace("/")
         } else if (res === "DUPLICATE") {
           setErrorMessage("중복된 닉네임입니다.")
         }
