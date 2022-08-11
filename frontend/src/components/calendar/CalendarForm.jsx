@@ -25,6 +25,7 @@ export default function CalendarForm() {
   const { memberDailyHistory, selectedMonth, selectedYear } = useSelector(
     (state) => state.mypage
   )
+
   const isGroup = useState(location.pathname.split("/")[1])
 
   function loadDate(currentDate) {
@@ -44,6 +45,7 @@ export default function CalendarForm() {
         })
       )
     } else {
+      if (!memberId) return
       dispatch(
         memberExerciseHistoryCheck({
           memberId: memberId,

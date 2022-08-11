@@ -44,7 +44,6 @@ const dayExerciseInfo = [
 export default function ExerciseInfo() {
   const dispatch = useDispatch()
   const { memberId, memberNickname } = useSelector((state) => state.member)
-
   const {
     selectedMonth,
     selectedYear,
@@ -57,6 +56,7 @@ export default function ExerciseInfo() {
     stateDailyHistory,
   } = useSelector((state) => state.mypage)
   useEffect(() => {
+    if (!memberId) return
     if (selectedYear && selectedMonth) {
       dispatch(
         memberExerciseHistoryCheck({
@@ -68,6 +68,7 @@ export default function ExerciseInfo() {
     }
 
     const date = new Date()
+
     dispatch(memberExerciseHistorySumCheck(memberId))
     dispatch(registrationTeam(memberId))
     dispatch(showYearChange(date.getFullYear()))
@@ -77,7 +78,7 @@ export default function ExerciseInfo() {
     if (memberDailyHistory.length !== 0 && showDay) {
       dispatch(setDailyHistory(memberDailyHistory[showDay - 1].performs))
     }
-  }, [])
+  }, [memberId])
   useEffect(() => {
     if (memberDailyHistory.length !== 0 && showDay) {
       setTodayExercise()
