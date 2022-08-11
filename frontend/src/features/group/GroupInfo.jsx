@@ -196,6 +196,13 @@ function GroupManagement() {
           width="w-full"
           onClick={() => setModalContent("resign")}
         />
+        <Button
+          text="그룹 설정 및 관리"
+          round="round3xl"
+          height="h-10"
+          width="w-full"
+          onClick={() => navigate(`/groupset/${fetchTeamId}`)}
+        />
         {/* {isLeader ? (
           <Button
             text="그룹 설정 및 관리"
