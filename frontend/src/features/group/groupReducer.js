@@ -254,10 +254,10 @@ export const groupSlice = createSlice({
       console.log("tmp", tmp)
       console.log(niceMembers)
 
-      niceMembers.forEach(({ nickname }) => {
+      niceMembers.forEach(({ nickName }) => {
         for (let i = 0; i < tmp.length; ++i) {
           console.log("들어가지나", nickname, tmp[i].nickname)
-          if (nickname === tmp[i].nickname) {
+          if (nickName === tmp[i].nickname) {
             tmp[i].hasExercised = true
           }
         }
