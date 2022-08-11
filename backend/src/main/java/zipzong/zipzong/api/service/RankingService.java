@@ -55,10 +55,7 @@ public class RankingService {
         //  - redis의 정보를 모두 clear한다. (팀 해체 등의 이유)
         if(Boolean.TRUE.equals(redisTemplate.hasKey("halloffame"))) redisTemplate.delete("halloffame");
         if(Boolean.TRUE.equals(redisTemplate.hasKey("strickrank"))) redisTemplate.delete("strickrank");
-        if(Boolean.TRUE.equals(redisTemplate.hasKey("timerank"))) {
-            redisTemplate.delete("timerank");
-            System.out.println("지워지고있어요");
-        }
+        if(Boolean.TRUE.equals(redisTemplate.hasKey("timerank"))) redisTemplate.delete("timerank");
 
         // # 정보 갱신 작업
         //
@@ -229,7 +226,6 @@ public class RankingService {
 
             if(totalTime != 0) {
                 String rankingBoard = "timerank";
-                System.out.println("토탈타임입니다" + totalTime);
                 zSetOperations.add(rankingBoard, team.getId().toString(), totalTime);
             }
         }
@@ -335,13 +331,20 @@ public class RankingService {
         ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
         String rankingBoard = "strickrank";
 
+        System.out.println("오류가 대체 어디서 뜨는거지?11111111111111111111111111111111111111");
         Long ranking = zSetOperations.reverseRank(rankingBoard, teamId);
+        System.out.println("오류가 대체 어디서 뜨는거지?22222222222222222222222222222222222222");
         if(ranking == null) return null;
+        System.out.println("오류가 대체 어디서 뜨는거지?33333333333333333333333333333333333333");
 
         long start = ranking - BOUNDARY;
+        System.out.println("오류가 대체 어디서 뜨는거지?44444444444444444444444444444444444444");
         long end = ranking + BOUNDARY;
+        System.out.println("오류가 대체 어디서 뜨는거지?55555555555555555555555555555555555555");
         if(ranking - BOUNDARY < 0) start = 0L;
+        System.out.println("오류가 대체 어디서 뜨는거지?66666666666666666666666666666666666666");
         Set<ZSetOperations.TypedTuple<String>> rankSet = zSetOperations.reverseRangeWithScores(rankingBoard, start, end);
+        System.out.println("오류가 대체 어디서 뜨는거지?77777777777777777777777777777777777777");
 
         if(rankSet.isEmpty()) return null;
 
