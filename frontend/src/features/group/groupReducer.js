@@ -256,11 +256,13 @@ export const groupSlice = createSlice({
 
       niceMembers.forEach(({ nickname }) => {
         for (let i = 0; i < tmp.length; ++i) {
+          console.log("들어가지나", nickname, tmp[i].nickname)
           if (nickname === tmp[i].nickname) {
             tmp[i].hasExercised = true
           }
         }
       })
+      console.log("tmp After", tmp)
       state.teamMembers = tmp
       state.teamLeader = tmp.find(({ role }) => role === "LEADER")
 
