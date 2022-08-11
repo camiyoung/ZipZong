@@ -83,11 +83,14 @@ export default function GroupSetInfo() {
       </p>
       <div className="flex items-center rounded-3xl bg-gradient-to-r from-white to-lgBlue-200 py-8 px-5 custom-border">
         <div className="w-1/5 flex justify-center items-center">
-          <ImageIcon
-            size="large"
-            image={`images/badgeIcon/${teamRepIcons}.png`}
-            shape="round"
-          />
+          {console.log(teamRepIcons)}
+          {teamRepIcons ? (
+            <ImageIcon
+              size="large"
+              image={`images/badgeIcon/${teamRepIcons}.png`}
+              shape="round"
+            />
+          ) : null}
         </div>
         <div className="w-4/5">
           <div className="flex mb-2">
