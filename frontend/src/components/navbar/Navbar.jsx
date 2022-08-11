@@ -123,7 +123,7 @@ const InfoList = ({ setVisible, memberId }) => {
               <div className="flex justify-center pb-3">대표 아이콘</div>
               <div>
                 <ImageIcon
-                  image={`images/badgeIcon/${memberRepIcon}.png`}
+                  image={`/images/badgeIcon/${memberRepIcon}.png`}
                   shape="round"
                   size="xLarge"
                 />
@@ -173,7 +173,7 @@ const InfoList = ({ setVisible, memberId }) => {
                               dispatch(
                                 memberIconSelect({
                                   nickname: memberNickname,
-                                  icon: `images/badgeIcon/${icon}.png`,
+                                  icon: `/images/badgeIcon/${icon}.png`,
                                 })
                               )
                             }}
@@ -182,7 +182,7 @@ const InfoList = ({ setVisible, memberId }) => {
                           >
                             <div className="hover:border-primary-400 border-2 border-white rounded-full ">
                               <ImageIcon
-                                image={`images/badgeIcon/${icon}.png`}
+                                image={`/images/badgeIcon/${icon}.png`}
                                 size="smmiddle"
                                 shape="round"
                                 borderStyle="none"
@@ -340,7 +340,7 @@ export default function Navbar() {
                 }}
               >
                 <ImageIcon
-                  image={`images/badgeIcon/${memberRepIcon}.png`}
+                  image={`/images/badgeIcon/${memberRepIcon}.png`}
                   size="small"
                   shape="round"
                 />

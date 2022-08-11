@@ -52,7 +52,7 @@ export default function CollectedIcons() {
                       <ImageIcon
                         // 배포 주소로 다시 바꿔야 하는지 의문
                         // ${process.env.REACT_APP_BASE_URL}
-                        image={`images/badgeIcon/${imageName}.png`}
+                        image={`/images/badgeIcon/${imageName}.png`}
                         shape="round"
                         className="mx-1"
                         size="mdlarge"
