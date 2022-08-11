@@ -45,7 +45,7 @@ public class RankingService {
     private final RedisTemplate<String, String> redisTemplate;
     private static final Long BOUNDARY = 5L;
 
-    @Scheduled(cron = "0 57 12 * * ?")
+    @Scheduled(cron = "0 7 13 * * ?")
     @Cacheable(value = {"halloffame", "strickrank", "timerank"})
     public void comprehensiveUpdate() {
 
@@ -56,7 +56,10 @@ public class RankingService {
         //  - redis의 정보를 모두 clear한다. (팀 해체 등의 이유)
         if(Boolean.TRUE.equals(redisTemplate.hasKey("halloffame"))) redisTemplate.delete("halloffame");
         if(Boolean.TRUE.equals(redisTemplate.hasKey("strickrank"))) redisTemplate.delete("strickrank");
-        if(Boolean.TRUE.equals(redisTemplate.hasKey("timerank"))) redisTemplate.delete("timerank");
+        if(Boolean.TRUE.equals(redisTemplate.hasKey("timerank"))) {
+            redisTemplate.delete("timerank");
+            System.out.println("지워지고있어요");
+        }
 
         // # 정보 갱신 작업
         //
@@ -213,11 +216,7 @@ public class RankingService {
             //    모든 팀의 히스토리의 최대 스트릭 길이를 조회하여 value는 teamId, score는 최대 스트릭 길이로 저장
             if(teamHistory.getMaximumStrick() != 0) {
                 String rankingBoard = "strickrank";
-                System.out.println("=================넣고있다??===========================");
                 zSetOperations.add(rankingBoard, team.getId().toString(), teamHistory.getMaximumStrick());
-                System.out.println("===============넣었다??======================");
-                System.out.println(zSetOperations.range("strickrank", 0, -1));
-                System.out.println(redisTemplate.hasKey("strickrank"));
             }
 
             //  - 누적 시간 랭킹
@@ -231,6 +230,7 @@ public class RankingService {
 
             if(totalTime != 0) {
                 String rankingBoard = "timerank";
+                System.out.println("토탈타임입니다" + totalTime);
                 zSetOperations.add(rankingBoard, team.getId().toString(), totalTime);
             }
         }
