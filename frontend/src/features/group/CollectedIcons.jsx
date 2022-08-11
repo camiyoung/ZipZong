@@ -1,10 +1,11 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useLocation } from "react-router-dom"
 import Card from "../../components/card/Card"
 import Button from "../../components/button/Button"
 import ImageIcon from "../../components/icon/ImageIcon"
 import { Tooltip } from "flowbite-react"
+import ShowExpression from "./ShowExpression"
 
 const prizes = [
   "bee",
@@ -23,36 +24,44 @@ export default function CollectedIcons() {
   const dispatch = useDispatch()
   const location = useLocation()
   const fetchTeamId = location.pathname.split("/")[2]
-  const { icons, teamRepIcons } = useSelector((state) => state.group)
+  const { basicIcons, icons } = useSelector((state) => state.group)
+  const [allGroupIcons, setAllGroupIcons] = useState("")
+  useEffect(() => {
+    setAllGroupIcons([...icons, ...basicIcons])
+  }, [])
 
   return (
-    <div className="flex justify-center flex-col mx-5 rounded-lg mt-10 px-2 ">
+    <div className="flex justify-center flex-col mx-5 rounded-lg mt-14">
       <span className="text-3xl font-semibold mb-3">
-        획득 아이콘
+        <span className="text-md mr-2">🎨</span>획득 아이콘
         <span className="text-base mb-3  font-medium ml-3">
           아이콘을 클릭하면 그룹 대표 아이콘이 변경됩니다.
         </span>
       </span>
 
-      <div className="flex items-center rounded-3xl mt-5 shadow-md p-5 text-gray-400 bg-gradient-to-r to-gray-200 from-white">
+      <div className="flex items-center rounded-3xl mt-5 shadow-md p-5 from-white custom-border2">
         <div className="flex flex-wrap">
-          {prizes.map((imageUrl, idx) => {
-            return (
-              <Tooltip
-                content="여기에 아이콘 어떻게 얻은건지 설명 들어갔으면 좋겠어요"
-                placement="bottom"
-              >
-                <div className="m-2 cursor-pointer" key={idx}>
-                  <ImageIcon
-                    image={`images/badgeIcon/${imageUrl}.png`}
-                    shape="round"
-                    className="mx-1"
-                    size="mdlarge"
-                  />
-                </div>
-              </Tooltip>
-            )
-          })}
+          {allGroupIcons
+            ? allGroupIcons.map((imageName, idx) => {
+                return (
+                  <Tooltip
+                    content={<ShowExpression imageUrl={imageName} />}
+                    placement="bottom"
+                  >
+                    <div className="m-2.5 cursor-pointer" key={idx}>
+                      <ImageIcon
+                        // 배포 주소로 다시 바꿔야 하는지 의문
+                        // ${process.env.REACT_APP_BASE_URL}
+                        image={`/images/badgeIcon/${imageName}.png`}
+                        shape="round"
+                        className="mx-1"
+                        size="mdlarge"
+                      />
+                    </div>
+                  </Tooltip>
+                )
+              })
+            : null}
         </div>
       </div>
     </div>

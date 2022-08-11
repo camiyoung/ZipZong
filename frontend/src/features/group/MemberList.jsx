@@ -8,38 +8,6 @@ import ImageIcon from "../../components/icon/ImageIcon"
 import PlusIcon from "../../components/icon/PlusIcon"
 import Button from "../../components/button/Button"
 
-const Members = [
-  {
-    memberName: "신슬기",
-    Icon: "bee",
-    hasDone: true,
-  },
-  {
-    memberName: "김준우",
-    Icon: "elephant",
-    hasDone: true,
-  },
-  {
-    memberName: "박종민",
-    Icon: "basic",
-    hasDone: true,
-  },
-  {
-    memberName: "안지영",
-    Icon: "ferret",
-    hasDone: false,
-  },
-  {
-    memberName: "채송지",
-    Icon: "rabbit",
-    hasDone: false,
-  },
-  {
-    memberName: "황승주",
-    Icon: "pandaBear",
-    hasDone: true,
-  },
-]
 export default function MemberList() {
   const { inviteLink, teamMembers } = useSelector((state) => state.group)
   const [isOpen, setOpen] = useState(false)
@@ -55,6 +23,7 @@ export default function MemberList() {
       .writeText(copyLinkRef.current.value)
       .then(() => alert("링크를 복사했습니다."))
   }
+  console.log("팀멤버들 상태", teamMembers)
   return (
     // group 원들의 정보를 받아야 함
     <div className="flex mt-10 w-full flex-wrap">
@@ -79,7 +48,7 @@ export default function MemberList() {
         </form>
       </Modal>
       {/* 모달 영역 끝 */}
-      {teamMembers.map(({ nickname, repIcon, hasExercised }, idx) => {
+      {teamMembers.map(({ nickname, repIcon, hasExercised, memberId }, idx) => {
         return (
           <div key={idx}>
             <NameSquare
@@ -91,7 +60,7 @@ export default function MemberList() {
               borderSize="none"
             >
               <ImageIcon
-                image={`images/badgeIcon/${repIcon}.png`}
+                image={`/images/badgeIcon/${repIcon}.png`}
                 size="middle"
                 shape="round"
                 className="m-4"

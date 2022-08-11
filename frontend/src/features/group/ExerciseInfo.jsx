@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useLocation } from "react-router"
 import CalendarForm from "../../components/calendar/CalendarForm"
 import ImageIcon from "../../components/icon/ImageIcon"
-import { teamTotalExerciseCount } from "./groupReducer"
+import { teamTotalExerciseCount, rankingTeam } from "./groupReducer"
 
 const dayExerciseInfo = [
   {
@@ -43,6 +43,8 @@ const dayExerciseInfo = [
   },
 ]
 function Ranking() {
+  const dispatch = useDispatch()
+  const location = useLocation()
   const {
     showYear,
     showMonth,
@@ -52,7 +54,13 @@ function Ranking() {
     memberDailyHistory,
     stateDailyHistory,
   } = useSelector((state) => state.mypage)
+  const { strickRank, timeRank } = useSelector((state) => state.group)
   const { teamDailyHistory } = useSelector((state) => state.group)
+
+  const fetchTeamId = location.pathname.split("/")[2]
+  useEffect(() => {
+    dispatch(rankingTeam(fetchTeamId))
+  }, [])
   return (
     <div className="w-full">
       <p className="text-xl text-center">
@@ -60,6 +68,7 @@ function Ranking() {
       </p>
       {/* Time Ranking ul */}
       <ul className="flex flex-col items-center">
+        {console.log("타임랭크", timeRank)}
         <li className="flex items-center mb-5">
           <ImageIcon
             image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg"
@@ -85,6 +94,7 @@ function Ranking() {
       </p>
       {/* Continue Ranking ul */}
       <ul className="flex flex-col items-center">
+        {console.log("스트릭랭크", strickRank)}
         <li className="flex items-center mb-5">
           <ImageIcon
             image="https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg"
@@ -138,7 +148,7 @@ export default function ExerciseInfo() {
                   return (
                     <div key={idx} className="flex m-5">
                       <ImageIcon
-                        image={`images/badgeIcon/${exerciseIcon}.png`}
+                        image={`/images/badgeIcon/${exerciseIcon}.png`}
                         size="middle"
                         shape="round"
                       />

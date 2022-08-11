@@ -13,7 +13,7 @@ export default function GroupSetInfo() {
   const modalClose = () => setOpen(false)
 
   return (
-    <div className="flex justify-center px-2">
+    <div className="mx-5">
       {/* 모달 영역 */}
       <Modal isOpen={isOpen} modalClose={modalClose}>
         <div className="text-xl flex justify-center pb-5 font-bold">
@@ -78,13 +78,19 @@ export default function GroupSetInfo() {
       </Modal>
       {/* 모달 영역 끝 */}
 
-      <div className="w-[95%] flex items-center rounded-3xl bg-gradient-to-r from-white to-lgBlue-200 mt-5 py-8 px-5 custom-border">
+      <p className="text-3xl font-semibold mt-5 mb-5">
+        <span className="text-md mr-[7px]">🤸‍♂️</span>그룹 프로필
+      </p>
+      <div className="flex items-center rounded-3xl bg-gradient-to-r from-white to-lgBlue-200 py-8 px-5 custom-border">
         <div className="w-1/5 flex justify-center items-center">
-          <ImageIcon
-            size="large"
-            image={`images/badgeIcon/${teamRepIcons}.png`}
-            shape="round"
-          />
+          {console.log(teamRepIcons)}
+          {teamRepIcons ? (
+            <ImageIcon
+              size="large"
+              image={`/images/badgeIcon/${teamRepIcons}.png`}
+              shape="round"
+            />
+          ) : null}
         </div>
         <div className="w-4/5">
           <div className="flex mb-2">

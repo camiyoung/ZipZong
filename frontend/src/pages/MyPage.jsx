@@ -8,7 +8,7 @@ import { memberExerciseHistoryCheck } from "../features/myPage/myPageReducer"
 import { teamJoin } from "../features/group/groupReducer"
 export default function MyPage() {
   const dispatch = useDispatch()
-  const { inviteTeamId } = useSelector((state) => state.group)
+  const { inviteTeamId, registeredTeam } = useSelector((state) => state.group)
   const { memberId } = useSelector((state) => state.member)
   // 최초 접속 시 현재 날짜 받아오기
   const [date, setDate] = useState(new Date())
@@ -19,14 +19,22 @@ export default function MyPage() {
     // if (storageNickname) {
     //   dispatch(memberInfo(storageNickname))
     // }
+    let flag = 0
+    for (let i = 0; i < registeredTeam.length; ++i) {
+      if (registeredTeam[i].groupId === localStorage.getItem("inviteTeamId")) {
+        flag = 1
+      }
+    }
 
-    // 초대메시지 코드
-    const checkInviteTeamId = localStorage.getItem("inviteTeamId")
-    if (checkInviteTeamId) {
-      dispatch(teamJoin({ teamId: checkInviteTeamId, memberId: memberId }))
-      return () => {
+    if (flag === 0) {
+      // 초대메시지 코드
+      const checkInviteTeamId = localStorage.getItem("inviteTeamId")
+      if (checkInviteTeamId) {
+        dispatch(teamJoin({ teamId: checkInviteTeamId, memberId: memberId }))
         localStorage.removeItem("inviteTeamId")
       }
+    } else {
+      alert("이미 가입된 팀입니다!")
     }
   }, [])
   return (
