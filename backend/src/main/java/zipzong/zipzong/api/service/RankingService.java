@@ -332,7 +332,7 @@ public class RankingService {
         String rankingBoard = "strickrank";
 
         System.out.println("오류가 대체 어디서 뜨는거지?11111111111111111111111111111111111111");
-        Long ranking = zSetOperations.reverseRank(rankingBoard, teamId);
+        Long ranking = zSetOperations.reverseRank(rankingBoard, teamId.toString());
         System.out.println("오류가 대체 어디서 뜨는거지?22222222222222222222222222222222222222");
         if(ranking == null) return null;
         System.out.println("오류가 대체 어디서 뜨는거지?33333333333333333333333333333333333333");
@@ -391,7 +391,7 @@ public class RankingService {
         ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
         String rankingBoard = "timerank";
 
-        Long ranking = zSetOperations.reverseRank(rankingBoard, teamId);
+        Long ranking = zSetOperations.reverseRank(rankingBoard, teamId.toString());
         if(ranking == null) return null;
 
         long start = ranking - BOUNDARY;
