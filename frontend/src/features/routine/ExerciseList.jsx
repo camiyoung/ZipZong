@@ -7,7 +7,15 @@ import ChangeLanguage from "./ChangeLanguage"
 
 const exerciseList = [
   {
-    name: "PUSHUP",
+    name: "LUNGE",
+    count: 10,
+  },
+  {
+    name: "JUMPINGJACK",
+    count: 10,
+  },
+  {
+    name: "SQUAT",
     count: 10,
   },
   {
@@ -15,15 +23,11 @@ const exerciseList = [
     count: 10,
   },
   {
-    name: "LEGRAISE",
+    name: "PUSHUP",
     count: 10,
   },
   {
-    name: "MOUNTAINCLIMING",
-    count: 10,
-  },
-  {
-    name: "SQUAT",
+    name: "LATERALRAISE",
     count: 10,
   },
 ]
