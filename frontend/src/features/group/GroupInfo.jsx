@@ -153,7 +153,7 @@ export default function GroupInfo() {
       <Card size="100%">
         <div className="flex">
           <ImageIcon
-            image={`images/badgeIcon/${teamRepIcons}.png`}
+            image={`/images/badgeIcon/${teamRepIcons}.png`}
             size="middle"
             shape="round"
           />
