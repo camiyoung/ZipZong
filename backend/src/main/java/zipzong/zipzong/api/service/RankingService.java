@@ -45,7 +45,7 @@ public class RankingService {
     private final RedisTemplate<String, String> redisTemplate;
     private static final Long BOUNDARY = 5L;
 
-    @Scheduled(cron = "0 46 13 * * ?")
+    @Scheduled(cron = "0 30 14 * * ?")
     @Cacheable(value = {"halloffame", "strickrank", "timerank"})
     public void comprehensiveUpdate() {
 
@@ -54,12 +54,12 @@ public class RankingService {
 
         // # Redis 초기화 작업
         //  - redis의 정보를 모두 clear한다. (팀 해체 등의 이유)
-//        if(Boolean.TRUE.equals(redisTemplate.hasKey("halloffame"))) redisTemplate.delete("halloffame");
-//        if(Boolean.TRUE.equals(redisTemplate.hasKey("strickrank"))) redisTemplate.delete("strickrank");
-//        if(Boolean.TRUE.equals(redisTemplate.hasKey("timerank"))) {
-//            redisTemplate.delete("timerank");
-//            System.out.println("지워지고있어요");
-//        }
+        if(Boolean.TRUE.equals(redisTemplate.hasKey("halloffame"))) redisTemplate.delete("halloffame");
+        if(Boolean.TRUE.equals(redisTemplate.hasKey("strickrank"))) redisTemplate.delete("strickrank");
+        if(Boolean.TRUE.equals(redisTemplate.hasKey("timerank"))) {
+            redisTemplate.delete("timerank");
+            System.out.println("지워지고있어요");
+        }
 
         // # 정보 갱신 작업
         //
