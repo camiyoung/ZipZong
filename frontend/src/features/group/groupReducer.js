@@ -251,6 +251,8 @@ export const groupSlice = createSlice({
       for (let x = 0; x < tmp.length; ++x) {
         Object.assign(tmp[x], exerciseStatus)
       }
+      console.log("tmp", tmp)
+      console.log(niceMembers)
 
       niceMembers.forEach(({ nickname }) => {
         for (let i = 0; i < tmp.length; ++i) {
