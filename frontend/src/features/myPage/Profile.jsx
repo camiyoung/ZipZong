@@ -10,21 +10,22 @@ import "./Profile.css"
 
 export default function Profile() {
   const dispatch = useDispatch()
-  const { memberNickname, memberRepIcon, memberId } = useSelector(
-    (state) => state.member
-  )
+
+  const member = useSelector((state) => state.member)
+
+  const { memberNickname, memberRepIcon, memberId } = member
   const { memberCurrentStrick } = useSelector((state) => state.mypage)
 
   // localStorage nickname
   const localStorageNickname = localStorage.getItem("nickname")
 
-  useEffect(() => {
-    if (localStorageNickname) {
-      dispatch(memberInfo(localStorageNickname))
-    }
+  // useEffect(() => {
+  //   if (localStorageNickname) {
+  //     dispatch(memberInfo(localStorageNickname))
+  //   }
 
-    dispatch(memberIconListReview(memberId))
-  }, [])
+  //   dispatch(memberIconListReview(memberId))
+  // }, [member])
   return (
     // 모달
     <div className="w-4/5 mt-5">
