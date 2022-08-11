@@ -55,12 +55,8 @@ public class Team {
     @JoinColumn(name = "team_history_id")
     private TeamHistory teamHistory;
 
-    public void setTeamHistory(TeamHistory teamHistory) {
-        this.teamHistory = teamHistory;
-    }
     @Column(name = "rep_icon", nullable = false)
     private String repIcon;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "is_deleted")
     private CheckExist isDeleted;
@@ -86,6 +82,10 @@ public class Team {
 
     public void setIsDeleted(CheckExist value) {
         this.isDeleted = value;
+    }
+
+    public void setTeamHistory(TeamHistory teamHistory) {
+        this.teamHistory = teamHistory;
     }
 
     public void changeTeamName(String name) {

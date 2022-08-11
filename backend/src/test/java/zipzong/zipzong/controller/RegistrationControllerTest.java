@@ -1,4 +1,4 @@
-package zipzong.zipzong.api.controller;
+package zipzong.zipzong.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -13,6 +13,7 @@ import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultActions;
+import zipzong.zipzong.api.controller.RegistrationController;
 import zipzong.zipzong.api.dto.team.request.member.MemberInfoRequest;
 import zipzong.zipzong.api.dto.team.TeamMemberId;
 import zipzong.zipzong.api.dto.team.request.CreateTeamRequest;

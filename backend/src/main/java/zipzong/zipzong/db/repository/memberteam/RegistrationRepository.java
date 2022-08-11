@@ -22,12 +22,12 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
     @EntityGraph(attributePaths = {"team", "member"})
     @Query("select r from Registration r where r.member.id = :memberId" +
             " and r.team.id = :teamId and r.isResign is null")
-    Optional<Registration> findMemberIdAndTeamIdNoResigned(Long memberId, Long teamId);
+    Optional<Registration> findMemberIdAndTeamIdNoResigned(@Param("memberId") Long memberId, @Param("teamId") Long teamId);
 
     @EntityGraph(attributePaths = {"member"})
     @Query("select r from Registration r where r.team.id = :teamId" +
             " and r.isResign is null")
-    List<Registration> findAllInTeamNoResigned(Long teamId);
+    List<Registration> findAllInTeamNoResigned(@Param("teamId") Long teamId);
 
     @EntityGraph(attributePaths = {"team"})
     @Query("select r from Registration r where r.member.id =:memberId")

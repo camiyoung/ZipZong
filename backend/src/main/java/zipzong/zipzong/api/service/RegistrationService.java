@@ -94,7 +94,7 @@ public class RegistrationService {
             teamResponse.setTeamName(team.getName());
             teamResponse.setIcon(team.getRepIcon());
             teamResponse.setGroupId(team.getId());
-            teamResponse.setCount(team.getRegistrationList().size());
+            teamResponse.setCount(registrationRepository.findAllInTeamNoResigned(team.getId()).size());
             teamResponses.add(teamResponse);
         }
         return teamResponses;
