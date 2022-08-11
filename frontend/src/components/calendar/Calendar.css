@@ -76,6 +76,7 @@ abbr[title] {
   transform: scale(1.2);
   background-color: #6f48eb33;
 }
+
 .react-calendar__tile--now {
   background: #6f48eb33;
   font-weight: bold;
@@ -93,11 +94,16 @@ abbr[title] {
   border-color: #6f48eb33;
 }
 .highlight {
-  background-image: url("../../../public/images/calendarIcon/checked.png");
+  background-image: url("../../../public/images/calendarIcon/evaluate.png");
   background-size: cover;
   max-height: 100%;
   max-width: 100%;
+  color: transparent;
 }
+/* .highlight:hover {
+  color: transparent;
+} */
+
 .highlight-sunday {
   color: red;
 }
