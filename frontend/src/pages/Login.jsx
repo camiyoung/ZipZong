@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { checkMemberId, nicknamePush } from "../features/login/memberReducer"
@@ -7,52 +7,52 @@ import SetNickName from "../features/login/SetNickName"
 import { registrationTeam } from "../features/group/groupReducer"
 
 export default function Login() {
-  const location = useLocation()
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const accessToken = new URL(window.location.href).searchParams.get(
-    "accessToken"
-  )
-  const refreshToken = new URL(window.location.href).searchParams.get(
-    "refreshToken"
-  )
-  const accessTokenExpiration = new URL(window.location.href).searchParams.get(
-    "accessTokenExpiration"
-  )
-  const refreshTokenExpiration = new URL(window.location.href).searchParams.get(
-    "refreshTokenExpiration"
-  )
-  const hasNickname = new URL(window.location.href).searchParams.get(
-    "hasNickname"
-  )
-  const collectedMemberId = new URL(window.location.href).searchParams.get(
-    "memberId"
-  )
-  const nickname = new URL(window.location.href).searchParams.get("nickname")
-  if (accessToken) {
-    localStorage.setItem("accessToken", accessToken)
-    localStorage.setItem("refreshToken", refreshToken)
-    localStorage.setItem("accessTokenExpiration", accessTokenExpiration)
-    localStorage.setItem("refreshTokenExpiration", refreshTokenExpiration)
-    localStorage.setItem("memberId", Number(collectedMemberId))
-    localStorage.setItem("nickname", nickname)
-  }
+  const [showMakeNickname, setMakeNickname] = useState(false)
+  let accessToken,
+    refreshToken,
+    accessTokenExpiration,
+    refreshTokenExpiration,
+    hasNickname,
+    collectedMemberId,
+    nickname
   useEffect(() => {
-    dispatch(checkMemberId(Number(collectedMemberId)))
+    accessToken = new URL(window.location.href).searchParams.get("accessToken")
+    refreshToken = new URL(window.location.href).searchParams.get(
+      "refreshToken"
+    )
+    accessTokenExpiration = new URL(window.location.href).searchParams.get(
+      "accessTokenExpiration"
+    )
+    refreshTokenExpiration = new URL(window.location.href).searchParams.get(
+      "refreshTokenExpiration"
+    )
+    hasNickname = new URL(window.location.href).searchParams.get("hasNickname")
+    collectedMemberId = new URL(window.location.href).searchParams.get(
+      "memberId"
+    )
+    nickname = new URL(window.location.href).searchParams.get("nickname")
 
-    //닉네임 중복 확인
-    if (hasNickname && nickname !== "") {
-      dispatch(
-        nicknamePush({
-          memberId: Number(collectedMemberId),
-          nickname: nickname,
-        })
-      )
+    if (!!accessToken && nickname !== "") {
+      localStorage.setItem("accessToken", accessToken)
+      localStorage.setItem("refreshToken", refreshToken)
+      localStorage.setItem("accessTokenExpiration", accessTokenExpiration)
+      localStorage.setItem("refreshTokenExpiration", refreshTokenExpiration)
+      localStorage.setItem("memberId", Number(collectedMemberId))
+      localStorage.setItem("nickname", nickname)
 
-      dispatch(registrationTeam(Number(collectedMemberId)))
+      window.location.replace("/")
     }
-    // navigate("/mypage")
+
+    if (accessToken && !nickname) {
+      localStorage.setItem("accessToken", accessToken)
+      localStorage.setItem("refreshToken", refreshToken)
+      localStorage.setItem("accessTokenExpiration", accessTokenExpiration)
+      localStorage.setItem("refreshTokenExpiration", refreshTokenExpiration)
+      localStorage.setItem("memberId", Number(collectedMemberId))
+      setMakeNickname(true)
+    }
   }, [])
+
   return (
     <div className="flex">
       <div className="w-6/12 h-screen">
@@ -63,7 +63,8 @@ export default function Login() {
         />
       </div>
       {/* 로그인되면 버튼들이 보이지 않음 */}
-      {accessToken ? <SetNickName /> : <NotLoggedInYet />}
+      {showMakeNickname ? <SetNickName /> : <NotLoggedInYet />}
+      {/* {<NotLoggedInYet />} */}
     </div>
   )
 }
