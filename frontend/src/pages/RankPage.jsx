@@ -4,12 +4,13 @@ import "aos/dist/aos.css"
 import { RankList } from "../features/rank/RankList"
 import { TopRank } from "../features/rank/TopRank"
 import { MusicPlayer } from "../features/rank/MusicPlayer"
+import { http } from "../api/axios"
 
 export default function RankPage() {
   const [musicPlay, setMusicPlay] = useState(true)
   const audioRef = useRef()
   useEffect(() => {
-    audioRef.current.volume = 0.6
+    audioRef.current.volume = 0.1
     AOS.init()
   }, [])
   const playMusic = () => {
