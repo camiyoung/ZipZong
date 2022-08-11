@@ -87,7 +87,7 @@ export default function GroupSetInfo() {
           {teamRepIcons ? (
             <ImageIcon
               size="large"
-              image={`images/badgeIcon/${teamRepIcons}.png`}
+              image={`/images/badgeIcon/${teamRepIcons}.png`}
               shape="round"
             />
           ) : null}
