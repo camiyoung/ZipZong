@@ -88,7 +88,7 @@ export const myPageSlice = createSlice({
     )
 
     builder.addCase(memberIconListReview.fulfilled, (state, action) => {
-      state.memberIconList = action.payload.data
+      state.memberIconList = action.payload.data.data
     })
   },
 })
