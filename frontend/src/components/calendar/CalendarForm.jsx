@@ -25,7 +25,9 @@ export default function CalendarForm() {
   const { memberDailyHistory, selectedMonth, selectedYear } = useSelector(
     (state) => state.mypage
   )
+  const [dayExercised, setDayExercised] = useState("")
 
+  console.log("히스토리", memberDailyHistory)
   const isGroup = useState(location.pathname.split("/")[1])
 
   function loadDate(currentDate) {
@@ -67,6 +69,11 @@ export default function CalendarForm() {
     if (memberDailyHistory.length !== 0) {
       dispatch(setDailyHistory(memberDailyHistory[tmpDay - 1].performs))
     }
+    setDayExercised(
+      memberDailyHistory.filter(({ state }) => {
+        if (state === "SUCCESS") return true
+      })
+    )
   }, [])
 
   useEffect(() => {
@@ -79,8 +86,14 @@ export default function CalendarForm() {
     if (memberDailyHistory.length !== 0) {
       dispatch(setDailyHistory(memberDailyHistory[tmpDay - 1].performs))
     }
+    setDayExercised(
+      memberDailyHistory.filter((e) => {
+        if (e.state === "SUCCESS") return true
+      })
+    )
   }, [date])
 
+  console.log("하루 기록", dayExercised)
   return (
     <div className="app w-1/4 min-w-[285px]">
       <div className="calendar-container">
@@ -102,40 +115,18 @@ export default function CalendarForm() {
           formatDay={(locale, date) =>
             date.toLocaleString("en", { day: "numeric" })
           }
-          tileClassName={({ date, view }) => {
-            memberDailyHistory.map(
-              ({ day, totalTime, state, performs }, index) => {
-                // 달력에 칠하기
-                return state === "success"
-                  ? "highlight highlight-saturday"
-                  : null
+          tileClassName={({ date }) => {
+            for (let i = 0; i < dayExercised.length; ++i) {
+              if (date.getDate() === dayExercised[i].day) {
+                return "highlight"
               }
-            )
-
-            // 달력에 색 칠하기
-            if (memberDailyHistory[date.getDate() - 1] === 1) {
-              // 토요일은 파란색
-              return "highlight highlight-saturday"
             }
-            if (
-              dailyRecord.find((x) => x === moment(date).format("DD-MM-YYYY"))
-            ) {
-              if (moment(date).format("LLLL").split(",")[0] === "Saturday") {
-                return "highlight highlight-saturday"
-              } else if (
-                moment(date).format("LLLL").split(",")[0] === "Sunday"
-              ) {
-                return "highlight highlight-sunday"
-              }
-              return "highlight"
-            } else {
-              if (moment(date).format("LLLL").split(",")[0] === "Saturday") {
-                return "highlight-saturday"
-              } else if (
-                moment(date).format("LLLL").split(",")[0] === "Sunday"
-              ) {
-                return "highlight-sunday"
-              }
+
+            // 토요일: 파란색, 일요일: 빨간색
+            if (moment(date).format("LLLL").split(",")[0] === "Saturday") {
+              return "highlight-saturday"
+            } else if (moment(date).format("LLLL").split(",")[0] === "Sunday") {
+              return "highlight-sunday"
             }
           }}
         ></Calendar>
