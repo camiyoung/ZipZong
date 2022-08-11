@@ -23,6 +23,7 @@ export default function MemberList() {
       .writeText(copyLinkRef.current.value)
       .then(() => alert("링크를 복사했습니다."))
   }
+  console.log("팀멤버들 상태", teamMembers)
   return (
     // group 원들의 정보를 받아야 함
     <div className="flex mt-10 w-full flex-wrap">
