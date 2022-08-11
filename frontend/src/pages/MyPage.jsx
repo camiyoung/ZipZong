@@ -4,21 +4,25 @@ import { useSelector, useDispatch } from "react-redux"
 import PersonalExerciseInfo from "../features/myPage/PersonalExerciseInfo"
 import GroupList from "../features/myPage/GroupList"
 import { memberInfo } from "../features/login/memberReducer"
-import { memberExerciseHistoryCheck } from "../features/myPage/myPageReducer"
+import {
+  memberExerciseHistoryCheck,
+  memberIconListReview,
+} from "../features/myPage/myPageReducer"
 import { teamJoin } from "../features/group/groupReducer"
 export default function MyPage() {
   const dispatch = useDispatch()
   const { inviteTeamId, registeredTeam } = useSelector((state) => state.group)
-  const { memberId } = useSelector((state) => state.member)
+  const member = useSelector((state) => state.member)
+  const { memberId } = member
   // 최초 접속 시 현재 날짜 받아오기
-  const [date, setDate] = useState(new Date())
 
-  // const storageNickname = localStorage.getItem("nickname")
+  const [date, setDate] = useState(new Date())
+  const storageNickname = localStorage.getItem("nickname")
+  useEffect(() => {
+    dispatch(memberInfo(storageNickname))
+  }, [dispatch])
 
   useEffect(() => {
-    // if (storageNickname) {
-    //   dispatch(memberInfo(storageNickname))
-    // }
     let flag = 0
     for (let i = 0; i < registeredTeam.length; ++i) {
       if (registeredTeam[i].groupId === localStorage.getItem("inviteTeamId")) {
