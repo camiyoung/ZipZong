@@ -50,7 +50,6 @@ public class MemberController {
     /*
         회원 아이콘 리스트 조회
      */
-    @ExeTimer
     @GetMapping("/icon/{member-id}")
     public ResponseEntity<BasicResponse<List<String>>> getAllIconList(@PathVariable("member-id") Long memberId) {
         List<String> icons = memberService.getAllIcon(memberId);

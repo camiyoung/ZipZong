@@ -29,7 +29,7 @@ public class MemberIcon {
     private Member member;
 
     @Column(name = "icon_name")
-    String iconName;
+    private String iconName;
 
     @Builder
     public MemberIcon(Long id, Member member, String iconName) {
