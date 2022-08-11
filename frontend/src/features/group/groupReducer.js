@@ -256,7 +256,7 @@ export const groupSlice = createSlice({
 
       niceMembers.forEach(({ nickName }) => {
         for (let i = 0; i < tmp.length; ++i) {
-          console.log("들어가지나", nickname, tmp[i].nickname)
+          console.log("들어가지나", nickName, tmp[i].nickname)
           if (nickName === tmp[i].nickname) {
             tmp[i].hasExercised = true
           }
