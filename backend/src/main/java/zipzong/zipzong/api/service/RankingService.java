@@ -53,9 +53,9 @@ public class RankingService {
 
         // # Redis 초기화 작업
         //  - redis의 정보를 모두 clear한다. (팀 해체 등의 이유)
-        if(Boolean.TRUE.equals(redisTemplate.hasKey("halloffame"))) redisTemplate.delete("halloffame");
-        if(Boolean.TRUE.equals(redisTemplate.hasKey("strickrank"))) redisTemplate.delete("strickrank");
-        if(Boolean.TRUE.equals(redisTemplate.hasKey("timerank"))) redisTemplate.delete("timerank");
+        if (Boolean.TRUE.equals(redisTemplate.hasKey("halloffame"))) redisTemplate.delete("halloffame");
+        if (Boolean.TRUE.equals(redisTemplate.hasKey("strickrank"))) redisTemplate.delete("strickrank");
+        if (Boolean.TRUE.equals(redisTemplate.hasKey("timerank"))) redisTemplate.delete("timerank");
 
         // # 정보 갱신 작업
         //
@@ -63,8 +63,8 @@ public class RankingService {
         //    멤버 캘린더를 확인하여 오늘 날짜에 대한 정보가 없다면 스트릭을 끊는다.
 
         List<Member> members = memberRepository.AllMembersNoDeleted();
-        for(Member member : members) {
-            if(memberCalendarRepository.findByMemberIdAndCheckDate(member.getId(), today).isEmpty()) {
+        for (Member member : members) {
+            if (memberCalendarRepository.findByMemberIdAndCheckDate(member.getId(), today).isEmpty()) {
                 MemberHistory memberHistory = memberHistoryRepository.findByMemberId(member.getId()).orElse
                         (MemberHistory.builder()
                                 .maximumStrick(0)
@@ -82,7 +82,7 @@ public class RankingService {
         //    모두 운동 하지 않았고 실드가 없다면 스트릭을 끊는다.
 
         List<Team> teams = teamRepository.getAllTeamNoDeleted();
-        for(Team team : teams) {
+        for (Team team : teams) {
             boolean check = true;
             List<Registration> registrations = registrationRepository.findAllInTeamNoResigned(team.getId());
             for (Registration registration : registrations) {
@@ -135,7 +135,7 @@ public class RankingService {
                     teamCalendarRepository.save(teamCalendar);
 
                     // 최초 실드 사용 뱃지 추가
-                    if (teamIconRepository.findByTeamIdAndIconName(team.getId(), "groupShieldFirstUse").isEmpty()){
+                    if (teamIconRepository.findByTeamIdAndIconName(team.getId(), "groupShieldFirstUse").isEmpty()) {
                         TeamIcon teamIcon = TeamIcon.builder()
                                 .team(team)
                                 .iconName("groupShieldFirstUse")
@@ -150,7 +150,7 @@ public class RankingService {
             }
 
             // 최초 3일 스트릭 뱃지 추가
-            if (teamHistory.getCurrentStrick() == 3 && teamIconRepository.findByTeamIdAndIconName(team.getId(), "groupMaxStreak3Days").isEmpty()){
+            if (teamHistory.getCurrentStrick() == 3 && teamIconRepository.findByTeamIdAndIconName(team.getId(), "groupMaxStreak3Days").isEmpty()) {
                 TeamIcon teamIcon = TeamIcon.builder()
                         .team(team)
                         .iconName("groupMaxStreak3Days")
@@ -159,7 +159,7 @@ public class RankingService {
             }
 
             // 최초 7일 스트릭 뱃지 추가
-            if (teamHistory.getCurrentStrick() == 7 && teamIconRepository.findByTeamIdAndIconName(team.getId(), "groupMaxStreak7Days").isEmpty()){
+            if (teamHistory.getCurrentStrick() == 7 && teamIconRepository.findByTeamIdAndIconName(team.getId(), "groupMaxStreak7Days").isEmpty()) {
                 TeamIcon teamIcon = TeamIcon.builder()
                         .team(team)
                         .iconName("groupMaxStreak7Days")
@@ -168,7 +168,7 @@ public class RankingService {
             }
 
             // 최초 21일 스트릭 뱃지 추가
-            if (teamHistory.getCurrentStrick() == 21 && teamIconRepository.findByTeamIdAndIconName(team.getId(), "groupMaxStreak21Days").isEmpty()){
+            if (teamHistory.getCurrentStrick() == 21 && teamIconRepository.findByTeamIdAndIconName(team.getId(), "groupMaxStreak21Days").isEmpty()) {
                 TeamIcon teamIcon = TeamIcon.builder()
                         .team(team)
                         .iconName("groupMaxStreak21Days")
@@ -177,7 +177,7 @@ public class RankingService {
             }
 
             // 최초 66일 스트릭 뱃지 추가
-            if (teamHistory.getCurrentStrick() == 66 && teamIconRepository.findByTeamIdAndIconName(team.getId(), "groupMaxStreak66Days").isEmpty()){
+            if (teamHistory.getCurrentStrick() == 66 && teamIconRepository.findByTeamIdAndIconName(team.getId(), "groupMaxStreak66Days").isEmpty()) {
                 TeamIcon teamIcon = TeamIcon.builder()
                         .team(team)
                         .iconName("groupMaxStreak66Days")
@@ -201,7 +201,7 @@ public class RankingService {
             //
             //  - 명예의 전당
             //    모든 팀의 히스토리를 조회하여 명예의 전당 달성한 팀들만 뽑고 value는 teamId, score는 (현재날짜 - 달성날짜)로 저장
-            if(teamHistory.getHallOfFameDate() != null) {
+            if (teamHistory.getHallOfFameDate() != null) {
                 String rankingBoard = "halloffame";
 
                 Duration duration = Duration.between(teamHistory.getHallOfFameDate(), today);
@@ -210,7 +210,7 @@ public class RankingService {
 
             //  - 최대 스트릭 랭킹
             //    모든 팀의 히스토리의 최대 스트릭 길이를 조회하여 value는 teamId, score는 최대 스트릭 길이로 저장
-            if(teamHistory.getMaximumStrick() != 0) {
+            if (teamHistory.getMaximumStrick() != 0) {
                 String rankingBoard = "strickrank";
                 zSetOperations.add(rankingBoard, team.getId().toString(), teamHistory.getMaximumStrick());
             }
@@ -220,11 +220,11 @@ public class RankingService {
             List<TeamHistoryDetail> teamHistoryDetails = teamHistoryDetailRepository.findByTeamHistoryId(teamHistory.getId());
 
             int totalTime = 0;
-            for(TeamHistoryDetail teamHistoryDetail : teamHistoryDetails) {
+            for (TeamHistoryDetail teamHistoryDetail : teamHistoryDetails) {
                 totalTime += teamHistoryDetail.getExerciseTime();
             }
 
-            if(totalTime != 0) {
+            if (totalTime != 0) {
                 String rankingBoard = "timerank";
                 zSetOperations.add(rankingBoard, team.getId().toString(), totalTime);
             }
@@ -236,12 +236,12 @@ public class RankingService {
         String rankingBoard = "halloffame";
         Set<ZSetOperations.TypedTuple<String>> rankSet = zSetOperations.reverseRangeWithScores(rankingBoard, 0, 9);
 
-        if(rankSet.isEmpty()) return new ArrayList<>();
+        if (rankSet.isEmpty()) return new ArrayList<>();
 
         List<HallOfFameResponse.HallOfFame> hallOfFames = new ArrayList<>();
 
         int rank = 0;
-        for(ZSetOperations.TypedTuple<String> tuple : rankSet) {
+        for (ZSetOperations.TypedTuple<String> tuple : rankSet) {
             ++rank;
             Long teamId = Long.parseLong(Objects.requireNonNull(tuple.getValue()));
             int satisfiedTime = Objects.requireNonNull(tuple.getScore()).intValue();
@@ -268,12 +268,12 @@ public class RankingService {
         String rankingBoard = "strickrank";
         Set<ZSetOperations.TypedTuple<String>> rankSet = zSetOperations.reverseRangeWithScores(rankingBoard, 0, 9);
 
-        if(rankSet.isEmpty()) return new ArrayList<>();
+        if (rankSet.isEmpty()) return new ArrayList<>();
 
         List<HallOfFameResponse.StrickRank> strickRanks = new ArrayList<>();
 
         int rank = 0;
-        for(ZSetOperations.TypedTuple<String> tuple : rankSet) {
+        for (ZSetOperations.TypedTuple<String> tuple : rankSet) {
             ++rank;
             Long teamId = Long.parseLong(Objects.requireNonNull(tuple.getValue()));
             int maxStrick = Objects.requireNonNull(tuple.getScore()).intValue();
@@ -300,12 +300,12 @@ public class RankingService {
         String rankingBoard = "timerank";
         Set<ZSetOperations.TypedTuple<String>> rankSet = zSetOperations.reverseRangeWithScores(rankingBoard, 0, 9);
 
-        if(rankSet.isEmpty()) return new ArrayList<>();
+        if (rankSet.isEmpty()) return new ArrayList<>();
 
         List<HallOfFameResponse.TimeRank> timeRanks = new ArrayList<>();
 
         int rank = 0;
-        for(ZSetOperations.TypedTuple<String> tuple : rankSet) {
+        for (ZSetOperations.TypedTuple<String> tuple : rankSet) {
             ++rank;
             Long teamId = Long.parseLong(Objects.requireNonNull(tuple.getValue()));
             int totalTime = Objects.requireNonNull(tuple.getScore()).intValue();
@@ -331,22 +331,15 @@ public class RankingService {
         ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
         String rankingBoard = "strickrank";
 
-        System.out.println("오류가 대체 어디서 뜨는거지?11111111111111111111111111111111111111");
         Long ranking = zSetOperations.reverseRank(rankingBoard, teamId.toString());
-        System.out.println("오류가 대체 어디서 뜨는거지?22222222222222222222222222222222222222");
-        if(ranking == null) return null;
-        System.out.println("오류가 대체 어디서 뜨는거지?33333333333333333333333333333333333333");
+        if (ranking == null) return null;
 
         long start = ranking - BOUNDARY;
-        System.out.println("오류가 대체 어디서 뜨는거지?44444444444444444444444444444444444444");
         long end = ranking + BOUNDARY;
-        System.out.println("오류가 대체 어디서 뜨는거지?55555555555555555555555555555555555555");
-        if(ranking - BOUNDARY < 0) start = 0L;
-        System.out.println("오류가 대체 어디서 뜨는거지?66666666666666666666666666666666666666");
+        if (ranking - BOUNDARY < 0) start = 0L;
         Set<ZSetOperations.TypedTuple<String>> rankSet = zSetOperations.reverseRangeWithScores(rankingBoard, start, end);
-        System.out.println("오류가 대체 어디서 뜨는거지?77777777777777777777777777777777777777");
 
-        if(rankSet.isEmpty()) return null;
+        if (rankSet.isEmpty()) return null;
 
         TeamRankingResponse.StrickRank strickRank = new TeamRankingResponse.StrickRank();
 
@@ -354,13 +347,13 @@ public class RankingService {
         TeamRankingResponse.StrickRankDetail me = new TeamRankingResponse.StrickRankDetail();
         List<TeamRankingResponse.StrickRankDetail> under = new ArrayList<>();
 
-        int rank = (int)start;
-        for(ZSetOperations.TypedTuple<String> tuple : rankSet) {
+        int rank = (int) start;
+        for (ZSetOperations.TypedTuple<String> tuple : rankSet) {
             ++rank;
             Long id = Long.parseLong(Objects.requireNonNull(tuple.getValue()));
             int maxStrick = Objects.requireNonNull(tuple.getScore()).intValue();
 
-            Team team = teamRepository.findById(teamId).orElseThrow(
+            Team team = teamRepository.findById(id).orElseThrow(
                     () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR)
             );
 
@@ -392,14 +385,14 @@ public class RankingService {
         String rankingBoard = "timerank";
 
         Long ranking = zSetOperations.reverseRank(rankingBoard, teamId.toString());
-        if(ranking == null) return null;
+        if (ranking == null) return null;
 
         long start = ranking - BOUNDARY;
         long end = ranking + BOUNDARY;
-        if(ranking - BOUNDARY < 0) start = 0L;
+        if (ranking - BOUNDARY < 0) start = 0L;
         Set<ZSetOperations.TypedTuple<String>> rankSet = zSetOperations.reverseRangeWithScores(rankingBoard, start, end);
 
-        if(rankSet.isEmpty()) return null;
+        if (rankSet.isEmpty()) return null;
 
         TeamRankingResponse.TimeRank timeRank = new TeamRankingResponse.TimeRank();
 
@@ -407,13 +400,13 @@ public class RankingService {
         TeamRankingResponse.TimeRankDetail me = new TeamRankingResponse.TimeRankDetail();
         List<TeamRankingResponse.TimeRankDetail> under = new ArrayList<>();
 
-        int rank = (int)start;
-        for(ZSetOperations.TypedTuple<String> tuple : rankSet) {
+        int rank = (int) start;
+        for (ZSetOperations.TypedTuple<String> tuple : rankSet) {
             ++rank;
             Long id = Long.parseLong(Objects.requireNonNull(tuple.getValue()));
             int totalTime = Objects.requireNonNull(tuple.getScore()).intValue();
 
-            Team team = teamRepository.findById(teamId).orElseThrow(
+            Team team = teamRepository.findById(id).orElseThrow(
                     () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR)
             );
 
