@@ -16,20 +16,6 @@ import Card from "../card/Card"
 import ImageIcon from "../icon/ImageIcon"
 import Logo from "../../assets/Logo.svg"
 
-const Icons = [
-  "basic",
-  "bee",
-  "elephant",
-  "basic",
-  "ferret",
-  "frog",
-  "pandaBear",
-  "pig",
-  "rabbit",
-  "walrus",
-  "yak",
-]
-
 const NavItem = ({ children }) => {
   return <li className="m-2 flex justify-center items-center">{children}</li>
 }
@@ -72,6 +58,7 @@ const InfoList = ({ setVisible, memberId }) => {
   const [nickname, setNickname] = useState("")
   const { memberNickname, memberRepIcon, memberIconList, isMemberGroupLeader } =
     useSelector((state) => state.member)
+  const { basicIcons } = useSelector((state) => state.group)
   const [errorMessage, setErrorMessage] = useState("")
   const [allIcons, setAllIcons] = useState("")
 
@@ -106,8 +93,9 @@ const InfoList = ({ setVisible, memberId }) => {
   }
 
   // 아이콘 목록 기본 아이콘과 회원이 가진 아이콘들 합치기
-  if (memberIconList) {
-    setAllIcons([...Icons, ...memberIconList])
+  console.log(memberIconList)
+  if (memberIconList || memberIconList === []) {
+    setAllIcons([...basicIcons, ...memberIconList])
   }
 
   return (
@@ -309,6 +297,11 @@ export default function Navbar() {
             </NavLink>
           </div>
           <ul className="flex">
+            <NavItem>
+              <NavLink to="/login" style={{ color: "red" }}>
+                로그인
+              </NavLink>
+            </NavItem>
             <NavItem>
               <NavLink to="/mypage">My page</NavLink>
             </NavItem>
