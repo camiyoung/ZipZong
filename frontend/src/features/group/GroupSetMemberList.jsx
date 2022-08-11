@@ -103,8 +103,8 @@ export default function GroupSetMemberList() {
             <span className="mx-2">({date} 가입)</span>
             {isLeader ? <span className="w-min">👑</span> : null}
             {isLeader ? null : (
-              <div class="overlay rounded-tr-full rounded-br-full">
-                <div class="text">
+              <div className="overlay rounded-tr-full rounded-br-full">
+                <div className="text">
                   <button
                     className="textBtn hover:bg-mainBlue px-3 py-1 rounded-xl text-white shadow-sm"
                     onClick={() => {
@@ -168,7 +168,7 @@ export default function GroupSetMemberList() {
                       teamId: fetchTeamId,
                     })
                   )
-                  navigate(`group/${fetchTeamId}`)
+                  navigate(`/group/${fetchTeamId}`)
                 }}
               />
             </div>
@@ -207,7 +207,7 @@ export default function GroupSetMemberList() {
                       teamId: fetchTeamId,
                     })
                   )
-                  navigate(`group/${fetchTeamId}`)
+                  navigate(`/group/${fetchTeamId}`)
                 }}
                 // 여기는 그룹장 위임 로직
                 // 위임 후 그룹 페이지로 리다이렉트 시켜주세요 (일반 멤버의 그룹 설정 접근 불가)
