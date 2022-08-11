@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useLocation } from "react-router-dom"
 import Card from "../../components/card/Card"
@@ -24,7 +24,11 @@ export default function CollectedIcons() {
   const dispatch = useDispatch()
   const location = useLocation()
   const fetchTeamId = location.pathname.split("/")[2]
-  const { basicIcons, teamRepIcons } = useSelector((state) => state.group)
+  const { basicIcons, icons } = useSelector((state) => state.group)
+  const [allGroupIcons, setAllGroupIcons] = useState("")
+  useEffect(() => {
+    setAllGroupIcons([...icons, ...basicIcons])
+  }, [])
 
   return (
     <div className="flex justify-center flex-col mx-5 rounded-lg mt-14">
@@ -37,26 +41,27 @@ export default function CollectedIcons() {
 
       <div className="flex items-center rounded-3xl mt-5 shadow-md p-5 from-white custom-border2">
         <div className="flex flex-wrap">
-          {console.log(basicIcons)}
-          {basicIcons.map((imageName, idx) => {
-            return (
-              <Tooltip
-                content={<ShowExpression imageUrl={imageName} />}
-                placement="bottom"
-              >
-                <div className="m-2.5 cursor-pointer" key={idx}>
-                  <ImageIcon
-                    // 배포 주소로 다시 바꿔야 하는지 의문
-                    // ${process.env.REACT_APP_BASE_URL}
-                    image={`http://localhost:3000/images/badgeIcon/${imageName}.png`}
-                    shape="round"
-                    className="mx-1"
-                    size="mdlarge"
-                  />
-                </div>
-              </Tooltip>
-            )
-          })}
+          {allGroupIcons
+            ? allGroupIcons.map((imageName, idx) => {
+                return (
+                  <Tooltip
+                    content={<ShowExpression imageUrl={imageName} />}
+                    placement="bottom"
+                  >
+                    <div className="m-2.5 cursor-pointer" key={idx}>
+                      <ImageIcon
+                        // 배포 주소로 다시 바꿔야 하는지 의문
+                        // ${process.env.REACT_APP_BASE_URL}
+                        image={`images/badgeIcon/${imageName}.png`}
+                        shape="round"
+                        className="mx-1"
+                        size="mdlarge"
+                      />
+                    </div>
+                  </Tooltip>
+                )
+              })
+            : null}
         </div>
       </div>
     </div>

@@ -76,6 +76,14 @@ export const teamRepIconModify = createAsyncThunk(
   }
 )
 
+// 팀 모든 아이콘 조회
+export const teamAllIcons = createAsyncThunk("team/icons", async (teamId) => {
+  const res = await http.get(`team/icons/${teamId}`)
+  if (res.data.message === "success") {
+    return res
+  }
+})
+
 // 회원이 가입한 팀 정보 조회
 export const registrationTeam = createAsyncThunk(
   "registration/member",
@@ -178,7 +186,7 @@ export const groupSlice = createSlice({
     inviteTeamId: null,
     registeredTeam: [],
     inviteLink: "inviteLink",
-    icons: ["addIcon1"],
+    icons: [],
     basicIcons: [
       "basic",
       "bee",
@@ -303,6 +311,10 @@ export const groupSlice = createSlice({
     builder.addCase(rankingTeam.fulfilled, (state, action) => {
       state.strickRank = action.payload.data.data.strickRank
       state.timeRank = action.payload.data.data.timeRank
+    })
+
+    builder.addCase(teamAllIcons.fulfilled, (state, action) => {
+      state.icons = action.payload.data.data
     })
   },
 })
