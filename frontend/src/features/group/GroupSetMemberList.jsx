@@ -7,7 +7,8 @@ import ImageIcon from "../../components/icon/ImageIcon"
 import UserIcon from "../../components/icon/UserIcon"
 import Modal from "../../components/modal/Modal"
 import Button from "../../components/button/Button"
-import { teamExpel, teamAssign } from "./groupReducer"
+import { teamExpel, teamAssign, teamInfo } from "./groupReducer"
+import { Alert } from "flowbite-react"
 
 const members = [
   {
@@ -78,6 +79,7 @@ export default function GroupSetMemberList() {
 
   const fetchTeamId = location.pathname.split("/")[2]
   const { teamMembers, teamLeader } = useSelector((state) => state.group)
+  const { memberId } = useSelector((state) => state.member)
   const [user, setUser] = useState()
   const [otherMemberId, setOtherMemberId] = useState("")
 
@@ -86,8 +88,10 @@ export default function GroupSetMemberList() {
   const [isMandateOpen, setMandateOpen] = useState(false)
   const modalMandateClose = () => setMandateOpen(false)
 
+  useEffect(() => {}, [])
+
   const GroupHover = ({
-    name,
+    nickname,
     date,
     isLeader,
     imageUrl,
@@ -99,17 +103,20 @@ export default function GroupSetMemberList() {
         <div className="flex p-4 rounded-tr-full rounded-br-full container w-[55%] shadow-md bg-white border-[#4abaee88] border-l-[20px]">
           <div className="flex image items-center px-2">
             <ImageIcon image={imageUrl} size="smmiddle" shape="round" />
-            <span className="ml-3">{name}</span>
-            <span className="mx-2">({date} 가입)</span>
-            {isLeader ? <span className="w-min">👑</span> : null}
-            {isLeader ? null : (
+            <span className="ml-3">{nickname}</span>
+            <span className="mx-2">
+              ({date.substr(0, 4)}년 {date.substr(5, 2)}월 {date.substr(8, 2)}일
+              가입)
+            </span>
+            {isLeader === "LEADER" ? <span>👑</span> : null}
+            {isLeader === "LEADER" ? null : (
               <div className="overlay rounded-tr-full rounded-br-full">
                 <div className="text">
                   <button
                     className="textBtn hover:bg-mainBlue px-3 py-1 rounded-xl text-white shadow-sm"
                     onClick={() => {
                       setMandateOpen(true)
-                      setUser(name)
+                      setUser(nickname)
                       setOtherMemberId(selectedMemberId)
                     }}
                   >
@@ -119,7 +126,7 @@ export default function GroupSetMemberList() {
                     className="textBtn hover:bg-mainBlue px-3 py-1 ml-3 rounded-xl text-white shadow-sm"
                     onClick={() => {
                       setExpulsionOpen(true)
-                      setUser(name)
+                      setUser(nickname)
                       setOtherMemberId(selectedMemberId)
                     }}
                   >
@@ -161,14 +168,22 @@ export default function GroupSetMemberList() {
                 width="w-32"
                 // 회원 강퇴 로직
                 onClick={() => {
-                  dispatch(
-                    teamExpel({
-                      leaderId: teamLeader.memberId,
-                      followerId: otherMemberId,
-                      teamId: fetchTeamId,
-                    })
-                  )
-                  navigate(`/group/${fetchTeamId}`)
+                  if (memberId === teamLeader.memberId) {
+                    dispatch(
+                      teamExpel({
+                        leaderId: teamLeader.memberId,
+                        followerId: otherMemberId,
+                        teamId: fetchTeamId,
+                      })
+                    )
+                    dispatch(teamInfo(fetchTeamId))
+
+                    // 강퇴하면 아예 새로고침하는 코드
+                    window.location.replace(`/groupset/${fetchTeamId}`)
+                  } else {
+                    alert("그룹장만 회원을 강퇴할 수 있습니다!")
+                    modalExpulsionClose()
+                  }
                 }}
               />
             </div>
@@ -200,14 +215,19 @@ export default function GroupSetMemberList() {
                 bgColor="bg-danger"
                 width="w-32"
                 onClick={() => {
-                  dispatch(
-                    teamAssign({
-                      leaderId: teamLeader.memberId,
-                      followerId: otherMemberId,
-                      teamId: fetchTeamId,
-                    })
-                  )
-                  navigate(`/group/${fetchTeamId}`)
+                  if (memberId === teamLeader.memberId) {
+                    dispatch(
+                      teamAssign({
+                        leaderId: teamLeader.memberId,
+                        followerId: otherMemberId,
+                        teamId: fetchTeamId,
+                      })
+                    )
+                    navigate(`/group/${fetchTeamId}`)
+                  } else {
+                    alert("그룹장만 위임 권한이 있습니다!")
+                    modalMandateClose()
+                  }
                 }}
                 // 여기는 그룹장 위임 로직
                 // 위임 후 그룹 페이지로 리다이렉트 시켜주세요 (일반 멤버의 그룹 설정 접근 불가)
@@ -234,18 +254,21 @@ export default function GroupSetMemberList() {
           </span>
         </p>
       </div>
-      {members.map(({ name, date, isLeader, imageUrl, memberId }, idx) => {
-        return (
-          <GroupHover
-            key={idx}
-            name={name}
-            date={date}
-            isLeader={isLeader}
-            imageUrl={`/images/badgeIcon/${imageUrl}.png`}
-            selectedMemberId={memberId}
-          />
-        )
-      })}
+      {console.log("여기가 진짜입니다", teamMembers)}
+      {teamMembers.map(
+        ({ nickname, createdAt, role, repIcon, memberId }, idx) => {
+          return (
+            <GroupHover
+              key={idx}
+              nickname={nickname}
+              date={createdAt}
+              isLeader={role}
+              imageUrl={`/images/badgeIcon/${repIcon}.png`}
+              selectedMemberId={memberId}
+            />
+          )
+        }
+      )}
     </div>
   )
 }
