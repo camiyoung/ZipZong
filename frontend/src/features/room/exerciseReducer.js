@@ -11,11 +11,14 @@ export const sendExerciseResult = createAsyncThunk(
   }
 )
 
-export const getSessionInfo = createAsyncThunk("exercise/room", async () => {
-  const { data } = await openvidu.get(`/SessionA`)
-  //   console.log(data)
-  return data.connections.content
-})
+export const getSessionInfo = createAsyncThunk(
+  "exercise/room",
+  async (sessionId) => {
+    const { data } = await openvidu.get(`/${sessionId}`)
+    //   console.log(data)
+    return data.connections.content
+  }
+)
 
 export const getRoutineDetail = createAsyncThunk(
   "exercise/routineDetail",

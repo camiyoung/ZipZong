@@ -45,8 +45,9 @@ function MyExercise({
 
   let resultUsers = { teamId: "123", personalResults: [] }
   useEffect(() => {
-    console.log("세션 :", user.getStreamManager().stream.session)
-    dispatch(getSessionInfo())
+    const session = user.getStreamManager().stream.session
+    console.log("세션 :", session)
+    dispatch(getSessionInfo(session.sessionId))
     user.getStreamManager().stream.session.on("signal:start", (event) => {
       console.log("운동 시작 이벤트 발생 !!!", event)
       setExercising(true)
