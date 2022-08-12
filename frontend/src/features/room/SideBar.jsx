@@ -12,17 +12,25 @@ const style = {
     "text-white bg-blue-400 dark:bg-blue-500 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 text-center",
 }
 
-const SelectRoutine = ({ closeMoal }) => {
+const SelectRoutine = ({ closeMoal, user }) => {
   const routines = useSelector((state) => state.routine.routines)
   const dispatch = useDispatch()
 
+  const changeRoutine = (routine) => {
+    user.getStreamManager().stream.session.signal({
+      data: JSON.stringify(routine),
+      type: "change",
+    })
+  }
+
   const selectRoutine = (routine) => {
-    dispatch(setRoutineInfo(routine))
+    changeRoutine(routine)
     closeMoal()
   }
   return (
     <div className="w-full h-full fixed z-50 top-0 left-0 flex flex-col justify-center items-center">
       <div className="relative bg-white rounded-lg shadow w-4/6 ">
+        <div onClick={() => closeMoal()}>닫기 </div>
         루틴 선택
         {routines.map((routine, index) => (
           <div
@@ -56,14 +64,23 @@ const NotActiveButtons = () => {
 }
 
 export default function SideBar({ chatComponent, user, isRoomAdmin }) {
+  const dispatch = useDispatch()
   if (isRoomAdmin) {
     console.log("나는 방장 ")
   }
+  useEffect(() => {
+    user.getStreamManager().stream.session.on("signal:change", (event) => {
+      // console.log("루틴 변경 ", JSON.parse(event.data))
+      dispatch(setRoutineInfo(JSON.parse(event.data)))
+    })
+  }, [])
+
   const [showSelectRoutine, setShowSelectRoutine] = useState(false)
   const exersiceRoutine = useSelector((state) => state.exercise.rotuineInfo)
+
   useEffect(() => {
     if (!exersiceRoutine) return
-    if (exersiceRoutine) console.log(exersiceRoutine)
+    if (exersiceRoutine) console.log("루틴이 변경됨", exersiceRoutine)
   }, [exersiceRoutine])
 
   const startExercise = () => {
@@ -76,7 +93,10 @@ export default function SideBar({ chatComponent, user, isRoomAdmin }) {
   return (
     <div className="border border-black w-full h-full p-3 space-y-2 relative">
       {showSelectRoutine && (
-        <SelectRoutine closeMoal={() => setShowSelectRoutine(false)} />
+        <SelectRoutine
+          closeMoal={() => setShowSelectRoutine(false)}
+          user={user}
+        />
       )}
       <div className="h-1/2 bg-white border rounded-2xl">
         {isRoomAdmin ? (
