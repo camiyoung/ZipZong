@@ -1,3 +1,5 @@
+import "./Routine.css"
+
 import { useDispatch, useSelector } from "react-redux"
 import React, { useState } from "react"
 import Modal from "../../components/modal/Modal"
@@ -30,7 +32,7 @@ export default function RoutineButton({
       </Modal>
 
       <button
-        className="bg-primary-500 w-[160px] h-[60px] m-3 font-bold text-xl rounded-2xl"
+        className="bg-primary-500 w-[160px] h-[60px] mb-14 m-3 font-bold text-xl rounded-2xl makebtn custom-btn"
         onClick={() => {
           const totalTime = exercise.length * 60 + breakTime
           if (routineName === "") {

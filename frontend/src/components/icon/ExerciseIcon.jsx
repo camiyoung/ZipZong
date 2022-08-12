@@ -2,9 +2,12 @@ import React from "react"
 
 const sizeChart = {
   small: "w-6 h-6",
+  smmiddle: "w-9 h-9",
   middle: "w-12 h-12",
+  mdlarge: "w-16 h-16",
   large: "w-24 h-24",
   xLarge: "w-32 h-32",
+  xLarge2: "w-36 h-36",
 }
 const shapeChart = {
   round: "rounded-full",
@@ -22,7 +25,7 @@ export default function ExerciseIcon({ image, size, shape, ...restProps }) {
       style={{
         backgroundImage: `url(/images/exerciseIcon/${image}.png)`,
       }}
-      className={`${iconSize} ${shapeType} bg-cover `}
+      className={`${iconSize} ${shapeType} bg-cover`}
     ></div>
   )
 }

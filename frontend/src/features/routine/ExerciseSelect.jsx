@@ -11,10 +11,9 @@ export default function ExerciseSelect({
   setBreakTime,
 }) {
   return (
-    <div>
-      <div> </div>
+    <div className="text-base">
       <div className="flex">
-        <div className="bg-primary-100 w-[1100px] h-[300px] rounded-2xl m-3 items-center flex overflow-hidden relative px-16">
+        <div className="w-[1100px] h-[300px] rounded-2xl m-3 items-center flex overflow-hidden relative px-16 bg-gradient-to-b from-primary-100 to-lgBlue-300 shadow-md">
           <div
             className="bg-primary-300 w-[50px] h-[300px] absolute left-0 hover:bg-mainBlue cursor-pointer"
             onClick={() => {
@@ -22,12 +21,15 @@ export default function ExerciseSelect({
                 setIdx(0)
               }
             }}
+            style={{
+              backgroundImage: `url(/images/routine/LEFT.png)`,
+            }}
           ></div>
           <div className="flex">
             {routine.slice(idx, idx + 5).map(({ name, count }, index) => {
               return (
                 <div className="" key={index}>
-                  <div className="bg-white w-[170px] h-[240px] rounded-3xl m-3 border-primary-200 flex items-center flex-col justify-center relative">
+                  <div className="bg-white w-[170px] h-[240px] rounded-3xl m-3 shadow-md flex items-center flex-col justify-center relative">
                     <div
                       className="absolute right-4 top-2 text-red-300 cursor-pointer"
                       onClick={() => {
@@ -38,22 +40,27 @@ export default function ExerciseSelect({
                     >
                       ×
                     </div>
-                    <div className="">
+                    <div>
                       <ExerciseIcon
                         size="large"
                         shape="round"
                         image={name}
                       ></ExerciseIcon>
                     </div>
-                    <div className="p-3">
-                      <ChangeLanguage exercise={name} />
+                    <div className="m-3 mt-2 text-base flex w-full justify-center">
+                      <span className="mr-2 text-sm flex items-center rounded-full">
+                        {idx + index + 1}
+                      </span>{" "}
+                      <span>
+                        <ChangeLanguage exercise={name} />
+                      </span>
                     </div>
                     <div className="flex">
                       <div>
                         <button
-                          className="w-6 bg-lightBlue rounded-2xl hover:bg-mainBlue"
+                          className="w-6 bg-lightBlue rounded-full hover:bg-mainBlue clickbtn"
                           onClick={() => {
-                            if (count > 6) {
+                            if (count > 5) {
                               let newRoutine = routine.map((r, ridx) => {
                                 if (ridx === idx + index) {
                                   return { name: r.name, count: r.count - 5 }
@@ -66,12 +73,15 @@ export default function ExerciseSelect({
                           -
                         </button>
                       </div>
-                      <div className="px-3"> {count} </div>
+                      <div className="w-[60px] flex justify-center text-sm items-center">
+                        {" "}
+                        {count} 회
+                      </div>
                       <div>
                         <button
-                          className="w-6 bg-lightBlue rounded-2xl hover:bg-mainBlue "
+                          className="w-6 bg-lightBlue rounded-full hover:bg-mainBlue clickbtn"
                           onClick={() => {
-                            if (count <= 99) {
+                            if (count <= 94) {
                               let newRoutine = routine.map((r, ridx) => {
                                 if (ridx === idx + index) {
                                   return { name: r.name, count: r.count + 5 }
@@ -97,15 +107,19 @@ export default function ExerciseSelect({
                 setIdx(5)
               }
             }}
+            style={{
+              backgroundImage: `url(/images/routine/RIGHT.png)`,
+            }}
           ></div>
         </div>
-        <div className="bg-secondary-300 w-[200px] h-[300px] rounded-2xl m-3 flex items-center flex-col justify-center">
-          <div className="bg-white w-[170px] h-[240px] rounded-3xl m-3 border-primary-200 flex items-center flex-col justify-center">
+        <div className="w-[200px] h-[300px] rounded-2xl m-3 flex items-center flex-col justify-center bg-gradient-to-b from-secondary-100 to-secondary-300 shadow-md">
+          <div className="bg-white w-[170px] h-[240px] rounded-3xl m-3 flex items-center flex-col justify-center">
             <div className="flex justify-center">
               <ImageIcon
                 size="large"
                 shape="round"
-                image="http://kaka0.net/data/file/humor/2950631858_xklV5CvP_6.jpeg"
+                image={`/images/exerciseIcon/BREAK.png`}
+                borderStyle="none"
               ></ImageIcon>
             </div>
             <div className="flex justify-center p-3"> 휴식</div>
