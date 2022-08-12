@@ -31,7 +31,7 @@ class Room extends Component {
     this.hasBeenUpdated = false
     let sessionName = this.props.sessionName
       ? this.props.sessionName
-      : "SessionA"
+      : "testRoom"
     let userName = this.props.user ? this.props.user : "guest"
 
     // localUser.setIcon = this.props.icon
@@ -70,8 +70,11 @@ class Room extends Component {
   }
 
   async componentDidMount() {
+    this.sessionName = this.props.sessionName
+    console.log("유저 네임 : ", this.props.user)
     window.addEventListener("beforeunload", this.onbeforeunload)
     await tmModel.loadModel() // teachable machine 로드
+
     this.setState({ modelLoded: true })
     this.joinSession()
   }
@@ -86,7 +89,8 @@ class Room extends Component {
   }
 
   joinSession() {
-    console.log("joinSession 시작")
+    // console.log("세션 id:", this.sessionName)
+    console.log("joinSession 시작 세션 ID:", this.sessionName)
     this.OV = new OpenVidu()
     this.OV.enableProdMode()
 
