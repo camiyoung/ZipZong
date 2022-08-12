@@ -10,6 +10,7 @@ import java.util.List;
 public class ExerciseMemberTotalResponse {
     List<PerformMemberTotal> performMemberTotals;
     int currentStrick;
+    int totalTime;
 
     @Getter
     @Setter

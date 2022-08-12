@@ -437,6 +437,7 @@ public class ExerciseService {
 
     public ExerciseMemberTotalResponse totalMemberHistory(Long memberId) {
         ExerciseMemberTotalResponse response = new ExerciseMemberTotalResponse();
+        int totalTime = 0;
 
         MemberHistory memberHistory = memberHistoryRepository.findByMemberId(memberId).orElse(
                 MemberHistory.builder()
@@ -456,6 +457,7 @@ public class ExerciseService {
         for(MemberHistoryDetail memberHistoryDetail : memberHistoryDetails) {
             String exerciseName = memberHistoryDetail.getExerciseName();
             int exerciseNum = memberHistoryDetail.getExerciseNum();
+            ++totalTime;
 
             exerciseNum += exercises.getOrDefault(exerciseName, 0);
 
@@ -471,6 +473,7 @@ public class ExerciseService {
         }
 
         response.setPerformMemberTotals(performMemberTotals);
+        response.setTotalTime(totalTime);
 
         return response;
     }

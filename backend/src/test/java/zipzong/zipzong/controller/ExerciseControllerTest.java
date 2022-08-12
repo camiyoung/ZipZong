@@ -231,9 +231,11 @@ public class ExerciseControllerTest {
                         responseFields(
                                 fieldWithPath("message").description("메시지"),
                                 fieldWithPath("data.currentStrick").description("현재 스트릭 일 수"),
+                                fieldWithPath("data.totalTime").description("총 운동 누적 분"),
                                 fieldWithPath("data.performMemberTotals.[]").description("동작 별 통계"),
                                 fieldWithPath("data.performMemberTotals.[].performName").description("동작 이름"),
                                 fieldWithPath("data.performMemberTotals.[].performTotal").description("동작 총 횟수")
+
                         )
                 ));
     }
