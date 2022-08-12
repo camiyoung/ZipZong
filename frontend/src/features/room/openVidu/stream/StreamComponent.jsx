@@ -79,7 +79,7 @@ export default class StreamComponent extends Component {
             {!this.props.user.isVideoActive() && (
               <div className="w-full h-full absolute z-10 bg-lightBlue rounded-2xl">
                 <img
-                  src="images/videoOff.jpg"
+                  src="/images/videoOff.jpg"
                   className="w-full h-full rounded-2xl"
                   alt="비디오 꺼짐 화면"
                 />
