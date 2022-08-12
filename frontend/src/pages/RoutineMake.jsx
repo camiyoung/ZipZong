@@ -33,18 +33,21 @@ export default function RoutineMake() {
 
   return (
     <div className="">
-      <div className="flex p-10 text-primary-700 justify-center font-extrabold text-3xl">
-        루틴 관리
+      <div className="flex pt-10 text-primary-700 justify-center font-extrabold text-3xl">
+        {params.routineId ? "루틴 수정" : "루틴 생성"}
       </div>
-      <div className="flex justify-center p-3">
-        <div className="text-xl font-bold flex items-center pr-5">
+      <div className="flex pt-2 mb-10 text-lgBlue-600 justify-center text-md">
+        📃 각 운동은 1분씩 시행되며, 운동 사이마다 휴식 시간이 제공됩니다.
+      </div>
+      <div className="flex justify-center m-3 pb-7">
+        <div className="text-xl font-bold flex mr-5 items-center">
           루틴 이름
         </div>
-        <div>
+        <div className="flex flex-col">
           <input
             value={routineName}
             onChange={(event) => setRoutineName(event.target.value)}
-            className="block p-4
+            className="block p-3
             w-96
             text-gray-900
             bg-gray-50
