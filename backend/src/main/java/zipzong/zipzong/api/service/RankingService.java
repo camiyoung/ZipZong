@@ -45,7 +45,7 @@ public class RankingService {
     private final RedisTemplate<String, String> redisTemplate;
     private static final Long BOUNDARY = 5L;
 
-    @Scheduled(cron = "1 0 0 * * ?")
+    @Scheduled(cron = "0 0/1 * * * ?")
     public void comprehensiveUpdate() {
 
         ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
