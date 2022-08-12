@@ -35,6 +35,7 @@ export const exerciseReducer = createSlice({
     result: tmpResult,
     rotuineId: undefined,
     rotuineInfo: undefined,
+    isExercising: false, //
   },
   reducers: {
     setMyExerciseResult: (state, action) => {
@@ -51,6 +52,9 @@ export const exerciseReducer = createSlice({
     },
     setRoutineInfo: (state, action) => {
       state.rotuineInfo = action.payload
+    },
+    setExerciseStatus: (state, action) => {
+      state.isExercising = action.payload
     },
   },
   extraReducers(builder) {
@@ -86,4 +90,5 @@ export const {
   setRoutine,
   setTeamId,
   setRoutineInfo,
+  setExerciseStatus,
 } = exerciseReducer.actions
