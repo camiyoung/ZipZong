@@ -49,6 +49,7 @@ export const myPageSlice = createSlice({
     selectedMonth: null,
     memberCurrentStrick: 0,
     performMemberTotal: null,
+    memberTotalTime: null,
     showYear: null,
     showMonth: null,
     showDay: null,
@@ -84,6 +85,7 @@ export const myPageSlice = createSlice({
         // 개인 누적 기록 - 혹시나 해서 받음
         state.performMemberTotal = action.payload.data.data.performMemberTotals
         state.memberCurrentStrick = action.payload.data.data.currentStrick
+        state.memberTotalTime = action.payload.data.data.totalTime
       }
     )
 

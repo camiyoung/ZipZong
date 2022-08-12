@@ -35,7 +35,6 @@ export default function CalendarForm() {
     const year = validDate.getFullYear()
     dispatch(changeYear(year))
     dispatch(changeMonth(month))
-    let teamId = location.pathname.split("/")[2]
     if (isGroup[0] === "group") {
       let teamId = location.pathname.split("/")[2]
       dispatch(
