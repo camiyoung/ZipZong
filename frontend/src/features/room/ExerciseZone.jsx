@@ -1,13 +1,16 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useNavigate } from "react-router"
+import { useNavigate, useLocation } from "react-router"
+import { useSearchParams } from "react-router-dom"
 import {
   getSessionInfo,
   getAdminId,
   setAllExerciseResult,
   setMyExerciseResult,
   getRoutineDetail,
+  setTeamId,
 } from "./exerciseReducer"
+import { getRoutine } from "../routine/routineReducer"
 import WorkOut from "./workout/WorkOut"
 
 function MyExercise({
@@ -23,6 +26,15 @@ function MyExercise({
   const [isFinished, setFinished] = useState(false)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const location = useLocation()
+  useEffect(() => {
+    console.log(location.pathname.split("/"))
+    const paths = location.pathname.split("/")
+    if (paths.length >= 2 && paths[2]) {
+      console.log("roomid", paths[2])
+      dispatch(getRoutine(paths[2]))
+    }
+  }, [])
   const admin = useSelector(getAdminId)
   // const routine =
 
@@ -139,21 +151,6 @@ function MyExercise({
       운동 종료하기
     </button>
   )
-  const routineId = useRef()
-  const [routineDetail, setRoutineDetail] = useState("루틴 상세 정보 ")
-  const [routinNum, setRoutineNum] = useState()
-
-  useEffect(() => {
-    if (routinNum) {
-      dispatch(getRoutineDetail(routineId.current.value))
-    }
-  }, [routinNum])
-
-  // const routineInfo = useSelector((state) => state.exercise.rotuineDetail)
-  const onGetRoutine = () => {
-    console.log("ref value", routineId.current.value)
-    setRoutineNum(routineId.current.value)
-  }
 
   return (
     <div className="flex  h-full w-full pl-2  relative ">
@@ -170,11 +167,6 @@ function MyExercise({
       <div id="button " className="absolute top-5 left-5 z-50">
         {isRoomAdmin && !isExercising && startButton}
         {isExercising && finishButton}
-        <div>
-          <input type="text" ref={routineId} />
-          <button onClick={onGetRoutine}>루틴 정보 </button>
-          {/* <div>{routineDetail}</div> */}
-        </div>
       </div>
       <div className="w-full h-[10%] flex justify-between items-center absolute bottom-5">
         {Toolbar}

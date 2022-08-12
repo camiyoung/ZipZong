@@ -46,6 +46,12 @@ export const exerciseReducer = createSlice({
     setRoutine: (state, action) => {
       state.routineId = action.payload
     },
+    setTeamId: (state, action) => {
+      state.roomId = action.payload
+    },
+    setRoutineInfo: (state, action) => {
+      state.rotuineInfo = action.payload
+    },
   },
   extraReducers(builder) {
     builder.addCase(getSessionInfo.fulfilled, (state, action) => {
@@ -74,5 +80,10 @@ export const exerciseReducer = createSlice({
 export const getAdminId = (state) => state.exercise.admin
 export const getResults = (state) => state.exercise.result
 export default exerciseReducer.reducer
-export const { setAllExerciseResult, setMyExerciseResult, setRoutine } =
-  exerciseReducer.actions
+export const {
+  setAllExerciseResult,
+  setMyExerciseResult,
+  setRoutine,
+  setTeamId,
+  setRoutineInfo,
+} = exerciseReducer.actions
