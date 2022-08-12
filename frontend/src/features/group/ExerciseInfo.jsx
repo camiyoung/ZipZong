@@ -5,55 +5,55 @@ import CalendarForm from "../../components/calendar/CalendarForm"
 import ImageIcon from "../../components/icon/ImageIcon"
 import { teamTotalExerciseCount, rankingTeam } from "./groupReducer"
 
-const dayExerciseInfo = [
-  {
-    exerciseType: "윗몸일으키기",
-    exerciseIcon:
-      "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
-    exerciseTime: 900,
-    exerciseCount: 1000,
-  },
-  {
-    exerciseType: "Test1",
-    exerciseIcon:
-      "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
-    exerciseTime: 780,
-    exerciseCount: 1001,
-  },
-  {
-    exerciseType: "Test2",
-    exerciseIcon:
-      "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
-    exerciseTime: 600,
-    exerciseCount: 1004,
-  },
-  {
-    exerciseType: "Test4",
-    exerciseIcon:
-      "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
-    exerciseTime: 600,
-    exerciseCount: 1004,
-  },
-  {
-    exerciseType: "Test3",
-    exerciseIcon:
-      "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
-    exerciseTime: 600,
-    exerciseCount: 1004,
-  },
-]
+// const dayExerciseInfo = [
+//   {
+//     exerciseType: "윗몸일으키기",
+//     exerciseIcon:
+//       "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
+//     exerciseTime: 900,
+//     exerciseCount: 1000,
+//   },
+//   {
+//     exerciseType: "Test1",
+//     exerciseIcon:
+//       "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
+//     exerciseTime: 780,
+//     exerciseCount: 1001,
+//   },
+//   {
+//     exerciseType: "Test2",
+//     exerciseIcon:
+//       "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
+//     exerciseTime: 600,
+//     exerciseCount: 1004,
+//   },
+//   {
+//     exerciseType: "Test4",
+//     exerciseIcon:
+//       "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
+//     exerciseTime: 600,
+//     exerciseCount: 1004,
+//   },
+//   {
+//     exerciseType: "Test3",
+//     exerciseIcon:
+//       "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
+//     exerciseTime: 600,
+//     exerciseCount: 1004,
+//   },
+// ]
 function Ranking() {
   const dispatch = useDispatch()
   const location = useLocation()
   const { strickRank, timeRank } = useSelector((state) => state.group)
-
   const fetchTeamId = location.pathname.split("/")[2]
   useEffect(() => {
     dispatch(rankingTeam(fetchTeamId))
   }, [])
+  console.log("랭크", timeRank, strickRank)
   return (
     <div className="w-full flex justify-evenly">
-      {timeRank ? (
+      {Object.keys(timeRank).length > 0 ? (
         <div>
           <p className="text-xl text-center">
             <strong>Time Ranking</strong>
@@ -72,7 +72,13 @@ function Ranking() {
                         shape="round"
                       />
                       <p className="mx-3">{teamName}</p>
-                      <p>{totalTime}</p>
+                      {totalTime >= 60 ? (
+                        <p>
+                          {parseInt(totalTime / 60)}시간 {totalTime % 60}분
+                        </p>
+                      ) : (
+                        <p>{totalTime} 분</p>
+                      )}
                     </li>
                   )
                 })
@@ -87,7 +93,14 @@ function Ranking() {
                 shape="round"
               />
               <p className="mx-3">{timeRank.me.teamName}</p>
-              <p>{timeRank.me.totalTime}</p>
+              {timeRank.me.totalTime >= 60 ? (
+                <p>
+                  {parseInt(timeRank.me.totalTime / 60)}시간{" "}
+                  {timeRank.me.totalTime % 60}분
+                </p>
+              ) : (
+                <p>{timeRank.me.totalTime} 분</p>
+              )}
             </li>
 
             {/* Time Ranking 내 그룹 밑의 5개 */}
@@ -103,7 +116,13 @@ function Ranking() {
                           shape="round"
                         />
                         <p className="mx-3">{teamName}</p>
-                        <p>{totalTime}</p>
+                        {totalTime >= 60 ? (
+                          <p>
+                            {parseInt(totalTime / 60)}시간 {totalTime % 60}분
+                          </p>
+                        ) : (
+                          <p>{totalTime} 분</p>
+                        )}
                       </li>
                     )
                   }
@@ -111,9 +130,10 @@ function Ranking() {
               : null}
           </ul>
         </div>
-      ) : null}
-
-      {strickRank ? (
+      ) : (
+        <p>랭킹이 존재하지 않습니다.</p>
+      )}
+      {Object.keys(strickRank).length > 0 ? (
         <div>
           <p className="text-xl text-center">
             <strong>Continue Ranking</strong>
@@ -173,11 +193,12 @@ function Ranking() {
               : null}
           </ul>
         </div>
-      ) : null}
+      ) : (
+        <p>랭킹이 존재하지 않습니다.</p>
+      )}
     </div>
   )
 }
-
 export default function ExerciseInfo() {
   const location = useLocation()
   const fetchTeamId = location.pathname.split("/")[2]
@@ -201,8 +222,6 @@ export default function ExerciseInfo() {
       }, 0)
     )
   }, [stateGroupDailyHistory])
-
-  console.log("sdfsdfsdf", stateGroupDailyHistory)
 
   return (
     <div className="flex mt-10 flex-col flex-wrap">
@@ -238,7 +257,6 @@ export default function ExerciseInfo() {
             >
               {stateGroupDailyHistory.map(
                 ({ performName, performTime, performNum }, idx) => {
-                  console.log(performName)
                   return (
                     <div key={idx} className="flex m-5">
                       <ImageIcon
