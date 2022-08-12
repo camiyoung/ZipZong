@@ -20,7 +20,6 @@ const Icons = [
   "basic",
   "bee",
   "elephant",
-  "basic",
   "ferret",
   "frog",
   "pandaBear",

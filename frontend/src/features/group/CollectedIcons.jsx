@@ -7,6 +7,7 @@ import ImageIcon from "../../components/icon/ImageIcon"
 import { Tooltip } from "flowbite-react"
 import ShowExpression from "./ShowExpression"
 
+import { teamRepIconModify } from "./groupReducer"
 const prizes = [
   "bee",
   "elephant",
@@ -48,10 +49,19 @@ export default function CollectedIcons() {
                     content={<ShowExpression imageUrl={imageName} />}
                     placement="bottom"
                   >
-                    <div className="m-2.5 cursor-pointer" key={idx}>
+                    <div
+                      className="m-2.5 cursor-pointer"
+                      key={idx}
+                      onClick={() => {
+                        dispatch(
+                          teamRepIconModify({
+                            teamId: fetchTeamId,
+                            iconName: imageName,
+                          })
+                        )
+                      }}
+                    >
                       <ImageIcon
-                        // 배포 주소로 다시 바꿔야 하는지 의문
-                        // ${process.env.REACT_APP_BASE_URL}
                         image={`/images/badgeIcon/${imageName}.png`}
                         shape="round"
                         className="mx-1"

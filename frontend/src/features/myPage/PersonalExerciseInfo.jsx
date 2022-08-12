@@ -50,8 +50,6 @@ export default function ExerciseInfo() {
     showYear,
     showMonth,
     showDay,
-    registeredTeam,
-    memberCurrentStrick,
     memberDailyHistory,
     stateDailyHistory,
   } = useSelector((state) => state.mypage)
