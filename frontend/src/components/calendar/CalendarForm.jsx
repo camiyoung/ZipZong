@@ -10,7 +10,10 @@ import {
   showDayChange,
   setDailyHistory,
 } from "../../features/myPage/myPageReducer"
-import { teamMonthHistoryCheck } from "../../features/group/groupReducer"
+import {
+  teamMonthHistoryCheck,
+  setTeamDailyHistory,
+} from "../../features/group/groupReducer"
 import Calendar from "react-calendar"
 import "./Calendar.css"
 import moment from "moment"
@@ -22,6 +25,7 @@ export default function CalendarForm() {
   const [activeDate, setActiveDate] = useState("")
   const { memberId } = useSelector((state) => state.member)
   const { memberDailyHistory } = useSelector((state) => state.mypage)
+  const { teamDailyHistory } = useSelector((state) => state.group)
   const [dayExercised, setDayExercised] = useState("")
 
   const isGroup = useState(location.pathname.split("/")[1])
@@ -43,7 +47,6 @@ export default function CalendarForm() {
       )
     } else {
       if (!memberId) return
-      console.log("year, month", year, month)
       dispatch(
         memberExerciseHistoryCheck({
           memberId: memberId,
@@ -51,8 +54,6 @@ export default function CalendarForm() {
           month: month,
         })
       )
-
-      console.log("memberDailyHistory", memberDailyHistory)
     }
   }
 
@@ -63,6 +64,13 @@ export default function CalendarForm() {
     dispatch(showDayChange(tmpDay))
     if (memberDailyHistory.length !== 0) {
       dispatch(setDailyHistory(memberDailyHistory[tmpDay - 1].performs))
+    }
+    if (isGroup[0] === "group") {
+      setDayExercised(
+        teamDailyHistory.filter(({ state }) => {
+          if (state === "SUCCESS") return true
+        })
+      )
     }
     setDayExercised(
       memberDailyHistory.filter(({ state }) => {
@@ -79,15 +87,26 @@ export default function CalendarForm() {
     dispatch(showMonthChange(date.getMonth() + 1))
     dispatch(showDayChange(tmpDay))
 
-    // 값이 있을때만 performs 객체 접근
-    if (memberDailyHistory.length !== 0) {
-      dispatch(setDailyHistory(memberDailyHistory[tmpDay - 1].performs))
+    if (isGroup[0] === "group") {
+      if (teamDailyHistory.length !== 0) {
+        dispatch(setTeamDailyHistory(teamDailyHistory[tmpDay - 1].performs))
+      }
+
+      setDayExercised(
+        teamDailyHistory.filter((e) => {
+          if (e.state === "SUCCESS") return true
+        })
+      )
+    } else {
+      if (memberDailyHistory.length !== 0) {
+        dispatch(setDailyHistory(memberDailyHistory[tmpDay - 1].performs))
+      }
+      setDayExercised(
+        memberDailyHistory.filter((e) => {
+          if (e.state === "SUCCESS") return true
+        })
+      )
     }
-    setDayExercised(
-      memberDailyHistory.filter((e) => {
-        if (e.state === "SUCCESS") return true
-      })
-    )
   }, [date, activeDate])
 
   useEffect(() => {
@@ -97,7 +116,14 @@ export default function CalendarForm() {
       })
     )
   }, [memberDailyHistory])
-  console.log("하루 기록", dayExercised)
+
+  useEffect(() => {
+    setDayExercised(
+      teamDailyHistory.filter((e) => {
+        if (e.state === "SUCCESS") return true
+      })
+    )
+  }, [teamDailyHistory])
   return (
     <div className="app w-1/4 min-w-[285px]">
       <div className="calendar-container">
