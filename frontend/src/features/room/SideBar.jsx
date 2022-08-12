@@ -65,6 +65,9 @@ const NotActiveButtons = () => {
 
 export default function SideBar({ chatComponent, user, isRoomAdmin }) {
   const dispatch = useDispatch()
+  const [showSelectRoutine, setShowSelectRoutine] = useState(false)
+  const [errorMessage, setError] = useState("")
+  const exersiceRoutine = useSelector((state) => state.exercise.rotuineInfo)
   if (isRoomAdmin) {
     console.log("나는 방장 ")
   }
@@ -75,15 +78,19 @@ export default function SideBar({ chatComponent, user, isRoomAdmin }) {
     })
   }, [])
 
-  const [showSelectRoutine, setShowSelectRoutine] = useState(false)
-  const exersiceRoutine = useSelector((state) => state.exercise.rotuineInfo)
-
   useEffect(() => {
     if (!exersiceRoutine) return
-    if (exersiceRoutine) console.log("루틴이 변경됨", exersiceRoutine)
+    if (exersiceRoutine) {
+      console.log("루틴이 변경됨", exersiceRoutine)
+      setError("")
+    }
   }, [exersiceRoutine])
 
   const startExercise = () => {
+    if (!exersiceRoutine) {
+      setError("루틴을 선택해야 합니다.")
+      return
+    }
     user.getStreamManager().stream.session.signal({
       data: "게임을 시작~~",
       type: "start",
@@ -131,6 +138,7 @@ export default function SideBar({ chatComponent, user, isRoomAdmin }) {
             ))}
           </div>
         )}
+        {errorMessage && <div>{errorMessage}</div>}
       </div>
       <div className="h-1/2  bg-white rounded-2xl border">{chatComponent}</div>
     </div>
