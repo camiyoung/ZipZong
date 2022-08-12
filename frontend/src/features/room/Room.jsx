@@ -645,11 +645,14 @@ class Room extends Component {
               className="w-1/6  min-w-[300px]  border-2 border-red-400 "
               id="sideBarArea"
             >
-              <SideBar
-                chatComponent={chatComponent}
-                user={this.state.localUser}
-                isRoomAdmin={this.state.isRoomAdmin}
-              />
+              {this.state.localUser !== undefined &&
+                this.state.localUser.getStreamManager() !== undefined && (
+                  <SideBar
+                    chatComponent={chatComponent}
+                    user={this.state.localUser}
+                    isRoomAdmin={this.state.isRoomAdmin}
+                  />
+                )}
             </div>
           </div>
         )}
