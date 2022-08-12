@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { shallowEqual, useDispatch, useSelector } from "react-redux"
 import { useLocation } from "react-router-dom"
 import {
   changeYear,
@@ -10,11 +10,13 @@ import {
   showDayChange,
   setDailyHistory,
 } from "../../features/myPage/myPageReducer"
-import { teamMonthHistoryCheck } from "../../features/group/groupReducer"
+import {
+  teamMonthHistoryCheck,
+  setTeamDailyHistory,
+} from "../../features/group/groupReducer"
 import Calendar from "react-calendar"
 import "./Calendar.css"
 import moment from "moment"
-const dailyRecord = ["18-08-2022", "17-08-2022", "16-08-2022"]
 
 export default function CalendarForm() {
   const dispatch = useDispatch()
@@ -22,19 +24,18 @@ export default function CalendarForm() {
   const [date, setDate] = useState(new Date())
   const [activeDate, setActiveDate] = useState("")
   const { memberId } = useSelector((state) => state.member)
-  const { memberDailyHistory, selectedMonth, selectedYear } = useSelector(
-    (state) => state.mypage
-  )
+  const { memberDailyHistory } = useSelector((state) => state.mypage)
+  const { teamDailyHistory } = useSelector((state) => state.group)
+  const [dayExercised, setDayExercised] = useState("")
 
   const isGroup = useState(location.pathname.split("/")[1])
 
-  function loadDate(currentDate) {
+  const loadDate = (currentDate) => {
     const validDate = currentDate || date
     const month = validDate.getMonth() + 1
     const year = validDate.getFullYear()
     dispatch(changeYear(year))
     dispatch(changeMonth(month))
-    let teamId = location.pathname.split("/")[2]
     if (isGroup[0] === "group") {
       let teamId = location.pathname.split("/")[2]
       dispatch(
@@ -55,9 +56,6 @@ export default function CalendarForm() {
       )
     }
   }
-  useEffect(() => {
-    loadDate(activeDate)
-  }, [activeDate])
 
   useEffect(() => {
     const tmpDay = date.getDate()
@@ -67,20 +65,65 @@ export default function CalendarForm() {
     if (memberDailyHistory.length !== 0) {
       dispatch(setDailyHistory(memberDailyHistory[tmpDay - 1].performs))
     }
+    if (isGroup[0] === "group") {
+      setDayExercised(
+        teamDailyHistory.filter(({ state }) => {
+          if (state === "SUCCESS") return true
+        })
+      )
+    }
+    setDayExercised(
+      memberDailyHistory.filter(({ state }) => {
+        if (state === "SUCCESS") return true
+      })
+    )
   }, [])
 
   useEffect(() => {
+    loadDate(activeDate)
+
     const tmpDay = date.getDate()
     dispatch(showYearChange(date.getFullYear()))
     dispatch(showMonthChange(date.getMonth() + 1))
     dispatch(showDayChange(tmpDay))
 
-    // 값이 있을때만 performs 객체 접근
-    if (memberDailyHistory.length !== 0) {
-      dispatch(setDailyHistory(memberDailyHistory[tmpDay - 1].performs))
-    }
-  }, [date])
+    if (isGroup[0] === "group") {
+      if (teamDailyHistory.length !== 0) {
+        dispatch(setTeamDailyHistory(teamDailyHistory[tmpDay - 1].performs))
+      }
 
+      setDayExercised(
+        teamDailyHistory.filter((e) => {
+          if (e.state === "SUCCESS") return true
+        })
+      )
+    } else {
+      if (memberDailyHistory.length !== 0) {
+        dispatch(setDailyHistory(memberDailyHistory[tmpDay - 1].performs))
+      }
+      setDayExercised(
+        memberDailyHistory.filter((e) => {
+          if (e.state === "SUCCESS") return true
+        })
+      )
+    }
+  }, [date, activeDate])
+
+  useEffect(() => {
+    setDayExercised(
+      memberDailyHistory.filter((e) => {
+        if (e.state === "SUCCESS") return true
+      })
+    )
+  }, [memberDailyHistory])
+
+  useEffect(() => {
+    setDayExercised(
+      teamDailyHistory.filter((e) => {
+        if (e.state === "SUCCESS") return true
+      })
+    )
+  }, [teamDailyHistory])
   return (
     <div className="app w-1/4 min-w-[285px]">
       <div className="calendar-container">
@@ -102,40 +145,18 @@ export default function CalendarForm() {
           formatDay={(locale, date) =>
             date.toLocaleString("en", { day: "numeric" })
           }
-          tileClassName={({ date, view }) => {
-            memberDailyHistory.map(
-              ({ day, totalTime, state, performs }, index) => {
-                // 달력에 칠하기
-                return state === "success"
-                  ? "highlight highlight-saturday"
-                  : null
+          tileClassName={({ date }) => {
+            for (let i = 0; i < dayExercised.length; ++i) {
+              if (date.getDate() === dayExercised[i].day) {
+                return "highlight"
               }
-            )
-
-            // 달력에 색 칠하기
-            if (memberDailyHistory[date.getDate() - 1] === 1) {
-              // 토요일은 파란색
-              return "highlight highlight-saturday"
             }
-            if (
-              dailyRecord.find((x) => x === moment(date).format("DD-MM-YYYY"))
-            ) {
-              if (moment(date).format("LLLL").split(",")[0] === "Saturday") {
-                return "highlight highlight-saturday"
-              } else if (
-                moment(date).format("LLLL").split(",")[0] === "Sunday"
-              ) {
-                return "highlight highlight-sunday"
-              }
-              return "highlight"
-            } else {
-              if (moment(date).format("LLLL").split(",")[0] === "Saturday") {
-                return "highlight-saturday"
-              } else if (
-                moment(date).format("LLLL").split(",")[0] === "Sunday"
-              ) {
-                return "highlight-sunday"
-              }
+
+            // 토요일: 파란색, 일요일: 빨간색
+            if (moment(date).format("LLLL").split(",")[0] === "Saturday") {
+              return "highlight-saturday"
+            } else if (moment(date).format("LLLL").split(",")[0] === "Sunday") {
+              return "highlight-sunday"
             }
           }}
         ></Calendar>
