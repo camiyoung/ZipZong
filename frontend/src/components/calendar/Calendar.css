@@ -73,7 +73,8 @@ abbr[title] {
 .react-calendar__tile:enabled:hover,
 .react-calendar__tile:enabled:focus {
   color: #8ccfd5;
-  transform: scale(1.2);
+  transform: scale(1);
+  animation-delay: 1s;
   background-color: #6f48eb33;
 }
 
@@ -95,6 +96,7 @@ abbr[title] {
 }
 .highlight {
   background-image: url("../../../public/images/calendarIcon/evaluate.png");
+  transform: scale(0.5);
   background-size: cover;
   max-height: 100%;
   max-width: 100%;

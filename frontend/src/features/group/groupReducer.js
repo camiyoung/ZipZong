@@ -191,6 +191,7 @@ export const teamInfoModify = createAsyncThunk("team/info", async (info) => {
 export const groupSlice = createSlice({
   name: "group",
   initialState: {
+    stateGroupDailyHistory: [],
     timeRank: [],
     strickRank: [],
     teamDailyHistory: [],
@@ -243,6 +244,9 @@ export const groupSlice = createSlice({
   reducers: {
     inviteTeamIdConfirm: (state, action) => {
       state.inviteTeamId = action.payload
+    },
+    setTeamDailyHistory: (state, action) => {
+      state.stateGroupDailyHistory = action.payload
     },
   },
   extraReducers(builder) {
@@ -343,5 +347,5 @@ export const groupSlice = createSlice({
     })
   },
 })
-export const { inviteTeamIdConfirm } = groupSlice.actions
+export const { inviteTeamIdConfirm, setTeamDailyHistory } = groupSlice.actions
 export default groupSlice.reducer

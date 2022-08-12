@@ -7,6 +7,7 @@ import { memberInfo } from "../features/login/memberReducer"
 import {
   memberExerciseHistoryCheck,
   memberIconListReview,
+  memberExerciseHistorySumCheck,
 } from "../features/myPage/myPageReducer"
 import { teamJoin } from "../features/group/groupReducer"
 export default function MyPage() {
@@ -23,6 +24,8 @@ export default function MyPage() {
   }, [dispatch])
 
   useEffect(() => {
+    dispatch(memberExerciseHistorySumCheck(memberId))
+
     let flag = 0
     for (let i = 0; i < registeredTeam.length; ++i) {
       if (registeredTeam[i].groupId === localStorage.getItem("inviteTeamId")) {
