@@ -20,21 +20,6 @@ export default function Profile() {
   const { memberNickname, memberRepIcon, memberId } = member
   const { memberCurrentStrick, memberTotalTime } = mypage
 
-  // 멤버의 운동 총 시간
-  const [totalHour, setTotalHour] = useState(0)
-  const [totalMinutes, setTotalMinutes] = useState(0)
-
-  useEffect(() => {
-    // 멤버의 운동 총 시간 시간, 분
-    if (memberTotalTime >= 60) {
-      setTotalHour(parseInt(memberTotalTime / 60))
-      setTotalMinutes(memberTotalTime % 60)
-    } else {
-      setTotalHour(0)
-      setTotalMinutes(memberTotalTime % 60)
-    }
-  }, [])
-
   return (
     // 모달
     <div className="w-4/5 mt-5">
@@ -66,12 +51,13 @@ export default function Profile() {
               운동 중이에요!
             </div>
             <div className="flex justify-center mt-2 text-lg">
-              {memberTotalTime && totalHour ? (
+              {memberTotalTime && parseInt(memberTotalTime / 60) > 0 ? (
                 <p>
-                  오늘로 총 {totalHour}시간 {totalMinutes}분 째 집에서 운동중!
+                  오늘로 총 {parseInt(memberTotalTime / 60)}시간{" "}
+                  {memberTotalTime % 60}분 째 집에서 운동중!
                 </p>
               ) : (
-                <p>오늘로 총 {totalMinutes}분 째 집에서 운동중!</p>
+                <p>오늘로 총 {memberTotalTime % 60}분 째 집에서 운동중!</p>
               )}
             </div>
           </div>
