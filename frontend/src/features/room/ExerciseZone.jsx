@@ -9,6 +9,7 @@ import {
   setMyExerciseResult,
   getRoutineDetail,
   setTeamId,
+  setExerciseStatus,
 } from "./exerciseReducer"
 import { getRoutine } from "../routine/routineReducer"
 import WorkOut from "./workout/WorkOut"
@@ -22,11 +23,15 @@ function MyExercise({
   setAlert,
 }) {
   // console.log("userInfo ", user)
-  const [isExercising, setExercising] = useState(false)
+  const isExercising = useSelector((state) => state.exercise.isExercising)
   const [isFinished, setFinished] = useState(false)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
+
+  const setExercising = (value) => {
+    dispatch(setExerciseStatus(value))
+  }
   useEffect(() => {
     console.log(location.pathname.split("/"))
     const paths = location.pathname.split("/")
@@ -165,8 +170,8 @@ function MyExercise({
       {<div className="w-full h-full ">{myVideo}</div>}
 
       <div id="button " className="absolute top-5 left-5 z-50">
-        {isRoomAdmin && !isExercising && startButton}
-        {isExercising && finishButton}
+        {/* {isRoomAdmin && !isExercising && startButton} */}
+        {/* {isExercising && finishButton} */}
       </div>
       <div className="w-full h-[10%] flex justify-between items-center absolute bottom-5">
         {Toolbar}
