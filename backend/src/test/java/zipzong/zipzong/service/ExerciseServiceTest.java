@@ -87,9 +87,9 @@ public class ExerciseServiceTest {
         exerciseService.saveMemberExerciseInfo(team.getId(), makePersonalResultList(member1.getId(), member2.getId()));
 
         // then
-        Registration registration = registrationRepository.findByMemberIdAndTeamId(member1.getId(), team.getId()).orElseThrow();
+        Registration registration = registrationRepository.findMemberIdAndTeamIdNoResigned(member1.getId(), team.getId()).orElseThrow();
         Exercise exercise = exerciseRepository.findByRegistrationIdAndExerciseDate(registration.getId(), LocalDate.now()).orElseThrow();
-        Registration registration2 = registrationRepository.findByMemberIdAndTeamId(member2.getId(),team.getId()).orElseThrow();
+        Registration registration2 = registrationRepository.findMemberIdAndTeamIdNoResigned(member2.getId(),team.getId()).orElseThrow();
         Exercise exercise2 = exerciseRepository.findByRegistrationIdAndExerciseDate(registration2.getId(), LocalDate.now()).orElseThrow();
 
         ExerciseDetail exerciseDetail = exerciseDetailRepository.findByExerciseId(exercise.getId()).get(0);

@@ -104,7 +104,7 @@ public class RegistrationService {
         회원이 그룹 탈퇴하는 경우
      */
     public Long resignTeam(Long memberId, Long teamId) {
-        Registration registration = registrationRepository.findByMemberIdAndTeamId(memberId, teamId).orElseThrow(
+        Registration registration = registrationRepository.findMemberIdAndTeamIdNoResigned(memberId, teamId).orElseThrow(
                 () -> new CustomException(CustomExceptionList.JOIN_INFO_NOT_EXIST)
         );
         registration.changeIsResign(CheckExist.Y);
@@ -115,10 +115,10 @@ public class RegistrationService {
         그룹장이 회원을 탈퇴시키는 경우
      */
     public Long expelMember(Long leaderId, Long followerId, Long teamId) throws Exception{
-        Registration followerRegistration = registrationRepository.findByMemberIdAndTeamId(followerId,teamId).orElseThrow(
+        Registration followerRegistration = registrationRepository.findMemberIdAndTeamIdNoResigned(followerId,teamId).orElseThrow(
                 () -> new CustomException(CustomExceptionList.JOIN_INFO_NOT_EXIST)
         );
-        Registration leaderRegistration = registrationRepository.findByMemberIdAndTeamId(leaderId,teamId).orElseThrow(
+        Registration leaderRegistration = registrationRepository.findMemberIdAndTeamIdNoResigned(leaderId,teamId).orElseThrow(
                 () -> new CustomException(CustomExceptionList.JOIN_INFO_NOT_EXIST)
         );
         if(!leaderRegistration.getRole().equals(Role.LEADER)){
@@ -132,10 +132,10 @@ public class RegistrationService {
         그룹장이 그룹원에게 그룹장을 위임하는 경우
      */
     public Long delegateLeader(Long leaderId, Long followerId, Long teamId) throws Exception{
-        Registration followerRegistration = registrationRepository.findByMemberIdAndTeamId(followerId,teamId).orElseThrow(
+        Registration followerRegistration = registrationRepository.findMemberIdAndTeamIdNoResigned(followerId,teamId).orElseThrow(
                 () -> new CustomException(CustomExceptionList.JOIN_INFO_NOT_EXIST)
         );
-        Registration leaderRegistration = registrationRepository.findByMemberIdAndTeamId(leaderId,teamId).orElseThrow(
+        Registration leaderRegistration = registrationRepository.findMemberIdAndTeamIdNoResigned(leaderId,teamId).orElseThrow(
                 () -> new CustomException(CustomExceptionList.JOIN_INFO_NOT_EXIST)
         );
         if(!leaderRegistration.getRole().equals(Role.LEADER)){
@@ -168,10 +168,10 @@ public class RegistrationService {
         List<MemberInfoRequest> memberInfos = new ArrayList<>();
 
         for (Registration registration : registrations) {
-            //탈퇴되었으면 continue
-            if(registration.getIsResign() != null && registration.getIsResign().equals(CheckExist.Y) ){
-                continue;
-            }
+//            //탈퇴되었으면 continue -> repository에서 거르도록 바꿈(22/08/12, 황승주)
+//            if(registration.getIsResign() != null && registration.getIsResign().equals(CheckExist.Y) ){
+//                continue;
+//            }
             Member member = registration.getMember();
             MemberInfoRequest memberInfoRequest = getMemberInfoRequest(registration, member);
             memberInfos.add(memberInfoRequest);
@@ -217,7 +217,7 @@ public class RegistrationService {
         /*
             그룹장인지 확인
          */
-        Registration registration = registrationRepository.findByMemberIdAndTeamId(memberId, teamId)
+        Registration registration = registrationRepository.findMemberIdAndTeamIdNoResigned(memberId, teamId)
                 .orElseThrow(
                         () -> new CustomException(CustomExceptionList.JOIN_INFO_NOT_EXIST)
                 );
@@ -231,7 +231,7 @@ public class RegistrationService {
             해당 그룹원들도 모두 탈퇴처리
          */
 
-        List<Registration> registrations = registrationRepository.findAllByTeamId(teamId);
+        List<Registration> registrations = registrationRepository.findAllInTeamNoResigned(teamId);
         registrations.stream().forEach(r -> r.changeIsResign(CheckExist.Y));
 
         return teamId;

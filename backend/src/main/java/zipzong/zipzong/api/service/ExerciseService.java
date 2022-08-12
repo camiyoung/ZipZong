@@ -47,7 +47,7 @@ public class ExerciseService {
 
         for(ExerciseResultRequest.PersonalResult personalResult : personalResults) {
             Long memberId = personalResult.getMemberId();
-            Registration registration = registrationRepository.findByMemberIdAndTeamId(memberId, teamId).orElseThrow(
+            Registration registration = registrationRepository.findMemberIdAndTeamIdNoResigned(memberId, teamId).orElseThrow(
                     () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR)
             );
 

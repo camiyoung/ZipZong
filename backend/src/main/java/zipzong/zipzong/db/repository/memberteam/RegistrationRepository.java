@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface RegistrationRepository extends JpaRepository<Registration, Long> {
 
     @EntityGraph(attributePaths = {"team", "member"})
-    @Query("select r from Registration r where r.team.id =:teamId")
+    @Query("select r from Registration r where r.team.id =:teamId and r.isResign is null")
     List<Registration> findTeamDetail(@Param("teamId") Long teamId);
 
     @EntityGraph(attributePaths = {"team"})
