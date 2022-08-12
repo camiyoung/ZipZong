@@ -17,6 +17,15 @@ export const getSessionInfo = createAsyncThunk("exercise/room", async () => {
   return data.connections.content
 })
 
+export const getRoutineDetail = createAsyncThunk(
+  "exercise/routineDetail",
+  async (routineId) => {
+    console.log("루틴 정보 가져오기 루틴 번호: ", routineId)
+    const { data } = await http.get(`routine/detail/${routineId}`)
+    return data.data
+  }
+)
+
 export const exerciseReducer = createSlice({
   name: "exercise",
   initialState: {
@@ -24,6 +33,8 @@ export const exerciseReducer = createSlice({
     routine: undefined,
     admin: undefined,
     result: tmpResult,
+    rotuineId: undefined,
+    rotuineInfo: undefined,
   },
   reducers: {
     setMyExerciseResult: (state, action) => {
@@ -33,7 +44,7 @@ export const exerciseReducer = createSlice({
       state.result.allResult = action.payload
     },
     setRoutine: (state, action) => {
-      state.routine = action.payload
+      state.routineId = action.payload
     },
   },
   extraReducers(builder) {
@@ -52,6 +63,10 @@ export const exerciseReducer = createSlice({
     })
     builder.addCase(sendExerciseResult.fulfilled, (state, action) => {
       state.result.allResult = action.payload
+    })
+    builder.addCase(getRoutineDetail.fulfilled, (state, action) => {
+      console.log("루틴 변경 ", action.payload)
+      state.rotuineInfo = action.payload
     })
   },
 })

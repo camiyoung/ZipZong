@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router"
 import {
@@ -6,6 +6,7 @@ import {
   getAdminId,
   setAllExerciseResult,
   setMyExerciseResult,
+  getRoutineDetail,
 } from "./exerciseReducer"
 import WorkOut from "./workout/WorkOut"
 
@@ -23,8 +24,11 @@ function MyExercise({
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const admin = useSelector(getAdminId)
+  // const routine =
+
   let resultUsers = { teamId: "123", personalResults: [] }
   useEffect(() => {
+    console.log("세션 :", user.getStreamManager().stream.session)
     dispatch(getSessionInfo())
     user.getStreamManager().stream.session.on("signal:start", (event) => {
       console.log("운동 시작 이벤트 발생 !!!", event)
@@ -135,6 +139,21 @@ function MyExercise({
       운동 종료하기
     </button>
   )
+  const routineId = useRef()
+  const [routineDetail, setRoutineDetail] = useState("루틴 상세 정보 ")
+  const [routinNum, setRoutineNum] = useState()
+
+  useEffect(() => {
+    if (routinNum) {
+      dispatch(getRoutineDetail(routineId.current.value))
+    }
+  }, [routinNum])
+
+  // const routineInfo = useSelector((state) => state.exercise.rotuineDetail)
+  const onGetRoutine = () => {
+    console.log("ref value", routineId.current.value)
+    setRoutineNum(routineId.current.value)
+  }
 
   return (
     <div className="flex  h-full w-full pl-2  relative ">
@@ -151,6 +170,11 @@ function MyExercise({
       <div id="button " className="absolute top-5 left-5 z-50">
         {isRoomAdmin && !isExercising && startButton}
         {isExercising && finishButton}
+        <div>
+          <input type="text" ref={routineId} />
+          <button onClick={onGetRoutine}>루틴 정보 </button>
+          {/* <div>{routineDetail}</div> */}
+        </div>
       </div>
       <div className="w-full h-[10%] flex justify-between items-center absolute bottom-5">
         {Toolbar}
