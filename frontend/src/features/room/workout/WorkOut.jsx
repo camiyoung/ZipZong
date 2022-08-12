@@ -1,17 +1,18 @@
 import React, { useEffect, useRef, useState } from "react"
+import { useSelector, useDispatch } from "react-redux"
 import TeachableMachine from "../teachableMachine/TeachableMachine"
 import Timer from "./Timer"
 
-const exersiceRoutine = {
-  routineId: 2,
-  routineName: "tmproutine",
-  exercise: [
-    { name: "LEGRAISE", count: 7 },
-    { name: "PUSHUP", count: 7 },
-    // { name: "BURPEE", count: 7 },
-  ],
-  breaktime: 2,
-}
+// const exersiceRoutine = {
+//   routineId: 2,
+//   routineName: "tmproutine",
+//   exercise: [
+//     { name: "LEGRAISE", count: 7 },
+//     { name: "PUSHUP", count: 7 },
+//     // { name: "BURPEE", count: 7 },
+//   ],
+//   breaktime: 2,
+// }
 // 운동시간 5초
 
 function useTimeout(callback, delay) {
@@ -31,7 +32,8 @@ function useTimeout(callback, delay) {
 }
 
 const WorkOut = ({ myVideo, tmModel, user, finishExercise }) => {
-  const { breaktime, exercise: exerciseInfos } = exersiceRoutine
+  const exersiceRoutine = useSelector((state) => state.exercise.rotuineInfo)
+  const { breakTime, exercise: exerciseInfos } = exersiceRoutine
   const routine = useRef([])
 
   const [currentAction, setCurrentAction] = useState({
@@ -55,7 +57,7 @@ const WorkOut = ({ myVideo, tmModel, user, finishExercise }) => {
         goal: info.count,
         success: 0,
       })
-      todo.push({ type: "breaktime", duration: breaktime })
+      todo.push({ type: "breaktime", duration: breakTime })
     })
     todo.pop()
 
@@ -146,7 +148,7 @@ const Start = ({
   updateSuccess,
   user,
 }) => {
-  // console.log("현재 동작 정보", action)
+  console.log("현재 동작 정보", action)
 
   useTimeout(() => {
     // console.log("시간 종료 ")
@@ -168,6 +170,7 @@ const Start = ({
             tmModel={tmModel}
             updateSuccess={updateSuccess}
             user={user}
+            actionName={action.name}
           />
         )}
         {<Timer action={action} />}

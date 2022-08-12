@@ -24,6 +24,7 @@ export default class TeachableMachine extends Component {
     this.canvas = undefined
     this.tmModel = undefined
     this.changeAction = this.changeAction.bind(this)
+    this.predicFunction = undefined
   }
 
   componentDidMount() {
@@ -47,11 +48,40 @@ export default class TeachableMachine extends Component {
   }
 
   async makeModel() {
-    // this.model = await tmPose.load(this.modelURL, this.metadataURL)
-    this.model = this.tmModel.modelPushup
+    switch (this.props.actionName) {
+      case "PUSHUP":
+        this.model = this.tmModel.modelPushup
+        this.predicFunction = this.tmModel.callbackPushup
+        break
+      case "BURPEE":
+        this.model = this.tmModel.modelBurpee
+        this.predicFunction = this.tmModel.callbackBurpee
+        break
+      case "JUMPINGJACK":
+        this.model = this.tmModel.modelJumpingjack
+        this.predicFunction = this.tmModel.callbackJumpingjack
+        break
+      case "LATERALRAISE":
+        this.model = this.tmModel.modelLateralraise
+        this.predicFunction = this.tmModel.callbackLateralraise
+        break
+      case "LUNGE":
+        this.model = this.tmModel.modelLunge
+        this.predicFunction = this.tmModel.callbackLunge
+        break
+      case "SQUAT":
+        this.model = this.tmModel.modelSquat
+        this.predicFunction = this.tmModel.callbackSquat
+        break
+
+      default:
+        this.model = this.tmModel.modelTest
+        this.predicFunction = this.tmModel.callbackTest
+        break
+    }
+
+    // this.model = this.tmModel.modelPushup
     this.maxPredictions = this.model.getTotalClasses()
-    // console.log("최대 예측값:", this.maxPredictions)
-    // console.log("모델:", this.model)
     await this.init()
     this.loop()
   }
@@ -92,7 +122,7 @@ export default class TeachableMachine extends Component {
 
   updateCount(data) {
     data.forEach((res) => {
-      const doneAction = this.tmModel.callbackPushup(
+      const doneAction = this.predicFunction(
         res,
         this.beforAction,
         this.changeAction
