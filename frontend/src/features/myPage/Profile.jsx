@@ -5,27 +5,36 @@ import { memberIconSelect } from "./myPageReducer"
 import { NicknameValidation } from "../../utils/NicknameValidation"
 import { nicknameChange, memberInfo } from "../login/memberReducer"
 import { useDispatch, useSelector } from "react-redux"
-import { checkMemberId, memberIconListReview } from "./myPageReducer"
+import {
+  checkMemberId,
+  memberIconListReview,
+  memberExerciseHistorySumCheck,
+} from "./myPageReducer"
 import "./Profile.css"
 
 export default function Profile() {
   const dispatch = useDispatch()
 
   const member = useSelector((state) => state.member)
-
+  const mypage = useSelector((state) => state.mypage)
   const { memberNickname, memberRepIcon, memberId } = member
-  const { memberCurrentStrick } = useSelector((state) => state.mypage)
+  const { memberCurrentStrick, memberTotalTime } = mypage
 
-  // localStorage nickname
-  const localStorageNickname = localStorage.getItem("nickname")
+  // 멤버의 운동 총 시간
+  const [totalHour, setTotalHour] = useState(0)
+  const [totalMinutes, setTotalMinutes] = useState(0)
 
-  // useEffect(() => {
-  //   if (localStorageNickname) {
-  //     dispatch(memberInfo(localStorageNickname))
-  //   }
+  useEffect(() => {
+    // 멤버의 운동 총 시간 시간, 분
+    if (memberTotalTime >= 60) {
+      setTotalHour(parseInt(memberTotalTime / 60))
+      setTotalMinutes(memberTotalTime % 60)
+    } else {
+      setTotalHour(0)
+      setTotalMinutes(memberTotalTime % 60)
+    }
+  }, [])
 
-  //   dispatch(memberIconListReview(memberId))
-  // }, [member])
   return (
     // 모달
     <div className="w-4/5 mt-5">
@@ -57,7 +66,13 @@ export default function Profile() {
               운동 중이에요!
             </div>
             <div className="flex justify-center mt-2 text-lg">
-              오늘로 총 2시간 30분 째 집에서 운동중!
+              {memberTotalTime && totalHour ? (
+                <p>
+                  오늘로 총 {totalHour}시간 {totalMinutes}분 째 집에서 운동중!
+                </p>
+              ) : (
+                <p>오늘로 총 {totalMinutes}분 째 집에서 운동중!</p>
+              )}
             </div>
           </div>
         </div>
