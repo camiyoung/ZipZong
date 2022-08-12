@@ -53,7 +53,7 @@ function Ranking() {
   console.log("랭크", timeRank, strickRank)
   return (
     <div className="w-full flex justify-evenly">
-      {Object.keys(timeRank).length > 0 ? (
+      {timeRank && Object.keys(timeRank).length > 0 ? (
         <div>
           <p className="text-xl text-center">
             <strong>Time Ranking</strong>
@@ -133,7 +133,7 @@ function Ranking() {
       ) : (
         <p>랭킹이 존재하지 않습니다.</p>
       )}
-      {Object.keys(strickRank).length > 0 ? (
+      {strickRank && Object.keys(strickRank).length > 0 ? (
         <div>
           <p className="text-xl text-center">
             <strong>Continue Ranking</strong>
