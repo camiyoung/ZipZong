@@ -27,7 +27,6 @@ export default function CalendarForm() {
   )
   const [dayExercised, setDayExercised] = useState("")
 
-  console.log("히스토리", memberDailyHistory)
   const isGroup = useState(location.pathname.split("/")[1])
 
   function loadDate(currentDate) {
@@ -48,6 +47,7 @@ export default function CalendarForm() {
       )
     } else {
       if (!memberId) return
+      console.log("year, month", year, month)
       dispatch(
         memberExerciseHistoryCheck({
           memberId: memberId,
@@ -55,6 +55,8 @@ export default function CalendarForm() {
           month: month,
         })
       )
+
+      console.log("memberDailyHistory", memberDailyHistory)
     }
   }
   useEffect(() => {
@@ -91,7 +93,7 @@ export default function CalendarForm() {
         if (e.state === "SUCCESS") return true
       })
     )
-  }, [date])
+  }, [date, activeDate])
 
   console.log("하루 기록", dayExercised)
   return (
