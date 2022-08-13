@@ -44,6 +44,9 @@ function MyExercise({
   // const routine =
 
   let resultUsers = { teamId: "123", personalResults: [] }
+
+  let participantCount = undefined
+  let recivedCount = 0
   useEffect(() => {
     const session = user.getStreamManager().stream.session
     console.log("세션 :", session)
@@ -54,11 +57,34 @@ function MyExercise({
     })
 
     user.getStreamManager().stream.session.on("signal:finish", (event) => {
-      console.log("운동 종료 이벤트 수신")
-
+      const session = user.getStreamManager().stream.session
       resultUsers.personalResults.push(JSON.parse(event.data))
+
+      if (!participantCount) {
+        participantCount = session.streamManagers.length
+      }
+      recivedCount++
+
+      // console.log(
+      //   "운동 종료 이벤트 수신",
+      //   "참여자:",
+      //   participantCount,
+      //   "수신:",
+      //   recivedCount
+      // )
+
+      if (recivedCount === participantCount) {
+        // 모든 참여자의 정보를 수신하면 4초후 결과창 이동
+        console.log("모든 참여자들의 결과 기록 수신 완료 ")
+        setTimeout(() => {
+          console.log("결과 전송 끝 !")
+          setFinished(true)
+        }, 4000)
+      }
+
       setExercising(false)
       setTimeout(() => {
+        // 결과 데이터를 참여자의 수 만큼 받지 못하는 상황일 경우 최초 결과 데이터 수신된 시점으로 5초후 결과창 이동
         console.log("5초끝!")
         console.log(resultUsers)
         setFinished(true)
@@ -66,7 +92,7 @@ function MyExercise({
     })
 
     user.getStreamManager().stream.session.on("signal:result", (event) => {
-      console.log("운동 결과 데이터 수신", event.data)
+      console.log("운동 결과 데이터 수신", JSON.parse(event.data))
       // setExercising(true)
       dispatch(setAllExerciseResult(JSON.parse(event.data)))
       navigate("/result")
