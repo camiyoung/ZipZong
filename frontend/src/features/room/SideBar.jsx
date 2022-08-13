@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { setRoutineInfo, setTodoList } from "./exerciseReducer"
-import { Tooltip } from "flowbite-react"
+import { Tooltip, Toast } from "flowbite-react"
+import ExerciseIcon from "../../components/icon/ExerciseIcon"
+import ChangeLanguage from "../routine/ChangeLanguage"
 
 const style = {
   buttonAdmin:
@@ -10,6 +12,37 @@ const style = {
     "relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0",
   buttonDisable:
     "text-white bg-blue-400 dark:bg-blue-500 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 text-center",
+}
+
+const ErrorToast = ({ message, setError }) => {
+  const close = () => {
+    setError("")
+  }
+
+  return (
+    <div className="top-0 right-0 absolute" onClick={close}>
+      <Toast>
+        <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-100 text-orange-500 dark:bg-orange-700 dark:text-orange-200">
+          <svg
+            aria-hidden="true"
+            className="w-5 h-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+              clipRule="evenodd"
+            ></path>
+          </svg>
+          <span className="sr-only">Warning icon</span>
+        </div>
+        <div className="ml-3 text-sm font-normal">{message}</div>
+        {/* <Toast.Toggle /> */}
+      </Toast>
+    </div>
+  )
 }
 
 const SelectRoutine = ({ closeMoal, user }) => {
@@ -63,15 +96,77 @@ const NotActiveButtons = () => {
   )
 }
 
+const ExerciseCard = ({ exercise }) => {
+  const name = exercise.type === "exercise" ? exercise.exerciseName : "BREAK"
+
+  return (
+    <div className="flex justify-center">
+      <div
+        className="w-[150px] shadow-md flex justify-center items-center bg-cover bg-center rounded-3xl mx-3 border-white border-4 clickbtn cursor-pointer text-base"
+        style={{
+          backgroundImage: `url(/images/exerciseIcon/${name}.png)`,
+        }}
+      >
+        <div className="w-full h-full backdrop-blur-lg rounded-3xl">
+          <div className="flex flex-col justify-center items-center w-full h-full py-6">
+            <ExerciseIcon
+              size="large"
+              shape="round"
+              image={name}
+            ></ExerciseIcon>
+            <span className="bg-[#ffffffee] mt-4 p-1 w-full flex justify-center">
+              {name === "BREAK" ? (
+                <div>휴식</div>
+              ) : (
+                <ChangeLanguage exercise={name} className="" />
+              )}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const ExerciseInfo = () => {
+  const todo = useSelector((state) => state.exercise.todoList)
+  const index = useSelector((state) => state.exercise.todoIndex)
+  const current = index === -1 ? undefined : todo[index]
+  // const current = undefined
+  const successCount = useSelector((state) => state.exercise.successCount)
+  return (
+    <div className="0 w-full h-full flex flex-col justify-center items-center">
+      {!current ? (
+        <div>준비 </div>
+      ) : (
+        <div className="flex">
+          {/* <div>{current.exerciseName}</div> */}
+          <ExerciseCard exercise={current} />
+          <div className="flex  items-center justify-center flex-col ">
+            <div>
+              {current.type === "exercise"
+                ? `Todo :${current.targetNum}`
+                : "휴식"}
+            </div>
+            <div>
+              <span className="text-8xl font-semibold text-mainBlue">
+                {successCount}
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function SideBar({ chatComponent, user, isRoomAdmin, tmModel }) {
   const dispatch = useDispatch()
   const [showSelectRoutine, setShowSelectRoutine] = useState(false)
   const [errorMessage, setError] = useState("")
   const exersiceRoutine = useSelector((state) => state.exercise.rotuineInfo)
-  const count = useSelector((state) => state.exercise.successCount)
-  if (isRoomAdmin) {
-    console.log("나는 방장 ")
-  }
+  const isExercising = useSelector((state) => state.exercise.isExercising)
+
   useEffect(() => {
     user.getStreamManager().stream.session.on("signal:change", (event) => {
       // console.log("루틴 변경 ", JSON.parse(event.data))
@@ -93,7 +188,7 @@ export default function SideBar({ chatComponent, user, isRoomAdmin, tmModel }) {
     exersiceRoutine.exercise.forEach((info) => {
       todo.push({
         type: "exercise",
-        duration: 5,
+        duration: 3,
         exerciseName: info.name,
         targetNum: info.count,
         // success: 0,
@@ -124,49 +219,72 @@ export default function SideBar({ chatComponent, user, isRoomAdmin, tmModel }) {
   }
 
   return (
-    <div className="border border-black w-full h-full p-3 space-y-2 relative">
+    <div className="w-full h-full p-3 relative">
       {showSelectRoutine && (
         <SelectRoutine
           closeMoal={() => setShowSelectRoutine(false)}
           user={user}
         />
       )}
-      <div className="h-1/2 bg-white border rounded-2xl">
-        {isRoomAdmin ? (
-          <div
-            id="buttons"
-            className="border flex justify-center items-center p-2"
-          >
-            <button
-              className={`${style.buttonAdmin} `}
-              onClick={() => setShowSelectRoutine(true)}
-            >
-              <span className={`${style.buttonText}`}>루틴 변경</span>
-            </button>
-            <button className={`${style.buttonAdmin}`} onClick={startExercise}>
-              <span className={`${style.buttonText}`}>게임 시작</span>
-            </button>
+      <div className="h-2/5 bg-white rounded-2xl relative shadow-md">
+        {isExercising ? (
+          <div className=" flex justify-center items-center p-2 h-1/6 moving-grad rounded-t-2xl shadow-lg">
+            <span>운동중</span>
           </div>
         ) : (
-          <NotActiveButtons />
+          <div
+            id="buttons"
+            className=" flex justify-center items-center p-2 h-1/6"
+          >
+            {isRoomAdmin ? (
+              <div>
+                <button
+                  className={`${style.buttonAdmin} `}
+                  onClick={() => setShowSelectRoutine(true)}
+                >
+                  <span className={`${style.buttonText}`}>루틴 변경</span>
+                </button>
+                <button
+                  className={`${style.buttonAdmin}`}
+                  onClick={startExercise}
+                >
+                  <span className={`${style.buttonText}`}>게임 시작</span>
+                </button>
+              </div>
+            ) : (
+              <NotActiveButtons />
+            )}
+          </div>
         )}
 
         {exersiceRoutine && (
-          <div id="routine-info">
-            <h1>수행할 운동 루틴</h1>
-            <h2>{exersiceRoutine.routineName}</h2>
-            {exersiceRoutine.exercise.map((exercise, index) => (
-              <div key={index}>
-                <div>
-                  {exercise.name} : {exercise.count} 개
-                </div>
+          <div id="routine-info" className="h-5/6 overflow-auto">
+            {!isExercising ? (
+              <div>
+                <h1>수행할 운동 루틴</h1>
+                <h2>{exersiceRoutine.routineName}</h2>
+                {exersiceRoutine.exercise.map((exercise, index) => (
+                  <div key={index}>
+                    <div>
+                      {exercise.name} : {exercise.count} 개
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+            ) : (
+              <ExerciseInfo />
+            )}
           </div>
         )}
-        {errorMessage && <div>{errorMessage}</div>}
+        {errorMessage && (
+          <ErrorToast message={errorMessage} setError={setError} />
+        )}
       </div>
-      <div className="h-1/2  bg-white rounded-2xl border">{chatComponent}</div>
+      <div className="h-3/5 pt-3">
+        <div className="h-full w-full  rounded-2xl bg-white shadow-md">
+          {chatComponent}
+        </div>
+      </div>
     </div>
   )
 }
