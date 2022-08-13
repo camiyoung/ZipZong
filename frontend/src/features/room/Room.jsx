@@ -601,7 +601,7 @@ class Room extends Component {
             <div className="text-secondary-200">운동방에 입장 중입니다.</div>
           </div>
         ) : (
-          <div className="flex h-full bg-secondary-200 rounded-2xl">
+          <div className="flex h-full bg-secondary-200 rounded-2xl shadow-inner ">
             {this.state.alert?.type === "error" && (
               <AlertModal
                 title={"방장이 퇴장했습니다."}
@@ -622,17 +622,11 @@ class Room extends Component {
                 type="alret"
               />
             )}
-            <div
-              className="w-1/6  min-w-[300px]  border-4 border-green-700 "
-              id="subscribersArea"
-            >
+            <div className="w-1/6  min-w-[300px]   " id="subscribersArea">
               <OtherPeople subscribers={this.state.subscribers} />
             </div>
 
-            <div
-              className="w-4/6 border-4 border-blue-500"
-              id="ExerciseZoneArea"
-            >
+            <div className="w-4/6" id="ExerciseZoneArea">
               {this.state.localUser !== undefined &&
                 this.state.localUser.getStreamManager() !== undefined && (
                   <ExerciseZone
@@ -647,10 +641,7 @@ class Room extends Component {
                   />
                 )}
             </div>
-            <div
-              className="w-1/6  min-w-[300px]  border-2 border-red-400 "
-              id="sideBarArea"
-            >
+            <div className="w-1/6  min-w-[300px]   " id="sideBarArea">
               {this.state.localUser !== undefined &&
                 this.state.localUser.getStreamManager() !== undefined && (
                   <SideBar
