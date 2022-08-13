@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultActions;
 import zipzong.zipzong.api.controller.RankingController;
 import zipzong.zipzong.api.dto.ranking.HallOfFameResponse;
+import zipzong.zipzong.api.dto.ranking.MemberRankingResponse;
 import zipzong.zipzong.api.dto.ranking.TeamRankingResponse;
 import zipzong.zipzong.api.service.RankingService;
 import zipzong.zipzong.config.auth.OAuthService;
@@ -167,6 +168,67 @@ public class RankingControllerTest {
                                 fieldWithPath("data.timeRank.under.[].totalTime").description("누적 시간")
                         )
                         ));
+    }
+
+    @Test
+    @DisplayName("멤버 랭킹 조회")
+    void showMemberRanking() throws Exception {
+        // given
+        Long memberId = 1L;
+        MemberRankingResponse.StrickRank strickRank = makePersonalStrickRank();
+        MemberRankingResponse.TimeRank timeRank = makePersonalTimeRank();
+
+        given(rankingService.getPersonalStrickRank(anyLong())).willReturn(strickRank);
+        given(rankingService.getPersonalTimeRank(anyLong())).willReturn(timeRank);
+
+        // when
+        RequestBuilder requestBuilder = RestDocumentationRequestBuilders.get("/ranking/member/{memberId}", memberId);
+        ResultActions resultActions = mockMvc.perform(requestBuilder);
+
+        // then
+        resultActions.andExpect(status().isOk())
+                .andDo(document("show-member-ranking",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(
+                                parameterWithName("memberId").description("멤버 ID")
+                        ),
+                        responseFields(
+                                fieldWithPath("message").description("메시지"),
+                                fieldWithPath("data.strickRank").description("스트릭 랭킹"),
+                                fieldWithPath("data.strickRank.over.[]").description("상위 멤버"),
+                                fieldWithPath("data.strickRank.over.[].rank").description("순위"),
+                                fieldWithPath("data.strickRank.over.[].memberIcon").description("멤버 아이콘"),
+                                fieldWithPath("data.strickRank.over.[].nickName").description("닉네임"),
+                                fieldWithPath("data.strickRank.over.[].maxStrick").description("최대 스트릭"),
+                                fieldWithPath("data.strickRank.me").description("나"),
+                                fieldWithPath("data.strickRank.me.rank").description("순위"),
+                                fieldWithPath("data.strickRank.me.memberIcon").description("멤버 아이콘"),
+                                fieldWithPath("data.strickRank.me.nickName").description("닉네임"),
+                                fieldWithPath("data.strickRank.me.maxStrick").description("최대 스트릭"),
+                                fieldWithPath("data.strickRank.under.[]").description("하위 멤버"),
+                                fieldWithPath("data.strickRank.under.[].rank").description("순위"),
+                                fieldWithPath("data.strickRank.under.[].memberIcon").description("멤버 아이콘"),
+                                fieldWithPath("data.strickRank.under.[].nickName").description("닉네임"),
+                                fieldWithPath("data.strickRank.under.[].maxStrick").description("최대 스트릭"),
+                                fieldWithPath("data.timeRank").description("누적 시간 랭킹"),
+                                fieldWithPath("data.timeRank.over.[]").description("상위 멤버"),
+                                fieldWithPath("data.timeRank.over.[].rank").description("순위"),
+                                fieldWithPath("data.timeRank.over.[].memberIcon").description("멤버 아이콘"),
+                                fieldWithPath("data.timeRank.over.[].nickName").description("닉네임"),
+                                fieldWithPath("data.timeRank.over.[].totalTime").description("누적 시간"),
+                                fieldWithPath("data.timeRank.me").description("나"),
+                                fieldWithPath("data.timeRank.me.rank").description("순위"),
+                                fieldWithPath("data.timeRank.me.memberIcon").description("멤버 아이콘"),
+                                fieldWithPath("data.timeRank.me.nickName").description("닉네임"),
+                                fieldWithPath("data.timeRank.me.totalTime").description("누적 시간"),
+                                fieldWithPath("data.timeRank.under.[]").description("하위 멤바"),
+                                fieldWithPath("data.timeRank.under.[].rank").description("순위"),
+                                fieldWithPath("data.timeRank.under.[].memberIcon").description("멤버 아이콘"),
+                                fieldWithPath("data.timeRank.under.[].nickName").description("닉네임"),
+                                fieldWithPath("data.timeRank.under.[].totalTime").description("누적 시간")
+                        )
+                ));
     }
 
     private List<HallOfFameResponse.HallOfFame> makeHallOffames() {
@@ -372,6 +434,116 @@ public class RankingControllerTest {
         timeRankDetail5.setRank(5);
         timeRankDetail5.setTeamIcon("basic");
         timeRankDetail5.setTeamName("하위 팀2");
+        timeRankDetail5.setTotalTime(1000);
+
+        under.add(timeRankDetail4);
+        under.add(timeRankDetail5);
+
+        timeRank.setOver(over);
+        timeRank.setMe(me);
+        timeRank.setUnder(under);
+
+        return timeRank;
+    }
+
+    private MemberRankingResponse.StrickRank makePersonalStrickRank() {
+        MemberRankingResponse.StrickRank strickRank = new MemberRankingResponse.StrickRank();
+
+        // over
+        List<MemberRankingResponse.StrickRankDetail> over = new ArrayList<>();
+
+        MemberRankingResponse.StrickRankDetail strickRankDetail1 = new MemberRankingResponse.StrickRankDetail();
+        strickRankDetail1.setRank(1);
+        strickRankDetail1.setMemberIcon("basic");
+        strickRankDetail1.setNickName("상위 멤버1");
+        strickRankDetail1.setMaxStrick(80);
+        MemberRankingResponse.StrickRankDetail strickRankDetail2 = new MemberRankingResponse.StrickRankDetail();
+        strickRankDetail2.setRank(2);
+        strickRankDetail2.setMemberIcon("basic");
+        strickRankDetail2.setNickName("상위 멤버2");
+        strickRankDetail2.setMaxStrick(70);
+
+        over.add(strickRankDetail1);
+        over.add(strickRankDetail2);
+
+        // me
+        MemberRankingResponse.StrickRankDetail me = new MemberRankingResponse.StrickRankDetail();
+
+        MemberRankingResponse.StrickRankDetail strickRankDetail3 = new MemberRankingResponse.StrickRankDetail();
+        strickRankDetail3.setRank(3);
+        strickRankDetail3.setMemberIcon("basic");
+        strickRankDetail3.setNickName("나");
+        strickRankDetail3.setMaxStrick(50);
+
+        me = strickRankDetail3;
+
+        // under
+        List<MemberRankingResponse.StrickRankDetail> under = new ArrayList<>();
+
+        MemberRankingResponse.StrickRankDetail strickRankDetail4 = new MemberRankingResponse.StrickRankDetail();
+        strickRankDetail4.setRank(4);
+        strickRankDetail4.setMemberIcon("basic");
+        strickRankDetail4.setNickName("하위 멤버1");
+        strickRankDetail4.setMaxStrick(40);
+        MemberRankingResponse.StrickRankDetail strickRankDetail5 = new MemberRankingResponse.StrickRankDetail();
+        strickRankDetail5.setRank(5);
+        strickRankDetail5.setMemberIcon("basic");
+        strickRankDetail5.setNickName("하위 멤버2");
+        strickRankDetail5.setMaxStrick(20);
+
+        under.add(strickRankDetail4);
+        under.add(strickRankDetail5);
+
+        strickRank.setOver(over);
+        strickRank.setMe(me);
+        strickRank.setUnder(under);
+
+        return strickRank;
+    }
+
+    private MemberRankingResponse.TimeRank makePersonalTimeRank() {
+        MemberRankingResponse.TimeRank timeRank = new MemberRankingResponse.TimeRank();
+
+        // over
+        List<MemberRankingResponse.TimeRankDetail> over = new ArrayList<>();
+
+        MemberRankingResponse.TimeRankDetail timeRankDetail1 = new MemberRankingResponse.TimeRankDetail();
+        timeRankDetail1.setRank(1);
+        timeRankDetail1.setMemberIcon("basic");
+        timeRankDetail1.setNickName("상위 멤버1");
+        timeRankDetail1.setTotalTime(2000);
+        MemberRankingResponse.TimeRankDetail timeRankDetail2 = new MemberRankingResponse.TimeRankDetail();
+        timeRankDetail2.setRank(2);
+        timeRankDetail2.setMemberIcon("basic");
+        timeRankDetail2.setNickName("상위 멤버2");
+        timeRankDetail2.setTotalTime(1800);
+
+        over.add(timeRankDetail1);
+        over.add(timeRankDetail2);
+
+        // me
+        MemberRankingResponse.TimeRankDetail me = new MemberRankingResponse.TimeRankDetail();
+
+        MemberRankingResponse.TimeRankDetail timeRankDetail3 = new MemberRankingResponse.TimeRankDetail();
+        timeRankDetail3.setRank(3);
+        timeRankDetail3.setMemberIcon("basic");
+        timeRankDetail3.setNickName("나");
+        timeRankDetail3.setTotalTime(1500);
+
+        me = timeRankDetail3;
+
+        // under
+        List<MemberRankingResponse.TimeRankDetail> under = new ArrayList<>();
+
+        MemberRankingResponse.TimeRankDetail timeRankDetail4 = new MemberRankingResponse.TimeRankDetail();
+        timeRankDetail4.setRank(4);
+        timeRankDetail4.setMemberIcon("basic");
+        timeRankDetail4.setNickName("하위 팀1");
+        timeRankDetail4.setTotalTime(1300);
+        MemberRankingResponse.TimeRankDetail timeRankDetail5 = new MemberRankingResponse.TimeRankDetail();
+        timeRankDetail5.setRank(5);
+        timeRankDetail5.setMemberIcon("basic");
+        timeRankDetail5.setNickName("하위 팀2");
         timeRankDetail5.setTotalTime(1000);
 
         under.add(timeRankDetail4);

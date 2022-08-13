@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import zipzong.zipzong.api.dto.common.BasicResponse;
 import zipzong.zipzong.api.dto.ranking.HallOfFameResponse;
+import zipzong.zipzong.api.dto.ranking.MemberRankingResponse;
 import zipzong.zipzong.api.dto.ranking.TeamRankingResponse;
 import zipzong.zipzong.api.service.RankingService;
 
@@ -50,6 +51,20 @@ public class RankingController {
 
         TeamRankingResponse.StrickRank strickRank = rankingService.getStrickRank(teamId);
         TeamRankingResponse.TimeRank timeRank = rankingService.getTimeRank(teamId);
+
+        response.setStrickRank(strickRank);
+        response.setTimeRank(timeRank);
+
+        return new ResponseEntity<>(makeBasicResponse(SUCCESS, response), HttpStatus.OK);
+    }
+
+    @GetMapping("/member/{memberId}")
+    public ResponseEntity<BasicResponse<MemberRankingResponse>> memberRankingList(@PathVariable Long memberId) {
+
+        MemberRankingResponse response = new MemberRankingResponse();
+
+        MemberRankingResponse.StrickRank strickRank = rankingService.getPersonalStrickRank(memberId);
+        MemberRankingResponse.TimeRank timeRank = rankingService.getPersonalTimeRank(memberId);
 
         response.setStrickRank(strickRank);
         response.setTimeRank(timeRank);

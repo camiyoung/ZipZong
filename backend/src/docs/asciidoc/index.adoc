@@ -119,3 +119,5 @@ operation::start-room-by-teamId[snippets='http-request,path-parameters,http-resp
 operation::show-ranking-page[snippets='http-request,http-response,response-fields']
 === 팀 순위 정보 조회
 operation::show-team-ranking[snippets='http-request,path-parameters,http-response,response-fields']
+=== 멤버 순위 정보 조회
+operation::show-member-ranking[snippets='http-request,path-parameters,http-response,response-fields']
