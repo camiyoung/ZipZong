@@ -31,10 +31,14 @@ public class RankingController {
         List<HallOfFameResponse.HallOfFame> hallOfFames = rankingService.getHallOfFames();
         List<HallOfFameResponse.StrickRank> strickRanks = rankingService.getStrickRanks();
         List<HallOfFameResponse.TimeRank> timeRanks = rankingService.getTimeRanks();
+        List<HallOfFameResponse.PersonalStrickRank> personalStrickRanks = rankingService.getPersonalStrickRanks();
+        List<HallOfFameResponse.PersonalTimeRank> personalTimeRanks = rankingService.getPersonalTimeRanks();
 
         response.setHallOfFames(hallOfFames);
         response.setStrickRanks(strickRanks);
         response.setTimeRanks(timeRanks);
+        response.setPersonalStrickRanks(personalStrickRanks);
+        response.setPersonalTimeRanks(personalTimeRanks);
 
         return new ResponseEntity<>(makeBasicResponse(SUCCESS, response), HttpStatus.OK);
     }

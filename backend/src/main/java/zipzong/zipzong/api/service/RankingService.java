@@ -7,11 +7,13 @@ import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import zipzong.zipzong.api.dto.ranking.HallOfFameResponse;
+import zipzong.zipzong.api.dto.ranking.MemberRankingResponse;
 import zipzong.zipzong.api.dto.ranking.TeamRankingResponse;
 import zipzong.zipzong.db.domain.*;
 import zipzong.zipzong.db.repository.exercise.ExerciseRepository;
 import zipzong.zipzong.db.repository.exercise.MemberCalendarRepository;
 import zipzong.zipzong.db.repository.exercise.TeamCalendarRepository;
+import zipzong.zipzong.db.repository.history.MemberHistoryDetailRepository;
 import zipzong.zipzong.db.repository.history.MemberHistoryRepository;
 import zipzong.zipzong.db.repository.history.TeamHistoryDetailRepository;
 import zipzong.zipzong.db.repository.history.TeamHistoryRepository;
@@ -22,6 +24,7 @@ import zipzong.zipzong.exception.CustomExceptionList;
 import javax.transaction.Transactional;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -40,12 +43,13 @@ public class RankingService {
     private final ExerciseRepository exerciseRepository;
     private final TeamCalendarRepository teamCalendarRepository;
     private final TeamHistoryRepository teamHistoryRepository;
+    private final MemberHistoryDetailRepository memberHistoryDetailRepository;
     private final TeamHistoryDetailRepository teamHistoryDetailRepository;
     private final TeamIconRepository teamIconRepository;
     private final RedisTemplate<String, String> redisTemplate;
     private static final Long BOUNDARY = 5L;
 
-    @Scheduled(cron = "0 0 * * * ?")
+    @Scheduled(cron = "0 15 * * * ?")
     public void comprehensiveUpdate() {
 
         ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
@@ -56,6 +60,8 @@ public class RankingService {
         if (Boolean.TRUE.equals(redisTemplate.hasKey("halloffame"))) redisTemplate.delete("halloffame");
         if (Boolean.TRUE.equals(redisTemplate.hasKey("strickrank"))) redisTemplate.delete("strickrank");
         if (Boolean.TRUE.equals(redisTemplate.hasKey("timerank"))) redisTemplate.delete("timerank");
+        if (Boolean.TRUE.equals(redisTemplate.hasKey("personalstrickrank"))) redisTemplate.delete("personalstrickrank");
+        if (Boolean.TRUE.equals(redisTemplate.hasKey("personaltimerank"))) redisTemplate.delete("personaltimerank");
 
         // # 정보 갱신 작업
         //
@@ -74,6 +80,28 @@ public class RankingService {
                 memberHistory.setCurrentStrick(0);
                 memberHistoryRepository.save(memberHistory);
                 member.setMemberHistory(memberHistory);
+            }
+
+            // 개인 랭킹 Redis 삽입 작업
+            //  - 최대 스트릭 랭킹
+            //    모든 멤버의 히스토리의 최대 스트릭 길이를 조회하여 value는 memberId, score는 최대 스트릭 길이로 저장
+            if (member.getMemberHistory().getMaximumStrick() != 0) {
+                String rankingBoard = "personalstrickrank";
+                zSetOperations.add(rankingBoard, member.getId().toString(), member.getMemberHistory().getMaximumStrick());
+            }
+
+            //  - 누적 시간 랭킹
+            //    모든 멤버의 히스토리 디테일의 운동시간을 계산하여 value는 memberId, score는 누적운동 시간으로 저장
+            List<MemberHistoryDetail> memberHistoryDetails = memberHistoryDetailRepository.findByMemberHistoryId(member.getMemberHistory().getId());
+
+            int totalTime = 0;
+            for (MemberHistoryDetail memberHistoryDetail : memberHistoryDetails) {
+                totalTime += memberHistoryDetail.getExerciseTime();
+            }
+
+            if (totalTime != 0) {
+                String rankingBoard = "personaltimerank";
+                zSetOperations.add(rankingBoard, member.getId().toString(), totalTime);
             }
         }
 
@@ -208,8 +236,8 @@ public class RankingService {
             if (teamHistory.getHallOfFameDate() != null) {
                 String rankingBoard = "halloffame";
 
-                Duration duration = Duration.between(teamHistory.getHallOfFameDate(), today);
-                zSetOperations.add(rankingBoard, team.getId().toString(), duration.getSeconds());
+                Period period = Period.between(teamHistory.getHallOfFameDate(), today);
+                zSetOperations.add(rankingBoard, team.getId().toString(), period.getYears() * 365 + period.getMonths() * 30 + period.getDays());
             }
 
             //  - 최대 스트릭 랭킹
@@ -235,6 +263,7 @@ public class RankingService {
         }
     }
 
+    // 명예의 전당
     public List<HallOfFameResponse.HallOfFame> getHallOfFames() {
         ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
         String rankingBoard = "halloffame";
@@ -267,6 +296,7 @@ public class RankingService {
         return hallOfFames;
     }
 
+    // 팀 스트릭 랭킹
     public List<HallOfFameResponse.StrickRank> getStrickRanks() {
         ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
         String rankingBoard = "strickrank";
@@ -299,6 +329,7 @@ public class RankingService {
         return strickRanks;
     }
 
+    // 팀 타임 랭킹
     public List<HallOfFameResponse.TimeRank> getTimeRanks() {
         ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
         String rankingBoard = "timerank";
@@ -331,6 +362,73 @@ public class RankingService {
         return timeRanks;
     }
 
+    // 개인 스트릭 랭킹
+    public List<HallOfFameResponse.PersonalStrickRank> getPersonalStrickRanks() {
+        ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
+        String rankingBoard = "personalstrickrank";
+        Set<ZSetOperations.TypedTuple<String>> rankSet = zSetOperations.reverseRangeWithScores(rankingBoard, 0, 9);
+
+        if (rankSet.isEmpty()) return new ArrayList<>();
+
+        List<HallOfFameResponse.PersonalStrickRank> strickRanks = new ArrayList<>();
+
+        int rank = 0;
+        for (ZSetOperations.TypedTuple<String> tuple : rankSet) {
+            ++rank;
+            Long memberId = Long.parseLong(Objects.requireNonNull(tuple.getValue()));
+            int maxStrick = Objects.requireNonNull(tuple.getScore()).intValue();
+
+            Member member = memberRepository.findById(memberId).orElseThrow(
+                    () -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND_ERROR)
+            );
+
+            HallOfFameResponse.PersonalStrickRank strickRank = new HallOfFameResponse.PersonalStrickRank();
+
+            strickRank.setRank(rank);
+            strickRank.setMemberIcon(member.getRepIcon());
+            strickRank.setNickName(member.getNickname());
+            strickRank.setMaxStrick(maxStrick);
+
+            strickRanks.add(strickRank);
+        }
+
+        return strickRanks;
+    }
+
+    // 개인 타임 랭킹
+    public List<HallOfFameResponse.PersonalTimeRank> getPersonalTimeRanks() {
+        ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
+        String rankingBoard = "personaltimerank";
+        Set<ZSetOperations.TypedTuple<String>> rankSet = zSetOperations.reverseRangeWithScores(rankingBoard, 0, 9);
+
+        if (rankSet.isEmpty()) return new ArrayList<>();
+
+        List<HallOfFameResponse.PersonalTimeRank> timeRanks = new ArrayList<>();
+
+        int rank = 0;
+        for (ZSetOperations.TypedTuple<String> tuple : rankSet) {
+            ++rank;
+            Long memberId = Long.parseLong(Objects.requireNonNull(tuple.getValue()));
+            int totalTime = Objects.requireNonNull(tuple.getScore()).intValue();
+
+            Member member = memberRepository.findById(memberId).orElseThrow(
+                    () -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND_ERROR)
+            );
+
+            HallOfFameResponse.PersonalTimeRank timeRank = new HallOfFameResponse.PersonalTimeRank();
+
+            timeRank.setRank(rank);
+            timeRank.setMemberIcon(member.getRepIcon());
+            timeRank.setNickName(member.getNickname());
+            timeRank.setTotalTime(totalTime);
+
+            timeRanks.add(timeRank);
+        }
+
+        return timeRanks;
+    }
+
+    // 팀 페이지 스트릭 랭킹
     public TeamRankingResponse.StrickRank getStrickRank(Long teamId) {
         ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
         String rankingBoard = "strickrank";
@@ -384,6 +482,7 @@ public class RankingService {
         return strickRank;
     }
 
+    // 팀 페이지 타임 랭킹
     public TeamRankingResponse.TimeRank getTimeRank(Long teamId) {
         ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
         String rankingBoard = "timerank";
@@ -419,6 +518,114 @@ public class RankingService {
             timeRankDetail.setRank(rank);
             timeRankDetail.setTeamIcon(team.getRepIcon());
             timeRankDetail.setTeamName(team.getName());
+            timeRankDetail.setTotalTime(totalTime);
+
+            if (rank < ranking.intValue() + 1) {
+                over.add(timeRankDetail);
+            } else if (rank == ranking.intValue() + 1) {
+                me = timeRankDetail;
+            } else {
+                under.add(timeRankDetail);
+            }
+        }
+
+        timeRank.setOver(over);
+        timeRank.setMe(me);
+        timeRank.setUnder(under);
+
+        return timeRank;
+    }
+
+    // 개인 페이지 스트릭 랭킹
+    public MemberRankingResponse.StrickRank getPersonalStrickRank(Long memberId) {
+        ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
+        String rankingBoard = "personalstrickrank";
+
+        Long ranking = zSetOperations.reverseRank(rankingBoard, memberId.toString());
+        if (ranking == null) return null;
+
+        long start = ranking - BOUNDARY;
+        long end = ranking + BOUNDARY;
+        if (ranking - BOUNDARY < 0) start = 0L;
+        Set<ZSetOperations.TypedTuple<String>> rankSet = zSetOperations.reverseRangeWithScores(rankingBoard, start, end);
+
+        if (rankSet.isEmpty()) return null;
+
+        MemberRankingResponse.StrickRank strickRank = new MemberRankingResponse.StrickRank();
+
+        List<MemberRankingResponse.StrickRankDetail> over = new ArrayList<>();
+        MemberRankingResponse.StrickRankDetail me = new MemberRankingResponse.StrickRankDetail();
+        List<MemberRankingResponse.StrickRankDetail> under = new ArrayList<>();
+
+        int rank = (int) start;
+        for (ZSetOperations.TypedTuple<String> tuple : rankSet) {
+            ++rank;
+            Long id = Long.parseLong(Objects.requireNonNull(tuple.getValue()));
+            int maxStrick = Objects.requireNonNull(tuple.getScore()).intValue();
+
+            Member member = memberRepository.findById(id).orElseThrow(
+                    () -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND_ERROR)
+            );
+
+            MemberRankingResponse.StrickRankDetail strickRankDetail = new MemberRankingResponse.StrickRankDetail();
+
+            strickRankDetail.setRank(rank);
+            strickRankDetail.setMemberIcon(member.getRepIcon());
+            strickRankDetail.setNickName(member.getName());
+            strickRankDetail.setMaxStrick(maxStrick);
+
+            if (rank < ranking.intValue() + 1) {
+                over.add(strickRankDetail);
+            } else if (rank == ranking.intValue() + 1) {
+                me = strickRankDetail;
+            } else {
+                under.add(strickRankDetail);
+            }
+        }
+
+        strickRank.setOver(over);
+        strickRank.setMe(me);
+        strickRank.setUnder(under);
+
+        return strickRank;
+    }
+
+    // 개인 페이지 타임 랭킹
+    public MemberRankingResponse.TimeRank getPersonalTimeRank(Long memberId) {
+        ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
+        String rankingBoard = "personaltimerank";
+
+        Long ranking = zSetOperations.reverseRank(rankingBoard, memberId.toString());
+        if (ranking == null) return null;
+
+        long start = ranking - BOUNDARY;
+        long end = ranking + BOUNDARY;
+        if (ranking - BOUNDARY < 0) start = 0L;
+        Set<ZSetOperations.TypedTuple<String>> rankSet = zSetOperations.reverseRangeWithScores(rankingBoard, start, end);
+
+        if (rankSet.isEmpty()) return null;
+
+        MemberRankingResponse.TimeRank timeRank = new MemberRankingResponse.TimeRank();
+
+        List<MemberRankingResponse.TimeRankDetail> over = new ArrayList<>();
+        MemberRankingResponse.TimeRankDetail me = new MemberRankingResponse.TimeRankDetail();
+        List<MemberRankingResponse.TimeRankDetail> under = new ArrayList<>();
+
+        int rank = (int) start;
+        for (ZSetOperations.TypedTuple<String> tuple : rankSet) {
+            ++rank;
+            Long id = Long.parseLong(Objects.requireNonNull(tuple.getValue()));
+            int totalTime = Objects.requireNonNull(tuple.getScore()).intValue();
+
+            Member member = memberRepository.findById(id).orElseThrow(
+                    () -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND_ERROR)
+            );
+
+            MemberRankingResponse.TimeRankDetail timeRankDetail = new MemberRankingResponse.TimeRankDetail();
+
+            timeRankDetail.setRank(rank);
+            timeRankDetail.setMemberIcon(member.getRepIcon());
+            timeRankDetail.setNickName(member.getName());
             timeRankDetail.setTotalTime(totalTime);
 
             if (rank < ranking.intValue() + 1) {
