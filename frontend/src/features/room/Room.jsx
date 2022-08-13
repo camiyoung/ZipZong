@@ -75,7 +75,9 @@ class Room extends Component {
     window.addEventListener("beforeunload", this.onbeforeunload)
     await tmModel.loadModel() // teachable machine 로드
 
-    this.setState({ modelLoded: true })
+    setTimeout(() => {
+      this.setState({ modelLoded: true })
+    }, 5000)
     this.joinSession()
   }
 
@@ -655,6 +657,7 @@ class Room extends Component {
                     chatComponent={chatComponent}
                     user={this.state.localUser}
                     isRoomAdmin={this.state.isRoomAdmin}
+                    tmModel={tmModel}
                   />
                 )}
             </div>
