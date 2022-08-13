@@ -49,7 +49,7 @@ public class RankingService {
     private final RedisTemplate<String, String> redisTemplate;
     private static final Long BOUNDARY = 5L;
 
-    @Scheduled(cron = "0 22 * * * ?")
+    @Scheduled(cron = "0 28 * * * ?")
     public void comprehensiveUpdate() {
 
         ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
@@ -237,7 +237,7 @@ public class RankingService {
                 String rankingBoard = "halloffame";
 
                 Period period = Period.between(teamHistory.getHallOfFameDate(), today);
-                zSetOperations.add(rankingBoard, team.getId().toString(), period.getYears() * 365 + period.getMonths() * 30 + period.getDays());
+                zSetOperations.add(rankingBoard, team.getId().toString(), period.getYears() * 365 + period.getMonths() * 30 + period.getDays() + 1);
             }
 
             //  - 최대 스트릭 랭킹
