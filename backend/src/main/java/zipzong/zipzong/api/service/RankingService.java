@@ -73,6 +73,7 @@ public class RankingService {
 
                 memberHistory.setCurrentStrick(0);
                 memberHistoryRepository.save(memberHistory);
+                member.setMemberHistory(memberHistory);
             }
         }
 
@@ -106,6 +107,7 @@ public class RankingService {
                 }
 
                 teamHistoryRepository.save(teamHistory);
+                team.setTeamHistory(teamHistory);
 
                 TeamCalendar teamCalendar = TeamCalendar.builder()
                         .team(team)
@@ -125,6 +127,7 @@ public class RankingService {
                     }
 
                     teamHistoryRepository.save(teamHistory);
+                    team.setTeamHistory(teamHistory);
 
                     TeamCalendar teamCalendar = TeamCalendar.builder()
                             .team(team)
@@ -146,6 +149,7 @@ public class RankingService {
                 } else {
                     teamHistory.setCurrentStrick(0);
                     teamHistoryRepository.save(teamHistory);
+                    team.setTeamHistory(teamHistory);
                 }
             }
 
