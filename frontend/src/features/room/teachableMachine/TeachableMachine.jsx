@@ -44,35 +44,35 @@ export default class TeachableMachine extends Component {
 
   componentWillUnmount() {
     // console.log("티처블머신 컴포넌트 언마운트 ")
-    this.props.updateSuccess(this.state.successCount)
+    this.props.updateSuccess()
   }
 
   async makeModel() {
     switch (this.props.actionName) {
-      case "PUSHUP":
-        this.model = this.tmModel.modelPushup
-        this.predicFunction = this.tmModel.callbackPushup
-        break
-      case "BURPEE":
-        this.model = this.tmModel.modelBurpee
-        this.predicFunction = this.tmModel.callbackBurpee
-        break
-      case "JUMPINGJACK":
-        this.model = this.tmModel.modelJumpingjack
-        this.predicFunction = this.tmModel.callbackJumpingjack
-        break
-      case "LATERALRAISE":
-        this.model = this.tmModel.modelLateralraise
-        this.predicFunction = this.tmModel.callbackLateralraise
-        break
-      case "LUNGE":
-        this.model = this.tmModel.modelLunge
-        this.predicFunction = this.tmModel.callbackLunge
-        break
-      case "SQUAT":
-        this.model = this.tmModel.modelSquat
-        this.predicFunction = this.tmModel.callbackSquat
-        break
+      // case "PUSHUP":
+      //   this.model = this.tmModel.modelPushup
+      //   this.predicFunction = this.tmModel.callbackPushup
+      //   break
+      // case "BURPEE":
+      //   this.model = this.tmModel.modelBurpee
+      //   this.predicFunction = this.tmModel.callbackBurpee
+      //   break
+      // case "JUMPINGJACK":
+      //   this.model = this.tmModel.modelJumpingjack
+      //   this.predicFunction = this.tmModel.callbackJumpingjack
+      //   break
+      // case "LATERALRAISE":
+      //   this.model = this.tmModel.modelLateralraise
+      //   this.predicFunction = this.tmModel.callbackLateralraise
+      //   break
+      // case "LUNGE":
+      //   this.model = this.tmModel.modelLunge
+      //   this.predicFunction = this.tmModel.callbackLunge
+      //   break
+      // case "SQUAT":
+      //   this.model = this.tmModel.modelSquat
+      //   this.predicFunction = this.tmModel.callbackSquat
+      //   break
 
       default:
         this.model = this.tmModel.modelTest
@@ -129,9 +129,14 @@ export default class TeachableMachine extends Component {
       )
 
       if (doneAction) {
-        this.setState((state) => ({
-          successCount: state.successCount + 1,
-        }))
+        this.setState(
+          (state) => ({
+            successCount: state.successCount + 1,
+          }),
+          () => {
+            this.props.countSuccess()
+          }
+        )
       }
     })
   }

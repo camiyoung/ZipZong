@@ -38,6 +38,9 @@ export const exerciseReducer = createSlice({
     result: tmpResult,
     rotuineId: undefined,
     rotuineInfo: undefined,
+    todoList: undefined,
+    todoIndex: -1,
+    successCount: 0,
     isExercising: false, //
   },
   reducers: {
@@ -58,6 +61,21 @@ export const exerciseReducer = createSlice({
     },
     setExerciseStatus: (state, action) => {
       state.isExercising = action.payload
+    },
+    setTodoList: (state, action) => {
+      state.todoList = action.payload
+      console.log("todolist 변경", state.todoList)
+    },
+    updateSuccessCount: (state) => {
+      // console.log("카운트 증가 ")
+      state.successCount++
+    },
+    resetSuccessCount: (state) => {
+      // console.log("카운트 초기화 ")
+      state.successCount = 0
+    },
+    updateIndex: (state) => {
+      state.todoIndex++
     },
   },
   extraReducers(builder) {
@@ -94,4 +112,8 @@ export const {
   setTeamId,
   setRoutineInfo,
   setExerciseStatus,
+  setTodoList,
+  updateSuccessCount,
+  resetSuccessCount,
+  updateIndex,
 } = exerciseReducer.actions

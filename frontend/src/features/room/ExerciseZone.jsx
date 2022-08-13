@@ -153,12 +153,8 @@ function MyExercise({
     setExercising(false)
     const data = result.filter((res) => res.type === "exercise")
     const res = { memberId: user.connectionId }
-    const exerciseRes = data.map(
-      ({ name: exerciseName, success: performNum, goal: targetNum }) => {
-        return { exerciseName, performNum, targetNum }
-      }
-    )
-    res.personalResults = exerciseRes
+
+    res.personalResults = data
 
     console.log("운동 끝!! ", res)
 
