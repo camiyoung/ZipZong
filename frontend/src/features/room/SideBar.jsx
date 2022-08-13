@@ -68,6 +68,7 @@ export default function SideBar({ chatComponent, user, isRoomAdmin }) {
   const [showSelectRoutine, setShowSelectRoutine] = useState(false)
   const [errorMessage, setError] = useState("")
   const exersiceRoutine = useSelector((state) => state.exercise.rotuineInfo)
+  const count = useSelector((state) => state.exercise.successCount)
   if (isRoomAdmin) {
     console.log("나는 방장 ")
   }
@@ -92,10 +93,10 @@ export default function SideBar({ chatComponent, user, isRoomAdmin }) {
     exersiceRoutine.exercise.forEach((info) => {
       todo.push({
         type: "exercise",
-        duration: 3,
-        name: info.name,
-        goal: info.count,
-        success: 0,
+        duration: 5,
+        exerciseName: info.name,
+        targetNum: info.count,
+        // success: 0,
       })
       // todo.push({ type: "breaktime", duration: exersiceRoutine.breakTime })
       todo.push({ type: "breaktime", duration: 2 })

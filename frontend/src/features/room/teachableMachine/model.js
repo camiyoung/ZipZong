@@ -1,12 +1,20 @@
 const tmPose = window.tmPose
 
 const URL = {
-  PUSHUP: "https://teachablemachine.withgoogle.com/models/7dJP87xxl",
-  BURPEE: "https://teachablemachine.withgoogle.com/models/uaIa1x0IE",
-  JUMPINGJACK: "https://teachablemachine.withgoogle.com/models/-sn7kthp3",
-  LATERALRAISE: "https://teachablemachine.withgoogle.com/models/8CC3KBv-o",
-  LUNGE: "https://teachablemachine.withgoogle.com/models/zTl0H1MCd",
-  SQUAT: "https://teachablemachine.withgoogle.com/models/zOp2xpfvZ",
+  // PUSHUP: "https://teachablemachine.withgoogle.com/models/7dJP87xxl",
+  // BURPEE: "https://teachablemachine.withgoogle.com/models/uaIa1x0IE",
+  // JUMPINGJACK: "https://teachablemachine.withgoogle.com/models/-sn7kthp3",
+  // LATERALRAISE: "https://teachablemachine.withgoogle.com/models/8CC3KBv-o",
+  // LUNGE: "https://teachablemachine.withgoogle.com/models/zTl0H1MCd",
+  // SQUAT: "https://teachablemachine.withgoogle.com/models/zOp2xpfvZ",
+  // test: "https://teachablemachine.withgoogle.com/models/L71vjtyQV",
+
+  PUSHUP: "https://teachablemachine.withgoogle.com/models/L71vjtyQV",
+  BURPEE: "https://teachablemachine.withgoogle.com/models/L71vjtyQV",
+  JUMPINGJACK: "https://teachablemachine.withgoogle.com/models/L71vjtyQV",
+  LATERALRAISE: "https://teachablemachine.withgoogle.com/models/L71vjtyQV",
+  LUNGE: "https://teachablemachine.withgoogle.com/models/L71vjtyQV",
+  SQUAT: "https://teachablemachine.withgoogle.com/models/L71vjtyQV",
   test: "https://teachablemachine.withgoogle.com/models/L71vjtyQV",
 }
 
@@ -31,30 +39,30 @@ export class Model {
   }
 
   async loadModel() {
-    this.modelPushup = await tmPose.load(
-      URL["PUSHUP"] + "/model.json",
-      URL["PUSHUP"] + "/metadata.json"
-    )
-    this.modelBurpee = await tmPose.load(
-      URL["BURPEE"] + "/model.json",
-      URL["BURPEE"] + "/metadata.json"
-    )
-    this.modelJumpingjack = await tmPose.load(
-      URL["JUMPINGJACK"] + "/model.json",
-      URL["JUMPINGJACK"] + "/metadata.json"
-    )
-    this.modelLateralraise = await tmPose.load(
-      URL["LATERALRAISE"] + "/model.json",
-      URL["LATERALRAISE"] + "/metadata.json"
-    )
-    this.modelLunge = await tmPose.load(
-      URL["LUNGE"] + "/model.json",
-      URL["LUNGE"] + "/metadata.json"
-    )
-    this.modelSquat = await tmPose.load(
-      URL["SQUAT"] + "/model.json",
-      URL["SQUAT"] + "/metadata.json"
-    )
+    // this.modelPushup = await tmPose.load(
+    //   URL["PUSHUP"] + "/model.json",
+    //   URL["PUSHUP"] + "/metadata.json"
+    // )
+    // this.modelBurpee = await tmPose.load(
+    //   URL["BURPEE"] + "/model.json",
+    //   URL["BURPEE"] + "/metadata.json"
+    // )
+    // this.modelJumpingjack = await tmPose.load(
+    //   URL["JUMPINGJACK"] + "/model.json",
+    //   URL["JUMPINGJACK"] + "/metadata.json"
+    // )
+    // this.modelLateralraise = await tmPose.load(
+    //   URL["LATERALRAISE"] + "/model.json",
+    //   URL["LATERALRAISE"] + "/metadata.json"
+    // )
+    // this.modelLunge = await tmPose.load(
+    //   URL["LUNGE"] + "/model.json",
+    //   URL["LUNGE"] + "/metadata.json"
+    // )
+    // this.modelSquat = await tmPose.load(
+    //   URL["SQUAT"] + "/model.json",
+    //   URL["SQUAT"] + "/metadata.json"
+    // )
     this.modelTest = await tmPose.load(
       URL["test"] + "/model.json",
       URL["test"] + "/metadata.json"
