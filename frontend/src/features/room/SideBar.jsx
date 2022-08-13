@@ -63,7 +63,7 @@ const NotActiveButtons = () => {
   )
 }
 
-export default function SideBar({ chatComponent, user, isRoomAdmin }) {
+export default function SideBar({ chatComponent, user, isRoomAdmin, tmModel }) {
   const dispatch = useDispatch()
   const [showSelectRoutine, setShowSelectRoutine] = useState(false)
   const [errorMessage, setError] = useState("")
@@ -111,6 +111,12 @@ export default function SideBar({ chatComponent, user, isRoomAdmin }) {
       setError("루틴을 선택해야 합니다.")
       return
     }
+    console.log("모델 모두 로딩?", tmModel.modelsLoaded())
+    if (!tmModel.modelsLoaded()) {
+      setError(" 운동 모델을 불러오는중입니다. 잠시후 다시 시도해주세요.")
+      return
+    }
+
     user.getStreamManager().stream.session.signal({
       data: "게임을 시작~~",
       type: "start",
