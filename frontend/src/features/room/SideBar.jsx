@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { setRoutineInfo } from "./exerciseReducer"
+import { setRoutineInfo, setTodoList } from "./exerciseReducer"
 import { Tooltip } from "flowbite-react"
 
 const style = {
@@ -81,10 +81,29 @@ export default function SideBar({ chatComponent, user, isRoomAdmin }) {
   useEffect(() => {
     if (!exersiceRoutine) return
     if (exersiceRoutine) {
-      console.log("루틴이 변경됨", exersiceRoutine)
+      // console.log("루틴이 변경됨", exersiceRoutine)
+      changeTodoList()
       setError("")
     }
   }, [exersiceRoutine])
+
+  const changeTodoList = () => {
+    let todo = []
+    exersiceRoutine.exercise.forEach((info) => {
+      todo.push({
+        type: "exercise",
+        duration: 3,
+        name: info.name,
+        goal: info.count,
+        success: 0,
+      })
+      // todo.push({ type: "breaktime", duration: exersiceRoutine.breakTime })
+      todo.push({ type: "breaktime", duration: 2 })
+    })
+    todo.pop()
+
+    dispatch(setTodoList(todo))
+  }
 
   const startExercise = () => {
     if (!exersiceRoutine) {
