@@ -12,6 +12,8 @@ public class HallOfFameResponse {
     List<HallOfFame> hallOfFames;
     List<StrickRank> strickRanks;
     List<TimeRank> timeRanks;
+    List<PersonalStrickRank> personalStrickRanks;
+    List<PersonalTimeRank> personalTimeRanks;
 
     @Getter
     @Setter
@@ -37,6 +39,24 @@ public class HallOfFameResponse {
         int rank;
         String teamIcon;
         String teamName;
+        int totalTime;
+    }
+
+    @Getter
+    @Setter
+    public static class PersonalStrickRank {
+        int rank;
+        String memberIcon;
+        String nickName;
+        int maxStrick;
+    }
+
+    @Getter
+    @Setter
+    public static class PersonalTimeRank {
+        int rank;
+        String memberIcon;
+        String nickName;
         int totalTime;
     }
 }

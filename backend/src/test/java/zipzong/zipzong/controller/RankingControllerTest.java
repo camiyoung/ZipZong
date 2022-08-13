@@ -59,10 +59,14 @@ public class RankingControllerTest {
         List<HallOfFameResponse.HallOfFame> hallOfFames = makeHallOffames();
         List<HallOfFameResponse.StrickRank> strickRanks = makeStrickRanks();
         List<HallOfFameResponse.TimeRank> timeRanks = makeTimeRanks();
+        List<HallOfFameResponse.PersonalStrickRank> personalStrickRanks = makePersonalStrickRanks();
+        List<HallOfFameResponse.PersonalTimeRank> personalTimeRanks = makePersonalTimeRanks();
 
         given(rankingService.getHallOfFames()).willReturn(hallOfFames);
         given(rankingService.getStrickRanks()).willReturn(strickRanks);
         given(rankingService.getTimeRanks()).willReturn(timeRanks);
+        given(rankingService.getPersonalStrickRanks()).willReturn(personalStrickRanks);
+        given(rankingService.getPersonalTimeRanks()).willReturn(personalTimeRanks);
 
         // when
         RequestBuilder requestBuilder = RestDocumentationRequestBuilders.get("/ranking/info");
@@ -79,20 +83,29 @@ public class RankingControllerTest {
                                     fieldWithPath("data.hallOfFames.[].teamIcon").description("팀 아이콘"),
                                     fieldWithPath("data.hallOfFames.[].teamName").description("팀 이름"),
                                     fieldWithPath("data.hallOfFames.[].satisfiedTime").description("66일 달성 후 지난 분(min)"),
-                                    fieldWithPath("data.strickRanks.[]").description("스트릭 랭킹"),
+                                    fieldWithPath("data.strickRanks.[]").description("팀 스트릭 랭킹"),
                                     fieldWithPath("data.strickRanks.[].rank").description("순위"),
                                     fieldWithPath("data.strickRanks.[].teamIcon").description("팀 아이콘"),
                                     fieldWithPath("data.strickRanks.[].teamName").description("팀 이름"),
                                     fieldWithPath("data.strickRanks.[].maxStrick").description("최대 스트릭 일수"),
-                                    fieldWithPath("data.timeRanks.[]").description("누적시간 랭킹"),
+                                    fieldWithPath("data.timeRanks.[]").description("팀 누적시간 랭킹"),
                                     fieldWithPath("data.timeRanks.[].rank").description("순위"),
                                     fieldWithPath("data.timeRanks.[].teamIcon").description("팀 아이콘"),
                                     fieldWithPath("data.timeRanks.[].teamName").description("팀 이름"),
-                                    fieldWithPath("data.timeRanks.[].totalTime").description("누적 운동시간")
+                                    fieldWithPath("data.timeRanks.[].totalTime").description("누적 운동시간"),
+                                    fieldWithPath("data.personalStrickRanks.[]").description("멤버 스트릭 랭킹"),
+                                    fieldWithPath("data.personalStrickRanks.[].rank").description("순위"),
+                                    fieldWithPath("data.personalStrickRanks.[].memberIcon").description("멤버 아이콘"),
+                                    fieldWithPath("data.personalStrickRanks.[].nickName").description("닉네임"),
+                                    fieldWithPath("data.personalStrickRanks.[].maxStrick").description("최대 스트릭 일수"),
+                                    fieldWithPath("data.personalTimeRanks.[]").description("멤버 누적시간 랭킹"),
+                                    fieldWithPath("data.personalTimeRanks.[].rank").description("순위"),
+                                    fieldWithPath("data.personalTimeRanks.[].memberIcon").description("멤버 아이콘"),
+                                    fieldWithPath("data.personalTimeRanks.[].nickName").description("닉네임"),
+                                    fieldWithPath("data.personalTimeRanks.[].totalTime").description("누적 운동시간")
                             )
                         ));
     }
-
 
 
     @Test
@@ -211,6 +224,48 @@ public class RankingControllerTest {
         timeRank2.setRank(2);
         timeRank2.setTeamIcon("basic");
         timeRank2.setTeamName("시간 2등팀");
+        timeRank2.setTotalTime(1000);
+
+        timeRanks.add(timeRank1);
+        timeRanks.add(timeRank2);
+
+        return timeRanks;
+    }
+
+    private List<HallOfFameResponse.PersonalStrickRank> makePersonalStrickRanks() {
+        List<HallOfFameResponse.PersonalStrickRank> strickRanks = new ArrayList<>();
+
+        // 스트릭 랭킹
+        HallOfFameResponse.PersonalStrickRank strickRank1 = new HallOfFameResponse.PersonalStrickRank();
+        strickRank1.setRank(1);
+        strickRank1.setMemberIcon("basic");
+        strickRank1.setNickName("스트릭 1등 멤버");
+        strickRank1.setMaxStrick(70);
+        HallOfFameResponse.PersonalStrickRank strickRank2 = new HallOfFameResponse.PersonalStrickRank();
+        strickRank2.setRank(2);
+        strickRank2.setMemberIcon("basic");
+        strickRank2.setNickName("스트릭 2등 멤버");
+        strickRank2.setMaxStrick(50);
+
+        strickRanks.add(strickRank1);
+        strickRanks.add(strickRank2);
+
+        return strickRanks;
+    }
+
+    private List<HallOfFameResponse.PersonalTimeRank> makePersonalTimeRanks() {
+        List<HallOfFameResponse.PersonalTimeRank> timeRanks = new ArrayList<>();
+
+        // 시간 랭킹
+        HallOfFameResponse.PersonalTimeRank timeRank1 = new HallOfFameResponse.PersonalTimeRank();
+        timeRank1.setRank(1);
+        timeRank1.setMemberIcon("basic");
+        timeRank1.setNickName("시간 1등 멤버");
+        timeRank1.setTotalTime(3000);
+        HallOfFameResponse.PersonalTimeRank timeRank2 = new HallOfFameResponse.PersonalTimeRank();
+        timeRank2.setRank(2);
+        timeRank2.setMemberIcon("basic");
+        timeRank2.setNickName("시간 2등 멤버");
         timeRank2.setTotalTime(1000);
 
         timeRanks.add(timeRank1);
