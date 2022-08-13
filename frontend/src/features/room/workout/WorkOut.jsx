@@ -1,19 +1,9 @@
 import React, { useEffect, useRef, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
+import { Timeline } from "flowbite-react"
 import TeachableMachine from "../teachableMachine/TeachableMachine"
 import Timer from "./Timer"
-
-// const exersiceRoutine = {
-//   routineId: 2,
-//   routineName: "tmproutine",
-//   exercise: [
-//     { name: "LEGRAISE", count: 7 },
-//     { name: "PUSHUP", count: 7 },
-//     // { name: "BURPEE", count: 7 },
-//   ],
-//   breaktime: 2,
-// }
-// 운동시간 5초
+import { TodoList } from "./TodoList"
 
 function useTimeout(callback, delay) {
   const timeoutRef = useRef(null)
@@ -57,7 +47,8 @@ const WorkOut = ({ myVideo, tmModel, user, finishExercise }) => {
         goal: info.count,
         success: 0,
       })
-      todo.push({ type: "breaktime", duration: breakTime })
+      // todo.push({ type: "breaktime", duration: breakTime })
+      todo.push({ type: "breaktime", duration: 2 })
     })
     todo.pop()
 
@@ -77,7 +68,7 @@ const WorkOut = ({ myVideo, tmModel, user, finishExercise }) => {
     setCurrentAction(nextAction)
   }
   const finishAction = () => {
-    setRunning(false)
+    // setRunning(false)
   }
 
   const updateSuccess = (count) => {
@@ -131,10 +122,9 @@ const WorkOut = ({ myVideo, tmModel, user, finishExercise }) => {
         />
       )}
       {/* {isRunning &&( */}
-      <div className="w-[300px] absolute bottom-0 left-0 bg-white z-50 border-2 border-purple-300">
-        {resultList}
+      <div className="absolute z-50 bottom-0 ml-2">
+        <TodoList />
       </div>
-      {/* )} */}
     </div>
   )
 }
@@ -164,7 +154,7 @@ const Start = ({
   return (
     <div>
       <div className="w-full h-full absolute">
-        {action.type === "exercise" && (
+        {/* {action.type === "exercise" && (
           <TeachableMachine
             myVideoRef={myVideo.props.myVideoRef}
             tmModel={tmModel}
@@ -172,11 +162,11 @@ const Start = ({
             user={user}
             actionName={action.name}
           />
-        )}
+        )} */}
         {<Timer action={action} />}
         {!!action && (
           <div className="absolute top-0 bg-white z-50">
-            현재 운동:{action.type}, 시간:{action.duration}
+            현재 운동:{action?.name ?? "휴식"}, 시간:{action.duration}
           </div>
         )}
       </div>
