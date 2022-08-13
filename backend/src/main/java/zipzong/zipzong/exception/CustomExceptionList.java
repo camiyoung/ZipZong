@@ -27,7 +27,8 @@ public enum CustomExceptionList {
     TEAM_HISTORY_NOT_FOUND(HttpStatus.INTERNAL_SERVER_ERROR, "E013", "팀 운동 기록이 생성되지 않았습니다."),
     MEMBER_NOT_FOUND_ROOM(HttpStatus.NOT_FOUND,"E014", "운동방에 존재하지 않는 회원입니다."),
     ROOM_NOT_FOUND_ERROR(HttpStatus.NOT_FOUND,"E015","존재하지 않는 운동방 입니다."),
-    MEMBER_ALREADY_ENTER_ROOM(HttpStatus.NOT_MODIFIED,"E016","회원이 이미 운동방에 있습니다.");
+    MEMBER_ALREADY_ENTER_ROOM(HttpStatus.NOT_MODIFIED,"E016","회원이 이미 운동방에 있습니다."),
+    MEMBER_NOT_JOIN_GROUP(HttpStatus.FORBIDDEN,"E017","그룹 가입 개수를 초과했습니다.");
 
     private final HttpStatus status;
     private final String code;
