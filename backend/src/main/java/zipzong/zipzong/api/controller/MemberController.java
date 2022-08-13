@@ -106,7 +106,7 @@ public class MemberController {
     public ResponseEntity<BasicResponse<Boolean>> removeMember(@PathVariable("memberId") Long memberId) {
         Boolean isDeleted = memberService.removeUser(memberId);
         if(isDeleted) return new ResponseEntity<>(makeBasicResponse(SUCCESS, true), HttpStatus.OK);
-        else return new ResponseEntity<>(makeBasicResponse("FAIL", false), HttpStatus.OK);
+        else return new ResponseEntity<>(makeBasicResponse("FAIL", false), HttpStatus.NOT_ACCEPTABLE);
     }
 
 
