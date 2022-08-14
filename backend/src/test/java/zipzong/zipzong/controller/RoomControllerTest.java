@@ -158,7 +158,7 @@ public class RoomControllerTest {
     }
 
     @Test
-    @DisplayName("방장이 아닌 회원이 방을 퇴장")
+    @DisplayName("방장과 참여자가 방을 퇴장")
     void leaveRoom() throws Exception {
         //given
         Long teamId = 1L;
@@ -185,34 +185,7 @@ public class RoomControllerTest {
                         )
                 ));
     }
-
-    @Test
-    @DisplayName("방장이 방을 퇴장")
-    void deleteRoom() throws Exception {
-        //given
-        Long teamId = 1L;
-        given(roomService.deleteRoom(anyLong())).willReturn(teamId);
-
-        //when
-        RequestBuilder requestBuilder = RestDocumentationRequestBuilders.delete("/room/{teamId}", teamId);
-        ResultActions resultActions = mockMvc.perform(requestBuilder);
-
-        //then
-        resultActions.andExpect(status().isOk())
-                .andExpect(jsonPath("$.data").value(teamId))
-                .andDo(document("delete-room-by-creator",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint()),
-                        pathParameters(
-                                parameterWithName("teamId").description("팀 아이디")
-                        ),
-                        responseFields(
-                                fieldWithPath("message").description("메시지"),
-                                fieldWithPath("data").description("세션 아이디(팀 아이디)")
-                        )
-                ));
-    }
-
+    
     @Test
     @DisplayName("방 상태를 준비중에서 운동중으로 변경")
     void startRoom() throws Exception {

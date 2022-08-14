@@ -37,13 +37,16 @@ public class RoomService {
     운동방 생성
      */
     public Long createRoom(Long teamId, RoomRequest roomRequest) {
-        Routine routine = getRoutine(roomRequest.getRoutineId());
-        Team team = getTeamInfo(teamId);
-        Room room = Room.createRoom(roomRequest, routine, Status.READY);
-        team.setRoom(room);
-        roomRepository.save(room);
-        teamRepository.save(team);
-        roomParticipantRepository.save(RoomParticipant.createRoomParticipant(room, roomRequest.getCreator()));
+        //운동방이 없는 경우에만 운동방 생성
+        if(getTeamInfo(teamId).getRoom()==null) {
+            Routine routine = getRoutine(roomRequest.getRoutineId());
+            Team team = getTeamInfo(teamId);
+            Room room = Room.createRoom(roomRequest, routine, Status.READY);
+            team.setRoom(room);
+            roomRepository.save(room);
+            teamRepository.save(team);
+            roomParticipantRepository.save(RoomParticipant.createRoomParticipant(room, roomRequest.getCreator()));
+        }
         return teamId;
     }
 
@@ -78,36 +81,29 @@ public class RoomService {
     }
 
     /*
-    방장이 아닌 참여자가 방을 퇴장
+    방장과 참여자가 방을 퇴장
      */
     public String leaveRoom(Long teamId, String nickname) {
         Team team = getTeamInfo(teamId);
-        if (team.getRoom() == null) {
+        Room room = team.getRoom();
+        if (room == null) {
             throw new CustomException(CustomExceptionList.ROOM_NOT_FOUND_ERROR);
         }
         if (roomParticipantRepository.findRoomParticipantByMemberNickname(nickname) == null) {
-            throw new CustomException(CustomExceptionList.MEMBER_NOT_FOUND_ROOM);
+            return nickname; //프론트 요청으로 수정
         }
         RoomParticipant roomParticipant = roomParticipantRepository.findIdByMemberNickname(nickname);
         roomParticipantRepository.delete(roomParticipant);
+
+        //모두가 방을 나갔을 경우에만 방을 삭제
+        if(roomParticipantRepository.findRoomParticipantByRoom(room).size()==0){
+            team.setRoom(null);
+            teamRepository.save(team);
+            roomRepository.delete(room);
+        }
+
         return nickname;
 
-    }
-
-    /*
-    방장이 방을 퇴장 또는 방을 종료
-     */
-    public Long deleteRoom(Long teamId) {
-        Team team = getTeamInfo(teamId);
-        if (team.getRoom() == null) {
-            throw new CustomException(CustomExceptionList.ROOM_NOT_FOUND_ERROR);
-        }
-        Long roomId = team.getRoom().getId();
-        team.setRoom(null);
-        teamRepository.save(team);
-        Room room = getRoom(roomId);
-        roomRepository.delete(room);
-        return teamId;
     }
 
     /*

@@ -124,7 +124,7 @@ public class RoomServiceTest {
     }
 
     @Test
-    @DisplayName("방장이 아닌 참여자가 운동방 퇴장")
+    @DisplayName("방장과 참여자가 운동방 퇴장")
     void leaveRoom() {
         //given
         String nickname = "newSeulgi";
