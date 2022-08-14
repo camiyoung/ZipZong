@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom"
 import {
   teamInfo,
   teamTotalExerciseCount,
+  roomInfoGet,
 } from "../features/group/groupReducer"
 import { getRoutine } from "../features/routine/routineReducer"
 import GroupInfo from "../features/group/GroupInfo"
@@ -20,6 +21,7 @@ export default function Group() {
     dispatch(teamInfo(fetchTeamId))
     dispatch(teamTotalExerciseCount(fetchTeamId))
     dispatch(getRoutine(fetchTeamId))
+    dispatch(roomInfoGet(fetchTeamId))
   }, [fetchTeamId])
 
   const { inviteLink } = useSelector((state) => state.group)
