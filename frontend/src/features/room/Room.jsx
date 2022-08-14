@@ -31,7 +31,7 @@ class Room extends Component {
     this.hasBeenUpdated = false
     let sessionName = this.props.sessionName
       ? this.props.sessionName
-      : "SessionA"
+      : "testRoom"
     let userName = this.props.user ? this.props.user : "guest"
 
     // localUser.setIcon = this.props.icon
@@ -70,9 +70,14 @@ class Room extends Component {
   }
 
   async componentDidMount() {
+    this.sessionName = this.props.sessionName
+    console.log("유저 네임 : ", this.props.user)
     window.addEventListener("beforeunload", this.onbeforeunload)
     await tmModel.loadModel() // teachable machine 로드
-    this.setState({ modelLoded: true })
+
+    setTimeout(() => {
+      this.setState({ modelLoded: true })
+    }, 5000)
     this.joinSession()
   }
 
@@ -86,7 +91,8 @@ class Room extends Component {
   }
 
   joinSession() {
-    console.log("joinSession 시작")
+    // console.log("세션 id:", this.sessionName)
+    console.log("joinSession 시작 세션 ID:", this.sessionName)
     this.OV = new OpenVidu()
     this.OV.enableProdMode()
 
@@ -595,7 +601,7 @@ class Room extends Component {
             <div className="text-secondary-200">운동방에 입장 중입니다.</div>
           </div>
         ) : (
-          <div className="flex h-full bg-secondary-200 rounded-2xl">
+          <div className="flex h-full bg-secondary-200 rounded-2xl shadow-inner ">
             {this.state.alert?.type === "error" && (
               <AlertModal
                 title={"방장이 퇴장했습니다."}
@@ -616,17 +622,11 @@ class Room extends Component {
                 type="alret"
               />
             )}
-            <div
-              className="w-1/6  min-w-[300px]  border-4 border-green-700 "
-              id="subscribersArea"
-            >
+            <div className="w-1/6  min-w-[300px] p-3" id="subscribersArea">
               <OtherPeople subscribers={this.state.subscribers} />
             </div>
 
-            <div
-              className="w-4/6 border-4 border-blue-500"
-              id="ExerciseZoneArea"
-            >
+            <div className="w-4/6" id="ExerciseZoneArea">
               {this.state.localUser !== undefined &&
                 this.state.localUser.getStreamManager() !== undefined && (
                   <ExerciseZone
@@ -641,11 +641,16 @@ class Room extends Component {
                   />
                 )}
             </div>
-            <div
-              className="w-1/6  min-w-[300px]  border-2 border-red-400 "
-              id="sideBarArea"
-            >
-              <SideBar chatComponent={chatComponent} />
+            <div className="w-1/6  min-w-[300px]   " id="sideBarArea">
+              {this.state.localUser !== undefined &&
+                this.state.localUser.getStreamManager() !== undefined && (
+                  <SideBar
+                    chatComponent={chatComponent}
+                    user={this.state.localUser}
+                    isRoomAdmin={this.state.isRoomAdmin}
+                    tmModel={tmModel}
+                  />
+                )}
             </div>
           </div>
         )}
