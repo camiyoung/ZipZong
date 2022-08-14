@@ -293,10 +293,9 @@ export default function Navbar() {
   const location = useLocation()
 
   // 회원이 가입한 팀 정보
-  // useEffect(() => {
-  //   dispatch(registrationTeam(memberId))
-  //   return () => console.log("회원이 가입한 팀", registeredTeam)
-  // }, [])
+  useEffect(() => {
+    dispatch(registrationTeam(memberId))
+  }, [memberId])
 
   if (
     location.pathname.split("/")[1] === "room" ||
