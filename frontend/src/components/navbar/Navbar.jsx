@@ -9,7 +9,6 @@ import {
   nicknameChange,
   memberIconSelect,
   logout,
-  initializeIsMemberGroupLeader,
   memberRemove,
 } from "../../features/login/memberReducer"
 import Card from "../card/Card"
@@ -68,9 +67,7 @@ const GroupList = ({ setVisible, groups }) => {
 const InfoList = ({ setVisible, memberId }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { memberNickname, memberRepIcon, isMemberGroupLeader } = useSelector(
-    (state) => state.member
-  )
+  const { memberNickname, memberRepIcon } = useSelector((state) => state.member)
 
   const memberIconList = useSelector((state) => state.mypage.memberIconList)
   const allIcons = [...Icons]
@@ -247,21 +244,6 @@ const InfoList = ({ setVisible, memberId }) => {
             size="xs"
             onClick={() => {
               dispatch(memberRemove(memberId))
-
-              if (
-                isMemberGroupLeader === true ||
-                isMemberGroupLeader === false
-              ) {
-                if (isMemberGroupLeader === true) {
-                  dispatch(initializeIsMemberGroupLeader())
-                  navigate("/login")
-                } else {
-                  modalClose2()
-                  alert(
-                    "회원님이 그룹장인 그룹이 있습니다. 그룹장을 위임한 후 회원탈퇴를 진행해주세요!"
-                  )
-                }
-              }
             }}
           >
             Yes
@@ -311,10 +293,9 @@ export default function Navbar() {
   const location = useLocation()
 
   // 회원이 가입한 팀 정보
-  // useEffect(() => {
-  //   dispatch(registrationTeam(memberId))
-  //   return () => console.log("회원이 가입한 팀", registeredTeam)
-  // }, [])
+  useEffect(() => {
+    dispatch(registrationTeam(memberId))
+  }, [memberId])
 
   if (
     location.pathname.split("/")[1] === "room" ||

@@ -21,7 +21,6 @@ export const memberInfo = createAsyncThunk("member/info/", async (nickname) => {
 export const nicknameChange = createAsyncThunk(
   "member/nicknameChange",
   async (info) => {
-    console.log("닉네임 변경", info)
     const res = await http.put("member/nickname", {
       origin: info.origin,
       nickname: info.nickname,
@@ -51,9 +50,17 @@ export const memberIconSelect = createAsyncThunk(
 export const memberRemove = createAsyncThunk(
   "member/remove",
   async (memberId) => {
-    const res = await http.put(`member/remove/${memberId}`)
-    if (res.data.message === "success") {
-      return res
+    try {
+      const res = await http.put(`member/remove/${memberId}`)
+      console.log(res)
+      if (res.data.message === "success" && res.data.data === true) {
+        localStorage.clear()
+        window.location.replace("/")
+      }
+    } catch (error) {
+      alert(
+        "회원님이 그룹장인 그룹이 있습니다. 그룹장을 위임한 후 회원탈퇴를 진행해주세요!"
+      )
     }
   }
 )
@@ -67,7 +74,6 @@ export const memberSlice = createSlice({
     memberProvider: null,
     memberNickname: null,
     memberRepIcon: null,
-    isMemberGroupLeader: null,
   },
   reducers: {
     // 로그아웃
@@ -77,9 +83,6 @@ export const memberSlice = createSlice({
     // 멤버 아이디 받기
     checkMemberId: (state, action) => {
       state.memberId = Number(action.payload)
-    },
-    initializeIsMemberGroupLeader: (state) => {
-      state.isMemberGroupLeader = null
     },
   },
   extraReducers(builder) {
@@ -109,7 +112,6 @@ export const memberSlice = createSlice({
     })
   },
 })
-export const { checkMemberId, logout, initializeIsMemberGroupLeader } =
-  memberSlice.actions
+export const { checkMemberId, logout } = memberSlice.actions
 
 export default memberSlice.reducer
