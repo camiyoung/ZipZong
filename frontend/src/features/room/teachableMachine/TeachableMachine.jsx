@@ -28,10 +28,7 @@ export default class TeachableMachine extends Component {
   }
 
   componentDidMount() {
-    // console.log(
-    //   "티처블머신 컴포넌트 마운트",
-    //   this.props.user.getStreamManager().stream
-    // )
+    // console.log("티처블머신 컴포넌트 마운트", this.props.actionName)
     // console.log(
     //   "티처블머신 컴포넌트 마운트",
     //   this.props.user.getStreamManager().videos[0].video
@@ -49,30 +46,30 @@ export default class TeachableMachine extends Component {
 
   async makeModel() {
     switch (this.props.actionName) {
-      // case "PUSHUP":
-      //   this.model = this.tmModel.modelPushup
-      //   this.predicFunction = this.tmModel.callbackPushup
-      //   break
-      // case "BURPEE":
-      //   this.model = this.tmModel.modelBurpee
-      //   this.predicFunction = this.tmModel.callbackBurpee
-      //   break
-      // case "JUMPINGJACK":
-      //   this.model = this.tmModel.modelJumpingjack
-      //   this.predicFunction = this.tmModel.callbackJumpingjack
-      //   break
-      // case "LATERALRAISE":
-      //   this.model = this.tmModel.modelLateralraise
-      //   this.predicFunction = this.tmModel.callbackLateralraise
-      //   break
-      // case "LUNGE":
-      //   this.model = this.tmModel.modelLunge
-      //   this.predicFunction = this.tmModel.callbackLunge
-      //   break
-      // case "SQUAT":
-      //   this.model = this.tmModel.modelSquat
-      //   this.predicFunction = this.tmModel.callbackSquat
-      //   break
+      case "PUSHUP":
+        this.model = this.tmModel.modelPushup
+        this.predicFunction = this.tmModel.callbackPushup
+        break
+      case "BURPEE":
+        this.model = this.tmModel.modelBurpee
+        this.predicFunction = this.tmModel.callbackBurpee
+        break
+      case "JUMPINGJACK":
+        this.model = this.tmModel.modelJumpingjack
+        this.predicFunction = this.tmModel.callbackJumpingjack
+        break
+      case "LATERALRAISE":
+        this.model = this.tmModel.modelLateralraise
+        this.predicFunction = this.tmModel.callbackLateralraise
+        break
+      case "LUNGE":
+        this.model = this.tmModel.modelLunge
+        this.predicFunction = this.tmModel.callbackLunge
+        break
+      case "SQUAT":
+        this.model = this.tmModel.modelSquat
+        this.predicFunction = this.tmModel.callbackSquat
+        break
 
       default:
         this.model = this.tmModel.modelTest
@@ -107,7 +104,9 @@ export default class TeachableMachine extends Component {
     const prediction = await this.model.predict(posenetOutput)
     const predictionsList = prediction.map((res, i) => (
       <div key={i}>
-        {res.className} : {res.probability.toFixed(2)}
+        <span className=" text-4xl font-bold">
+          {res.className} : {res.probability.toFixed(2)}
+        </span>
       </div>
     ))
     // console.log("리스트", predictionsList)
@@ -153,7 +152,7 @@ export default class TeachableMachine extends Component {
   render() {
     return (
       <div className="w-full h-full absolute z-20">
-        <div className="w-[200px] h-[200px] bg-white absolute right-0 border-4">
+        <div className="w-[300px] h-[200px] bg-white absolute right-0 border-4">
           {this.state.resEle && (
             <div>
               {this.state.resEle}
