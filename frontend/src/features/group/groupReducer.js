@@ -188,6 +188,14 @@ export const teamInfoModify = createAsyncThunk("team/info", async (info) => {
   }
 })
 
+// 방 정보 가져오기
+export const roomInfoGet = createAsyncThunk("room/get", async (teamId) => {
+  const res = await http.get(`room/${teamId}`)
+  if (res.data.message === "success") {
+    return res
+  }
+})
+
 export const groupSlice = createSlice({
   name: "group",
   initialState: {
@@ -240,6 +248,9 @@ export const groupSlice = createSlice({
     },
     teamCurrentStreak: 0,
     performTeamTotals: null,
+    roomStatus: "",
+    roomParticipant: [],
+    roomName: "",
   },
   reducers: {
     inviteTeamIdConfirm: (state, action) => {
@@ -344,6 +355,13 @@ export const groupSlice = createSlice({
       state.teamRepIcons = action.payload.data.data.repIcons
       state.shieldCount = action.payload.data.data.shieldCount
       state.teamMembers = action.payload.data.data.members
+    })
+
+    builder.addCase(roomInfoGet.fulfilled, (state, action) => {
+      console.log(action.payload.data.data)
+      state.roomStatus = action.payload.data.data.status
+      state.roomParticipant = action.payload.data.data.participant
+      state.roomName = action.payload.data.data.name
     })
   },
 })

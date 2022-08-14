@@ -37,6 +37,24 @@
   justify-content: center;
 }
 
+.grad2 {
+  display: flex;
+  background: linear-gradient(270deg, #f3f1f1, #b3b2b0);
+  background-size: 200% 200%;
+  animation: MoveGrad 5s ease infinite;
+  align-items: center;
+  justify-content: center;
+}
+
+.grad3 {
+  display: flex;
+  background: linear-gradient(270deg, #ffffff, #c3e9fa);
+  background-size: 200% 200%;
+  animation: MoveGrad 5s ease infinite;
+  align-items: center;
+  justify-content: center;
+}
+
 @keyframes MoveGrad {
   0% {
     background-position: 0% 50%;

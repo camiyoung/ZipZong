@@ -98,7 +98,8 @@ function GroupManagement() {
   const dispatch = useDispatch()
   const fetchTeamId = location.pathname.split("/")[2]
   const { memberId, memberNickname } = useSelector((state) => state.member)
-  const { teamLeader, teamMembers } = useSelector((state) => state.group)
+  const { teamLeader, teamMembers, roomStatus, roomParticipant, roomName } =
+    useSelector((state) => state.group)
   const [isLeader, setIsLeader] = useState(false)
 
   // 모달 관련 UseState
@@ -147,35 +148,53 @@ function GroupManagement() {
 
       {/* 카드 영역 */}
       <div className="">
-        <div className="btn rounded-3xl bg-gradient-to-r from-gray-100 to-gray-200 py-6 cursor-pointer shadow-md border-2 border-white">
-          <div
-            className="flex justify-center flex-col mb-1 bg-gradient-to-r from-purple-500 to-red-500 bg-clip-text text-transparent"
-            onClick={() => setModalContent("make")}
-          >
-            <p className="text-center text-3xl font-semibold mb-2">
-              아직 운동 방이 만들어지지 않았어요!
-            </p>
-            <p className="text-center text-md font-semibold">
-              여기를 클릭하여 운동 방을 만들어 보세요
-            </p>
+        {roomStatus === "EMPTY" && (
+          <div className="btn rounded-3xl bg-gradient-to-r from-gray-100 to-gray-200 py-6 cursor-pointer shadow-md border-2 border-white grad3">
+            <div
+              className="flex justify-center flex-col mb-1 bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent"
+              onClick={() => setModalContent("make")}
+            >
+              <p className="text-center text-3xl font-semibold mb-2">
+                아직 운동 방이 만들어지지 않았어요!
+              </p>
+              <p className="text-center text-md font-semibold">
+                여기를 클릭하여 운동 방을 만들어 보세요
+              </p>
+            </div>
           </div>
-        </div>
-        {/* <div className="btn rounded-3xl bg-gradient-to-br py-6 cursor-pointer shadow-md border-2 border-white grad">
-          <div
-            className="flex justify-center flex-col mb-1 hover:cursor-pointer"
-            onClick={enterRoom}
-          >
-            <p className="text-center text-3xl font-semibold mb-2 ">
-              🔥 {"운동방 제목은 뭘로 하면 좋을까요"} 🔥
-            </p>
-            <p className="text-center font-semibold flex justify-center items-center text-gray-700">
-              <UserIcon /> 5/10{" "}
-              <span className="ml-2 font-medium">
-                안지영 채송지 신슬기 황승주 박종민
-              </span>
-            </p>
+        )}
+        {roomStatus === "READY" && (
+          <div className="btn rounded-3xl bg-gradient-to-br py-6 cursor-pointer shadow-md border-2 border-white grad">
+            <div
+              className="flex justify-center flex-col mb-1 hover:cursor-pointer"
+              onClick={enterRoom}
+            >
+              <p className="text-center text-3xl font-semibold mb-2 ">
+                🔥 {roomName} 🔥
+              </p>
+              <p className="text-center font-semibold flex justify-center items-center text-gray-700">
+                <UserIcon /> {roomParticipant.length} / 10{" "}
+                <span className="ml-2 font-medium">{roomParticipant}</span>
+              </p>
+            </div>
           </div>
-        </div> */}
+        )}
+        {roomStatus === "EXERCISING" && (
+          <div className="btn rounded-3xl bg-gradient-to-br py-6 cursor-pointer shadow-md border-2 border-white grad2">
+            <div
+              className="flex justify-center flex-col mb-1 hover:cursor-pointer"
+              onClick={enterRoom}
+            >
+              <p className="text-center text-3xl font-semibold mb-2 ">
+                운동을 이미 시작한 방입니다.
+              </p>
+              <p className="text-center font-semibold flex justify-center items-center text-gray-700">
+                <UserIcon /> {roomParticipant.length} / 10{" "}
+                <span className="ml-2 font-medium">{roomParticipant}</span>
+              </p>
+            </div>
+          </div>
+        )}
       </div>
       <div className=" flex justify-evenly mt-4">
         <div className="w-full pr-2">
