@@ -168,7 +168,7 @@ export default function GroupSetMemberList() {
                 width="w-32"
                 // 회원 강퇴 로직
                 onClick={() => {
-                  if (memberId === teamLeader.memberId) {
+                  if (parseInt(memberId) === teamLeader.memberId) {
                     dispatch(
                       teamExpel({
                         leaderId: teamLeader.memberId,
@@ -215,7 +215,7 @@ export default function GroupSetMemberList() {
                 bgColor="bg-danger"
                 width="w-32"
                 onClick={() => {
-                  if (memberId === teamLeader.memberId) {
+                  if (parseInt(memberId) === teamLeader.memberId) {
                     dispatch(
                       teamAssign({
                         leaderId: teamLeader.memberId,
