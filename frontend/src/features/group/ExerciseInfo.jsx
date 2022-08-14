@@ -5,43 +5,6 @@ import CalendarForm from "../../components/calendar/CalendarForm"
 import ImageIcon from "../../components/icon/ImageIcon"
 import { teamTotalExerciseCount, rankingTeam } from "./groupReducer"
 
-// const dayExerciseInfo = [
-//   {
-//     exerciseType: "윗몸일으키기",
-//     exerciseIcon:
-//       "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
-//     exerciseTime: 900,
-//     exerciseCount: 1000,
-//   },
-//   {
-//     exerciseType: "Test1",
-//     exerciseIcon:
-//       "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
-//     exerciseTime: 780,
-//     exerciseCount: 1001,
-//   },
-//   {
-//     exerciseType: "Test2",
-//     exerciseIcon:
-//       "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
-//     exerciseTime: 600,
-//     exerciseCount: 1004,
-//   },
-//   {
-//     exerciseType: "Test4",
-//     exerciseIcon:
-//       "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
-//     exerciseTime: 600,
-//     exerciseCount: 1004,
-//   },
-//   {
-//     exerciseType: "Test3",
-//     exerciseIcon:
-//       "https://news.samsungdisplay.com/wp-content/uploads/2022/05/IT_twi001t1345955-1-1024x639.jpg",
-//     exerciseTime: 600,
-//     exerciseCount: 1004,
-//   },
-// ]
 function Ranking() {
   const dispatch = useDispatch()
   const location = useLocation()
