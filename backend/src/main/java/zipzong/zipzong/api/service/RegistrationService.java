@@ -41,10 +41,10 @@ public class RegistrationService {
 
         //가입한 팀이 5개 이상인 경우 Exception
         //프론트에서 추가 요청이 들어와서 수정함 (22/08/13, 신슬기)
-        /*List<Registration> registrations = registrationRepository.findJoinedTeamNoResigned(memberId);
+        List<Registration> registrations = registrationRepository.findJoinedTeamNoResigned(memberId);
         if(registrations.size()>=5) {
             throw new CustomException(CustomExceptionList.MEMBER_NOT_JOIN_GROUP);
-        }*/
+        }
 
         Member member = memberRepository.findById(memberId).orElseThrow(
                 () -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND_ERROR));
