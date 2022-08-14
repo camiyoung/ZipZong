@@ -44,24 +44,35 @@ export default function RankPage() {
         </section>
 
         {/* 랭킹 섹션 */}
-        <section className=" w-full flex mt-20 py-10 pb-16 bg-gradient-to-r from-[#e5d1ed] to-[#c6f2ef] rounded-3xl  shadow-md">
-          <div className=" w-1/2 flex flex-col justify-center items-center ">
-            {rankingInfo && (
-              <RankList
-                title={"⏰ 타임 랭킹 ⏰ "}
-                description={"실시간으로 갱신됩니다."}
-                list={rankingInfo.timeRanks}
-              />
-            )}
-          </div>
-          <div className=" w-1/2 flex flex-col justify-center items-center ">
-            {rankingInfo && (
-              <RankList
-                title={"🗓️ 컨티뉴 랭킹 🗓️"}
-                description={"AM 12:00을 기준으로 갱신됩니다."}
-                list={rankingInfo.strickRanks}
-              />
-            )}
+        <section className=" w-full flex  flex-col mt-20  pb-16 bg-gradient-to-r from-[#e5d1ed] to-[#c6f2ef] rounded-3xl  shadow-md">
+          <p className="text-center mb-6 bg-[#ffffffeb] rounded-t-3xl py-3  font-medium text-sm">
+            모든 랭킹은 AM 12:00에 갱신됩니다.
+          </p>
+          <div className="flex">
+            <div className=" w-1/2 flex flex-col justify-center items-center ">
+              {rankingInfo && (
+                <RankList
+                  title={"⏰ 타임 랭킹 ⏰ "}
+                  description={[
+                    "누적 운동 시간으로 집계됩니다.",
+                    "AM 12:00을 기준으로 갱신됩니다.",
+                  ]}
+                  list={rankingInfo.timeRanks}
+                />
+              )}
+            </div>
+            <div className=" w-1/2 flex flex-col justify-center items-center ">
+              {rankingInfo && (
+                <RankList
+                  title={"🗓️ 컨티뉴 랭킹 🗓️"}
+                  description={[
+                    "최대 연속 운동 일수를 기준으로 집계됩니다.",
+                    "AM 12:00을 기준으로 갱신됩니다.",
+                  ]}
+                  list={rankingInfo.strickRanks}
+                />
+              )}
+            </div>
           </div>
         </section>
       </div>
