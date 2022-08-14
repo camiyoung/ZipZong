@@ -8,9 +8,57 @@ body {
   padding: 0;
   box-sizing: border-box;
   background-color: #d1ecee;
+
   height: 100vh;
 }
 
 div {
   font-family: "Noto Sans KR", sans-serif;
+}
+
+.top3 {
+  background: linear-gradient(
+    -45deg,
+    #ffffffc8,
+    #a9a78a8e,
+    #ffffffc8,
+    #ffffff9e
+  );
+  background-size: 400% 400%;
+  animation: gradient 3s ease infinite;
+}
+.top1 {
+  background: linear-gradient(
+    -45deg,
+    #ffffffc8,
+    #bba6dc8e,
+    #ffffffc8,
+    #ffffff9e
+  );
+  background-size: 400% 400%;
+  animation: gradient 3s ease infinite;
+}
+
+.top2 {
+  background: linear-gradient(
+    -45deg,
+    #ffffffc8,
+    #dca6cd8e,
+    #ffffffc8,
+    #ffffff9e
+  );
+  background-size: 400% 400%;
+  animation: gradient 3s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
