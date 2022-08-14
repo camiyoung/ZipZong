@@ -18,6 +18,7 @@ import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { memberInfo } from "./features/login/memberReducer"
 import { memberIconListReview } from "./features/myPage/myPageReducer"
+import NotFound from "./pages/NotFound"
 
 function App() {
   const dispatch = useDispatch()
@@ -44,6 +45,7 @@ function App() {
           <BrowserRouter>
             <Navbar />
             <Routes>
+              <Route path="*" element={<NotFound />} />
               <Route path="/" element={<Navigate replace to="/mypage" />} />
               <Route path="/components" element={<Components />} />
               <Route path="/invite" element={<Invite />} />
