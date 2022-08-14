@@ -46,12 +46,11 @@ export default function CollectedIcons() {
             ? allGroupIcons.map((imageName, idx) => {
                 return (
                   <Tooltip
-                    content={<ShowExpression imageUrl={imageName} />}
+                    content={<ShowExpression imageUrl={imageName} key={idx} />}
                     placement="bottom"
                   >
                     <div
                       className="m-2.5 cursor-pointer"
-                      key={idx}
                       onClick={() => {
                         dispatch(
                           teamRepIconModify({
