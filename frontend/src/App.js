@@ -49,7 +49,7 @@ function App() {
               <Route path="/invite" element={<Invite />} />
 
               <Route path="/group/:teamId" element={<Group />} />
-              <Route path="/group" element={<Group />} />
+              {/* <Route path="/group" element={<Group />} /> */}
 
               <Route path="/groupset/:teamId" element={<GroupSet />} />
               <Route path="/groupset" element={<GroupSet />} />
@@ -61,7 +61,7 @@ function App() {
               />
 
               {/* <Route path="/login" element={<Login />} /> */}
-              <Route path="/room" element={<RoomPage />} />
+              {/* <Route path="/room" element={<RoomPage />} /> */}
               <Route path="/room/:teamId" element={<RoomPage />} />
               <Route path="/mypage" element={<MyPage />} />
               <Route path="/rank" element={<RankPage />} />
