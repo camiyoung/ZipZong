@@ -20,7 +20,10 @@ import java.util.Collection;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicUpdate
 @Getter
-@Table(name = "team")
+@Table(name = "team",
+        indexes = {
+                @Index(name = "link_idx", columnList = "invite_link")
+        })
 @EntityListeners(AuditingEntityListener.class)
 public class Team {
     @Id
