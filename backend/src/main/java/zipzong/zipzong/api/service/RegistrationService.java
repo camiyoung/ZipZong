@@ -78,9 +78,16 @@ public class RegistrationService {
 
         //가입한 팀이 5개 이상인 경우 Exception
         //프론트에서 추가 요청이 들어와서 수정함 (22/08/13, 신슬기)
-        List<Registration> registrations = registrationRepository.findJoinedTeamNoResigned(memberId);
-        if(registrations.size()>=5) {
+        List<Registration> joinRegistrations = registrationRepository.findJoinedTeamNoResigned(memberId);
+        if(joinRegistrations.size()>=5) {
             throw new CustomException(CustomExceptionList.MEMBER_NOT_JOIN_GROUP);
+        }
+
+        //가입한 팀원이 10명 이상인 경우 Exception
+        //프론트에서 추가 요청이 들어와서 수정함 (22/08/15, 신슬기)
+        List<Registration> teamRegistration = registrationRepository.findTeamDetail(teamId);
+        if(teamRegistration.size()>=10) {
+            throw new CustomException(CustomExceptionList. MAX_MEMBER_JOIN_GROUP);
         }
 
         if ((team.getIsDeleted() == null || team.getIsDeleted().equals(CheckExist.N))
