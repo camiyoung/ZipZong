@@ -1,14 +1,12 @@
+import "./Group.css"
+
 import React, { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { useNavigate, useLocation } from "react-router-dom"
-import Card from "../../components/card/Card"
 import ImageIcon from "../../components/icon/ImageIcon"
 import UserIcon from "../../components/icon/UserIcon"
 import Button from "../../components/button/Button"
 import Modal from "../../components/modal/Modal"
-import SmallTextInput from "../../components/input/SmallTextInput"
-import Select from "../../components/input/Select"
-import Radio from "../../components/input/Radio"
 import { teamInfo, teamResign } from "./groupReducer"
 import { setRoutine } from "../room/exerciseReducer"
 
@@ -149,84 +147,64 @@ function GroupManagement() {
 
       {/* 카드 영역 */}
       <div className="">
-        {/*  */}
-        <Card>
+        <div className="btn rounded-3xl bg-gradient-to-r from-gray-100 to-gray-200 py-6 cursor-pointer shadow-md border-2 border-white">
           <div
-            className="flex justify-center flex-col mb-1 hover:cursor-pointer"
+            className="flex justify-center flex-col mb-1 bg-gradient-to-r from-purple-500 to-red-500 bg-clip-text text-transparent"
             onClick={() => setModalContent("make")}
           >
-            <p className="text-center text-xl font-semibold">
+            <p className="text-center text-3xl font-semibold mb-2">
               아직 운동 방이 만들어지지 않았어요!
             </p>
             <p className="text-center text-md font-semibold">
               여기를 클릭하여 운동 방을 만들어 보세요
             </p>
           </div>
-        </Card>
-        <Card>
+        </div>
+        {/* <div className="btn rounded-3xl bg-gradient-to-br py-6 cursor-pointer shadow-md border-2 border-white grad">
           <div
             className="flex justify-center flex-col mb-1 hover:cursor-pointer"
             onClick={enterRoom}
           >
-            <p className="text-center text-xl font-semibold">
-              운동방이 만들어졌슴!! 제목
+            <p className="text-center text-3xl font-semibold mb-2 ">
+              🔥 {"운동방 제목은 뭘로 하면 좋을까요"} 🔥
             </p>
-            <p className="text-center text-md font-semibold">
-              참여 인원, 참여자 목록
-            </p>
-            <p className="text-center text-md font-semibold">
-              여기를 눌러 참여해보세요
+            <p className="text-center font-semibold flex justify-center items-center text-gray-700">
+              <UserIcon /> 5/10{" "}
+              <span className="ml-2 font-medium">
+                안지영 채송지 신슬기 황승주 박종민
+              </span>
             </p>
           </div>
-        </Card>
+        </div> */}
       </div>
-      <div className=" flex justify-evenly mt-5">
-        <Button
-          text="운동 루틴 관리"
-          round="round3xl"
-          height="h-10"
-          width="w-full"
-          // 그룹장만 운동관리
-          onClick={() => navigate(`/routine/${fetchTeamId}`)}
-        />
-        {/*
-        그룹장 ->그룹 설정 및 관리 보임
-        그룹원 -> 그룹 탈퇴 보임
-        */}
-        {/* {isLeader && teamMembers.length > 2 ? ( */}
-
-        {/* 지영: 그룹 탈퇴 버튼 누르면 나오는 모달 테스트 위해서 탈퇴버튼만 보이게 해뒀습니다. 원래 버전은 아래 주석 부분 */}
-        <Button
-          text="그룹 탈퇴"
-          round="round3xl"
-          height="h-10"
-          width="w-full"
-          onClick={() => setModalContent("resign")}
-        />
-        <Button
-          text="그룹 설정 및 관리"
-          round="round3xl"
-          height="h-10"
-          width="w-full"
-          onClick={() => navigate(`/groupset/${fetchTeamId}`)}
-        />
-        {/* {isLeader ? (
+      <div className=" flex justify-evenly mt-4">
+        <div className="w-full pr-2">
           <Button
-            text="그룹 설정 및 관리"
-            round="round3xl"
+            text="운동 루틴 관리"
             height="h-10"
             width="w-full"
-            onClick={() => navigate(`/groupset/${fetchTeamId}`)}
+            // 그룹장만 운동관리
+            onClick={() => navigate(`/routine/${fetchTeamId}`)}
           />
-        ) : (
-          <Button
-            text="그룹 탈퇴"
-            round="round3xl"
-            height="h-10"
-            width="w-full"
-            onClick={() => setModalContent("resign")}
-          />
-        )} */}
+        </div>
+        <div className="w-full pl-2">
+          {isLeader ? (
+            <Button
+              text="그룹 설정 및 관리"
+              height="h-10"
+              width="w-full"
+              onClick={() => navigate(`/groupset/${fetchTeamId}`)}
+            />
+          ) : (
+            <Button
+              text="그룹 탈퇴"
+              round="round3xl"
+              height="h-10"
+              width="w-full"
+              onClick={() => setModalContent("resign")}
+            />
+          )}
+        </div>
       </div>
     </div>
   )
@@ -238,7 +216,7 @@ export default function GroupInfo() {
 
   return (
     <div className="w-full flex mt-5">
-      <div className="w-1/2 flex items-center rounded-3xl bg-gradient-to-r from-white to-lgBlue-200 py-8 px-5 custom-border">
+      <div className="w-1/2 flex items-center rounded-3xl py-8 px-8 custom-border">
         <div className="flex justify-center items-center mr-5">
           {teamRepIcons ? (
             <ImageIcon

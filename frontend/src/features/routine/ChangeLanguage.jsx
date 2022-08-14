@@ -9,7 +9,7 @@ export default function ChangeLanguage({ exercise, ...restProps }) {
   }
   return (
     <div {...restProps}>
-      <span>{exerciseName.exercise}</span>
+      <span>{exerciseName[exercise]}</span>
     </div>
   )
 }

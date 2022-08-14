@@ -1,11 +1,8 @@
 import React, { useState, useRef, useEffect } from "react"
-import { useLocation } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 
 import Modal from "../../components/modal/Modal"
-import NameSquare from "../../components/nameSquare/NameSquare"
 import ImageIcon from "../../components/icon/ImageIcon"
-import PlusIcon from "../../components/icon/PlusIcon"
 import Button from "../../components/button/Button"
 
 export default function MemberList() {
@@ -28,7 +25,7 @@ export default function MemberList() {
     <div className="flex mt-10 w-full flex-wrap">
       {/* 모달 영역 */}
       <Modal isOpen={isOpen} modalClose={modalClose}>
-        <form>
+        <form className="py-3 pb-5">
           <p className="text-3xl font-semibold text-center mb-5">초대링크</p>
           <div className="flex justify-center items-center">
             <input
@@ -49,30 +46,53 @@ export default function MemberList() {
       {/* 모달 영역 끝 */}
       {teamMembers.map(({ nickname, repIcon, hasExercised, memberId }, idx) => {
         return (
-          <div key={idx}>
-            <NameSquare
-              // 운동을 한 사람들만 초록색, 나머지는 빨간색
-              color={hasExercised ? "green" : "red"}
-              size="middle"
-              text={nickname}
-              borderColor="none"
-              borderSize="none"
+          <div className="w-[10%] px-2" key={idx}>
+            <div
+              className={
+                hasExercised
+                  ? "w-full h-full flex flex-col items-center rounded-3xl shadow-md py-8 bg-gradient-to-b from-teal-50 to-teal-200 border-2 border-white "
+                  : "w-full h-full flex flex-col items-center rounded-3xl shadow-md py-8 border-2 border-gray-100 bg-gradient-to-b from-white to-gray-100"
+              }
             >
-              <ImageIcon
-                image={`/images/badgeIcon/${repIcon}.png`}
-                size="middle"
-                shape="round"
-                className="m-4"
-              />
-            </NameSquare>
+              <div className="flex justify-center mb-2">
+                {" "}
+                <ImageIcon
+                  image={`/images/badgeIcon/${repIcon}.png`}
+                  size="large"
+                  shape="round"
+                  borderStyle="none"
+                />
+              </div>
+              <div className="text-sm font-medium flex justify-center px-5 h-[50px] items-center">
+                {nickname}
+              </div>
+            </div>
           </div>
         )
       })}
-      <div onClick={() => setOpen(true)} className="hover:scale-125">
-        <NameSquare text="멤버를 초대해보세요!" cursor="pointer">
-          <PlusIcon />
-        </NameSquare>
-      </div>
+      {teamMembers.length < 10 ? (
+        <div
+          onClick={() => setOpen(true)}
+          className="hover:scale-110 cursor-pointer w-[10%] px-2"
+        >
+          <div
+            className={
+              "w-full h-full flex flex-col items-center rounded-3xl shadow-md py-8 border-2 border-gray-100"
+            }
+          >
+            <div className="flex justify-center mb-2">
+              <ImageIcon
+                image="http://cdn.onlinewebfonts.com/svg/img_356964.png"
+                size="large"
+                borderStyle="none"
+              />
+            </div>
+            <div className="text-sm font-medium flex justify-center px-5 h-[50px] items-center">
+              멤버 초대
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   )
 }
