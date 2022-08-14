@@ -108,9 +108,18 @@ function GroupManagement() {
   const [modalContent, setModalContent] = useState("") // 모달 안에 들어갈 내용
 
   const modalClose = () => {
-    setOpen(false)
     setModalContent("")
+    setOpen(false)
   }
+
+  const enterRoom = () => {
+    if (!fetchTeamId) {
+      window.alert("올바른 그룹 페이지가 아닙니다")
+      return
+    }
+    navigate(`/room/${fetchTeamId}`)
+  }
+
   // useEffect
   useEffect(() => {
     dispatch(teamInfo(fetchTeamId))
@@ -131,12 +140,10 @@ function GroupManagement() {
     <div className="w-full ml-10">
       {/* 모달 영역 1 */}
       <Modal isOpen={isOpen} modalClose={modalClose}>
-        {modalContent === "make" ? (
-          <MakeRoomForm teamId={fetchTeamId} />
-        ) : (
+        {modalContent === "make" && <MakeRoomForm teamId={fetchTeamId} />}
+        {modalContent === "resign" && (
           <ResignTeam teamId={fetchTeamId} memberId={memberId} />
         )}
-        {/*  */}
       </Modal>
       {/* 모달 영역 1 끝 */}
 
@@ -159,7 +166,7 @@ function GroupManagement() {
         <Card>
           <div
             className="flex justify-center flex-col mb-1 hover:cursor-pointer"
-            onClick={() => setModalContent("make")}
+            onClick={enterRoom}
           >
             <p className="text-center text-xl font-semibold">
               운동방이 만들어졌슴!! 제목
