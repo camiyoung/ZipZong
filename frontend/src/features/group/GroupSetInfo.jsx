@@ -117,7 +117,7 @@ export default function GroupSetInfo() {
             />
           </div>
           <div>
-            <p className="w-96"> {teamContent} </p>
+            <p className="pr-2"> {teamContent} </p>
           </div>
         </div>
       </div>
