@@ -24,13 +24,11 @@ export default class TeachableMachine extends Component {
     this.canvas = undefined
     this.tmModel = undefined
     this.changeAction = this.changeAction.bind(this)
+    this.predicFunction = undefined
   }
 
   componentDidMount() {
-    // console.log(
-    //   "티처블머신 컴포넌트 마운트",
-    //   this.props.user.getStreamManager().stream
-    // )
+    // console.log("티처블머신 컴포넌트 마운트", this.props.actionName)
     // console.log(
     //   "티처블머신 컴포넌트 마운트",
     //   this.props.user.getStreamManager().videos[0].video
@@ -43,15 +41,44 @@ export default class TeachableMachine extends Component {
 
   componentWillUnmount() {
     // console.log("티처블머신 컴포넌트 언마운트 ")
-    this.props.updateSuccess(this.state.successCount)
+    this.props.updateSuccess()
   }
 
   async makeModel() {
-    // this.model = await tmPose.load(this.modelURL, this.metadataURL)
-    this.model = this.tmModel.modelPushup
+    switch (this.props.actionName) {
+      case "PUSHUP":
+        this.model = this.tmModel.modelPushup
+        this.predicFunction = this.tmModel.callbackPushup
+        break
+      case "BURPEE":
+        this.model = this.tmModel.modelBurpee
+        this.predicFunction = this.tmModel.callbackBurpee
+        break
+      case "JUMPINGJACK":
+        this.model = this.tmModel.modelJumpingjack
+        this.predicFunction = this.tmModel.callbackJumpingjack
+        break
+      case "LATERALRAISE":
+        this.model = this.tmModel.modelLateralraise
+        this.predicFunction = this.tmModel.callbackLateralraise
+        break
+      case "LUNGE":
+        this.model = this.tmModel.modelLunge
+        this.predicFunction = this.tmModel.callbackLunge
+        break
+      case "SQUAT":
+        this.model = this.tmModel.modelSquat
+        this.predicFunction = this.tmModel.callbackSquat
+        break
+
+      default:
+        this.model = this.tmModel.modelTest
+        this.predicFunction = this.tmModel.callbackTest
+        break
+    }
+
+    // this.model = this.tmModel.modelPushup
     this.maxPredictions = this.model.getTotalClasses()
-    // console.log("최대 예측값:", this.maxPredictions)
-    // console.log("모델:", this.model)
     await this.init()
     this.loop()
   }
@@ -77,7 +104,9 @@ export default class TeachableMachine extends Component {
     const prediction = await this.model.predict(posenetOutput)
     const predictionsList = prediction.map((res, i) => (
       <div key={i}>
-        {res.className} : {res.probability.toFixed(2)}
+        <span className=" text-4xl font-bold">
+          {res.className} : {res.probability.toFixed(2)}
+        </span>
       </div>
     ))
     // console.log("리스트", predictionsList)
@@ -92,16 +121,21 @@ export default class TeachableMachine extends Component {
 
   updateCount(data) {
     data.forEach((res) => {
-      const doneAction = this.tmModel.callbackPushup(
+      const doneAction = this.predicFunction(
         res,
         this.beforAction,
         this.changeAction
       )
 
       if (doneAction) {
-        this.setState((state) => ({
-          successCount: state.successCount + 1,
-        }))
+        this.setState(
+          (state) => ({
+            successCount: state.successCount + 1,
+          }),
+          () => {
+            this.props.countSuccess()
+          }
+        )
       }
     })
   }
@@ -118,7 +152,7 @@ export default class TeachableMachine extends Component {
   render() {
     return (
       <div className="w-full h-full absolute z-20">
-        <div className="w-[200px] h-[200px] bg-white absolute right-0 border-4">
+        <div className="w-[300px] h-[200px] bg-white absolute right-0 border-4">
           {this.state.resEle && (
             <div>
               {this.state.resEle}
