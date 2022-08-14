@@ -163,35 +163,28 @@ export default function Group() {
             </div>
           )
         })}
-        <div
-          onClick={() => setOpen(true)}
-          className="flex w-1/5 justify-center"
-        >
-          <div className="w-11/12 shadow-md flex justify-center items-center rounded-3xl cursor-pointer">
-            <div className="flex justify-center items-center w-full bg-white rounded-3xl h-[270px]">
-              <div className="flex w-4/5 ">
-                <Icon
-                  image="https://icons-for-free.com/download-icon-circle+more+plus+icon-1320183136549593898_512.png"
-                  size="large"
-                  borderStyle="none"
-                />
-                <div className="flex flex-col justify-center pl-3">
-                  <span className="pl-1 text-md">그룹을</span>
-                  <span className="pl-1 text-md">만들어보세요.</span>
+        {registeredTeam.length < 5 ? (
+          <div
+            onClick={() => setOpen(true)}
+            className="flex w-1/5 justify-center"
+          >
+            <div className="w-11/12 shadow-md flex justify-center items-center rounded-3xl cursor-pointer">
+              <div className="flex justify-center items-center w-full bg-white rounded-3xl h-[270px]">
+                <div className="flex w-4/5 ">
+                  <Icon
+                    image="https://icons-for-free.com/download-icon-circle+more+plus+icon-1320183136549593898_512.png"
+                    size="large"
+                    borderStyle="none"
+                  />
+                  <div className="flex flex-col justify-center pl-3">
+                    <span className="pl-1 text-md">그룹을</span>
+                    <span className="pl-1 text-md">만들어보세요.</span>
+                  </div>
                 </div>
               </div>
-              {/* <div className="flex justify-center p-3">
-                <Icon
-                  image="https://icons-for-free.com/download-icon-circle+more+plus+icon-1320183136549593898_512.png"
-                  size="large"
-                />
-              </div>
-              <p className="p-4 font-bold flex justify-center text-lg">
-                그룹을 추가해보세요.
-              </p> */}
             </div>
           </div>
-        </div>
+        ) : null}
       </div>
     </div>
   )
