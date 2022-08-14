@@ -58,7 +58,7 @@ export default function RankPage() {
               type="button"
               ref={groupRankRef}
               onClick={() => setCategory("group")}
-              className="py-2.5 px-5  text-sm  mr-0.5 font-medium text-gray-900 focus:outline-none bg-white rounded-t-xl  hover:bg-gray-200 hover:text-purple-700  focus:z-10  focus:bg-[#e5d1ed]"
+              className="w-1/2 py-2.5  text-sm  font-medium text-gray-900 focus:outline-none bg-white rounded-t-xl  hover:bg-gray-200 hover:text-purple-700  focus:z-10  focus:bg-gradient-to-r from-[#e5d1ed] to-[#d6e1ee]  shadow-md"
             >
               그룹 랭킹
             </button>
@@ -66,13 +66,13 @@ export default function RankPage() {
               type="button"
               onClick={() => setCategory("personal")}
               ref={personalRankRef}
-              className="py-2.5 px-5 mr-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-t-xl  hover:bg-gray-200 hover:text-purple-700  focus:z-10  focus:bg-[#e5d1ed]"
+              className="w-1/2 py-2.5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-t-xl  hover:bg-gray-200 hover:text-purple-700  focus:z-10 focus:bg-gradient-to-r from-[#d6e1ee] to-[#c6f2ef]  shadow-md "
             >
               개인 랭킹
             </button>
           </div>
 
-          <div className="flex  bg-gradient-to-r from-[#e5d1ed] to-[#c6f2ef]  rounded-tr-3xl shadow-md">
+          <div className="flex  bg-gradient-to-r from-[#e5d1ed] to-[#c6f2ef]   shadow-md">
             {category === "group" ? (
               <div className="flex w-full  my-10 ">
                 <div className=" w-1/2 flex flex-col justify-center items-center ">
