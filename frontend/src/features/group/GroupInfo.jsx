@@ -137,7 +137,7 @@ function GroupManagement() {
   }, [modalContent])
 
   return (
-    <div className="w-full ml-10">
+    <div className="w-1/2 ml-10">
       {/* 모달 영역 1 */}
       <Modal isOpen={isOpen} modalClose={modalClose}>
         {modalContent === "make" && <MakeRoomForm teamId={fetchTeamId} />}
@@ -235,33 +235,36 @@ function GroupManagement() {
 export default function GroupInfo() {
   const { teamName, teamMembers, teamContent, teamLeader, teamRepIcons } =
     useSelector((state) => state.group)
+
   return (
     <div className="w-full flex mt-5">
-      <Card size="100%">
-        <div className="flex">
-          <ImageIcon
-            image={`/images/badgeIcon/${teamRepIcons}.png`}
-            size="middle"
-            shape="round"
-          />
-
-          <div className="flex flex-col ml-10">
-            <p className="text-xl">
-              <strong>{teamName}</strong>
-            </p>
-
-            <div className="flex" style={{ fontSize: "11px" }}>
-              <p>그룹장: {teamLeader.nickname}</p>
-              <p className="flex">
+      <div className="w-1/2 flex items-center rounded-3xl bg-gradient-to-r from-white to-lgBlue-200 py-8 px-5 custom-border">
+        <div className="flex justify-center items-center mr-5">
+          {teamRepIcons ? (
+            <ImageIcon
+              size="large"
+              image={`/images/badgeIcon/${teamRepIcons}.png`}
+              shape="round"
+            />
+          ) : null}
+        </div>
+        <div className="w-4/5">
+          <div className="mb-2">
+            <p className="text-3xl font-semibold mb-1">{teamName}</p>
+            <div className="flex items-center">
+              <p className="mr-1">그룹장:</p>{" "}
+              <p className="mr-2"> {teamLeader.nickname}</p>
+              <p className="flex items-center">
                 <UserIcon />
                 {teamMembers.length} / 10
               </p>
             </div>
           </div>
+          <div>
+            <p className=""> {teamContent} </p>
+          </div>
         </div>
-        <hr className="mb-3 mt-2" />
-        <p className="text-md">{teamContent}</p>
-      </Card>
+      </div>
 
       <GroupManagement />
     </div>
