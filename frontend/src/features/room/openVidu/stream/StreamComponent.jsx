@@ -66,11 +66,14 @@ export default class StreamComponent extends Component {
   render() {
     return (
       <div className="relative w-full h-full">
-        <div className="absolute top-0 z-30">
-          <div>
-            <span id="nickname">{this.props.user.getNickname()}</span>
-            {this.props.user.isLocal() && <span id=""> </span>}
-          </div>
+        <div className="absolute top-5 z-30">
+          <span
+            id="nickname"
+            className=" bg-[#c9d8da7c] px-3 py-1 pr-5 rounded-r-lg  border-orange-700"
+          >
+            {this.props.user.getNickname()}
+          </span>
+          {this.props.user.isLocal() && <span id=""> </span>}
         </div>
 
         {this.props.user !== undefined &&

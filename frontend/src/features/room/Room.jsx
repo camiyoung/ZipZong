@@ -622,7 +622,7 @@ class Room extends Component {
                 type="alret"
               />
             )}
-            <div className="w-1/6  min-w-[300px]   " id="subscribersArea">
+            <div className="w-1/6  min-w-[300px] p-3" id="subscribersArea">
               <OtherPeople subscribers={this.state.subscribers} />
             </div>
 
