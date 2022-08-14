@@ -254,7 +254,6 @@ export default function GroupSetMemberList() {
           </span>
         </p>
       </div>
-      {console.log("여기가 진짜입니다", teamMembers)}
       {teamMembers.map(
         ({ nickname, createdAt, role, repIcon, memberId }, idx) => {
           return (
