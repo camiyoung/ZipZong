@@ -11,11 +11,23 @@ export const sendExerciseResult = createAsyncThunk(
   }
 )
 
-export const getSessionInfo = createAsyncThunk("exercise/room", async () => {
-  const { data } = await openvidu.get(`/SessionA`)
-  //   console.log(data)
-  return data.connections.content
-})
+export const getSessionInfo = createAsyncThunk(
+  "exercise/room",
+  async (sessionId) => {
+    const { data } = await openvidu.get(`/${sessionId}`)
+    //   console.log(data)
+    return data.connections.content
+  }
+)
+
+export const getRoutineDetail = createAsyncThunk(
+  "exercise/routineDetail",
+  async (routineId) => {
+    console.log("루틴 정보 가져오기 루틴 번호: ", routineId)
+    const { data } = await http.get(`routine/detail/${routineId}`)
+    return data.data
+  }
+)
 
 export const exerciseReducer = createSlice({
   name: "exercise",
@@ -24,6 +36,12 @@ export const exerciseReducer = createSlice({
     routine: undefined,
     admin: undefined,
     result: tmpResult,
+    rotuineId: undefined,
+    rotuineInfo: undefined,
+    todoList: undefined,
+    todoIndex: -1,
+    successCount: 0,
+    isExercising: false, //
   },
   reducers: {
     setMyExerciseResult: (state, action) => {
@@ -33,7 +51,31 @@ export const exerciseReducer = createSlice({
       state.result.allResult = action.payload
     },
     setRoutine: (state, action) => {
-      state.routine = action.payload
+      state.routineId = action.payload
+    },
+    setTeamId: (state, action) => {
+      state.roomId = action.payload
+    },
+    setRoutineInfo: (state, action) => {
+      state.rotuineInfo = action.payload
+    },
+    setExerciseStatus: (state, action) => {
+      state.isExercising = action.payload
+    },
+    setTodoList: (state, action) => {
+      state.todoList = action.payload
+      console.log("todolist 변경", state.todoList)
+    },
+    updateSuccessCount: (state) => {
+      // console.log("카운트 증가 ")
+      state.successCount++
+    },
+    resetSuccessCount: (state) => {
+      // console.log("카운트 초기화 ")
+      state.successCount = 0
+    },
+    updateIndex: (state) => {
+      state.todoIndex++
     },
   },
   extraReducers(builder) {
@@ -53,11 +95,25 @@ export const exerciseReducer = createSlice({
     builder.addCase(sendExerciseResult.fulfilled, (state, action) => {
       state.result.allResult = action.payload
     })
+    builder.addCase(getRoutineDetail.fulfilled, (state, action) => {
+      console.log("루틴 변경 ", action.payload)
+      state.rotuineInfo = action.payload
+    })
   },
 })
 
 export const getAdminId = (state) => state.exercise.admin
 export const getResults = (state) => state.exercise.result
 export default exerciseReducer.reducer
-export const { setAllExerciseResult, setMyExerciseResult, setRoutine } =
-  exerciseReducer.actions
+export const {
+  setAllExerciseResult,
+  setMyExerciseResult,
+  setRoutine,
+  setTeamId,
+  setRoutineInfo,
+  setExerciseStatus,
+  setTodoList,
+  updateSuccessCount,
+  resetSuccessCount,
+  updateIndex,
+} = exerciseReducer.actions
