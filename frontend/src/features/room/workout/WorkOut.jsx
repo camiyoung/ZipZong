@@ -65,12 +65,12 @@ const WorkOut = ({ myVideo, tmModel, user, finishExercise }) => {
   }
 
   const updateSuccess = () => {
-    console.log(
-      "루틴idx:",
-      routineIdx.current,
-      "운동 동작 끝! 횟수:",
-      successCount
-    )
+    // console.log(
+    //   "루틴idx:",
+    //   routineIdx.current,
+    //   "운동 동작 끝! 횟수:",
+    //   successCount
+    // )
     const idx = routineIdx.current - 1
     routine.current[idx].performNum = successCount
     dispatch(resetSuccessCount())
@@ -142,16 +142,11 @@ const Start = ({
             tmModel={tmModel}
             updateSuccess={updateSuccess}
             user={user}
-            actionName={action.name}
+            actionName={action.exerciseName}
             countSuccess={countSuccess}
           />
         )}
         {<Timer action={action} />}
-        {!!action && (
-          <div className="absolute top-0 bg-white z-50">
-            현재 운동:{action?.name ?? "휴식"}, 시간:{action.duration}
-          </div>
-        )}
       </div>
     </div>
   )
