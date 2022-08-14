@@ -1,18 +1,13 @@
 import React, { useEffect, useRef, useState } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import {
+  updateIndex,
+  updateSuccessCount,
+  resetSuccessCount,
+} from "../exerciseReducer"
 import TeachableMachine from "../teachableMachine/TeachableMachine"
 import Timer from "./Timer"
-
-const exersiceRoutine = {
-  routineId: 2,
-  routineName: "tmproutine",
-  exercise: [
-    { name: "LEGRAISE", count: 7 },
-    { name: "PUSHUP", count: 7 },
-    // { name: "BURPEE", count: 7 },
-  ],
-  breaktime: 2,
-}
-// 운동시간 5초
+import { TodoList } from "./TodoList"
 
 function useTimeout(callback, delay) {
   const timeoutRef = useRef(null)
@@ -31,7 +26,9 @@ function useTimeout(callback, delay) {
 }
 
 const WorkOut = ({ myVideo, tmModel, user, finishExercise }) => {
-  const { breaktime, exercise: exerciseInfos } = exersiceRoutine
+  const dispatch = useDispatch()
+  const todoList = useSelector((state) => state.exercise.todoList)
+  const successCount = useSelector((state) => state.exercise.successCount)
   const routine = useRef([])
 
   const [currentAction, setCurrentAction] = useState({
@@ -39,66 +36,45 @@ const WorkOut = ({ myVideo, tmModel, user, finishExercise }) => {
     duration: 3,
   })
 
-  const [resultList, setResultlist] = useState()
-
   const [isRunning, setRunning] = useState(true)
 
   const routineIdx = useRef(0)
   useEffect(() => {
-    let todo = []
-    console.log("운동 시작 mounted")
-    exerciseInfos.forEach((info) => {
-      todo.push({
-        type: "exercise",
-        duration: 5,
-        name: info.name,
-        goal: info.count,
-        success: 0,
-      })
-      todo.push({ type: "breaktime", duration: breaktime })
+    routine.current = todoList.map((item) => {
+      return { ...item, performNum: 0 }
     })
-    todo.pop()
-
-    routine.current = todo
-    console.log(routine)
-    changeResList()
+    console.log("운동 시작", routine.current)
   }, [])
 
   const countePreExercise = useRef(0)
 
   const changeNextAction = () => {
     const nextAction = routine.current[routineIdx.current]
-    // addSuccessCount(routineIdx.current)
-    // changeResList()
+
     routineIdx.current++
-    // console.log("다음 동작", nextAction, routineIdx)
     setCurrentAction(nextAction)
   }
   const finishAction = () => {
+    dispatch(updateIndex())
+
     setRunning(false)
   }
 
-  const updateSuccess = (count) => {
-    // console.log("루틴idx:", routineIdx.current, "운동 동작 끝! 횟수:", count)
-    const idx = routineIdx.current - 1
-    routine.current[idx].success = count
-    // changeResList()
-    console.log(routine.current)
-    countePreExercise.current = 0
+  const countSuccess = () => {
+    dispatch(updateSuccessCount())
   }
 
-  const changeResList = () => {
-    const list = routine.current.map((info, idx) => {
-      if (info.type === "breaktime") return <div key={idx}></div>
-      return (
-        <div key={idx}>
-          {info.name} /목표 :{info.goal} / 성공 : {info.success}
-          <br />
-        </div>
-      )
-    })
-
-    setResultlist(list)
+  const updateSuccess = () => {
+    // console.log(
+    //   "루틴idx:",
+    //   routineIdx.current,
+    //   "운동 동작 끝! 횟수:",
+    //   successCount
+    // )
+    const idx = routineIdx.current - 1
+    routine.current[idx].performNum = successCount
+    dispatch(resetSuccessCount())
+    countePreExercise.current = 0
   }
 
   useEffect(() => {
@@ -107,14 +83,11 @@ const WorkOut = ({ myVideo, tmModel, user, finishExercise }) => {
       changeNextAction()
       setRunning(true)
     } else if (!isRunning && routineIdx.current === routine.current.length) {
-      // console.log("운동 루틴 종료!!!!!!")
+      console.log("운동 루틴 종료!!!!!!", routine.current)
       finishExercise(routine.current)
     }
   }, [isRunning])
 
-  useEffect(() => {
-    changeResList()
-  }, [currentAction])
   return (
     <div>
       {isRunning && (
@@ -125,14 +98,14 @@ const WorkOut = ({ myVideo, tmModel, user, finishExercise }) => {
           finishAction={finishAction}
           tmModel={tmModel}
           updateSuccess={updateSuccess}
+          countSuccess={countSuccess}
           user={user}
         />
       )}
-      {/* {isRunning &&( */}
-      <div className="w-[300px] absolute bottom-0 left-0 bg-white z-50 border-2 border-purple-300">
-        {resultList}
+
+      <div className="absolute z-50 bottom-0 ml-2">
+        <TodoList />
       </div>
-      {/* )} */}
     </div>
   )
 }
@@ -145,6 +118,7 @@ const Start = ({
   tmModel,
   updateSuccess,
   user,
+  countSuccess,
 }) => {
   // console.log("현재 동작 정보", action)
 
@@ -168,14 +142,11 @@ const Start = ({
             tmModel={tmModel}
             updateSuccess={updateSuccess}
             user={user}
+            actionName={action.exerciseName}
+            countSuccess={countSuccess}
           />
         )}
         {<Timer action={action} />}
-        {!!action && (
-          <div className="absolute top-0 bg-white z-50">
-            현재 운동:{action.type}, 시간:{action.duration}
-          </div>
-        )}
       </div>
     </div>
   )
