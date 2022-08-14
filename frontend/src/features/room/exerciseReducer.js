@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { openvidu } from "../../api/openvidu"
 import { http } from "../../api/axios"
-import tmpResult from "./tmpdata"
 
 export const sendExerciseResult = createAsyncThunk(
   "exercise/result",
@@ -35,7 +34,10 @@ export const exerciseReducer = createSlice({
     roomId: undefined,
     routine: undefined,
     admin: undefined,
-    result: tmpResult,
+    result: {
+      myResult: undefined,
+      allResult: undefined,
+    },
     rotuineId: undefined,
     rotuineInfo: undefined,
     todoList: undefined,
@@ -49,6 +51,11 @@ export const exerciseReducer = createSlice({
     },
     setAllExerciseResult: (state, action) => {
       state.result.allResult = action.payload
+      const nickname = localStorage.getItem("nickname")
+      const myPercentage = state.result.allResult.personalPercentages.find(
+        (person) => person.nickname === nickname
+      )
+      state.result.myResult.percentage = myPercentage
     },
     setRoutine: (state, action) => {
       state.routineId = action.payload
@@ -104,6 +111,7 @@ export const exerciseReducer = createSlice({
 
 export const getAdminId = (state) => state.exercise.admin
 export const getResults = (state) => state.exercise.result
+export const hasResult = (state) => {}
 export default exerciseReducer.reducer
 export const {
   setAllExerciseResult,
