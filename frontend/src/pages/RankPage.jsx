@@ -10,8 +10,6 @@ export default function RankPage() {
   const [musicPlay, setMusicPlay] = useState(true)
   const audioRef = useRef()
   const [rankingInfo, setRankingInfo] = useState()
-  const groupRankRef = useRef()
-  const personalRankRef = useRef()
   const [category, setCategory] = useState("group")
 
   useEffect(() => {
@@ -22,11 +20,7 @@ export default function RankPage() {
       // console.log(res)
       setRankingInfo(res.data.data)
     })
-
-    if (groupRankRef.current) groupRankRef.current.focus()
-    // console.log(groupRankRef)
   }, [])
-  // console.log(rankingInfo)
 
   const playMusic = () => {
     if (musicPlay) {
@@ -56,17 +50,19 @@ export default function RankPage() {
           <div className="w-full rounded-t-3xl">
             <button
               type="button"
-              ref={groupRankRef}
               onClick={() => setCategory("group")}
-              className="w-1/2 py-2.5  text-sm  font-medium text-gray-900 focus:outline-none bg-white rounded-t-xl  hover:bg-gray-200 hover:text-purple-700  focus:z-10  focus:bg-gradient-to-r from-[#e5d1ed] to-[#d6e1ee]  shadow-md"
+              className={`w-1/2 py-2.5  text-sm  font-medium text-gray-900 focus:outline-none  rounded-t-xl  hover:bg-gray-200 hover:text-purple-700  focus:z-10  focus:bg-gradient-to-r from-[#e5d1ed] to-[#d6e1ee]  shadow-md ${
+                category === "group" ? "bg-gradient-to-r" : "bg-[#ffffffbd] "
+              }`}
             >
               그룹 랭킹
             </button>
             <button
               type="button"
               onClick={() => setCategory("personal")}
-              ref={personalRankRef}
-              className="w-1/2 py-2.5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-t-xl  hover:bg-gray-200 hover:text-purple-700  focus:z-10 focus:bg-gradient-to-r from-[#d6e1ee] to-[#c6f2ef]  shadow-md "
+              className={`w-1/2 py-2.5 text-sm font-medium text-gray-900 focus:outline-none bg-[#ffffffbd] rounded-t-xl  hover:bg-gray-200 hover:text-purple-700  focus:z-10 focus:bg-gradient-to-r from-[#d6e1ee] to-[#c6f2ef]  shadow-md ${
+                category === "personal" ? "bg-gradient-to-r" : "bg-[#ffffffbd] "
+              }`}
             >
               개인 랭킹
             </button>
