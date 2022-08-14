@@ -119,7 +119,7 @@ function GroupManagement() {
     navigate(`/room/${fetchTeamId}`)
   }
 
-  const memberList = roomParticipant.join(" ")
+  const memberList = roomParticipant ? roomParticipant.join(" ") : null
 
   // useEffect
   useEffect(() => {
