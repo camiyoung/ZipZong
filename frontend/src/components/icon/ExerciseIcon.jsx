@@ -23,7 +23,7 @@ export default function ExerciseIcon({ image, size, shape, ...restProps }) {
       style={{
         backgroundImage: `url(/images/exerciseIcon/${image}.png)`,
       }}
-      className={`${iconSize} ${shapeType} bg-cover`}
+      className={`${iconSize} ${shapeType} bg-cover bg-center`}
     ></div>
   )
 }

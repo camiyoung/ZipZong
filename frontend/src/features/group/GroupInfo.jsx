@@ -119,6 +119,8 @@ function GroupManagement() {
     navigate(`/room/${fetchTeamId}`)
   }
 
+  const memberList = roomParticipant.join(" ")
+
   // useEffect
   useEffect(() => {
     dispatch(teamInfo(fetchTeamId))
@@ -149,11 +151,11 @@ function GroupManagement() {
       {/* 카드 영역 */}
       <div className="">
         {roomStatus === "EMPTY" && (
-          <div className="btn rounded-3xl bg-gradient-to-r from-gray-100 to-gray-200 py-6 cursor-pointer shadow-md border-2 border-white grad3">
-            <div
-              className="flex justify-center flex-col mb-1 bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent"
-              onClick={() => setModalContent("make")}
-            >
+          <div
+            className="btn rounded-3xl bg-gradient-to-r from-gray-100 to-gray-200 py-6 cursor-pointer shadow-md border-2 border-white grad3"
+            onClick={() => setModalContent("make")}
+          >
+            <div className="flex justify-center flex-col mb-1 bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">
               <p className="text-center text-3xl font-semibold mb-2">
                 아직 운동 방이 만들어지지 않았어요!
               </p>
@@ -164,33 +166,30 @@ function GroupManagement() {
           </div>
         )}
         {roomStatus === "READY" && (
-          <div className="btn rounded-3xl bg-gradient-to-br py-6 cursor-pointer shadow-md border-2 border-white grad">
-            <div
-              className="flex justify-center flex-col mb-1 hover:cursor-pointer"
-              onClick={enterRoom}
-            >
+          <div
+            className="btn rounded-3xl bg-gradient-to-br py-6 cursor-pointer shadow-md border-2 border-white grad"
+            onClick={enterRoom}
+          >
+            <div className="flex justify-center flex-col mb-1">
               <p className="text-center text-3xl font-semibold mb-2 ">
                 🔥 {roomName} 🔥
               </p>
               <p className="text-center font-semibold flex justify-center items-center text-gray-700">
                 <UserIcon /> {roomParticipant.length} / 10{" "}
-                <span className="ml-2 font-medium">{roomParticipant}</span>
+                <span className="ml-2 font-medium">{memberList}</span>
               </p>
             </div>
           </div>
         )}
         {roomStatus === "EXERCISING" && (
-          <div className="btn rounded-3xl bg-gradient-to-br py-6 cursor-pointer shadow-md border-2 border-white grad2">
-            <div
-              className="flex justify-center flex-col mb-1 hover:cursor-pointer"
-              onClick={enterRoom}
-            >
+          <div className="btn rounded-3xl bg-gradient-to-br py-6 shadow-md border-2 border-white grad2">
+            <div className="flex justify-center flex-col mb-1">
               <p className="text-center text-3xl font-semibold mb-2 ">
                 운동을 이미 시작한 방입니다.
               </p>
               <p className="text-center font-semibold flex justify-center items-center text-gray-700">
                 <UserIcon /> {roomParticipant.length} / 10{" "}
-                <span className="ml-2 font-medium">{roomParticipant}</span>
+                <span className="ml-2 font-medium">{memberList}</span>
               </p>
             </div>
           </div>

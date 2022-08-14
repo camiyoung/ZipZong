@@ -4,6 +4,8 @@ import { useLocation } from "react-router"
 import CalendarForm from "../../components/calendar/CalendarForm"
 import ImageIcon from "../../components/icon/ImageIcon"
 import { teamTotalExerciseCount, rankingTeam } from "./groupReducer"
+import ChangeLanguage from "../routine/ChangeLanguage"
+import ExerciseIcon from "../../components/icon/ExerciseIcon"
 
 function Ranking() {
   const dispatch = useDispatch()
@@ -170,6 +172,7 @@ export default function ExerciseInfo() {
     dispatch(teamTotalExerciseCount(fetchTeamId))
   }, [])
   const {
+    teamName,
     teamCurrentStreak,
     shieldCount,
     teamDailyHistory,
@@ -187,11 +190,72 @@ export default function ExerciseInfo() {
   }, [stateGroupDailyHistory])
 
   return (
-    <div className="flex mt-10 flex-col flex-wrap">
-      <div className="flex">
-        <div className="flex">
-          <CalendarForm />
+    <div className="flex mt-10 flex-col flex-wrap w-full">
+      <div className="flex w-full justify-center">
+        <CalendarForm />
+
+        <div className="ml-10 rounded-3xl bg-white min-w-min h-[340px] w-[70%] flex shadow-md">
           <div
+            className="w-1/4 bg-lgBlue-400 h-full bg-gradient-to-t from-lgBlue-500 to-secondary-300 flex flex-col justify-center items-center"
+            style={{
+              borderRadius: "1rem 0px 0px 1rem",
+            }}
+          >
+            <p className="text-5xl text-white font-bold mb-3">년</p>
+            <p className="text-5xl text-white font-bold mb-5">월 일</p>
+            <p className="text-lg text-white font-normal"> {teamName}</p>
+            <span className="text-sm mt-0.5 text-gray-100">
+              스트릭 쉴드 : {shieldCount}개
+            </span>
+          </div>
+          <div className="w-3/4 h-full flex items-center justify-center">
+            <div className="flex flex-col justify-center w-10/12">
+              <div className="flex items-center justify-center mt-1">
+                <p className="text-[14px] mr-1">다같이 운동한 시간:</p>
+                {teamDailyTotalTime && teamDailyTotalTime >= 60 ? (
+                  <p className="text-[18px]">
+                    {parseInt(teamDailyTotalTime / 60)} 시간{" "}
+                    {teamDailyTotalTime % 60} 분
+                  </p>
+                ) : (
+                  <p className="text-[18px]">{teamDailyTotalTime} 분</p>
+                )}
+              </div>
+              <div></div>
+              <div className="flex flex-wrap w-full justify-start">
+                {stateGroupDailyHistory === null ||
+                stateGroupDailyHistory.length === 0 ? (
+                  // true, false 순서를 바꾸면 정상적으로 작동함 -> 운동을 하면 결과, 없으면 운동 안했다는 메시지 출력
+                  <p>이 날은 운동을 하지 않았습니다!</p>
+                ) : (
+                  stateGroupDailyHistory.map(
+                    ({ performName, performNum, performTime }, idx) => {
+                      return (
+                        <div key={idx} className="flex w-[33.33%] my-3">
+                          <ExerciseIcon
+                            size="large"
+                            shape="round"
+                            image={performName}
+                          ></ExerciseIcon>
+                          <div className="flex flex-col justify-center items-center w-[70%]">
+                            <div className="font-semibold">
+                              {" "}
+                              <ChangeLanguage exercise={performName} />
+                            </div>
+                            <p>
+                              {" "}
+                              {performNum}회 / {performTime}분{" "}
+                            </p>
+                          </div>
+                        </div>
+                      )
+                    }
+                  )
+                )}
+              </div>
+            </div>
+
+            {/* <div
             className="border mx-5 rounded-lg border-gray-400 min-w-min"
             style={{
               boxShadow: "0 12px 24px rgba(0, 0, 0, 0.2)",
@@ -199,22 +263,10 @@ export default function ExerciseInfo() {
               height: "295.94px",
             }}
           >
-            <div className="flex items-center justify-center mt-1">
-              <p className="text-[14px] mr-1">다같이 운동한 시간:</p>
-              {teamDailyTotalTime && teamDailyTotalTime >= 60 ? (
-                <p className="text-[18px]">
-                  {parseInt(teamDailyTotalTime / 60)} 시간{" "}
-                  {teamDailyTotalTime % 60} 분
-                </p>
-              ) : (
-                <p className="text-[18px]">{teamDailyTotalTime} 분</p>
-              )}
-            </div>
             <p className="mt-1 text-md">연속 {teamCurrentStreak}일째!</p>
             <div
               className="overflow-scroll scrollbar-hide"
               style={{
-                // 달력의 높이에 따라 변하게 만들어야 함
                 height: "235px",
               }}
             >
@@ -236,11 +288,12 @@ export default function ExerciseInfo() {
                 }
               )}
             </div>
+          </div> */}
           </div>
         </div>
+        <br />
       </div>
-      <br />
-      <p>현재 스트릭 쉴드를 {shieldCount}개 소지 중입니다.</p>
+
       <Ranking />
     </div>
   )
