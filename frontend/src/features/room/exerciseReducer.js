@@ -48,14 +48,17 @@ export const exerciseReducer = createSlice({
   reducers: {
     setMyExerciseResult: (state, action) => {
       state.result.myResult = action.payload
+      const myres = state.result.myResult.personalResultDetails
+      const res =
+        myres.reduce(
+          (prev, cur) =>
+            prev + Math.ceil((cur.performNum / cur.targetNum) * 100),
+          0
+        ) / myres.length
+      state.result.myResult.percentage = res
     },
     setAllExerciseResult: (state, action) => {
       state.result.allResult = action.payload
-      const nickname = localStorage.getItem("nickname")
-      const myPercentage = state.result.allResult.personalPercentages.find(
-        (person) => person.nickname === nickname
-      )
-      state.result.myResult.percentage = myPercentage
     },
     setRoutine: (state, action) => {
       state.routineId = action.payload
