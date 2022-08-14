@@ -53,12 +53,12 @@ div {
 
 @keyframes gradient {
   0% {
-    background-position: 0% 50%;
+    background-position: 10% 50%;
   }
   50% {
-    background-position: 100% 50%;
+    background-position: 95% 50%;
   }
   100% {
-    background-position: 0% 50%;
+    background-position: 10% 50%;
   }
 }

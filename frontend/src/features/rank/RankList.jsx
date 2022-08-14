@@ -62,16 +62,33 @@ export const RankList = ({
   title = "제목",
   description = "랭킹 설명",
   list = rankList,
+  type = "group",
 }) => {
-  const rankList = [...list]
+  let rankList = [...list]
+
   if (rankList.length < 10) {
     for (let i = rankList.length; i < 10; i++) rankList.push(defaultItem)
   }
 
+  if (type !== "group") {
+    const tmpList = rankList.map((item) => {
+      return { ...item, teamName: item.nickName, teamIcon: item.memberIcon }
+    })
+    rankList = tmpList
+  }
+
+  // console.log(rankList)
+  const category = type === "group" ? "그룹" : "개인"
+
   return (
     <>
-      <h2 className="text-center text-4xl p-2 rounded-3xl m-2  w-4/6  font-bold ">
-        {title}
+      <h2 className="text-center text-4xl p-2 rounded-3xl m-2  w-4/6  font-bold relative ">
+        <span className="relative">
+          <span className="bg-blue-100  text-purple-700 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded absolute left-10 -top-3 -translate-x-3 -rotate-12 ">
+            {category}
+          </span>
+          {title}
+        </span>
       </h2>
       <div className="flex flex-col items-center text-gray-500">
         <p className=" text-md font-medium mb-3">{description[0]}</p>
