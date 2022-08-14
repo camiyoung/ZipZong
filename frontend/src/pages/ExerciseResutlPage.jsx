@@ -32,7 +32,15 @@ const OtherPlayerResult = ({ name, res }) => {
 }
 export default function ExerciseResulPage() {
   const result = useSelector(getResults)
-  console.log(result)
+
+  const myRes = result.myResult.personalResultDetails
+  let myPercentage =
+    myRes.reduce(
+      (prev, cur) => prev + (cur.performNum / cur.targetNum) * 100,
+      0
+    ) / myRes.length
+
+  console.log(myPercentage)
   useEffect(() => {
     AOS.init()
   }, [])
@@ -50,12 +58,14 @@ export default function ExerciseResulPage() {
           alt=""
           className="absolute  -right-0 w-2/6 h-3/6 top-10  animate-slide-from-right"
         />
-        <h1 className=" text-4xl font-bold my-4 bg-white text-black">
+        <h1 className=" text-4xl font-bold my-4  text-black">
           운동이 종료되었습니다!
         </h1>
-        <h2 className="font-semibold text-2xl mb-4">내 달성률 : 85%</h2>
+        <h2 className="font-semibold text-2xl mb-4">
+          내 달성률 :{myPercentage}%
+        </h2>
         <h2 className="font-semibold text-2xl mb-12 mt-12">
-          우리팀 평균 달성률 : 85%
+          우리팀 평균 달성률 : {result.allResult.avgPercentage}%
         </h2>
         <div className="flex w-4/5 justify-center z-30">
           {result.allResult.personalPercentages.map((user, idx) => (
@@ -74,7 +84,7 @@ export default function ExerciseResulPage() {
       <section className="w-full  flex justify-center items-center flex-col p-3">
         <h1 className=" text-4xl font-bold my-12 "> 진행한 운동 루틴 </h1>
         <div className="flex flex-wrap  justify-center">
-          {result.myResult.personalResults.map((item, idx) => (
+          {result.myResult.personalResultDetails.map((item, idx) => (
             <ResultCard
               name={item.exerciseName}
               target={item.targetNum}
