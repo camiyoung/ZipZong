@@ -45,14 +45,14 @@ export default function RoutineList() {
                   <div className="flex flex-col justify-center px-3">
                     {exercise.map(({ name, count }, index) => {
                       return (
-                        <div className="flex bg-white py-1 border-b">
+                        <div
+                          className="flex bg-white py-1 border-b"
+                          key={index}
+                        >
                           {/* <div className="w-1/6 flex justify-center">
                           {index + 1}
                         </div> */}
-                          <div
-                            className="w-4/6 ml-2 flex justify-start items-center"
-                            key={index}
-                          >
+                          <div className="w-4/6 ml-2 flex justify-start items-center">
                             <ChangeLanguage exercise={name} />
                           </div>
                           <div className="w-2/6 flex mr-3 justify-end">

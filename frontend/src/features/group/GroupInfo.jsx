@@ -1,14 +1,12 @@
+import "./Group.css"
+
 import React, { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { useNavigate, useLocation } from "react-router-dom"
-import Card from "../../components/card/Card"
 import ImageIcon from "../../components/icon/ImageIcon"
 import UserIcon from "../../components/icon/UserIcon"
 import Button from "../../components/button/Button"
 import Modal from "../../components/modal/Modal"
-import SmallTextInput from "../../components/input/SmallTextInput"
-import Select from "../../components/input/Select"
-import Radio from "../../components/input/Radio"
 import { teamInfo, teamResign } from "./groupReducer"
 import { setRoutine } from "../room/exerciseReducer"
 
@@ -100,7 +98,8 @@ function GroupManagement() {
   const dispatch = useDispatch()
   const fetchTeamId = location.pathname.split("/")[2]
   const { memberId, memberNickname } = useSelector((state) => state.member)
-  const { teamLeader, teamMembers } = useSelector((state) => state.group)
+  const { teamLeader, teamMembers, roomStatus, roomParticipant, roomName } =
+    useSelector((state) => state.group)
   const [isLeader, setIsLeader] = useState(false)
 
   // 모달 관련 UseState
@@ -120,6 +119,8 @@ function GroupManagement() {
     navigate(`/room/${fetchTeamId}`)
   }
 
+  const memberList = roomParticipant.join(" ")
+
   // useEffect
   useEffect(() => {
     dispatch(teamInfo(fetchTeamId))
@@ -137,7 +138,7 @@ function GroupManagement() {
   }, [modalContent])
 
   return (
-    <div className="w-full ml-10">
+    <div className="w-1/2 ml-10">
       {/* 모달 영역 1 */}
       <Modal isOpen={isOpen} modalClose={modalClose}>
         {modalContent === "make" && <MakeRoomForm teamId={fetchTeamId} />}
@@ -149,84 +150,79 @@ function GroupManagement() {
 
       {/* 카드 영역 */}
       <div className="">
-        {/*  */}
-        <Card>
+        {roomStatus === "EMPTY" && (
           <div
-            className="flex justify-center flex-col mb-1 hover:cursor-pointer"
+            className="btn rounded-3xl bg-gradient-to-r from-gray-100 to-gray-200 py-6 cursor-pointer shadow-md border-2 border-white grad3"
             onClick={() => setModalContent("make")}
           >
-            <p className="text-center text-xl font-semibold">
-              아직 운동 방이 만들어지지 않았어요!
-            </p>
-            <p className="text-center text-md font-semibold">
-              여기를 클릭하여 운동 방을 만들어 보세요
-            </p>
+            <div className="flex justify-center flex-col mb-1 bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">
+              <p className="text-center text-3xl font-semibold mb-2">
+                아직 운동 방이 만들어지지 않았어요!
+              </p>
+              <p className="text-center text-md font-semibold">
+                여기를 클릭하여 운동 방을 만들어 보세요
+              </p>
+            </div>
           </div>
-        </Card>
-        <Card>
+        )}
+        {roomStatus === "READY" && (
           <div
-            className="flex justify-center flex-col mb-1 hover:cursor-pointer"
+            className="btn rounded-3xl bg-gradient-to-br py-6 cursor-pointer shadow-md border-2 border-white grad"
             onClick={enterRoom}
           >
-            <p className="text-center text-xl font-semibold">
-              운동방이 만들어졌슴!! 제목
-            </p>
-            <p className="text-center text-md font-semibold">
-              참여 인원, 참여자 목록
-            </p>
-            <p className="text-center text-md font-semibold">
-              여기를 눌러 참여해보세요
-            </p>
+            <div className="flex justify-center flex-col mb-1">
+              <p className="text-center text-3xl font-semibold mb-2 ">
+                🔥 {roomName} 🔥
+              </p>
+              <p className="text-center font-semibold flex justify-center items-center text-gray-700">
+                <UserIcon /> {roomParticipant.length} / 10{" "}
+                <span className="ml-2 font-medium">{memberList}</span>
+              </p>
+            </div>
           </div>
-        </Card>
+        )}
+        {roomStatus === "EXERCISING" && (
+          <div className="btn rounded-3xl bg-gradient-to-br py-6 shadow-md border-2 border-white grad2">
+            <div className="flex justify-center flex-col mb-1">
+              <p className="text-center text-3xl font-semibold mb-2 ">
+                운동을 이미 시작한 방입니다.
+              </p>
+              <p className="text-center font-semibold flex justify-center items-center text-gray-700">
+                <UserIcon /> {roomParticipant.length} / 10{" "}
+                <span className="ml-2 font-medium">{memberList}</span>
+              </p>
+            </div>
+          </div>
+        )}
       </div>
-      <div className=" flex justify-evenly mt-5">
-        <Button
-          text="운동 루틴 관리"
-          round="round3xl"
-          height="h-10"
-          width="w-full"
-          // 그룹장만 운동관리
-          onClick={() => navigate(`/routine/${fetchTeamId}`)}
-        />
-        {/*
-        그룹장 ->그룹 설정 및 관리 보임
-        그룹원 -> 그룹 탈퇴 보임
-        */}
-        {/* {isLeader && teamMembers.length > 2 ? ( */}
-
-        {/* 지영: 그룹 탈퇴 버튼 누르면 나오는 모달 테스트 위해서 탈퇴버튼만 보이게 해뒀습니다. 원래 버전은 아래 주석 부분 */}
-        <Button
-          text="그룹 탈퇴"
-          round="round3xl"
-          height="h-10"
-          width="w-full"
-          onClick={() => setModalContent("resign")}
-        />
-        <Button
-          text="그룹 설정 및 관리"
-          round="round3xl"
-          height="h-10"
-          width="w-full"
-          onClick={() => navigate(`/groupset/${fetchTeamId}`)}
-        />
-        {/* {isLeader ? (
+      <div className=" flex justify-evenly mt-4">
+        <div className="w-full pr-2">
           <Button
-            text="그룹 설정 및 관리"
-            round="round3xl"
+            text="운동 루틴 관리"
             height="h-10"
             width="w-full"
-            onClick={() => navigate(`/groupset/${fetchTeamId}`)}
+            // 그룹장만 운동관리
+            onClick={() => navigate(`/routine/${fetchTeamId}`)}
           />
-        ) : (
-          <Button
-            text="그룹 탈퇴"
-            round="round3xl"
-            height="h-10"
-            width="w-full"
-            onClick={() => setModalContent("resign")}
-          />
-        )} */}
+        </div>
+        <div className="w-full pl-2">
+          {isLeader ? (
+            <Button
+              text="그룹 설정 및 관리"
+              height="h-10"
+              width="w-full"
+              onClick={() => navigate(`/groupset/${fetchTeamId}`)}
+            />
+          ) : (
+            <Button
+              text="그룹 탈퇴"
+              round="round3xl"
+              height="h-10"
+              width="w-full"
+              onClick={() => setModalContent("resign")}
+            />
+          )}
+        </div>
       </div>
     </div>
   )
@@ -235,33 +231,36 @@ function GroupManagement() {
 export default function GroupInfo() {
   const { teamName, teamMembers, teamContent, teamLeader, teamRepIcons } =
     useSelector((state) => state.group)
+
   return (
     <div className="w-full flex mt-5">
-      <Card size="100%">
-        <div className="flex">
-          <ImageIcon
-            image={`/images/badgeIcon/${teamRepIcons}.png`}
-            size="middle"
-            shape="round"
-          />
-
-          <div className="flex flex-col ml-10">
-            <p className="text-xl">
-              <strong>{teamName}</strong>
-            </p>
-
-            <div className="flex" style={{ fontSize: "11px" }}>
-              <p>그룹장: {teamLeader.nickname}</p>
-              <p className="flex">
+      <div className="w-1/2 flex items-center rounded-3xl py-8 px-8 custom-border">
+        <div className="flex justify-center items-center mr-5">
+          {teamRepIcons ? (
+            <ImageIcon
+              size="large"
+              image={`/images/badgeIcon/${teamRepIcons}.png`}
+              shape="round"
+            />
+          ) : null}
+        </div>
+        <div className="w-4/5">
+          <div className="mb-2">
+            <p className="text-3xl font-semibold mb-1">{teamName}</p>
+            <div className="flex items-center">
+              <p className="mr-1">그룹장:</p>{" "}
+              <p className="mr-2"> {teamLeader.nickname}</p>
+              <p className="flex items-center">
                 <UserIcon />
                 {teamMembers.length} / 10
               </p>
             </div>
           </div>
+          <div>
+            <p className=""> {teamContent} </p>
+          </div>
         </div>
-        <hr className="mb-3 mt-2" />
-        <p className="text-md">{teamContent}</p>
-      </Card>
+      </div>
 
       <GroupManagement />
     </div>

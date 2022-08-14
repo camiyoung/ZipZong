@@ -18,14 +18,12 @@ export default function ExerciseIcon({ image, size, shape, ...restProps }) {
   const iconSize = size ? sizeChart[size] : sizeChart.middle
   const shapeType = shape ? shapeChart[shape] : shapeChart.square
 
-  console.log(image)
-
   return (
     <div
       style={{
         backgroundImage: `url(/images/exerciseIcon/${image}.png)`,
       }}
-      className={`${iconSize} ${shapeType} bg-cover`}
+      className={`${iconSize} ${shapeType} bg-cover bg-center`}
     ></div>
   )
 }

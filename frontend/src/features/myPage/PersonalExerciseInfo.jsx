@@ -94,7 +94,7 @@ export default function ExerciseInfo() {
           <CalendarForm />
           <div className="ml-10 rounded-3xl bg-white min-w-min h-[340px] w-[70%] flex shadow-md">
             <div
-              className="w-1/4 bg-lgBlue-400 h-full bg-gradient-to-b from-lgBlue-500 to-secondary-300 flex flex-col justify-center items-center"
+              className="w-1/4 bg-lgBlue-400 h-full bg-gradient-to-t from-lgBlue-500 to-secondary-300 flex flex-col justify-center items-center"
               style={{
                 borderRadius: "1rem 0px 0px 1rem",
               }}
@@ -122,7 +122,7 @@ export default function ExerciseInfo() {
                           <div key={idx} className="flex w-[33.33%] my-3">
                             <ExerciseIcon
                               size="large"
-                              shape=""
+                              shape="round"
                               image={performName}
                             ></ExerciseIcon>
                             <div className="flex flex-col justify-center items-center w-[70%]">
