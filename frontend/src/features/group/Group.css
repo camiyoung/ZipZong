@@ -1,0 +1,50 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.btn {
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+/* .btn:hover {
+  box-shadow: 1px 1px 25px 3px #91c6f866;
+} */
+
+.btn:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, white, transparent);
+  transition: all 650ms;
+}
+
+.btn:hover:before {
+  left: 100%;
+}
+
+.grad {
+  display: flex;
+  background: linear-gradient(270deg, #7bcaff, #ffb3f2);
+  background-size: 200% 200%;
+  animation: MoveGrad 5s ease infinite;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes MoveGrad {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
