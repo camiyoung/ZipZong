@@ -28,6 +28,22 @@ export default function NotLoggedInYet() {
           <div className="flex-grow h-px bg-gray-400"></div>
         </div>
         <li
+          key={"google"}
+          className="border border-gray-300 w-full  my-3 flex justify-center py-2 rounded-lg"
+        >
+          <a
+            href={GOOGLE_REQUEST}
+            className=" flex w-full  h-full  justify-center items-center"
+          >
+            <img
+              src={imgUrl["google"]}
+              alt=""
+              className="w-8 h-8 rounded-full mr-2"
+            />
+            <span className="font-medium text-gray-500">Google</span>
+          </a>
+        </li>
+        <li
           key={"kakao"}
           className="border border-gray-300 w-full  my-3 flex justify-center py-2 rounded-lg"
         >
@@ -57,22 +73,6 @@ export default function NotLoggedInYet() {
               className="w-8 h-8 rounded-full mr-2"
             />
             <span className="font-medium text-gray-500">Naver</span>
-          </a>
-        </li>
-        <li
-          key={"google"}
-          className="border border-gray-300 w-full  my-3 flex justify-center py-2 rounded-lg"
-        >
-          <a
-            href={GOOGLE_REQUEST}
-            className=" flex w-full  h-full  justify-center items-center"
-          >
-            <img
-              src={imgUrl["google"]}
-              alt=""
-              className="w-8 h-8 rounded-full mr-2"
-            />
-            <span className="font-medium text-gray-500">Google</span>
           </a>
         </li>
       </ul>
