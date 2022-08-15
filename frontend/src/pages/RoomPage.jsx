@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router"
 import Room from "../features/room/Room"
 import { http } from "../api/axios"
+import { resetInfo } from "../features/room/exerciseReducer"
 import AlertModal from "../features/room/AlertModal"
 
 export default function RoomPage() {
+  const dispatch = useDispatch()
   const [isExercising, setExercising] = useState(true)
   const {
     memberId: id,
@@ -25,6 +27,7 @@ export default function RoomPage() {
         data: { data },
       } = await http.get(`room/${teamId}`)
       if (data.status !== "EXERCISING") {
+        dispatch(resetInfo())
         setExercising(false)
       }
     }
