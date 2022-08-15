@@ -5,7 +5,7 @@ const ListItem = ({ item }) => {
   return (
     <li
       className={`flex  w-ful items-center justify-center h-8 w-full ${
-        item.me ? "my-4" : "my-3"
+        item.me ? "my-3.5" : "my-2.5"
       }`}
     >
       <div
@@ -53,7 +53,7 @@ const ListItem = ({ item }) => {
 const RankList = ({ title, description, list }) => {
   return (
     <div className="w-full  h-full  ">
-      <h1 className="text-center text-xl font-semibold pt-5 pl-6 h-[10%] ">
+      <h1 className="text-center text-xl font-semibold pt-4 pl-6 h-[10%] mb-2">
         <span className="mr-2">{title}</span>
         <span className="text-sm font-medium">{description}</span>
       </h1>
