@@ -15,6 +15,8 @@ export default function RoomPage() {
 
   // console.log(groupId)
 
+  const roomTitle = useSelector((state) => state.exercise.roomTitle)
+
   const { teamId } = useParams()
 
   useEffect(() => {
@@ -42,7 +44,12 @@ export default function RoomPage() {
         </div>
       ) : (
         <div className="bg-gradient-to-r from-lgBlue-500 to-primary-600 p-4 h-screen w-screen">
-          <Room user={nickname} icon={icon} sessionName={teamId} />
+          <Room
+            user={nickname}
+            icon={icon}
+            sessionName={teamId}
+            roomTitle={roomTitle}
+          />
         </div>
       )}
     </>

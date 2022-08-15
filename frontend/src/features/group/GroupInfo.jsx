@@ -2,13 +2,13 @@ import "./Group.css"
 
 import React, { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { useNavigate, useLocation } from "react-router-dom"
+import { useNavigate, useLocation, Link } from "react-router-dom"
 import ImageIcon from "../../components/icon/ImageIcon"
 import UserIcon from "../../components/icon/UserIcon"
 import Button from "../../components/button/Button"
 import Modal from "../../components/modal/Modal"
 import { teamInfo, teamResign } from "./groupReducer"
-import { setRoutine } from "../room/exerciseReducer"
+import { setRoutine, setRoomTitle } from "../room/exerciseReducer"
 
 const MakeRoomForm = ({ teamId }) => {
   const dispatch = useDispatch()
@@ -20,7 +20,7 @@ const MakeRoomForm = ({ teamId }) => {
   const [errorMsg, setErrorMsg] = useState("")
 
   const enterRoom = () => {
-    dispatch(setRoutine(routineId))
+    dispatch(setRoomTitle(title))
     navigate(`/room/${teamId}`)
   }
 
@@ -58,9 +58,10 @@ const MakeRoomForm = ({ teamId }) => {
               </option>
             ))}
           </select>
+          <Link to={`/routine/${teamId}`}>루틴 만들기 </Link>
         </div>
         <div>
-          <p className="text-red-500">{errorMsg}</p>
+          <p className="text-red-500">{errorMsg && <div>{errorMsg}</div>}</p>
         </div>
         <button type="button" onClick={onSubmit}>
           생성

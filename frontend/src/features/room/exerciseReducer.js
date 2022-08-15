@@ -32,6 +32,7 @@ export const exerciseReducer = createSlice({
   name: "exercise",
   initialState: {
     roomId: undefined,
+    roomTitle: undefined,
     routine: undefined,
     admin: undefined,
     result: {
@@ -46,6 +47,9 @@ export const exerciseReducer = createSlice({
     isExercising: false, //
   },
   reducers: {
+    setRoomTitle: (state, action) => {
+      state.roomTitle = action.payload
+    },
     setMyExerciseResult: (state, action) => {
       state.result.myResult = action.payload
       const myres = state.result.myResult.personalResultDetails
@@ -127,4 +131,5 @@ export const {
   updateSuccessCount,
   resetSuccessCount,
   updateIndex,
+  setRoomTitle,
 } = exerciseReducer.actions

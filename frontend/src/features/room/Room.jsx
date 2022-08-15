@@ -262,8 +262,8 @@ class Room extends Component {
     )
     http
       .delete(`/room/${mySession.sessionId}/leave/${nickname}`)
-      .then(() => {
-        console.log("방을 퇴장합니다.")
+      .then((res) => {
+        console.log("방을 퇴장합니다.", res.data)
       })
       .catch((error) => {
         console.log(error)
@@ -706,15 +706,29 @@ class Room extends Component {
           },
         })
         .then((response) => {
-          console.log("새로운 방 생성 ", response)
+          console.log("새로운 방 생성 ", this.props.roomTitle)
           localUser.setRole("admin")
           this.setState({ isRoomAdmin: true })
+          const roomtitle = this.props.roomTitle
+            ? this.props.roomTitle
+            : "운동합시다~"
+          const nick = this.props.user || localStorage.getItem("nickname")
+          http.post(`room/${sessionId}`, {
+            roomName: roomtitle,
+            mode: "EXERCISE",
+            routineId: 1,
+            creator: nick,
+          })
           resolve(response.data.id)
         })
         .catch((response) => {
           var error = Object.assign({}, response)
           if (error.response && error.response.status === 409) {
-            console.log("이미 생성된 방에 참여", error.response)
+            const nick = this.props.user || localStorage.getItem("nickname")
+            http.post(`room/${sessionId}/enter/${nick}`).then((res) => {
+              console.log("참여 완료 :", res)
+            })
+
             resolve(sessionId)
           } else {
             console.log(error)
