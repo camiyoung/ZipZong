@@ -50,7 +50,6 @@ function Ranking() {
   useEffect(() => {
     dispatch(rankingTeam(fetchTeamId))
   }, [])
-  console.log("랭크", timeRank, strickRank)
   return (
     <div className="w-full flex justify-evenly">
       {timeRank && Object.keys(timeRank).length > 0 ? (
