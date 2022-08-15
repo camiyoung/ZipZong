@@ -74,6 +74,8 @@ const InfoList = ({ setVisible, memberId, showInfo }) => {
   const modalClose = () => setOpen(false)
   const modalClose2 = () => setOpen2(false)
 
+  const [divIsOpen, setDivIsOpen] = useState(true)
+
   const handleSubmit = (e) => {
     e.preventDefault()
     // 닉네임이 존재하고
@@ -261,38 +263,49 @@ const InfoList = ({ setVisible, memberId, showInfo }) => {
         </div>
       </Modal>
       {/* 회원탈퇴 모달 끝 */}
+      {divIsOpen && (
+        <div className="absolute z-30 top-[1.5rem]">
+          <Card size="small">
+            <ul>
+              <NavLink to="/mypage" className="hover:text-red-400">
+                <div
+                  onClick={() => {
+                    modalClose()
+                    setVisible(false)
+                  }}
+                >
+                  My page
+                </div>
+              </NavLink>
+              <li
+                onClick={() => {
+                  setOpen(true)
+                  setDivIsOpen(false)
+                }}
+                className="hover:text-red-400 mt-2 cursor-pointer"
+              >
+                개인정보 수정
+              </li>
+              <li
+                onClick={() => {
+                  localStorage.clear()
+                  window.location.replace("/")
+                }}
+                className="hover:text-red-400 mt-2 cursor-pointer"
+              >
+                로그아웃
+              </li>
 
-      <div className="absolute z-30 top-[1.5rem]">
-        <Card size="small">
-          <ul>
-            <NavLink to="/mypage" className="hover:text-red-400">
-              My page
-            </NavLink>
-            <li
-              onClick={() => setOpen(true)}
-              className="hover:text-red-400 mt-2 cursor-pointer"
-            >
-              개인정보 수정
-            </li>
-            <li
-              onClick={() => {
-                localStorage.clear()
-                window.location.replace("/")
-              }}
-              className="hover:text-red-400 mt-2 cursor-pointer"
-            >
-              로그아웃
-            </li>
-
-            <li
-              className="hover:text-red-400 mt-2 cursor-pointer"
-              onClick={() => setOpen2(true)}
-            >
-              회원 탈퇴
-            </li>
-          </ul>
-        </Card>
-      </div>
+              <li
+                className="hover:text-red-400 mt-2 cursor-pointer"
+                onClick={() => setOpen2(true)}
+              >
+                회원 탈퇴
+              </li>
+            </ul>
+          </Card>
+        </div>
+      )}
     </div>
   )
 }
@@ -305,6 +318,7 @@ export default function NavbarComponent() {
   const { registeredTeam } = useSelector((state) => state.group)
   const [showGroup, setShowGroup] = useState(false)
   const [showInfo, setShowInfo] = useState(false)
+  console.log("네", showInfo)
 
   // 회원이 가입한 팀 정보
   useEffect(() => {
