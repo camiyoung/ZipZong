@@ -21,7 +21,7 @@ const NavItem = ({ children }) => {
 
 const GroupList = ({ setVisible, groups }) => {
   return (
-    <div className="absolute z-30 top-[4rem] right-[2.5em]">
+    <div className="absolute z-30 top-[0.8rem] right-[-2.6rem]">
       <Card size="middle">
         {groups.length > 0 ? (
           <ul>
@@ -159,7 +159,7 @@ const InfoList = ({ setVisible, memberId, showInfo }) => {
                     <input
                       type="text"
                       className="
-                    mb-3
+                      mb-3
                       h-9
                       w-[280px]
                       block
@@ -262,7 +262,7 @@ const InfoList = ({ setVisible, memberId, showInfo }) => {
       </Modal>
       {/* 회원탈퇴 모달 끝 */}
 
-      <div className="absolute z-30 top-[4rem] right-[5em]">
+      <div className="absolute z-30 top-[1.5rem]">
         <Card size="small">
           <ul>
             <NavLink to="/mypage" className="hover:text-red-400">
@@ -358,6 +358,7 @@ export default function NavbarComponent() {
                 onMouseLeave={() => {
                   setShowGroup(false)
                 }}
+                className="relative"
               >
                 {showGroup && (
                   <GroupList
@@ -376,21 +377,21 @@ export default function NavbarComponent() {
                 onMouseLeave={() => {
                   setShowInfo(false)
                 }}
-                className="cursor-pointer"
+                className="relative"
               >
                 <ImageIcon
                   image={`/images/badgeIcon/${memberRepIcon}.png`}
                   size="small"
                   shape="round"
                 />
+                {showInfo && (
+                  <InfoList
+                    setVisible={setShowInfo}
+                    memberId={memberId}
+                    showInfo={showInfo}
+                  />
+                )}
               </div>
-              {showInfo && (
-                <InfoList
-                  setVisible={setShowInfo}
-                  memberId={memberId}
-                  showInfo={showInfo}
-                />
-              )}
             </NavItem>
           </ul>
         </nav>
