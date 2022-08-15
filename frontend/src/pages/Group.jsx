@@ -29,10 +29,10 @@ export default function Group() {
   return (
     <div className="w-full flex justify-center">
       <div className="w-4/5 flex flex-col">
-        <div className="flex pl-2">
+        <div className="flex pl-2 mt-8">
           <GroupInfo />
         </div>
-        <div className="flex justify-center flex-col items-center mt-5">
+        <div className="flex justify-center flex-col items-center mt-5 p-3">
           {/* <div className="text-center">
             <p className="flex justify-center mb-5 font-bold text-3xl">
               🧑‍🤝‍🧑 멤버 리스트
