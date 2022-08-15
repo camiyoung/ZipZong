@@ -1,5 +1,6 @@
 import React, { useEffect, useLayoutEffect, useState } from "react"
 import Profile from "../features/myPage/Profile"
+import { Carousel } from "flowbite-react"
 import { useSelector, useDispatch } from "react-redux"
 import PersonalExerciseInfo from "../features/myPage/PersonalExerciseInfo"
 import GroupList from "../features/myPage/GroupList"
@@ -10,11 +11,12 @@ import {
   memberExerciseHistorySumCheck,
 } from "../features/myPage/myPageReducer"
 import { teamJoin } from "../features/group/groupReducer"
+import PersonalRank from "../features/myPage/PersonalRank"
 export default function MyPage() {
   const dispatch = useDispatch()
   const { inviteTeamId, registeredTeam } = useSelector((state) => state.group)
   const member = useSelector((state) => state.member)
-  const { memberId } = member
+  const { memberId, memberNickname } = member
   // 최초 접속 시 현재 날짜 받아오기
 
   const [date, setDate] = useState(new Date())
@@ -50,9 +52,23 @@ export default function MyPage() {
         <Profile />
       </div>
       {/* <p className="flex justify-center pt-10 font-bold text-3xl">CALENDAR</p> */}
-      <div className="flex justify-center pb-10">
-        <PersonalExerciseInfo />
+      <div className="flex justify-center pb-10 w-full  h-[30rem]">
+        <div className="w-full flex justify-center ">
+          <Carousel slide={false} leftControl=" " rightControl=" ">
+            <div className="w-full  justify-center h-full flex">
+              <PersonalExerciseInfo />
+            </div>
+
+            <div className="w-full justify-center h-full flex">
+              <PersonalRank
+                memberId={memberId}
+                memberNickname={memberNickname}
+              />
+            </div>
+          </Carousel>
+        </div>
       </div>
+
       <div className="p-5 flex justify-center">
         <GroupList />
       </div>
