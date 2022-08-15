@@ -177,6 +177,7 @@ export default function ExerciseInfo() {
     teamDailyHistory,
     stateGroupDailyHistory,
   } = useSelector((state) => state.group)
+  const { showYear, showMonth, showDay } = useSelector((state) => state.mypage)
   const [teamDailyTotalTime, setTeamDailyTotalTime] = useState(0)
 
   // 팀 하루 동안의 운동 총 시간
@@ -200,9 +201,14 @@ export default function ExerciseInfo() {
               borderRadius: "1rem 0px 0px 1rem",
             }}
           >
-            <p className="text-5xl text-white font-bold mb-3">년</p>
-            <p className="text-5xl text-white font-bold mb-5">월 일</p>
+            <p className="text-5xl text-white font-bold mb-3">{showYear}년</p>
+            <p className="text-5xl text-white font-bold mb-5">
+              {showMonth}월 {showDay}일
+            </p>
             <p className="text-lg text-white font-normal"> {teamName}</p>
+            <span className="text-sm mt-0.5 text-gray-100">
+              연속 {teamCurrentStreak}일 째!
+            </span>
             <span className="text-sm mt-0.5 text-gray-100">
               스트릭 쉴드 : {shieldCount}개
             </span>
