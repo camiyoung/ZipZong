@@ -32,8 +32,10 @@ export default function Login() {
       "memberId"
     )
     nickname = new URL(window.location.href).searchParams.get("nickname")
+    console.log(accessToken, "닉넴:", nickname)
 
     if (!!accessToken && nickname !== "") {
+      console.log("토큰 있고 닉넴 있음  ")
       localStorage.setItem("accessToken", accessToken)
       localStorage.setItem("refreshToken", refreshToken)
       localStorage.setItem("accessTokenExpiration", accessTokenExpiration)
@@ -45,6 +47,12 @@ export default function Login() {
     }
 
     if (accessToken && !nickname) {
+      console.log(
+        "토큰 있고 닉넴 없음 , id=",
+        Number(collectedMemberId),
+        refreshTokenExpiration,
+        accessToken
+      )
       localStorage.setItem("accessToken", accessToken)
       localStorage.setItem("refreshToken", refreshToken)
       localStorage.setItem("accessTokenExpiration", accessTokenExpiration)
