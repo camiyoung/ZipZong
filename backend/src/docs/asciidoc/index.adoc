@@ -107,6 +107,8 @@ operation::enter-room-by-team[snippets='http-request,path-parameters,http-respon
 operation::get-room-status[snippets='http-request,path-parameters,http-response,response-fields']
 === 방장과 참여자가 방을 퇴장
 operation::leave-room[snippets='http-request,path-parameters,http-response,response-fields']
+=== 운동 종료 후 방을 삭제
+operation::delete-room-by-creator[snippets='http-request,path-parameters,http-response,response-fields']
 === 방 상태를 운동중으로 변경
 operation::start-room-by-teamId[snippets='http-request,path-parameters,http-response,response-fields']
 

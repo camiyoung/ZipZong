@@ -38,7 +38,7 @@ public class RoomService {
      */
     public Long createRoom(Long teamId, RoomRequest roomRequest) {
         //운동방이 없는 경우에만 운동방 생성
-        if(getTeamInfo(teamId).getRoom()==null) {
+        if (getTeamInfo(teamId).getRoom() == null) {
             Routine routine = getRoutine(roomRequest.getRoutineId());
             Team team = getTeamInfo(teamId);
             Room room = Room.createRoom(roomRequest, routine, Status.READY);
@@ -96,7 +96,7 @@ public class RoomService {
         roomParticipantRepository.delete(roomParticipant);
 
         //모두가 방을 나갔을 경우에만 방을 삭제
-        if(roomParticipantRepository.findRoomParticipantByRoom(room).size()==0){
+        if (roomParticipantRepository.findRoomParticipantByRoom(room).size() == 0) {
             team.setRoom(null);
             teamRepository.save(team);
             roomRepository.delete(room);
@@ -104,6 +104,22 @@ public class RoomService {
 
         return nickname;
 
+    }
+
+    /*
+    방장이 방을 퇴장 또는 방을 종료
+    */
+    public Long deleteRoom(Long teamId) {
+        Team team = getTeamInfo(teamId);
+        if (team.getRoom() == null) {
+            throw new CustomException(CustomExceptionList.ROOM_NOT_FOUND_ERROR);
+        }
+        Long roomId = team.getRoom().getId();
+        team.setRoom(null);
+        teamRepository.save(team);
+        Room room = getRoom(roomId);
+        roomRepository.delete(room);
+        return teamId;
     }
 
     /*

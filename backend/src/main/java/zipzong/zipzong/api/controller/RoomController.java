@@ -51,6 +51,13 @@ public class RoomController {
         return new ResponseEntity<>(makeBasicResponse(SUCCESS, sessionId), HttpStatus.OK);
     }
 
+    // 운동 종료 후 방 삭제
+    @DeleteMapping("/{teamId}")
+    public ResponseEntity<BasicResponse<Long>> deleteRoom(@PathVariable Long teamId) {
+        Long sessionId = roomService.deleteRoom(teamId);
+        return new ResponseEntity<>(makeBasicResponse(SUCCESS, sessionId), HttpStatus.OK);
+    }
+
     private <T> BasicResponse<T> makeBasicResponse(String message, T data) {
         return BasicResponse.<T>builder()
                 .message(message)
