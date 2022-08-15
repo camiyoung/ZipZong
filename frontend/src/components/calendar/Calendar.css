@@ -72,7 +72,8 @@ abbr[title] {
 }
 .react-calendar__tile:enabled:hover,
 .react-calendar__tile:enabled:focus {
-  color: #8ccfd5;
+  color: black;
+  font-weight: bolder;
   transform: scale(1);
   animation-delay: 1s;
   background-color: #6f48eb33;
@@ -96,8 +97,8 @@ abbr[title] {
 }
 .highlight {
   background-image: url("../../../public/images/calendarIcon/evaluate.png");
-  transform: scale(0.5);
-  background-size: cover;
+  transform: scale(0.8);
+  background-size: contain;
   max-height: 100%;
   max-width: 100%;
   color: transparent;
@@ -110,9 +111,6 @@ abbr[title] {
   max-width: 100%;
   color: transparent;
 }
-/* .highlight:hover {
-  color: transparent;
-} */
 
 .highlight-sunday {
   color: red;
