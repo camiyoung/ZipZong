@@ -67,8 +67,10 @@ export default function ExerciseInfo() {
 
     const date = new Date()
 
-    dispatch(memberExerciseHistorySumCheck(memberId))
-    dispatch(registrationTeam(memberId))
+    if (memberId) {
+      dispatch(memberExerciseHistorySumCheck(memberId))
+      dispatch(registrationTeam(memberId))
+    }
     dispatch(showYearChange(date.getFullYear()))
     dispatch(showMonthChange(date.getMonth() + 1))
     dispatch(showDayChange(date.getDate()))

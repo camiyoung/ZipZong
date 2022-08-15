@@ -141,7 +141,7 @@ export default function CalendarForm() {
     )
   }, [teamDailyHistory])
   return (
-    <div className="app w-1/4 min-w-[285px] max-w-[285px]">
+    <div className="app w-1/4 min-w-[285px]">
       <div className="calendar-container">
         <Calendar
           className="react-calendar p-5 h-[340px] rounded-3xl shadow-md"
@@ -167,11 +167,11 @@ export default function CalendarForm() {
                 return "highlight"
               }
             }
-            for (let j = 0; j < dayShield.length; ++j) {
-              if (date.getDate() === dayShield[j].day) {
-                return "shield"
-              }
-            }
+            // for (let j = 0; j < dayShield.length; ++j) {
+            //   if (date.getDate() === dayShield[j].day) {
+            //     return "shield"
+            //   }
+            // }
 
             // 토요일: 파란색, 일요일: 빨간색
             if (moment(date).format("LLLL").split(",")[0] === "Saturday") {
