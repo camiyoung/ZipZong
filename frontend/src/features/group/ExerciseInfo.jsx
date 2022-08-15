@@ -189,8 +189,8 @@ export default function ExerciseInfo() {
   }, [stateGroupDailyHistory])
 
   return (
-    <div className="flex mt-10 flex-col flex-wrap w-full">
-      <div className="flex w-full justify-center">
+    <div className="flex flex-col flex-wrap w-full">
+      <div className="flex w-full justify-center mt-10">
         <CalendarForm />
 
         <div className="ml-10 rounded-3xl bg-white min-w-min h-[340px] w-[70%] flex shadow-md">
@@ -253,47 +253,12 @@ export default function ExerciseInfo() {
                 )}
               </div>
             </div>
-
-            {/* <div
-            className="border mx-5 rounded-lg border-gray-400 min-w-min"
-            style={{
-              boxShadow: "0 12px 24px rgba(0, 0, 0, 0.2)",
-              width: "270px",
-              height: "295.94px",
-            }}
-          >
-            <p className="mt-1 text-md">연속 {teamCurrentStreak}일째!</p>
-            <div
-              className="overflow-scroll scrollbar-hide"
-              style={{
-                height: "235px",
-              }}
-            >
-              {stateGroupDailyHistory.map(
-                ({ performName, performTime, performNum }, idx) => {
-                  return (
-                    <div key={idx} className="flex m-5">
-                      <ImageIcon
-                        image={`/images/exercise/${performName}.png`}
-                        size="middle"
-                        shape="round"
-                      />
-                      <div>
-                        <p>운동 개수: {performNum}</p>
-                        <p>운동 시간: {performTime}</p>
-                      </div>
-                    </div>
-                  )
-                }
-              )}
-            </div>
-          </div> */}
           </div>
         </div>
         <br />
       </div>
 
-      <Ranking />
+      {/* <Ranking /> */}
     </div>
   )
 }

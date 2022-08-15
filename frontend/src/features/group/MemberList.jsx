@@ -6,7 +6,9 @@ import ImageIcon from "../../components/icon/ImageIcon"
 import Button from "../../components/button/Button"
 
 export default function MemberList() {
-  const { inviteLink, teamMembers } = useSelector((state) => state.group)
+  const { inviteLink, teamMembers, teamCurrentStreak } = useSelector(
+    (state) => state.group
+  )
   const [isOpen, setOpen] = useState(false)
   const modalClose = () => setOpen(false)
   const copyLinkRef = useRef()
@@ -22,7 +24,7 @@ export default function MemberList() {
   }
   return (
     // group 원들의 정보를 받아야 함
-    <div className="flex mt-10 w-full flex-wrap">
+    <div className="mt-10 w-full">
       {/* 모달 영역 */}
       <Modal isOpen={isOpen} modalClose={modalClose}>
         <form className="py-3 pb-5">
@@ -44,55 +46,59 @@ export default function MemberList() {
         </form>
       </Modal>
       {/* 모달 영역 끝 */}
-      {teamMembers.map(({ nickname, repIcon, hasExercised, memberId }, idx) => {
-        return (
-          <div className="w-[10%] px-2" key={idx}>
+      <div className="flex w-full flex-wrap">
+        {teamMembers.map(
+          ({ nickname, repIcon, hasExercised, memberId }, idx) => {
+            return (
+              <div className="w-[10%] px-2" key={idx}>
+                <div
+                  className={
+                    hasExercised
+                      ? "w-full h-full flex flex-col items-center rounded-3xl shadow-md py-8 bg-gradient-to-b from-teal-50 to-teal-200 border-2 border-white "
+                      : "w-full h-full flex flex-col items-center rounded-3xl shadow-md py-8 border-2 border-gray-100 bg-gradient-to-b from-white to-gray-100"
+                  }
+                >
+                  <div className="flex justify-center mb-2">
+                    {" "}
+                    <ImageIcon
+                      image={`/images/badgeIcon/${repIcon}.png`}
+                      size="large"
+                      shape="round"
+                      borderStyle="none"
+                    />
+                  </div>
+                  <div className="text-sm font-medium flex justify-center px-5 h-[50px] items-center">
+                    {nickname}
+                  </div>
+                </div>
+              </div>
+            )
+          }
+        )}
+        {teamMembers.length < 10 ? (
+          <div
+            onClick={() => setOpen(true)}
+            className="hover:scale-110 cursor-pointer w-[10%] px-2"
+          >
             <div
               className={
-                hasExercised
-                  ? "w-full h-full flex flex-col items-center rounded-3xl shadow-md py-8 bg-gradient-to-b from-teal-50 to-teal-200 border-2 border-white "
-                  : "w-full h-full flex flex-col items-center rounded-3xl shadow-md py-8 border-2 border-gray-100 bg-gradient-to-b from-white to-gray-100"
+                "w-full h-full flex flex-col items-center rounded-3xl shadow-md py-8 border-2 border-gray-100"
               }
             >
               <div className="flex justify-center mb-2">
-                {" "}
                 <ImageIcon
-                  image={`/images/badgeIcon/${repIcon}.png`}
+                  image="http://cdn.onlinewebfonts.com/svg/img_356964.png"
                   size="large"
-                  shape="round"
                   borderStyle="none"
                 />
               </div>
               <div className="text-sm font-medium flex justify-center px-5 h-[50px] items-center">
-                {nickname}
+                멤버 초대
               </div>
             </div>
           </div>
-        )
-      })}
-      {teamMembers.length < 10 ? (
-        <div
-          onClick={() => setOpen(true)}
-          className="hover:scale-110 cursor-pointer w-[10%] px-2"
-        >
-          <div
-            className={
-              "w-full h-full flex flex-col items-center rounded-3xl shadow-md py-8 border-2 border-gray-100"
-            }
-          >
-            <div className="flex justify-center mb-2">
-              <ImageIcon
-                image="http://cdn.onlinewebfonts.com/svg/img_356964.png"
-                size="large"
-                borderStyle="none"
-              />
-            </div>
-            <div className="text-sm font-medium flex justify-center px-5 h-[50px] items-center">
-              멤버 초대
-            </div>
-          </div>
-        </div>
-      ) : null}
+        ) : null}
+      </div>
     </div>
   )
 }
