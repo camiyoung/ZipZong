@@ -121,9 +121,6 @@ function GroupManagement() {
     dispatch(teamInfo(fetchTeamId))
     if (teamLeader.nickname === memberNickname) {
       setIsLeader(true)
-    } else {
-      // 실험적으로 그룹장으로 승급
-      setIsLeader(true)
     }
   }, [])
 
@@ -192,31 +189,28 @@ function GroupManagement() {
       </div>
       <div className=" flex justify-evenly mt-4">
         <div className="w-full pr-2">
-          <Button
-            text="운동 루틴 관리"
-            height="h-10"
-            width="w-full"
-            // 그룹장만 운동관리
+          <div
+            className="shadow-md border-2 border-white font-semibold flex justify-center p-2 rounded-2xl text-lg text-white cursor-pointer bg-gradient-to-t from-lgBlue-500 to-lgBlue-300 hover:bg-gradient-to-t hover:from-lgBlue-600 hover:to-lgBlue-400"
             onClick={() => navigate(`/routine/${fetchTeamId}`)}
-          />
+          >
+            운동 루틴 관리
+          </div>
         </div>
         <div className="w-full pl-2">
-          {console.log(isLeader, "이거뭐지")}
           {isLeader ? (
-            <Button
-              text="그룹 설정 및 관리"
-              height="h-10"
-              width="w-full"
+            <div
+              className="shadow-md border-2 border-white font-semibold flex justify-center p-2 rounded-2xl text-lg text-white cursor-pointer bg-gradient-to-t from-lgBlue-500 to-lgBlue-300 hover:bg-gradient-to-t hover:from-lgBlue-600 hover:to-lgBlue-400"
               onClick={() => navigate(`/groupset/${fetchTeamId}`)}
-            />
+            >
+              그룹 설정 및 관리
+            </div>
           ) : (
-            <Button
-              text="그룹 탈퇴"
-              round="round3xl"
-              height="h-10"
-              width="w-full"
+            <div
+              className="shadow-md border-2 border-white font-semibold flex justify-center p-2 rounded-2xl text-lg text-white cursor-pointer bg-gradient-to-t from-lgBlue-500 to-lgBlue-300 hover:bg-gradient-to-t hover:from-lgBlue-600 hover:to-lgBlue-400"
               onClick={() => setModalContent("resign")}
-            />
+            >
+              그룹 탈퇴
+            </div>
           )}
         </div>
       </div>
@@ -225,8 +219,14 @@ function GroupManagement() {
 }
 
 export default function GroupInfo() {
-  const { teamName, teamMembers, teamContent, teamLeader, teamRepIcons } =
-    useSelector((state) => state.group)
+  const {
+    teamName,
+    teamMembers,
+    teamContent,
+    teamLeader,
+    teamRepIcons,
+    teamCurrentStreak,
+  } = useSelector((state) => state.group)
 
   return (
     <div className="w-full flex mt-5 px-3">
@@ -242,7 +242,14 @@ export default function GroupInfo() {
         </div>
         <div className="w-4/5">
           <div className="mb-2">
-            <p className="text-3xl font-semibold mb-1">{teamName}</p>
+            <p className="text-3xl font-semibold mb-1 flex items-center">
+              {teamName}
+              <div className="flex justify-center ml-2">
+                <span className="text-base grad p-1 rounded-full px-3 flex justify-center">
+                  🔥 {teamCurrentStreak}일 째 다 같이 운동중!🔥
+                </span>
+              </div>
+            </p>
             <div className="flex items-center">
               <p className="mr-1">그룹장:</p>{" "}
               <p className="mr-2"> {teamLeader.nickname}</p>
