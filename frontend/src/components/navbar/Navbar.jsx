@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { NavLink, useLocation, useNavigate } from "react-router-dom"
 import { registrationTeam, teamInfo } from "../../features/group/groupReducer"
@@ -15,19 +15,6 @@ import Card from "../card/Card"
 import ImageIcon from "../icon/ImageIcon"
 import Logo from "../../assets/Logo.svg"
 
-const Icons = [
-  "basic",
-  "bee",
-  "elephant",
-  "ferret",
-  "frog",
-  "pandaBear",
-  "pig",
-  "rabbit",
-  "walrus",
-  "yak",
-]
-
 const NavItem = ({ children }) => {
   return <li className="m-2 flex justify-center items-center">{children}</li>
 }
@@ -36,49 +23,49 @@ const GroupList = ({ setVisible, groups }) => {
   return (
     <div className="absolute z-30 top-[4rem] right-[2.5em]">
       <Card size="middle">
-        <div onClick={() => setVisible(false)}>닫기 </div>
-        <ul>
-          {groups.map(({ teamName, icon, count, groupId }, idx) => {
-            return (
-              <NavLink key={idx} to={`/group/${groupId}`}>
-                <li className="flex">
-                  <p className="text-sm">팀 아이콘: {icon}</p>
-                  <p className="text-sm">팀 이름: {teamName}</p>
-                  <p className="text-sm ml-2">{count}/10 명</p>
-                </li>
-              </NavLink>
-            )
-          })}
-          <NavLink to="/group">
-            <li>그룹 페이지</li>
-          </NavLink>
-          <NavLink to="/groupset">
-            <li>그룹 설정 페이지</li>
-          </NavLink>
-          <NavLink to="/routine">
-            <li>루틴 페이지</li>
-          </NavLink>
-        </ul>
+        {groups.length > 0 ? (
+          <ul>
+            {groups.map(({ teamName, icon, count, groupId }, idx) => {
+              return (
+                <NavLink key={idx} to={`/group/${groupId}`}>
+                  <li className="flex justify-between mt-2 hover:text-red-400">
+                    <div className="flex">
+                      <ImageIcon
+                        image={`/images/badgeIcon/${icon}.png`}
+                        shape="round"
+                        size="small"
+                      />
+                      <div className="ml-2 block truncate w-[140px]">
+                        {teamName}
+                      </div>
+                    </div>
+                    <p className="text-sm ml-2">
+                      {count}/10<span className="text-[4px]"> 명</span>
+                    </p>
+                  </li>
+                </NavLink>
+              )
+            })}
+          </ul>
+        ) : (
+          <p>그룹에 가입해보세요!</p>
+        )}
       </Card>
     </div>
   )
 }
 
-const InfoList = ({ setVisible, memberId }) => {
+const InfoList = ({ setVisible, memberId, showInfo }) => {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
+
   const { memberNickname, memberRepIcon } = useSelector((state) => state.member)
+  const { basicIcons } = useSelector((state) => state.group)
+  const { memberIconList } = useSelector((state) => state.mypage)
 
-  const memberIconList = useSelector((state) => state.mypage.memberIconList)
-  const allIcons = [...Icons]
-
-  memberIconList.forEach((icon) => {
-    if (!allIcons.includes(icon)) allIcons.push(icon)
-  })
+  const allIcons = [...basicIcons, ...memberIconList]
 
   const [nickname, setNickname] = useState(memberNickname)
   const [icon, setIcon] = useState(memberRepIcon)
-  const { basicIcons } = useSelector((state) => state.group)
   const [errorMessage, setErrorMessage] = useState("")
 
   // Modal
@@ -120,6 +107,7 @@ const InfoList = ({ setVisible, memberId }) => {
               })
             )
             modalClose()
+            setVisible(false)
             setErrorMessage("")
           } else if (res === "DUPLICATE") {
             setErrorMessage("중복된 닉네임입니다.")
@@ -131,15 +119,23 @@ const InfoList = ({ setVisible, memberId }) => {
     }
   }
 
-  // 아이콘 목록 기본 아이콘과 회원이 가진 아이콘들 합치기
-  // if (memberIconList) {
-  //   setAllIcons([...Icons, ...memberIconList])
-  // }
-
   return (
-    <div>
+    <div
+      onMouseOver={() => {
+        setVisible(true)
+      }}
+      onMouseLeave={() => {
+        setVisible(false)
+      }}
+    >
       {/* 개인 정보 수정 모달 시작 */}
-      <Modal isOpen={isOpen} modalClose={modalClose}>
+      <Modal
+        isOpen={isOpen}
+        modalClose={() => {
+          modalClose()
+          setVisible(false)
+        }}
+      >
         <form onSubmit={handleSubmit}>
           <div className="text-xl flex justify-center pb-5 font-bold">
             프로필 수정
@@ -256,22 +252,33 @@ const InfoList = ({ setVisible, memberId }) => {
       {/* 회원탈퇴 모달 끝 */}
 
       <div className="absolute z-30 top-[4rem] right-[2.5em] border">
-        <Card size="middle">
-          <div onClick={() => setVisible(false)}>닫기</div>
+        <Card size="small">
+          <div
+            onClick={() => {
+              setVisible(false)
+            }}
+          >
+            닫기
+          </div>
           <ul>
-            <li onClick={() => setOpen(true)}>개인정보 수정</li>
+            <NavLink to="/mypage" className="hover:text-red-400">
+              My page
+            </NavLink>
+            <li onClick={() => setOpen(true)} className="hover:text-red-400">
+              개인정보 수정
+            </li>
             <li
               onClick={() => {
                 localStorage.clear()
                 window.location.replace("/")
               }}
+              className="hover:text-red-400"
             >
-              log out
+              로그아웃
             </li>
 
-            {/* 회원 탈퇴 */}
             <li
-              className="text-xs"
+              className="text-xs hover:text-red-400"
               style={{ color: "red", cursor: "pointer" }}
               onClick={() => setOpen2(true)}
             >
@@ -284,13 +291,14 @@ const InfoList = ({ setVisible, memberId }) => {
   )
 }
 
-export default function Navbar() {
+export default function NavbarComponent() {
   const dispatch = useDispatch()
+  const location = useLocation()
+
   const { memberId, memberRepIcon } = useSelector((state) => state.member)
   const { registeredTeam } = useSelector((state) => state.group)
   const [showGroup, setShowGroup] = useState(false)
   const [showInfo, setShowInfo] = useState(false)
-  const location = useLocation()
 
   // 회원이 가입한 팀 정보
   useEffect(() => {
@@ -321,34 +329,48 @@ export default function Navbar() {
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink to="/mypage">My page</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink to="/room">운동방</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink to="/result">운동 결과</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink to="/rank">명예의 전당</NavLink>
+              <NavLink to="/rank" className="hover:text-red-400">
+                명예의 전당
+              </NavLink>
             </NavItem>
             <NavItem>
               <div
-                onClick={() => {
+                onMouseOver={() => {
                   setShowGroup(true)
                 }}
+                onMouseLeave={() => {
+                  setShowGroup(false)
+                }}
+                className="hover:text-red-400"
               >
                 그룹 목록
               </div>
-              {showGroup && (
-                <GroupList setVisible={setShowGroup} groups={registeredTeam} />
-              )}
+              <div
+                onMouseOver={() => {
+                  setShowGroup(true)
+                }}
+                onMouseLeave={() => {
+                  setShowGroup(false)
+                }}
+              >
+                {showGroup && (
+                  <GroupList
+                    setVisible={setShowGroup}
+                    groups={registeredTeam}
+                  />
+                )}
+              </div>
             </NavItem>
+
             <NavItem>
               <div
-                onClick={() => {
+                onMouseOver={() => {
                   setShowInfo(true)
                 }}
+                onMouseLeave={() => {
+                  setShowInfo(false)
+                }}
+                className="cursor-pointer"
               >
                 <ImageIcon
                   image={`/images/badgeIcon/${memberRepIcon}.png`}
@@ -357,7 +379,11 @@ export default function Navbar() {
                 />
               </div>
               {showInfo && (
-                <InfoList setVisible={setShowInfo} memberId={memberId} />
+                <InfoList
+                  setVisible={setShowInfo}
+                  memberId={memberId}
+                  showInfo={showInfo}
+                />
               )}
             </NavItem>
           </ul>
