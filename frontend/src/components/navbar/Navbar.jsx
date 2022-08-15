@@ -233,38 +233,45 @@ const InfoList = ({ setVisible, memberId, showInfo }) => {
       {/* 개인 정보 수정 모달 끝 */}
 
       {/* 회원탈퇴 모달 시작 */}
-      <Modal isOpen={isOpen2} modalClose={modalClose2}>
-        <p>정말 탈퇴하시겠습니까?</p>
-        <div className="flex">
-          <Button
-            size="xs"
-            onClick={() => {
-              dispatch(memberRemove(memberId))
-            }}
-          >
-            Yes
-          </Button>
-          <Button size="xl" color="failure" onClick={modalClose2}>
-            No
-          </Button>
+      <Modal isOpen={isOpen2} modalClose={modalClose2} className="w-[100px]">
+        <div className="flex flex-col items-center justify-center">
+          <p className="text-xl">
+            정말 <span className="text-red-600">탈퇴</span>하시겠습니까?
+          </p>
+          <img
+            src="/images/crying.png"
+            alt="회원탈퇴 금지 이미지"
+            className="max-w-[150px] text-center"
+          />
+          <div className="flex justify-center items-center mt-2">
+            <Button
+              size="xs"
+              color="failure"
+              onClick={() => {
+                dispatch(memberRemove(memberId))
+              }}
+            >
+              Yes
+            </Button>
+            <div className="mx-5"></div>
+            <Button size="xl" onClick={modalClose2}>
+              No
+            </Button>
+          </div>
         </div>
       </Modal>
       {/* 회원탈퇴 모달 끝 */}
 
-      <div className="absolute z-30 top-[4rem] right-[2.5em] border">
+      <div className="absolute z-30 top-[4rem] right-[5em]">
         <Card size="small">
-          <div
-            onClick={() => {
-              setVisible(false)
-            }}
-          >
-            닫기
-          </div>
           <ul>
             <NavLink to="/mypage" className="hover:text-red-400">
               My page
             </NavLink>
-            <li onClick={() => setOpen(true)} className="hover:text-red-400">
+            <li
+              onClick={() => setOpen(true)}
+              className="hover:text-red-400 mt-2 cursor-pointer"
+            >
               개인정보 수정
             </li>
             <li
@@ -272,14 +279,13 @@ const InfoList = ({ setVisible, memberId, showInfo }) => {
                 localStorage.clear()
                 window.location.replace("/")
               }}
-              className="hover:text-red-400"
+              className="hover:text-red-400 mt-2 cursor-pointer"
             >
               로그아웃
             </li>
 
             <li
-              className="text-xs hover:text-red-400"
-              style={{ color: "red", cursor: "pointer" }}
+              className="hover:text-red-400 mt-2 cursor-pointer"
               onClick={() => setOpen2(true)}
             >
               회원 탈퇴
@@ -324,8 +330,8 @@ export default function NavbarComponent() {
           </div>
           <ul className="flex">
             <NavItem>
-              <NavLink to="/login" style={{ color: "red" }}>
-                로그인
+              <NavLink to="/tutorial" className="hover:text-red-400">
+                튜토리얼
               </NavLink>
             </NavItem>
             <NavItem>
