@@ -25,7 +25,9 @@ export default function GroupSet() {
     dispatch(teamInfo(fetchTeamId))
     dispatch(teamAllIcons(fetchTeamId))
     // 그룹 삭제 후 렌더링 하는 코드
-    dispatch(registrationTeam(memberId))
+    if (memberId) {
+      dispatch(registrationTeam(memberId))
+    }
   }, [])
 
   const deleteTeamFunction = () => {
