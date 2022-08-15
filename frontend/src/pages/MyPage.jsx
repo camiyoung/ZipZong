@@ -59,7 +59,7 @@ export default function MyPage() {
               <PersonalExerciseInfo />
             </div>
 
-            <div className="w-full justify-center h-full flex">
+            <div className="w-full justify-center h-full flex px-6">
               <PersonalRank
                 memberId={memberId}
                 memberNickname={memberNickname}
