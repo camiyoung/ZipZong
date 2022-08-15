@@ -102,6 +102,14 @@ abbr[title] {
   max-width: 100%;
   color: transparent;
 }
+.shield {
+  background-image: url("../../../public/images/calendarIcon/shield.png");
+  transform: scale(0.5);
+  background-size: cover;
+  max-height: 100%;
+  max-width: 100%;
+  color: transparent;
+}
 /* .highlight:hover {
   color: transparent;
 } */
