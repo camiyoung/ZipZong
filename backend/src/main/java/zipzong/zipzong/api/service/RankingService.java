@@ -571,7 +571,7 @@ public class RankingService {
 
             strickRankDetail.setRank(rank);
             strickRankDetail.setMemberIcon(member.getRepIcon());
-            strickRankDetail.setNickName(member.getName());
+            strickRankDetail.setNickName(member.getNickname());
             strickRankDetail.setMaxStrick(maxStrick);
 
             if (rank < ranking.intValue() + 1) {
@@ -625,7 +625,7 @@ public class RankingService {
 
             timeRankDetail.setRank(rank);
             timeRankDetail.setMemberIcon(member.getRepIcon());
-            timeRankDetail.setNickName(member.getName());
+            timeRankDetail.setNickName(member.getNickname());
             timeRankDetail.setTotalTime(totalTime);
 
             if (rank < ranking.intValue() + 1) {
