@@ -118,11 +118,13 @@ function GroupManagement() {
 
   // useEffect
   useEffect(() => {
-    dispatch(teamInfo(fetchTeamId))
+    // dispatch(teamInfo(fetchTeamId))
     if (teamLeader.nickname === memberNickname) {
       setIsLeader(true)
+    } else {
+      setIsLeader(false)
     }
-  }, [])
+  }, [teamLeader])
 
   useEffect(() => {
     // 모달 오픈 상태 확인후 모달창 열기
