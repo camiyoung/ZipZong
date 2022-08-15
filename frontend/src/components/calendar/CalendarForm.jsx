@@ -141,7 +141,7 @@ export default function CalendarForm() {
     )
   }, [teamDailyHistory])
   return (
-    <div className="app w-1/4 min-w-[285px]">
+    <div className="app w-1/4 min-w-[285px] max-w-[285px]">
       <div className="calendar-container">
         <Calendar
           className="react-calendar p-5 h-[340px] rounded-3xl shadow-md"
