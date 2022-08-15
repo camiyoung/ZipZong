@@ -78,10 +78,9 @@ export const exerciseReducer = createSlice({
     },
     setTodoList: (state, action) => {
       state.todoList = action.payload
-      console.log("todolist 변경", state.todoList)
+      // console.log("todolist 변경", state.todoList)
     },
     updateSuccessCount: (state) => {
-      // console.log("카운트 증가 ")
       state.successCount++
     },
     resetSuccessCount: (state) => {
@@ -90,6 +89,10 @@ export const exerciseReducer = createSlice({
     },
     updateIndex: (state) => {
       state.todoIndex++
+    },
+    resetInfo: (state) => {
+      state.todoIndex = -1
+      state.rotuineInfo = undefined
     },
   },
   extraReducers(builder) {
@@ -101,7 +104,7 @@ export const exerciseReducer = createSlice({
         return userData.admin
       })
       state.admin = admin
-      console.log("방장 connectionId:", admin.id, admin)
+      // console.log("방장 connectionId:", admin.id, admin)
     })
     builder.addCase(getSessionInfo.rejected, (err) => {
       console.log(err)
@@ -110,7 +113,7 @@ export const exerciseReducer = createSlice({
       state.result.allResult = action.payload
     })
     builder.addCase(getRoutineDetail.fulfilled, (state, action) => {
-      console.log("루틴 변경 ", action.payload)
+      // console.log("루틴 변경 ", action.payload)
       state.rotuineInfo = action.payload
     })
   },
@@ -132,4 +135,5 @@ export const {
   resetSuccessCount,
   updateIndex,
   setRoomTitle,
+  resetInfo,
 } = exerciseReducer.actions
