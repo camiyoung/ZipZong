@@ -69,7 +69,10 @@ const RankList = ({ title, description, list }) => {
 }
 
 const makeList = (list) => {
-  const over = list.over.length > 2 ? list.over.slice(0, 2) : [...list.over]
+  const over =
+    list.over.length > 2
+      ? list.over.slice(list.over.length - 3, list.over.length - 1)
+      : [...list.over]
   const under = list.under.length > 2 ? list.under.slice(0, 2) : [...list.under]
 
   const rankList = [...over, { ...list.me, me: true }, ...under]
@@ -96,7 +99,7 @@ function PersonalRank({ memberId, memberNickname }) {
   return (
     <div className="flex mt-10 flex-col w-full">
       <div className="flex w-full justify-center">
-        <div className="ml-10 rounded-3xl bg-white min-w-min h-[340px] w-[80%] flex shadow-md">
+        <div className=" rounded-3xl bg-white min-w-min h-[340px] w-[80%] flex shadow-md">
           <div
             className="w-1/4 bg-lgBlue-400 h-full bg-gradient-to-t from-lgBlue-500 to-secondary-300 flex flex-col justify-center items-center"
             style={{

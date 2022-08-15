@@ -54,7 +54,7 @@ export default function MyPage() {
       {/* <p className="flex justify-center pt-10 font-bold text-3xl">CALENDAR</p> */}
       <div className="flex justify-center pb-10 w-full  h-[30rem]">
         <div className="w-full flex justify-center ">
-          <Carousel slide={false} leftControl=" " rightControl=" ">
+          <Carousel slide={false}>
             <div className="w-full  justify-center h-full flex">
               <PersonalExerciseInfo />
             </div>
