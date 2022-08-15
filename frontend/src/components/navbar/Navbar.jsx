@@ -308,7 +308,9 @@ export default function NavbarComponent() {
 
   // 회원이 가입한 팀 정보
   useEffect(() => {
-    dispatch(registrationTeam(memberId))
+    if (memberId) {
+      dispatch(registrationTeam(memberId))
+    }
   }, [memberId])
 
   if (
