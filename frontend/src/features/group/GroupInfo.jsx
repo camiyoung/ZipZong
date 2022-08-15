@@ -201,6 +201,7 @@ function GroupManagement() {
           />
         </div>
         <div className="w-full pl-2">
+          {console.log(isLeader, "이거뭐지")}
           {isLeader ? (
             <Button
               text="그룹 설정 및 관리"
@@ -228,7 +229,7 @@ export default function GroupInfo() {
     useSelector((state) => state.group)
 
   return (
-    <div className="w-full flex mt-5">
+    <div className="w-full flex mt-5 px-3">
       <div className="w-1/2 flex items-center rounded-3xl py-8 px-8 custom-border">
         <div className="flex justify-center items-center mr-5">
           {teamRepIcons ? (
