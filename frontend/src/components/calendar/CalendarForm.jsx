@@ -167,11 +167,11 @@ export default function CalendarForm() {
                 return "highlight"
               }
             }
-            for (let j = 0; j < dayShield.length; ++j) {
-              if (date.getDate() === dayShield[j].day) {
-                return "shield"
-              }
-            }
+            // for (let j = 0; j < dayShield.length; ++j) {
+            //   if (date.getDate() === dayShield[j].day) {
+            //     return "shield"
+            //   }
+            // }
 
             // 토요일: 파란색, 일요일: 빨간색
             if (moment(date).format("LLLL").split(",")[0] === "Saturday") {

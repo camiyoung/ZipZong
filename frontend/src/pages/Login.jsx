@@ -5,7 +5,8 @@ import { checkMemberId, nicknamePush } from "../features/login/memberReducer"
 import NotLoggedInYet from "../features/login/NotLoggedInYet"
 import SetNickName from "../features/login/SetNickName"
 import { registrationTeam } from "../features/group/groupReducer"
-
+import Logo from "../assets/Logo.svg"
+import { Carousel } from "flowbite-react"
 export default function Login() {
   const [showMakeNickname, setMakeNickname] = useState(false)
   let accessToken,
@@ -31,8 +32,10 @@ export default function Login() {
       "memberId"
     )
     nickname = new URL(window.location.href).searchParams.get("nickname")
+    console.log(accessToken, "닉넴:", nickname)
 
     if (!!accessToken && nickname !== "") {
+      console.log("토큰 있고 닉넴 있음  ")
       localStorage.setItem("accessToken", accessToken)
       localStorage.setItem("refreshToken", refreshToken)
       localStorage.setItem("accessTokenExpiration", accessTokenExpiration)
@@ -44,6 +47,12 @@ export default function Login() {
     }
 
     if (accessToken && !nickname) {
+      console.log(
+        "토큰 있고 닉넴 없음 , id=",
+        Number(collectedMemberId),
+        refreshTokenExpiration,
+        accessToken
+      )
       localStorage.setItem("accessToken", accessToken)
       localStorage.setItem("refreshToken", refreshToken)
       localStorage.setItem("accessTokenExpiration", accessTokenExpiration)
@@ -54,17 +63,29 @@ export default function Login() {
   }, [])
 
   return (
-    <div className="flex">
-      <div className="w-6/12 h-screen">
-        <img
-          src="https://ahopsi.com/wp-content/uploads/2022/03/%EC%97%90%ED%8E%A0%ED%83%91%EA%B3%BC-%EC%9C%A0%EB%A6%AC-%ED%94%BC%EB%9D%BC%EB%AF%B8%EB%93%9C%EA%B0%80-%EB%B9%9B%EB%82%98%EB%8A%94-%E2%80%98%EB%AF%B8%EB%93%9C%EB%82%98%EC%9E%87-%EC%9D%B8-%ED%8C%8C%EB%A6%AC.jpg"
-          style={{ height: "100%" }}
-          alt="에펠타워"
-        />
+    <div className=" w-full h-screen  bg-gradient-to-tl from-begie to-lightBlue flex justify-center items-center  ">
+      <div className="flex  w-4/5 bg-white h-4/5  max-w-[1000px] min-w-[700px] rounded-2xl p-4 shadow-xl ">
+        <div className="w-1/2 h-full bg-primary-500 rounded-2xl">
+          <Carousel leftControl=" " rightControl=" ">
+            <div className="w-full flex justify-center">
+              집에서 운동중 가입 환영
+            </div>
+            <div className="w-full flex justify-center">SNS 로그인</div>
+            <div className="w-full flex justify-center">
+              네이버, 카카오, 구글 모두 가능
+            </div>
+          </Carousel>
+        </div>
+        <div className="w-1/2  h-full  p-4 flex justify-center items-center flex-col relative ">
+          <img
+            src={Logo}
+            style={{ height: "60px" }}
+            alt="logo"
+            className="absolute top-4 right-6"
+          />
+          {showMakeNickname ? <SetNickName /> : <NotLoggedInYet />}
+        </div>
       </div>
-      {/* 로그인되면 버튼들이 보이지 않음 */}
-      {showMakeNickname ? <SetNickName /> : <NotLoggedInYet />}
-      {/* {<NotLoggedInYet />} */}
     </div>
   )
 }
