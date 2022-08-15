@@ -14,8 +14,6 @@ const MakeRoomForm = ({ teamId }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const teamRoutine = useSelector((state) => state.routine.routines)
-  // console.log("팀아이디 : ", teamId)
-  // console.log("팀 루틴 : ", teamRoutine)
 
   const [title, setTitle] = useState("")
   const [routineId, setRoutineId] = useState()
@@ -27,9 +25,7 @@ const MakeRoomForm = ({ teamId }) => {
   }
 
   const onSubmit = () => {
-    console.log("제목", !!title, "선택된루틴", !!routineId)
     if (!!title && !!routineId) {
-      console.log("완료")
       enterRoom()
     } else {
       setErrorMsg("제목과 루틴 선택은 필수입니다.")
@@ -77,7 +73,6 @@ const MakeRoomForm = ({ teamId }) => {
 const ResignTeam = ({ teamId, memberId }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  console.log(`탈퇴 모달 open 유저:${memberId}, 탈퇴할 팀 id:${teamId}`)
   return (
     <div>
       <p style={{ color: "red" }}>정말 그룹을 탈퇴하시겠습니까?</p>

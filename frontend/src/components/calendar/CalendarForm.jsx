@@ -27,6 +27,7 @@ export default function CalendarForm() {
   const { memberDailyHistory } = useSelector((state) => state.mypage)
   const { teamDailyHistory } = useSelector((state) => state.group)
   const [dayExercised, setDayExercised] = useState("")
+  const [dayShield, setDayShield] = useState("")
 
   const isGroup = useState(location.pathname.split("/")[1])
 
@@ -71,6 +72,11 @@ export default function CalendarForm() {
           if (state === "SUCCESS") return true
         })
       )
+      setDayShield(
+        teamDailyHistory.filter(({ state }) => {
+          if (state === "SHIELD") return true
+        })
+      )
     }
     setDayExercised(
       memberDailyHistory.filter(({ state }) => {
@@ -95,6 +101,11 @@ export default function CalendarForm() {
       setDayExercised(
         teamDailyHistory.filter((e) => {
           if (e.state === "SUCCESS") return true
+        })
+      )
+      setDayShield(
+        teamDailyHistory.filter(({ state }) => {
+          if (state === "SHIELD") return true
         })
       )
     } else {
@@ -123,6 +134,11 @@ export default function CalendarForm() {
         if (e.state === "SUCCESS") return true
       })
     )
+    setDayShield(
+      teamDailyHistory.filter(({ state }) => {
+        if (state === "SHIELD") return true
+      })
+    )
   }, [teamDailyHistory])
   return (
     <div className="app w-1/4 min-w-[285px]">
@@ -149,6 +165,11 @@ export default function CalendarForm() {
             for (let i = 0; i < dayExercised.length; ++i) {
               if (date.getDate() === dayExercised[i].day) {
                 return "highlight"
+              }
+            }
+            for (let j = 0; j < dayShield.length; ++j) {
+              if (date.getDate() === dayShield[j].day) {
+                return "shield"
               }
             }
 
