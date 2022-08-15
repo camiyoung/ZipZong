@@ -57,15 +57,6 @@ export default function Login() {
   return (
     <div className=" w-full h-screen  bg-gradient-to-tl from-begie to-lightBlue flex justify-center items-center  ">
       <div className="flex  w-4/5 bg-white h-4/5  max-w-[1000px] min-w-[700px] rounded-2xl p-4 shadow-xl ">
-        <div className="w-1/2  h-full  p-4 flex justify-center items-center flex-col relative ">
-          <img
-            src={Logo}
-            style={{ height: "60px" }}
-            alt="logo"
-            className="absolute top-4 left-6"
-          />
-          {showMakeNickname ? <SetNickName /> : <NotLoggedInYet />}
-        </div>
         <div className="w-1/2 h-full bg-primary-500 rounded-2xl">
           <Carousel leftControl=" " rightControl=" ">
             <div className="w-full flex justify-center">
@@ -76,6 +67,15 @@ export default function Login() {
               네이버, 카카오, 구글 모두 가능
             </div>
           </Carousel>
+        </div>
+        <div className="w-1/2  h-full  p-4 flex justify-center items-center flex-col relative ">
+          <img
+            src={Logo}
+            style={{ height: "60px" }}
+            alt="logo"
+            className="absolute top-4 right-6"
+          />
+          {showMakeNickname ? <SetNickName /> : <NotLoggedInYet />}
         </div>
       </div>
     </div>
