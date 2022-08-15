@@ -23,12 +23,16 @@ import NotFound from "./pages/NotFound"
 function App() {
   const dispatch = useDispatch()
   const token = localStorage.getItem("accessToken")
-  // console.log("토큰", token)
+  const nickname = localStorage.getItem("nickname")
 
   useEffect(() => {
     const checkLogined = async () => {
       if (!token) return
-      const nickname = localStorage.getItem("nickname")
+      if (!nickname) {
+        // 토큰 있는데 닉네임이 없는 경우 -> 회원가입시 소셜 로그인만 완료후 닉네임을 설정하지 않은 경우.
+        // 다시 로그인하고 닉네임 설정하도록 돌려보냄.
+        return
+      }
       dispatch(memberInfo(nickname))
       dispatch(memberIconListReview(localStorage.getItem("memberId")))
     }
@@ -38,7 +42,7 @@ function App() {
 
   return (
     <>
-      {!token ? (
+      {!token || !nickname ? (
         <Login />
       ) : (
         <div className="w-screen bg-gradient-to-b from-secondary-100 to-lgBlue-200">
