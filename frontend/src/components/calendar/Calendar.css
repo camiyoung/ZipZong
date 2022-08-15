@@ -74,7 +74,7 @@ abbr[title] {
 .react-calendar__tile:enabled:focus {
   color: black;
   font-weight: bolder;
-  transform: scale(1);
+  transform: scale(1.2);
   animation-delay: 1s;
   background-color: #6f48eb33;
 }
@@ -97,18 +97,16 @@ abbr[title] {
 }
 .highlight {
   background-image: url("../../../public/images/calendarIcon/evaluate.png");
-  transform: scale(0.8);
+  background-repeat: no-repeat;
   background-size: contain;
-  max-height: 100%;
-  max-width: 100%;
+  background-position: center;
   color: transparent;
 }
 .shield {
   background-image: url("../../../public/images/calendarIcon/shield.png");
-  transform: scale(0.5);
-  background-size: cover;
-  max-height: 100%;
-  max-width: 100%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
   color: transparent;
 }
 
