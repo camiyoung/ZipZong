@@ -134,7 +134,7 @@ export default function Group() {
               <div
                 className="w-11/12 shadow-md flex justify-center items-center bg-cover rounded-3xl"
                 style={{
-                  backgroundImage: `url(/images/rankPage/${icon1})`,
+                  backgroundImage: `url(/images/rankPage/${icon})`,
                 }}
               >
                 <div className="w-full h-full backdrop-blur-lg rounded-3xl flex flex-col items-center">
@@ -142,7 +142,7 @@ export default function Group() {
                     <NavLink key={idx} to={`/group/${groupId}`}>
                       <div className="w-4/5">
                         <Icon
-                          image={`/images/rankPage/${icon1}`}
+                          image={`/images/rankPage/${icon}`}
                           size="xLarge2"
                           shape="round"
                         />

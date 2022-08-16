@@ -207,27 +207,25 @@ export default function ExerciseInfo() {
             </p>
             <p className="text-lg text-white font-normal"> {teamName}</p>
             <span className="text-sm mt-0.5 text-gray-100">
-              연속 {teamCurrentStreak}일 째!
-            </span>
-            <span className="text-sm mt-0.5 text-gray-100">
               스트릭 쉴드 : {shieldCount}개
             </span>
           </div>
           <div className="w-3/4 h-full flex items-center justify-center">
             <div className="flex flex-col justify-center w-10/12">
-              <div className="flex items-center justify-center mt-1">
-                <p className="text-[14px] mr-1">다같이 운동한 시간:</p>
-                {teamDailyTotalTime && teamDailyTotalTime >= 60 ? (
-                  <p className="text-[18px]">
-                    {parseInt(teamDailyTotalTime / 60)} 시간{" "}
-                    {teamDailyTotalTime % 60} 분
-                  </p>
-                ) : (
-                  <p className="text-[18px]">{teamDailyTotalTime} 분</p>
-                )}
+              <div className="h-[50px] flex items-center justify-center">
+                <div className="flex items-center justify-center mt-1">
+                  <p className="text-[14px] mr-1">다같이 운동한 시간:</p>
+                  {teamDailyTotalTime && teamDailyTotalTime >= 60 ? (
+                    <p className="text-[18px]">
+                      {parseInt(teamDailyTotalTime / 60)} 시간{" "}
+                      {teamDailyTotalTime % 60} 분
+                    </p>
+                  ) : (
+                    <p className="text-[18px]">{teamDailyTotalTime} 분</p>
+                  )}
+                </div>
               </div>
-              <div></div>
-              <div className="flex flex-wrap w-full justify-start">
+              <div className="flex flex-wrap w-full justify-start h-[290px]">
                 {stateGroupDailyHistory === null ||
                 stateGroupDailyHistory.length === 0 ? (
                   // true, false 순서를 바꾸면 정상적으로 작동함 -> 운동을 하면 결과, 없으면 운동 안했다는 메시지 출력
