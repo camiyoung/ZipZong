@@ -92,7 +92,7 @@ export default function CalendarForm() {
       )
       setDayShield("")
     }
-  }, [date, activeDate, dayShield])
+  }, [date, activeDate])
 
   useEffect(() => {
     setDayExercised(
@@ -115,6 +115,7 @@ export default function CalendarForm() {
       })
     )
   }, [teamDailyHistory])
+
   return (
     <div className="app w-1/4">
       <div className="calendar-container">
