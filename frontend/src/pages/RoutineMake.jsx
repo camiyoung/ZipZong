@@ -15,7 +15,6 @@ export default function RoutineMake() {
   const [breakTime, setBreakTime] = useState(15)
 
   const params = useParams()
-  console.log("여기 왔니", params)
 
   useEffect(() => {
     if (params.routineId) {
