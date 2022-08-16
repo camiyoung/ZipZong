@@ -26,16 +26,22 @@ export default function NavbarComponent() {
   const dispatch = useDispatch()
   const location = useLocation()
 
-  const { memberId, memberRepIcon, memberNickname } = useSelector(
-    (state) => state.member
-  )
+  const member = useSelector((state) => state.member)
+  const { memberId, memberRepIcon, memberNickname } = member
   const { registeredTeam, basicIcons } = useSelector((state) => state.group)
   const { memberIconList } = useSelector((state) => state.mypage)
   const allIcons = [...basicIcons]
 
-  const [nickname, setNickname] = useState(memberNickname)
-  const [icon, setIcon] = useState(memberRepIcon)
+  const [nickname, setNickname] = useState("")
+  const [icon, setIcon] = useState("")
   const [errorMessage, setErrorMessage] = useState("")
+
+  useEffect(() => {
+    if (memberNickname && memberRepIcon) {
+      setNickname(memberNickname)
+      setIcon(memberRepIcon)
+    }
+  }, [member])
 
   // Modal
   const [isOpen, setOpen] = useState(false) // 개인정보 수정
@@ -356,7 +362,7 @@ export default function NavbarComponent() {
               </div>
             </li>
 
-            <li className="navbar-dropdown my-auto">
+            <ul className="navbar-dropdown my-auto">
               <img
                 src={`/images/badgeIcon/${memberRepIcon}.png`}
                 alt="멤버 아이콘"
@@ -400,7 +406,7 @@ export default function NavbarComponent() {
                   회원 탈퇴
                 </li>
               </div>
-            </li>
+            </ul>
           </ul>
         </nav>
       </div>
