@@ -77,12 +77,14 @@ export default function CalendarForm() {
           if (state === "SHIELD") return true
         })
       )
+    } else {
+      setDayExercised(
+        memberDailyHistory.filter(({ state }) => {
+          if (state === "SUCCESS") return true
+        })
+      )
+      setDayShield("")
     }
-    setDayExercised(
-      memberDailyHistory.filter(({ state }) => {
-        if (state === "SUCCESS") return true
-      })
-    )
   }, [])
 
   useEffect(() => {
@@ -117,6 +119,7 @@ export default function CalendarForm() {
           if (e.state === "SUCCESS") return true
         })
       )
+      setDayShield("")
     }
   }, [date, activeDate])
 
@@ -126,6 +129,7 @@ export default function CalendarForm() {
         if (e.state === "SUCCESS") return true
       })
     )
+    setDayShield("")
   }, [memberDailyHistory])
 
   useEffect(() => {
