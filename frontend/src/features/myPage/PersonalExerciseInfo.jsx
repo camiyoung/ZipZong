@@ -13,34 +13,6 @@ import CalendarForm from "../../components/calendar/CalendarForm"
 import ExerciseIcon from "../../components/icon/ExerciseIcon"
 import ChangeLanguage from "../routine/ChangeLanguage"
 
-const dayExerciseInfo = [
-  {
-    performName: "PUSHUP",
-    performNum: 18,
-    performTime: 1,
-  },
-  {
-    performName: "LEGRAISE",
-    performNum: 30,
-    performTime: 2,
-  },
-  {
-    performName: "MOUNTAINCLIMING",
-    performNum: 30,
-    performTime: 2,
-  },
-  {
-    performName: "BURPEE",
-    performNum: 30,
-    performTime: 2,
-  },
-  {
-    performName: "SQUAT",
-    performNum: 30,
-    performTime: 2,
-  },
-]
-
 export default function ExerciseInfo() {
   const dispatch = useDispatch()
   const { memberId, memberNickname } = useSelector((state) => state.member)
