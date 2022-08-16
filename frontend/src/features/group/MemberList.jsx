@@ -18,34 +18,50 @@ export default function MemberList() {
     copyLinkRef.current.focus()
     copyLinkRef.current.select()
 
-    navigator.clipboard
-      .writeText(copyLinkRef.current.value)
-      .then(() => alert("링크를 복사했습니다."))
+    navigator.clipboard.writeText(copyLinkRef.current.value).then(() => {
+      alert("링크를 복사했습니다.")
+      modalClose()
+    })
   }
   return (
     // group 원들의 정보를 받아야 함
     <div className="mt-10 w-4/5">
-      {/* 모달 영역 */}
+      {/* 초대 링크 모달 영역 시작 */}
       <Modal isOpen={isOpen} modalClose={modalClose}>
-        <form className="py-3 pb-5">
-          <p className="text-3xl font-semibold text-center mb-5">초대링크</p>
+        <div className="flex justify-center flex-col items-center">
+          <p className="text-3xl font-semibold text-center mb-2">초대링크</p>
+          <img
+            src="/images/inviteIcon/invite1.png"
+            alt="초대링크 아이콘1"
+            className="max-h-[100px] mb-4"
+          />
+          <p className="text-center text-secondary-800 mb-5">
+            같이 운동할 사람을 초대해 보세요!
+          </p>
           <div className="flex justify-center items-center">
             <input
               type="text"
               ref={copyLinkRef}
               value={`https://i7a805.p.ssafy.io/invite?groundId=${inviteLink}`}
-              className="mr-3"
+              className="py-3 rounded-l-md"
               readOnly
             />
-            <Button
+            <button
+              className="text-white bg-blue-400 hover:bg-blue-600 h-[50px] w-[50px] rounded-r-md"
               onClick={() => copyTextUrl()}
-              text="복사"
-              width="w-20"
-            ></Button>
+            >
+              복사
+            </button>
+            {/* <Button
+            onClick={() => copyTextUrl()}
+            text="복사"
+            width="w-20"
+          ></Button> */}
           </div>
-        </form>
+        </div>
       </Modal>
-      {/* 모달 영역 끝 */}
+      {/* 초대 링크 모달 영역 끝 */}
+
       <div className="flex w-full flex-wrap">
         {teamMembers.map(
           ({ nickname, repIcon, hasExercised, memberId }, idx) => {
