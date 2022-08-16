@@ -275,8 +275,8 @@ public class ExerciseService {
 
             for(TeamCalendar teamCalendar : teamCalendars) {
                 if(teamCalendar.getCheckDate().getDayOfMonth() == d) {
-                    if(teamCalendar.getState().equals("SHEILD")) {
-                        dailyHistory.setState("SHEILD");
+                    if(teamCalendar.getState().equals("SHIELD")) {
+                        dailyHistory.setState("SHIELD");
                         break;
                     } else {
                         dailyHistory.setState("SUCCESS");
