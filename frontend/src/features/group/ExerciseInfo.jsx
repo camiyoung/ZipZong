@@ -225,22 +225,24 @@ export default function ExerciseInfo() {
                   )}
                 </div>
               </div>
-              <div className="flex flex-wrap w-full justify-start h-[290px]">
+              <div className="flex flex-wrap w-full justify-start items-center h-[290px] pb-7">
                 {stateGroupDailyHistory === null ||
                 stateGroupDailyHistory.length === 0 ? (
                   // true, false 순서를 바꾸면 정상적으로 작동함 -> 운동을 하면 결과, 없으면 운동 안했다는 메시지 출력
-                  <p>이 날은 운동을 하지 않았습니다!</p>
+                  <span className="text-lg">
+                    운동 기록이 존재하지 않습니다.
+                  </span>
                 ) : (
                   stateGroupDailyHistory.map(
                     ({ performName, performNum, performTime }, idx) => {
                       return (
-                        <div key={idx} className="flex w-[33.33%] my-3">
+                        <div key={idx} className="flex items-center w-[33.33%]">
                           <ExerciseIcon
-                            size="large"
+                            size="ltlarge"
                             shape="round"
                             image={performName}
                           ></ExerciseIcon>
-                          <div className="flex flex-col justify-center items-center w-[70%]">
+                          <div className="flex flex-col ml-3">
                             <div className="font-semibold">
                               {" "}
                               <ChangeLanguage exercise={performName} />

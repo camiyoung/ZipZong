@@ -5,6 +5,14 @@ import AOS from "aos"
 import "aos/dist/aos.css"
 import { useSelector } from "react-redux"
 
+const grid = {
+  1: "grid-cols-1",
+  2: "grid-cols-2",
+  3: "grid-cols-3",
+  4: "grid-cols-4",
+  5: "grid-cols-5",
+}
+
 const language = {
   PUSHUP: "팔굽혀펴기",
   BURPEE: "버피",
@@ -57,8 +65,8 @@ export default function ExerciseResulPage() {
     <>
       <div className="w-screen flex justify-center">
         {/* 운동 종료 안내 섹션  */}
-        <div className="bg-white w-4/5 rounded-3xl my-10 pt-10 pb-32  shadow-md shadow-lgBlue-600">
-          <section className=" w-full p-3 h-screen flex flex-col justify-center items-center relative">
+        <div className="w-4/5 rounded-3xl  pb-32  ">
+          <section className=" w-full p-3 h-screen  flex flex-col justify-center items-center relative">
             <img
               src={Trainer}
               alt=""
@@ -72,9 +80,11 @@ export default function ExerciseResulPage() {
             <h1 className=" text-4xl my-4  text-indigo-500 font-semibold ">
               운동이 종료되었습니다!
             </h1>
-            {result.myResult?.percentage && (
+            {result.myResult && (
               <h2 className="font-medium text-2xl m-4 text-gray-600 ">
-                내 달성률 : {result.myResult.percentage}%
+                {result.myResult.percentage !== undefined && (
+                  <span> 내 달성률 : {result.myResult.percentage}%</span>
+                )}
               </h2>
             )}
             {result.allResult && (
@@ -101,9 +111,14 @@ export default function ExerciseResulPage() {
           </section>
           {/* 운동 루틴 결과 섹션 */}
           {result.myResult && (
-            <section className="w-full  flex justify-center items-center flex-col p-3 ">
-              <h1 className=" text-4xl  my-12  text-lgBlue-700 font-semibold"></h1>
-              <div className="flex flex-wrap  justify-center ">
+            <section className="w-full flex justify-center items-center flex-col p-8 bg-white/70 rounded-xl  shadow-lg">
+              <div
+                className={` grid content-center align-middle ${
+                  result.myResult.personalResultDetails.length < 5
+                    ? grid[result.myResult.personalResultDetails.length]
+                    : grid[5]
+                }`}
+              >
                 {result.myResult.personalResultDetails.map((item, idx) => (
                   <ResultCard
                     name={item.exerciseName}
