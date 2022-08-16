@@ -166,6 +166,7 @@ export default function NavbarComponent() {
                 </div>
 
                 <div className="flex w-[300px] flex-wrap">
+                  {console.log("모든아이콘", allIcons)}
                   {allIcons
                     ? allIcons.map((icon, idx) => {
                         return (

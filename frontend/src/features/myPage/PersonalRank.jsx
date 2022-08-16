@@ -71,7 +71,7 @@ const RankList = ({ title, description, list }) => {
 const makeList = (list) => {
   const over =
     list.over.length > 2
-      ? list.over.slice(list.over.length - 3, list.over.length - 1)
+      ? list.over.slice(list.over.length - 2, list.over.length)
       : [...list.over]
   const under = list.under.length > 2 ? list.under.slice(0, 2) : [...list.under]
 
@@ -89,7 +89,7 @@ function PersonalRank({ memberId, memberNickname }) {
         data: { data },
       } = await http.get(`ranking/member/${memberId}`)
       const { strickRank, timeRank } = data
-      //   console.log(strickRank, timeRank)
+
       setStrickRank(makeList(strickRank))
       setTimeRank(makeList(timeRank))
     }
