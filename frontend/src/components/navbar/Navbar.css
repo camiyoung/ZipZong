@@ -30,7 +30,7 @@
   top: 100%;
   transform: translateY(50px);
   right: 1rem;
-  width: 400px;
+  width: 300px;
   background-color: #fff;
   border-radius: 15px;
   box-shadow: 0px 10px 10px 3px rgba(0, 0, 0, 0.3);
@@ -46,9 +46,9 @@
   padding-left: 30px;
 }
 .navbar-links .navlink:hover {
-  color: #ff3f34;
+  color: rgb(63, 147, 190);
 }
 
 .navlink {
-  font-size: x-large;
+  font-size: larger;
 }
