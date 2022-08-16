@@ -190,7 +190,7 @@ export default function ExerciseInfo() {
   }, [stateGroupDailyHistory])
 
   return (
-    <div className="flex flex-col flex-wrap w-full">
+    <div className="flex flex-col flex-wrap w-4/5">
       <div className="flex w-full justify-center mt-10">
         <CalendarForm />
 
