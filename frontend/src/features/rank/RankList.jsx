@@ -21,7 +21,7 @@ const ListItem = ({ group }) => {
     >
       {group.rank > 0 ? (
         <h2 className="text-black  text-xl  py-2 text-center flex w-full items-center justify-evenly">
-          <div className=" w-1/12   text-primary-300  bg-white  font-semibold  mr-2  ">
+          <div className=" w-1/12 min-w-[50px]   text-primary-300  bg-white  font-semibold  mr-2  ">
             {group.rank}위
           </div>
           <div className=" w-2/12  flex justify-center ">
@@ -31,16 +31,16 @@ const ListItem = ({ group }) => {
             />
           </div>
 
-          <div className=" text-center font-semibold text-xl text-gray-500 w-6/12 ">
+          <div className=" text-center font-semibold text-lg text-gray-500 w-6/12 ">
             {group.teamName}
           </div>
           {group.maxStrick && (
-            <div className=" text-center text-lg  font-medium text-gray-500 w-3/12 ">
+            <div className=" text-center text-base font-semibold text-gray-500 w-3/12 min-w-[110px] ">
               {group.maxStrick} 일째 {group.rank <= 3 && <span>🔥</span>}
             </div>
           )}
           {group.totalTime && (
-            <div className=" text-center text-lg  font-medium text-gray-500 w-3/12 ">
+            <div className=" text-center text-base font-semibold text-gray-500 w-3/12 min-w-[110px]">
               {group.totalTime} 분째 {group.rank <= 3 && <span>🔥</span>}
             </div>
           )}
