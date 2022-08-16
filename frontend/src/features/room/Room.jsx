@@ -629,6 +629,13 @@ class Room extends Component {
                 type="error"
               />
             )}
+            {this.state.alert?.type === "already" && (
+              <AlertModal
+                title={"이미 운동방에 참여중입니다."}
+                message={["동일한 계정으로 중복 접속이 불가합니다."]}
+                type="error"
+              />
+            )}
             {this.state.alert?.type === "alert" && (
               <AlertModal
                 title={"운동 기록을 저장중입니다."}
@@ -725,13 +732,20 @@ class Room extends Component {
           var error = Object.assign({}, response)
           if (error.response && error.response.status === 409) {
             const nick = this.props.user || localStorage.getItem("nickname")
-            http.post(`room/${sessionId}/enter/${nick}`).then((res) => {
-              console.log("참여 완료 :", res)
-            })
+            http
+              .post(`room/${sessionId}/enter/${nick}`)
+              .then((res) => {
+                console.log("참여 완료 :", res)
+              })
+              .catch((err) => {
+                // console.log("이미 존재하는 회원 ")
+                // this.setAlert("already")
+              })
 
             resolve(sessionId)
           } else {
             console.log(error)
+
             console.warn(
               "No connection to OpenVidu Server. This may be a certificate error at " +
                 this.OPENVIDU_SERVER_URL
