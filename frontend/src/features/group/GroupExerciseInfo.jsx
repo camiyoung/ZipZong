@@ -18,28 +18,30 @@ export default function GroupExerciseInfo() {
   }, [])
 
   return (
-    <div className="flex flex-wrap mt-12 mb-20 w-full p-1">
-      {performTeamTotals
-        ? performTeamTotals.map(({ performName, performTotal }, idx) => {
-            return (
-              <div key={idx} className="w-[33.33%] p-3">
-                <div className="flex text-lg items-center  bg-white rounded-2xl p-3 shadow-md w-full">
-                  <div className="flex items-center w-[45%] ml-2">
-                    <ExerciseIcon
-                      size="middle"
-                      shape="round"
-                      image={performName}
-                    ></ExerciseIcon>
-                    <span className="font-bold ml-4">
-                      <ChangeLanguage exercise={performName} />
-                    </span>
+    <div className="flex flex-wrap mt-12 mb-20 w-4/5 justify-center">
+      <div className="w-full flex flex-row">
+        {performTeamTotals
+          ? performTeamTotals.map(({ performName, performTotal }, idx) => {
+              return (
+                <div key={idx} className="w-[33.33%] p-3">
+                  <div className="flex text-lg items-center  bg-white rounded-2xl p-3 shadow-md w-full">
+                    <div className="flex items-center w-[45%] ml-2">
+                      <ExerciseIcon
+                        size="middle"
+                        shape="round"
+                        image={performName}
+                      ></ExerciseIcon>
+                      <span className="font-bold ml-4">
+                        <ChangeLanguage exercise={performName} />
+                      </span>
+                    </div>
+                    총 <p className="mx-1">{performTotal}</p>회 했어요!
                   </div>
-                  총 <p className="mx-1">{performTotal}</p>회 했어요!
                 </div>
-              </div>
-            )
-          })
-        : null}
+              )
+            })
+          : null}
+      </div>
     </div>
   )
 }
