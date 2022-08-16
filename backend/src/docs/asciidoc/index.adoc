@@ -121,3 +121,13 @@ operation::show-ranking-page[snippets='http-request,http-response,response-field
 operation::show-team-ranking[snippets='http-request,path-parameters,http-response,response-fields']
 === 멤버 순위 정보 조회
 operation::show-member-ranking[snippets='http-request,path-parameters,http-response,response-fields']
+
+[[Information-API]]
+== Information API
+
+=== 팀 상세정보 조회
+operation::show-team-detail[snippets='http-request,path-parameters,http-response,response-fields']
+=== 멤버 상세정보 조회
+operation::show-member-detail[snippets='http-request,path-parameters,http-response,response-fields']
+=== 그룹 내 멤버 상세정보 조회
+operation::show-team-member-detail[snippets='http-request,path-parameters,http-response,response-fields']
