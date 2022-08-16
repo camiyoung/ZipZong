@@ -227,7 +227,7 @@ export const groupSlice = createSlice({
       "whale",
       "shrimp",
     ],
-    basicTeamIcons: ["basic"],
+    basicTeamIcons: ["basic", "person2", "person3", "person4"],
     teamName: null,
     teamContent: null,
     teamRepIcons: "basic",
