@@ -247,8 +247,8 @@ export default function GroupInfo() {
             <div className="text-3xl font-semibold mb-1 flex items-center">
               {teamName}
               <div className="flex justify-center ml-2">
-                <span className="text-base grad p-1 rounded-full px-3 flex justify-center">
-                  🔥 {teamCurrentStreak}일 째 다 같이 운동중!🔥
+                <span className="text-sm grad p-1 rounded-full px-2 flex justify-center">
+                  🔥 {teamCurrentStreak}일 다 같이 운동중!🔥
                 </span>
               </div>
             </div>
