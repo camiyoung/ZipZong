@@ -8,70 +8,7 @@ import UserIcon from "../../components/icon/UserIcon"
 import Modal from "../../components/modal/Modal"
 import Button from "../../components/button/Button"
 import { teamExpel, teamAssign, teamInfo } from "./groupReducer"
-import { Alert } from "flowbite-react"
 
-const members = [
-  {
-    name: "신슬기",
-    date: "2022.05.10",
-    imageUrl: "bee",
-    isLeader: true,
-  },
-  {
-    name: "김준우",
-    date: "2022.06.01",
-    imageUrl: "frog",
-    isLeader: false,
-  },
-  {
-    name: "박종민",
-    date: "2022.06.16",
-    imageUrl: "ferret",
-    isLeader: false,
-  },
-  {
-    name: "안지영",
-    date: "2022.06.11",
-    imageUrl: "elephant",
-    isLeader: false,
-  },
-  {
-    name: "채송지",
-    date: "2022.07.14",
-    imageUrl: "yak",
-    isLeader: false,
-  },
-  {
-    name: "황승주",
-    date: "2022.06.15",
-    imageUrl: "walrus",
-    isLeader: false,
-  },
-  // {
-  //   name: "박종민",
-  //   date: "2022.06.16",
-  //   imageUrl: "ferret",
-  //   isLeader: false,
-  // },
-  // {
-  //   name: "안지영",
-  //   date: "2022.06.11",
-  //   imageUrl: "elephant",
-  //   isLeader: false,
-  // },
-  // {
-  //   name: "채송지",
-  //   date: "2022.07.14",
-  //   imageUrl: "yak",
-  //   isLeader: false,
-  // },
-  // {
-  //   name: "황승주",
-  //   date: "2022.06.15",
-  //   imageUrl: "walrus",
-  //   isLeader: false,
-  // },
-]
 export default function GroupSetMemberList() {
   const dispatch = useDispatch()
   const location = useLocation()
