@@ -207,9 +207,6 @@ export default function ExerciseInfo() {
             </p>
             <p className="text-lg text-white font-normal"> {teamName}</p>
             <span className="text-sm mt-0.5 text-gray-100">
-              연속 {teamCurrentStreak}일 째!
-            </span>
-            <span className="text-sm mt-0.5 text-gray-100">
               스트릭 쉴드 : {shieldCount}개
             </span>
           </div>
