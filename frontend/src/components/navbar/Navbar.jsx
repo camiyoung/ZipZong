@@ -5,6 +5,7 @@ import { registrationTeam, teamInfo } from "../../features/group/groupReducer"
 import Modal from "../modal/Modal"
 import { NicknameValidation } from "../../utils/NicknameValidation"
 import { Button } from "flowbite-react"
+
 import {
   nicknameChange,
   memberIconSelect,
@@ -30,8 +31,8 @@ export default function NavbarComponent() {
   )
   const { registeredTeam, basicIcons } = useSelector((state) => state.group)
   const { memberIconList } = useSelector((state) => state.mypage)
+  const allIcons = [...basicIcons]
 
-  const allIcons = [...basicIcons, ...memberIconList]
   const [nickname, setNickname] = useState(memberNickname)
   const [icon, setIcon] = useState(memberRepIcon)
   const [errorMessage, setErrorMessage] = useState("")
@@ -166,7 +167,6 @@ export default function NavbarComponent() {
                 </div>
 
                 <div className="flex w-[300px] flex-wrap">
-                  {console.log("모든아이콘", allIcons)}
                   {allIcons
                     ? allIcons.map((icon, idx) => {
                         return (
