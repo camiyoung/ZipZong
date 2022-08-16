@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router"
+import { useNavigate, useParams } from "react-router"
 import Room from "../features/room/Room"
 import { http } from "../api/axios"
 import { resetInfo } from "../features/room/exerciseReducer"
@@ -8,7 +8,9 @@ import AlertModal from "../features/room/AlertModal"
 
 export default function RoomPage() {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [isExercising, setExercising] = useState(true)
+  const [alreadyIn, setAlreadyIn] = useState(false)
   const {
     memberId: id,
     memberNickname: nickname,
@@ -26,13 +28,24 @@ export default function RoomPage() {
       const {
         data: { data },
       } = await http.get(`room/${teamId}`)
-      if (data.status !== "EXERCISING") {
-        dispatch(resetInfo())
+      if (data.status === "EXERCISING") {
+      } else if (data.status === "READY" && nickname) {
+        http
+          .post(`room/${teamId}/enter/${nickname}`)
+          .then((res) => {
+            dispatch(resetInfo())
+            setExercising(false)
+          })
+          .catch(() => {
+            alert("이미 참여중인 방입니다.")
+            navigate(`/group/${teamId}`)
+          })
+      } else {
         setExercising(false)
       }
     }
     roomStatus()
-  }, [])
+  }, [teamId])
 
   return (
     <>
