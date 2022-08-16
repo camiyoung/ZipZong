@@ -41,6 +41,7 @@ export default function RoomPage() {
             navigate(`/group/${teamId}`)
           })
       } else {
+        dispatch(resetInfo())
         setExercising(false)
       }
     }
