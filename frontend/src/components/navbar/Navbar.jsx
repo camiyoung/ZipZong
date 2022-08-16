@@ -236,25 +236,23 @@ export default function NavbarComponent() {
       {/* 회원탈퇴 모달 끝 */}
 
       <div className="w-screen flex justify-center">
-        <nav className="flex justify-between py-3 w-4/5">
-          <div>
-            <NavLink to="/">
-              <img src={Logo} style={{ height: "60px" }} alt="logo" />
-            </NavLink>
-          </div>
+        <nav className="flex justify-between py-3 w-4/5 items-center">
+          <NavLink to="/">
+            <img src={Logo} style={{ height: "60px" }} alt="logo" />
+          </NavLink>
           <ul className="flex navbar-links">
             <NavItem>
-              <NavLink to="/tutorial" className="navlink ml-[20px]">
+              <NavLink to="/tutorial" className="navlink">
                 튜토리얼
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink to="/rank" className="navlink ml-[20px]">
+              <NavLink to="/rank" className="navlink">
                 명예의 전당
               </NavLink>
             </NavItem>
             <li className="navbar-dropdown my-auto">
-              <p className="navlink ml-[20px]">그룹 목록</p>
+              <p className="navlink">그룹 목록</p>
               <div className="dropdown">
                 <p className="font-semibold text-xl ml-5 mb-5">
                   내가 가입한 그룹 목록
@@ -275,7 +273,7 @@ export default function NavbarComponent() {
                               shape="round"
                               size="small"
                             />
-                            <div className="ml-2 block truncate w-[250px]">
+                            <div className="ml-2 block truncate w-[160px]">
                               {teamName}
                             </div>
                             <p>
@@ -299,7 +297,7 @@ export default function NavbarComponent() {
                 className="max-w-[100px] rounded-full navlink ml-[20px]"
               />
 
-              <div className="dropdown">
+              <div className="dropdown" style={{ width: "180px" }}>
                 <NavLink to="/mypage" className="navlink ml-4">
                   <div
                     onClick={() => {
@@ -332,6 +330,7 @@ export default function NavbarComponent() {
                     setOpen2(true)
                   }}
                   className="navlink ml-4"
+                  style={{ color: "red" }}
                 >
                   회원 탈퇴
                 </li>
