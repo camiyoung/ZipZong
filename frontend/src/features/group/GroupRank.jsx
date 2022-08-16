@@ -71,6 +71,7 @@ const RankList = ({ title, description, list }) => {
 }
 
 const makeList = (list) => {
+  if (!list) return undefined
   const over =
     list.over.length > 2
       ? list.over.slice(list.over.length - 2, list.over.length)
@@ -94,7 +95,7 @@ export default function GroupRank() {
         data: { data },
       } = await http.get(`ranking/team/${fetchTeamId}`)
       const { strickRank, timeRank } = data
-      console.log("제발", strickRank)
+      // console.log("제발", strickRank)
       setStrickRank(makeList(strickRank))
       setTimeRank(makeList(timeRank))
     }
