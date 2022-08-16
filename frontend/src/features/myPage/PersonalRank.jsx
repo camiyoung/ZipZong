@@ -14,7 +14,7 @@ const ListItem = ({ item }) => {
         }`}
       >
         <div
-          className={` w-1/12  min-w-[45px] text-center   font-semibold text-sm   text-primary-300 `}
+          className={` w-1/12  min-w-[45px] text-center   font-semibold  pt-0.5   text-primary-300 `}
         >
           {item.rank} 위
         </div>
@@ -35,13 +35,13 @@ const ListItem = ({ item }) => {
         {item.maxStrick && (
           <div className="text-center font-medium text-gray-500 ">
             {item.maxStrick}
-            <span className="text-xs">일째</span>
+            <span className="text-sm">일째</span>
           </div>
         )}
         {item.totalTime && (
           <div className="text-center  font-medium text-gray-500">
             {item.totalTime}
-            <span className="text-xs">분째</span>
+            <span className="text-sm">분째</span>
           </div>
         )}
       </div>
