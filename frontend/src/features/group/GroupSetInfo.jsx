@@ -106,7 +106,7 @@ export default function GroupSetInfo() {
             />
           ) : null}
         </div>
-        <div className="w-4/5">
+        <div className="w-4/5 pl-4">
           <div className="flex mb-2">
             <p className="text-3xl font-semibold mr-5">{teamName}</p>
             <Button

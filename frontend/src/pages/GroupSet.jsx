@@ -50,7 +50,7 @@ export default function GroupSet() {
             <GroupSetMemberList />
           </div>
         </div>
-        <div className="mx-5 pt-5 flex justify-end">
+        <div className="mx-5 pt-5 flex justify-end mb-20">
           <Button
             text="그룹 삭제"
             height="h-10"
