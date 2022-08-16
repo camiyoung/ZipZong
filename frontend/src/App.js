@@ -45,7 +45,7 @@ function App() {
       {!token || !nickname ? (
         <Login />
       ) : (
-        <div className="w-screen bg-gradient-to-b from-secondary-100 to-lgBlue-200">
+        <div className="w-screen h-screen bg-gradient-to-b from-secondary-100 to-lgBlue-200">
           <BrowserRouter>
             <Navbar />
             <Routes>

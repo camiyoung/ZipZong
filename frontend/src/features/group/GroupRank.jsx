@@ -22,13 +22,13 @@ const ListItem = ({ item }) => {
         </div>
         <div
           style={{
-            backgroundImage: `url(/images/badgeIcon/${item.memberIcon}.png)`,
+            backgroundImage: `url(/images/badgeIcon/${item.teamIcon}.png)`,
           }}
           className={`bg-cover borderColor:border-secondary-900 w-6 h-6`}
         ></div>
         <div>
           {" "}
-          {item.nickName}
+          {item.teamName}
           {item.me && (
             <span className="  bg-gradient-to-br from-[#7bcaff] to-[#ffb3f2]  text-white   text-xs text-center inline-block  font-semibold ml-2 px-2.5 py-0.5 rounded -translate-y-0.5">
               me
@@ -73,7 +73,7 @@ const RankList = ({ title, description, list }) => {
 const makeList = (list) => {
   const over =
     list.over.length > 2
-      ? list.over.slice(list.over.length - 3, list.over.length - 1)
+      ? list.over.slice(list.over.length - 2, list.over.length)
       : [...list.over]
   const under = list.under.length > 2 ? list.under.slice(0, 2) : [...list.under]
 
@@ -92,9 +92,9 @@ export default function GroupRank() {
     async function getRank() {
       const {
         data: { data },
-      } = await http.get(`ranking/member/${fetchTeamId}`)
+      } = await http.get(`ranking/team/${fetchTeamId}`)
       const { strickRank, timeRank } = data
-      //   console.log(strickRank, timeRank)
+      console.log("제발", strickRank)
       setStrickRank(makeList(strickRank))
       setTimeRank(makeList(timeRank))
     }
