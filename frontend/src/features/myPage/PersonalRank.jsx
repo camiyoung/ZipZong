@@ -68,6 +68,7 @@ const RankList = ({ title, description, list }) => {
 }
 
 const makeList = (list) => {
+  if (!list) return undefined
   const over =
     list.over.length > 2
       ? list.over.slice(list.over.length - 2, list.over.length)
