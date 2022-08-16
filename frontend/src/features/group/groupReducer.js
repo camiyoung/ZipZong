@@ -208,7 +208,7 @@ export const groupSlice = createSlice({
     inviteLink: null,
     icons: [],
     basicIcons: [
-      "basic",
+      "deer",
       "bee",
       "elephant",
       "ferret",
@@ -227,6 +227,7 @@ export const groupSlice = createSlice({
       "whale",
       "shrimp",
     ],
+    basicTeamIcons: ["basic"],
     teamName: null,
     teamContent: null,
     teamRepIcons: "basic",

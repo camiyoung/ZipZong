@@ -2,6 +2,7 @@ export default function ShowExpression({ imageUrl }) {
   const groupIcons = [
     { basic: "기본 아이콘" },
     { bee: "기본 아이콘" },
+    { deer: "기본 아이콘" },
     { elephant: "기본 아이콘" },
     { ferret: "기본 아이콘" },
     { frog: "기본 아이콘" },
