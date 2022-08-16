@@ -28,7 +28,7 @@ export default function CollectedIcons() {
   const { basicIcons, icons } = useSelector((state) => state.group)
   const [allGroupIcons, setAllGroupIcons] = useState("")
   useEffect(() => {
-    setAllGroupIcons([...icons, ...basicIcons])
+    setAllGroupIcons([...icons])
   }, [])
 
   return (
