@@ -100,7 +100,7 @@ export default function GroupSetMemberList() {
   }) => {
     return (
       <div key={idx} className="flex mb-4">
-        <div className="flex p-4 rounded-tr-full rounded-br-full container w-[55%] shadow-md bg-white border-[#4abaee88] border-l-[20px]">
+        <div className="flex text-sm p-4 rounded-tr-full rounded-br-full container w-[55%] min-w-[400px] shadow-md bg-white border-[#4abaee88] border-l-[20px]">
           <div className="flex image items-center px-2">
             <ImageIcon image={imageUrl} size="smmiddle" shape="round" />
             <span className="ml-3">{nickname}</span>
@@ -110,10 +110,10 @@ export default function GroupSetMemberList() {
             </span>
             {isLeader === "LEADER" ? <span>👑</span> : null}
             {isLeader === "LEADER" ? null : (
-              <div className="overlay rounded-tr-full rounded-br-full">
+              <div className="overlay rounded-tr-full rounded-br-full w-full">
                 <div className="text">
                   <button
-                    className="textBtn hover:bg-mainBlue px-3 py-1 rounded-xl text-white shadow-sm"
+                    className="textBtn hover:bg-mainBlue  px-3 py-1 rounded-xl text-white shadow-sm"
                     onClick={() => {
                       setMandateOpen(true)
                       setUser(nickname)
@@ -250,7 +250,7 @@ export default function GroupSetMemberList() {
             {teamMembers.length}명 / {10}명
           </span>
           <span className="ml-4 text-gray-500">
-            그룹장 위임 또는 멤버 강퇴가 가능합니다.
+            그룹장 위임, 멤버 강퇴가 가능합니다.
           </span>
         </p>
       </div>
