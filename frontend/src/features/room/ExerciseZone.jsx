@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useNavigate, useLocation } from "react-router"
+import { useNavigate, useLocation, useParams } from "react-router"
 import { useSearchParams } from "react-router-dom"
 import {
   getSessionInfo,
@@ -30,7 +30,7 @@ function MyExercise({
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
-  const teamId = useRef()
+  const { teamId } = useParams()
   const resultUsers = useRef({ teamId: undefined, personalResults: [] })
 
   const setExercising = (value) => {
@@ -83,6 +83,7 @@ function MyExercise({
         setTimeout(() => {
           console.log("결과 전송 끝 !")
           setFinished(true)
+          http.delete(`room/${teamId}`)
         }, 4000)
       }
 
@@ -141,15 +142,18 @@ function MyExercise({
     const res = { memberId, personalResultDetails: data }
 
     console.log("운동 끝!! ", res)
+    dispatch(setMyExerciseResult(res))
+    setAlert("alert")
+
+    setTimeout(() => {
+      user.getStreamManager().stream.session.signal({
+        data: JSON.stringify(res),
+        type: "finish",
+        to: [admin],
+      })
+    }, 3000)
 
     // console.log("방장 ID!!", admin)
-    user.getStreamManager().stream.session.signal({
-      data: JSON.stringify(res),
-      type: "finish",
-      to: [admin],
-    })
-    setAlert("alert")
-    dispatch(setMyExerciseResult(res))
   }
 
   const startButton = (

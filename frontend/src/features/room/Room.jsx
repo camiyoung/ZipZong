@@ -13,6 +13,7 @@ import SideBar from "./SideBar"
 import { Model } from "./teachableMachine/model"
 import { Spinner } from "../../components/spinner/Spinner"
 import AlertModal from "./AlertModal"
+import { http } from "../../api/axios"
 
 const localUser = new UserModel()
 const tmModel = new Model()
@@ -71,7 +72,10 @@ class Room extends Component {
 
   async componentDidMount() {
     this.sessionName = this.props.sessionName
-    console.log("유저 네임 : ", this.props.user)
+    console.log(
+      "유저 네임 : ",
+      this.props.user ?? localStorage.getItem("nickname")
+    )
     window.addEventListener("beforeunload", this.onbeforeunload)
     await tmModel.loadModel() // teachable machine 로드
 
@@ -197,7 +201,7 @@ class Room extends Component {
         })
       })
     }
-    localUser.setNickname(this.state.myUserName)
+    localUser.setNickname(this.props.user ?? localStorage.getItem("nickname"))
     localUser.setConnectionId(this.state.session.connection.connectionId)
     localUser.setScreenShareActive(false)
     localUser.setStreamManager(publisher)
@@ -250,6 +254,20 @@ class Room extends Component {
 
   leaveSession() {
     const mySession = this.state.session
+    const nickname = this.state.localUser.getNickname()
+    console.log(
+      "퇴장할거야 ",
+      this.state.localUser.getNickname(),
+      mySession.sessionId
+    )
+    http
+      .delete(`/room/${mySession.sessionId}/leave/${nickname}`)
+      .then((res) => {
+        console.log("방을 퇴장합니다.", res.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
 
     if (mySession) {
       mySession.disconnect()
@@ -257,6 +275,7 @@ class Room extends Component {
 
     // Empty all properties...
     this.OV = null
+
     this.setState({
       session: undefined,
       subscribers: [],
@@ -342,9 +361,7 @@ class Room extends Component {
       }
       console.log("유저 퇴장- uid:", user.connectionId, "방장?:", data.admin)
       this.deleteSubscriber(event.stream)
-      setTimeout(() => {
-        this.checkSomeoneShareScreen()
-      }, 20)
+
       event.preventDefault()
     })
   }
@@ -689,15 +706,29 @@ class Room extends Component {
           },
         })
         .then((response) => {
-          console.log("새로운 방 생성 ", response)
+          console.log("새로운 방 생성 ", this.props.roomTitle)
           localUser.setRole("admin")
           this.setState({ isRoomAdmin: true })
+          const roomtitle = this.props.roomTitle
+            ? this.props.roomTitle
+            : "운동합시다~"
+          const nick = this.props.user || localStorage.getItem("nickname")
+          http.post(`room/${sessionId}`, {
+            roomName: roomtitle,
+            mode: "EXERCISE",
+            routineId: 1,
+            creator: nick,
+          })
           resolve(response.data.id)
         })
         .catch((response) => {
           var error = Object.assign({}, response)
           if (error.response && error.response.status === 409) {
-            console.log("이미 생성된 방에 참여", error.response)
+            const nick = this.props.user || localStorage.getItem("nickname")
+            http.post(`room/${sessionId}/enter/${nick}`).then((res) => {
+              console.log("참여 완료 :", res)
+            })
+
             resolve(sessionId)
           } else {
             console.log(error)

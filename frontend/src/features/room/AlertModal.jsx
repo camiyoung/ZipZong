@@ -7,7 +7,7 @@ const Error = ({ title, message, groupId }) => {
   const path = groupId ? groupId : ""
 
   const movePage = () => {
-    navigate(`/group${path}`)
+    navigate(`/group/${path}`)
   }
   const [duration, setDuration] = useState(15)
 
