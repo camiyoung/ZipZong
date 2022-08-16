@@ -38,8 +38,10 @@ export default function NavbarComponent() {
   // Modal
   const [isOpen, setOpen] = useState(false)
   const [isOpen2, setOpen2] = useState(false)
+  const [isOpen3, setOpen3] = useState(false)
   const modalClose = () => setOpen(false)
   const modalClose2 = () => setOpen2(false)
+  const modalClose3 = () => setOpen3(false)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -205,6 +207,32 @@ export default function NavbarComponent() {
       </Modal>
       {/* 개인 정보 수정 모달 끝 */}
 
+      {/* 로그아웃 모달 시작 */}
+      <Modal isOpen={isOpen3} modalClose={modalClose3} className="w-[100px]">
+        <div className="flex flex-col items-center justify-center">
+          <p className="text-xl">
+            정말 <span className="text-red-600">로그아웃</span>하시겠습니까?
+          </p>
+          <div className="flex justify-center items-center mt-2">
+            <Button
+              size="xl"
+              color="failure"
+              onClick={() => {
+                localStorage.clear()
+                window.location.replace("/")
+              }}
+            >
+              Yes
+            </Button>
+            <div className="mx-5"></div>
+            <Button size="xl" onClick={modalClose3}>
+              No
+            </Button>
+          </div>
+        </div>
+      </Modal>
+      {/* 로그아웃 모달 끝 */}
+
       {/* 회원탈퇴 모달 시작 */}
       <Modal isOpen={isOpen2} modalClose={modalClose2} className="w-[100px]">
         <div className="flex flex-col items-center justify-center">
@@ -317,8 +345,7 @@ export default function NavbarComponent() {
                 </li>
                 <li
                   onClick={() => {
-                    localStorage.clear()
-                    window.location.replace("/")
+                    setOpen3(true)
                   }}
                   className="navlink ml-4"
                 >
