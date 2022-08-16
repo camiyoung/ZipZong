@@ -64,7 +64,7 @@ export default function Group() {
         </div>
       </div>
 
-      <div className="flex flex-col items-center">
+      <div className="flex justify-center items-center">
         <GroupExerciseInfo />
       </div>
     </div>
