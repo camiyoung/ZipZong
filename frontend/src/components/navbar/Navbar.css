@@ -11,6 +11,15 @@
   font-weight: 700;
   transition: 0.4s all;
 }
+.navbar-links ul .navlink {
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+  color: #444;
+  padding: 20px 20px;
+  font-weight: 700;
+  transition: 0.4s all;
+}
 
 .navbar-links .navbar-dropdown {
   position: relative;
