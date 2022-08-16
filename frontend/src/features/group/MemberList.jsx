@@ -50,7 +50,10 @@ export default function MemberList() {
         {teamMembers.map(
           ({ nickname, repIcon, hasExercised, memberId }, idx) => {
             return (
-              <div className="w-[10%] px-2" key={idx}>
+              <div
+                className="hover:scale-110 cursor-pointer w-[10%] px-2"
+                key={idx}
+              >
                 <div
                   className={
                     hasExercised
