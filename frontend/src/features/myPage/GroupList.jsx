@@ -136,6 +136,7 @@ export default function Group() {
                 style={{
                   // backgroundImage: `url(/images/badgeIcon/${icon1})`, 에서 수정했습니다.
                   backgroundImage: `url(/images/badgeIcon/${icon}.png)`,
+                  backgroundImage: `url(/images/rankPage/${icon})`,
                 }}
               >
                 <div className="w-full h-full backdrop-blur-lg rounded-3xl flex flex-col items-center">
@@ -144,6 +145,7 @@ export default function Group() {
                       <div className="w-4/5">
                         <Icon
                           //image={`/images/badgeIcon/${icon1}`} 에서 수정했습니다.
+                          // image={`/images/rankPage/${icon}`}
                           image={`/images/badgeIcon/${icon}.png`}
                           size="xLarge2"
                           shape="round"
