@@ -263,8 +263,9 @@ const InfoList = ({ setVisible, memberId, showInfo }) => {
         </div>
       </Modal>
       {/* 회원탈퇴 모달 끝 */}
+
       {divIsOpen && (
-        <div className="absolute z-30 top-[1.5rem]">
+        <div className="absolute z-30 top-[1.5rem] right-[0.1rem]">
           <Card size="small">
             <ul>
               <NavLink to="/mypage" className="hover:text-red-400">
@@ -365,7 +366,7 @@ export default function NavbarComponent() {
                 onMouseLeave={() => {
                   setShowGroup(false)
                 }}
-                className="hover:text-red-400"
+                className="hover:text-red-400 cursor-default"
               >
                 그룹 목록
               </div>
@@ -376,7 +377,7 @@ export default function NavbarComponent() {
                 onMouseLeave={() => {
                   setShowGroup(false)
                 }}
-                className="relative"
+                className="relative cursor-default"
               >
                 {showGroup && (
                   <GroupList

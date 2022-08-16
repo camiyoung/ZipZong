@@ -134,7 +134,8 @@ export default function Group() {
               <div
                 className="w-11/12 shadow-md flex justify-center items-center bg-cover rounded-3xl"
                 style={{
-                  backgroundImage: `url(/images/rankPage/${icon1})`,
+                  // backgroundImage: `url(/images/badgeIcon/${icon1})`, 에서 수정했습니다.
+                  backgroundImage: `url(/images/badgeIcon/${icon}.png)`,
                 }}
               >
                 <div className="w-full h-full backdrop-blur-lg rounded-3xl flex flex-col items-center">
@@ -142,7 +143,8 @@ export default function Group() {
                     <NavLink key={idx} to={`/group/${groupId}`}>
                       <div className="w-4/5">
                         <Icon
-                          image={`/images/rankPage/${icon1}`}
+                          //image={`/images/badgeIcon/${icon1}`} 에서 수정했습니다.
+                          image={`/images/badgeIcon/${icon}.png`}
                           size="xLarge2"
                           shape="round"
                         />
