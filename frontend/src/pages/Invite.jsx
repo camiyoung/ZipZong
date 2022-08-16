@@ -32,7 +32,7 @@ export default function Invite() {
   const navigate = useNavigate()
 
   return (
-    <div className="flex justify-center flex-col items-center">
+    <div className="flex justify-center flex-col items-center bg-white w-full h-full">
       <div className="prose prose-slate text-center mt-40">
         <h1>{teamName}</h1>
         <h1>그룹에서 당신을 초대합니다.</h1>
