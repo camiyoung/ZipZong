@@ -24,7 +24,7 @@ export default function MemberList() {
   }
   return (
     // group 원들의 정보를 받아야 함
-    <div className="mt-10 w-full">
+    <div className="mt-10 w-4/5">
       {/* 모달 영역 */}
       <Modal isOpen={isOpen} modalClose={modalClose}>
         <form className="py-3 pb-5">
