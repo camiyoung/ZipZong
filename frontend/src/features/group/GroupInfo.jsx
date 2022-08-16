@@ -232,7 +232,7 @@ export default function GroupInfo() {
   } = useSelector((state) => state.group)
 
   return (
-    <div className="w-full flex mt-5 px-3">
+    <div className="w-4/5 flex mt-5 px-3">
       <div className="w-1/2 flex items-center rounded-3xl py-8 px-8 custom-border">
         <div className="flex justify-center items-center mr-5">
           {teamRepIcons ? (
