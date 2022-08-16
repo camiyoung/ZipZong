@@ -298,7 +298,10 @@ const InfoList = ({ setVisible, memberId, showInfo }) => {
 
               <li
                 className="hover:text-red-400 mt-2 cursor-pointer"
-                onClick={() => setOpen2(true)}
+                onClick={() => {
+                  setOpen2(true)
+                  setDivIsOpen(false)
+                }}
               >
                 회원 탈퇴
               </li>
@@ -318,7 +321,6 @@ export default function NavbarComponent() {
   const { registeredTeam } = useSelector((state) => state.group)
   const [showGroup, setShowGroup] = useState(false)
   const [showInfo, setShowInfo] = useState(false)
-  console.log("네", showInfo)
 
   // 회원이 가입한 팀 정보
   useEffect(() => {
