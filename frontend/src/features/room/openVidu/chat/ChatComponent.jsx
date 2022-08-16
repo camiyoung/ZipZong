@@ -88,8 +88,11 @@ export default class ChatComponent extends Component {
   render() {
     const styleChat = { display: this.props.chatDisplay }
     return (
-      <div className="z-0 w-full h-full ">
-        <div id="chatComponent">
+      <div className="z-0 w-full h-full chatContainer ">
+        <div className="chat-head w-full h-[40px] bg-gradient-to-l from-lgBlue-500 to-secondary-500  border-white shadow-md rounded-t-xl flex items-center justify-center text-gray-700 ">
+          <span>채팅</span>
+        </div>
+        <div id="chatComponent" style={styleChat}>
           <div className="message-wrap" ref={this.chatScroll}>
             {this.state.messageList.map((data, i) => (
               <div
@@ -104,18 +107,15 @@ export default class ChatComponent extends Component {
               >
                 <img
                   id={"userImg-" + i}
-                  width="60"
-                  height="60"
                   src={`/images/badgeIcon/${data.icon}.png`}
-                  className="user-img"
+                  className="user-img shadow-sm"
                 />
                 <div className="msg-detail">
                   <div className="msg-content">
                     <div className="msg-info">
                       <p> {data.nickname}</p>
                     </div>
-
-                    <p className="text">{data.message}</p>
+                    <p className="chat-text">{data.message}</p>
                   </div>
                 </div>
               </div>
@@ -124,7 +124,7 @@ export default class ChatComponent extends Component {
 
           <div id="messageInput">
             <input
-              placeholder="Send a messge"
+              placeholder="Send a Message"
               id="chatInput"
               value={this.state.message}
               onChange={this.handleChange}

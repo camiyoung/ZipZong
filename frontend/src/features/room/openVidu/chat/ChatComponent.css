@@ -26,33 +26,38 @@
 
 #chatComponent {
   position: absolute;
-  z-index: 99999;
-  top: 0;
+  z-index: 10;
+  /* top: 0; */
   left: 0;
   right: 0;
   bottom: 0;
   margin: auto;
-  height: calc(100% - 30px);
+  /* height: calc(100% - 30x); */
   width: calc(100% - 30px);
+  height: calc(100% - 50px);
   border-radius: 20px;
 }
-
+.chat-head {
+  border: 2px solid white;
+}
 .message-wrap {
-  padding: 0 15px;
+  padding: 0 5px;
   height: calc(100% - 80px);
   overflow: auto;
 }
 
 .message {
   position: relative;
-  padding: 7px 0;
+  padding: 3px 0;
 }
 .user-img {
   position: absolute;
   border-radius: 45px;
-  width: 60px;
-  height: 60px;
+  width: 45px;
+  height: 45px;
   top: 15px;
+  border: 1px solid #f2ecda;
+  box-shadow: -1px 3px 5px -2px #2a3334;
 }
 
 .msg-detail {
@@ -76,9 +81,8 @@
   position: relative;
   margin-top: 5px;
   border-radius: 15px;
-  padding: 8px;
-  color: #265973;
-  max-width: 90%;
+  color: #121b1f;
+  max-width: 100%;
 }
 
 span.triangle {
@@ -92,9 +96,11 @@ span.triangle {
   position: absolute;
 }
 
-.text {
+.chat-text {
   word-break: break-all;
   color: #265973;
+  -webkit-box-shadow: -1px 3px 5px -2px #547c80;
+  box-shadow: -1px 3px 5px -2px #547c80;
 }
 
 /* Start message from other user */
@@ -102,37 +108,65 @@ span.triangle {
 .message > .left .msg-detail .msg-info {
   text-align: left;
 }
+.message > .left .msg-detail .msg-info .chat-text {
+  text-align: left;
+}
 
 .message.left .msg-detail {
-  padding-left: 65px;
+  padding-left: 45px;
+  width: 90%;
 }
 
 .message.left .user-img {
   left: -5px;
-  border: 1px solid #c9d6dc;
+  /* border: 1px solid #c9d6dc; */
 }
 
 .message.left .msg-detail .msg-content {
-  background-color: #c9d6dc;
+  /* background-color: #c9d6dc; */
   float: left;
+}
+
+.left .msg-detail .msg-content .chat-text {
+  /* background-color: #c9d6dc; */
+  background-color: #f7f4e9;
+  padding: 6px 10px;
+  border-radius: 15px;
 }
 
 /* End message from other user */
 
 /* Start my messages */
+.message.right .msg-detail {
+  text-align: right;
+}
 
 .message.right .msg-detail .msg-info {
   text-align: right;
 }
 .message.right .user-img {
   right: -5px;
-  border: 1px solid #8fb3c8;
+  /* border: 1px solid #8fb3c8; */
 }
 
 .message.right .msg-detail .msg-content {
   text-align: right;
-  background-color: #ffffff;
+
   float: right;
+  right: -20px;
+}
+
+.message.right .msg-detail .msg-content .chat-text {
+  /* background-color: #c9d6dc; */
+  background: rgb(242, 236, 218);
+  background: linear-gradient(
+    90deg,
+    rgba(242, 236, 218, 1) 0%,
+    rgba(106, 192, 200, 1) 100%
+  );
+  padding: 6px 10px;
+  border-radius: 15px;
+  color: black;
 }
 
 /* End my messages */
@@ -174,11 +208,11 @@ span.triangle {
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 2px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #6b6b6b;
+  background-color: #ffffff;
 }
 
 .chatComponentLight ::-webkit-scrollbar-thumb {
