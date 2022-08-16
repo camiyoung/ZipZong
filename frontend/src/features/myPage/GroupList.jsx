@@ -134,30 +134,24 @@ export default function Group() {
               <div
                 className="w-11/12 shadow-md flex justify-center items-center bg-cover rounded-3xl"
                 style={{
-                  // backgroundImage: `url(/images/badgeIcon/${icon1})`, 에서 수정했습니다.
                   backgroundImage: `url(/images/badgeIcon/${icon}.png)`,
-                  backgroundImage: `url(/images/rankPage/${icon})`,
                 }}
               >
-                <div className="w-full h-full backdrop-blur-lg rounded-3xl flex flex-col items-center">
+                <div className="w-full h-full backdrop-blur-xl rounded-3xl flex flex-col items-center">
                   <div className="flex items-center justify-center w-full h-full">
                     <NavLink key={idx} to={`/group/${groupId}`}>
-                      <div className="w-4/5">
-                        <Icon
-                          //image={`/images/badgeIcon/${icon1}`} 에서 수정했습니다.
-                          // image={`/images/rankPage/${icon}`}
-                          image={`/images/badgeIcon/${icon}.png`}
-                          size="xLarge2"
-                          shape="round"
-                        />
-                        <div className="justify-center pl-3">
-                          <div className="font-bold text-xl pt-3 pb-1 flex justify-center">
-                            {teamName}
-                          </div>
-                          <div className="flex justify-center">
-                            <UserIcon />
-                            <span className="pl-1 text-sm">{count} / 10</span>
-                          </div>
+                      <Icon
+                        image={`/images/badgeIcon/${icon}.png`}
+                        size="xLarge2"
+                        shape="round"
+                      />
+                      <div className="flex flex-col justify-center">
+                        <div className="font-bold text-xl pt-3 pb-1 flex justify-center">
+                          {teamName}
+                        </div>
+                        <div className="flex justify-center">
+                          <UserIcon />
+                          <span className="pl-1 text-sm">{count} / 10</span>
                         </div>
                       </div>
                     </NavLink>
