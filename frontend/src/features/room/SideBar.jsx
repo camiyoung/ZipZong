@@ -4,6 +4,8 @@ import { setRoutineInfo, setTodoList } from "./exerciseReducer"
 import { Tooltip, Toast } from "flowbite-react"
 import ExerciseIcon from "../../components/icon/ExerciseIcon"
 import ChangeLanguage from "../routine/ChangeLanguage"
+import { http } from "../../api/axios"
+import { useParams } from "react-router"
 
 const style = {
   buttonAdmin:
@@ -166,7 +168,7 @@ export default function SideBar({ chatComponent, user, isRoomAdmin, tmModel }) {
   const [errorMessage, setError] = useState("")
   const exersiceRoutine = useSelector((state) => state.exercise.rotuineInfo)
   const isExercising = useSelector((state) => state.exercise.isExercising)
-
+  const { teamId } = useParams()
   useEffect(() => {
     user.getStreamManager().stream.session.on("signal:change", (event) => {
       // console.log("루틴 변경 ", JSON.parse(event.data))
@@ -211,11 +213,21 @@ export default function SideBar({ chatComponent, user, isRoomAdmin, tmModel }) {
       setError(" 운동 모델을 불러오는중입니다. 잠시후 다시 시도해주세요.")
       return
     }
-
     user.getStreamManager().stream.session.signal({
-      data: "게임을 시작~~",
-      type: "start",
+      data: JSON.stringify(exersiceRoutine),
+      type: "change",
     })
+    http
+      .put(`room/start/${teamId}`)
+      .then((res) => {
+        user.getStreamManager().stream.session.signal({
+          data: "게임을 시작~~",
+          type: "start",
+        })
+      })
+      .catch((err) => {
+        alert("정상적인 루트로 운동방을 생성해야 합니다.")
+      })
   }
 
   return (

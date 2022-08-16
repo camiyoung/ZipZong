@@ -55,8 +55,6 @@ const WorkOut = ({ myVideo, tmModel, user, finishExercise }) => {
     setCurrentAction(nextAction)
   }
   const finishAction = () => {
-    dispatch(updateIndex())
-
     setRunning(false)
   }
 
@@ -121,14 +119,14 @@ const Start = ({
   countSuccess,
 }) => {
   // console.log("현재 동작 정보", action)
-
+  const dispatch = useDispatch()
   useTimeout(() => {
     // console.log("시간 종료 ")
     finishAction()
   }, action.duration * 1000)
   useEffect(() => {
     return () => {
-      // console.log("현재 동작  Unmount")
+      dispatch(updateIndex())
     }
   }, [])
 

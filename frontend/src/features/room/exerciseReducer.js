@@ -2,6 +2,30 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { openvidu } from "../../api/openvidu"
 import { http } from "../../api/axios"
 
+// const tmp_my = {
+//   memberId: 5,
+//   personalResultDetails: [
+//     { exerciseName: "PUSHUP", targetNum: 10, performNum: 5 },
+//     { exerciseName: "BURPEE", targetNum: 10, performNum: 5 },
+//     { exerciseName: "JUMPINGJACK", targetNum: 10, performNum: 5 },
+//     { exerciseName: "LATERALRAISE", targetNum: 10, performNum: 5 },
+//     { exerciseName: "LUNGE", targetNum: 10, performNum: 5 },
+//     { exerciseName: "SQUAT", targetNum: 10, performNum: 5 },
+//   ],
+//   percentage: 50,
+// }
+
+// const tmp_all = {
+//   personalPercentages: [
+//     { nickname: "천재지영", percentage: 100 },
+//     { nickname: "닉네임", percentage: 80 },
+//     { nickname: "ㅎㅎ??", percentage: 88 },
+//     { nickname: "메롱", percentage: 70 },
+//     { nickname: "닉넴이다", percentage: 30 },
+//   ],
+//   avgPercentage: 80,
+// }
+
 export const sendExerciseResult = createAsyncThunk(
   "exercise/result",
   async (result) => {
@@ -32,6 +56,7 @@ export const exerciseReducer = createSlice({
   name: "exercise",
   initialState: {
     roomId: undefined,
+    roomTitle: undefined,
     routine: undefined,
     admin: undefined,
     result: {
@@ -46,6 +71,9 @@ export const exerciseReducer = createSlice({
     isExercising: false, //
   },
   reducers: {
+    setRoomTitle: (state, action) => {
+      state.roomTitle = action.payload
+    },
     setMyExerciseResult: (state, action) => {
       state.result.myResult = action.payload
       const myres = state.result.myResult.personalResultDetails
@@ -74,10 +102,9 @@ export const exerciseReducer = createSlice({
     },
     setTodoList: (state, action) => {
       state.todoList = action.payload
-      console.log("todolist 변경", state.todoList)
+      // console.log("todolist 변경", state.todoList)
     },
     updateSuccessCount: (state) => {
-      // console.log("카운트 증가 ")
       state.successCount++
     },
     resetSuccessCount: (state) => {
@@ -86,6 +113,10 @@ export const exerciseReducer = createSlice({
     },
     updateIndex: (state) => {
       state.todoIndex++
+    },
+    resetInfo: (state) => {
+      state.todoIndex = -1
+      state.rotuineInfo = undefined
     },
   },
   extraReducers(builder) {
@@ -97,7 +128,7 @@ export const exerciseReducer = createSlice({
         return userData.admin
       })
       state.admin = admin
-      console.log("방장 connectionId:", admin.id, admin)
+      // console.log("방장 connectionId:", admin.id, admin)
     })
     builder.addCase(getSessionInfo.rejected, (err) => {
       console.log(err)
@@ -106,7 +137,7 @@ export const exerciseReducer = createSlice({
       state.result.allResult = action.payload
     })
     builder.addCase(getRoutineDetail.fulfilled, (state, action) => {
-      console.log("루틴 변경 ", action.payload)
+      // console.log("루틴 변경 ", action.payload)
       state.rotuineInfo = action.payload
     })
   },
@@ -127,4 +158,6 @@ export const {
   updateSuccessCount,
   resetSuccessCount,
   updateIndex,
+  setRoomTitle,
+  resetInfo,
 } = exerciseReducer.actions
