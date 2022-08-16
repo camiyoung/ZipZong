@@ -18,8 +18,8 @@ export default function GroupExerciseInfo() {
   }, [])
 
   return (
-    <div className="flex flex-wrap mt-12 mb-20 w-4/5 justify-center">
-      <div className="w-full flex flex-row">
+    <div className="flex mt-12 mb-20 w-4/5 p-1">
+      <div className="flex w-full flex-wrap ">
         {performTeamTotals
           ? performTeamTotals.map(({ performName, performTotal }, idx) => {
               return (
