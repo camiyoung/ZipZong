@@ -2,6 +2,30 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { openvidu } from "../../api/openvidu"
 import { http } from "../../api/axios"
 
+// const tmp_my = {
+//   memberId: 5,
+//   personalResultDetails: [
+//     { exerciseName: "PUSHUP", targetNum: 10, performNum: 5 },
+//     { exerciseName: "BURPEE", targetNum: 10, performNum: 5 },
+//     { exerciseName: "JUMPINGJACK", targetNum: 10, performNum: 5 },
+//     { exerciseName: "LATERALRAISE", targetNum: 10, performNum: 5 },
+//     { exerciseName: "LUNGE", targetNum: 10, performNum: 5 },
+//     { exerciseName: "SQUAT", targetNum: 10, performNum: 5 },
+//   ],
+//   percentage: 50,
+// }
+
+// const tmp_all = {
+//   personalPercentages: [
+//     { nickname: "천재지영", percentage: 100 },
+//     { nickname: "닉네임", percentage: 80 },
+//     { nickname: "ㅎㅎ??", percentage: 88 },
+//     { nickname: "메롱", percentage: 70 },
+//     { nickname: "닉넴이다", percentage: 30 },
+//   ],
+//   avgPercentage: 80,
+// }
+
 export const sendExerciseResult = createAsyncThunk(
   "exercise/result",
   async (result) => {

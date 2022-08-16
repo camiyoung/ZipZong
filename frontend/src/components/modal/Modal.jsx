@@ -6,7 +6,7 @@ import React, { useRef } from "react"
 
 export default function Modal({ isOpen, modalClose, children }) {
   const outModal = useRef()
-  const showHide = isOpen ? "visible relative z-10" : "invisible relative z-10"
+  const showHide = isOpen ? "visible relative z-50" : "invisible relative z-10"
 
   return (
     <div
