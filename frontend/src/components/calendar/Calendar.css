@@ -66,7 +66,7 @@ abbr[title] {
 .react-calendar__tile {
   max-width: 100%;
   padding: 10px 6.6667px;
-  border-radius: 17px;
+  border-radius: 100%;
   text-align: center;
   line-height: 16px;
 }
@@ -75,20 +75,22 @@ abbr[title] {
   color: black;
   font-weight: bolder;
   transform: scale(1.2);
-  animation-delay: 1s;
   background-color: #6f48eb33;
 }
 
 .react-calendar__tile--now {
+  border: 1px;
   background: #6f48eb33;
-  font-weight: bold;
+  font-weight: bolder;
   color: #4094bf;
+  border-radius: 100%;
 }
 
 .react-calendar__tile--active {
-  border: 5px;
-  border-color: #6f48eb33;
-  font-weight: bold;
+  border: 1px;
+  font-weight: bolder;
+  border-radius: 100%;
+  background-color: #6f48eb33;
 }
 .react-calendar__tile--active:enabled:hover,
 .react-calendar__tile--active:enabled:focus {
@@ -96,18 +98,28 @@ abbr[title] {
   border-color: #6f48eb33;
 }
 .highlight {
+  image-rendering: crisp-edges;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+
   background-image: url("../../../public/images/calendarIcon/evaluate.png");
+  max-width: 100%;
+  max-height: 100%;
   background-repeat: no-repeat;
   background-size: contain;
+  background-color: transparent;
   background-position: center;
   color: transparent;
 }
 .shield {
   background-image: url("../../../public/images/calendarIcon/shield.png");
+  transform: scale(0.8);
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
   color: transparent;
+  width: 100%;
+  height: 100%;
 }
 
 .highlight-sunday {
