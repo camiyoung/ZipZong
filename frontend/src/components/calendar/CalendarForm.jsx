@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useEffect, useLayoutEffect, useMemo, useState } from "react"
 import { shallowEqual, useDispatch, useSelector } from "react-redux"
 import { useLocation } from "react-router-dom"
 import {
@@ -22,10 +22,10 @@ export default function CalendarForm() {
   const dispatch = useDispatch()
   const location = useLocation()
   const [date, setDate] = useState(new Date())
-  const [activeDate, setActiveDate] = useState("")
+  const [activeDate, setActiveDate] = useState(new Date())
   const { memberId } = useSelector((state) => state.member)
   const { memberDailyHistory } = useSelector((state) => state.mypage)
-  const { teamDailyHistory } = useSelector((state) => state.group)
+  const { teamDailyHistory, showDate } = useSelector((state) => state.group)
   const [dayExercised, setDayExercised] = useState("")
   const [dayShield, setDayShield] = useState("")
 
@@ -57,35 +57,6 @@ export default function CalendarForm() {
       )
     }
   }
-
-  useEffect(() => {
-    const tmpDay = date.getDate()
-    dispatch(showYearChange(date.getFullYear()))
-    dispatch(showMonthChange(date.getMonth() + 1))
-    dispatch(showDayChange(tmpDay))
-    if (memberDailyHistory.length !== 0) {
-      dispatch(setDailyHistory(memberDailyHistory[tmpDay - 1].performs))
-    }
-    if (isGroup[0] === "group") {
-      setDayExercised(
-        teamDailyHistory.filter(({ state }) => {
-          if (state === "SUCCESS") return true
-        })
-      )
-      setDayShield(
-        teamDailyHistory.filter(({ state }) => {
-          if (state === "SHIELD") return true
-        })
-      )
-    } else {
-      setDayExercised(
-        memberDailyHistory.filter(({ state }) => {
-          if (state === "SUCCESS") return true
-        })
-      )
-      setDayShield("")
-    }
-  }, [])
 
   useEffect(() => {
     loadDate(activeDate)
@@ -121,7 +92,7 @@ export default function CalendarForm() {
       )
       setDayShield("")
     }
-  }, [date, activeDate])
+  }, [date, activeDate, dayShield])
 
   useEffect(() => {
     setDayExercised(
@@ -171,6 +142,7 @@ export default function CalendarForm() {
                 return "highlight"
               }
             }
+
             for (let j = 0; j < dayShield.length; ++j) {
               if (date.getDate() === dayShield[j].day) {
                 return "shield"
