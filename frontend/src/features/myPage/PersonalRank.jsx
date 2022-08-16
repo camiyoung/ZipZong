@@ -112,26 +112,30 @@ function PersonalRank({ memberId, memberNickname }) {
             </p>
           </div>
           <div className="w-3/4 h-full flex items-center justify-center">
-            <div className="flex justify-center w-full h-full ">
-              <div className="flex w-1/2 ">
-                {timeRank && (
-                  <RankList
-                    title={"⏰ 타임 랭킹"}
-                    description={"누적 시간"}
-                    list={timeRank}
-                  />
-                )}
+            {!strickRank && !timeRank ? (
+              <span> 운동 기록이 존재하지 않습니다. </span>
+            ) : (
+              <div className="flex justify-center w-full h-full ">
+                <div className="flex w-1/2 ">
+                  {timeRank && (
+                    <RankList
+                      title={"⏰ 타임 랭킹"}
+                      description={"누적 시간"}
+                      list={timeRank}
+                    />
+                  )}
+                </div>
+                <div className="flex w-1/2 ">
+                  {strickRank && (
+                    <RankList
+                      title={"🗓️ 스트릭 랭킹"}
+                      description={"최장 기간"}
+                      list={strickRank}
+                    />
+                  )}
+                </div>
               </div>
-              <div className="flex w-1/2 ">
-                {strickRank && (
-                  <RankList
-                    title={"🗓️ 스트릭 랭킹"}
-                    description={"최장 기간"}
-                    list={strickRank}
-                  />
-                )}
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
