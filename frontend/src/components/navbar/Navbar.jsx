@@ -268,44 +268,51 @@ const InfoList = ({ setVisible, memberId, showInfo }) => {
         <div className="absolute z-30 top-[1.5rem] right-[0.1rem]">
           <Card size="small">
             <ul>
-              <NavLink to="/mypage" className="hover:text-red-400">
-                <div
+              <NavItem>
+                <NavLink to="/mypage" className="hover:text-red-400">
+                  <div
+                    onClick={() => {
+                      modalClose()
+                      setVisible(false)
+                    }}
+                  >
+                    My page
+                  </div>
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <li
                   onClick={() => {
-                    modalClose()
-                    setVisible(false)
+                    setOpen(true)
+                    setDivIsOpen(false)
+                  }}
+                  className="hover:text-red-400 mt-2 cursor-pointer"
+                >
+                  개인정보 수정
+                </li>
+              </NavItem>
+              <NavItem>
+                <li
+                  onClick={() => {
+                    localStorage.clear()
+                    window.location.replace("/")
+                  }}
+                  className="hover:text-red-400 mt-2 cursor-pointer"
+                >
+                  로그아웃
+                </li>
+              </NavItem>
+              <NavItem>
+                <li
+                  className="hover:text-red-400 mt-2 cursor-pointer"
+                  onClick={() => {
+                    setOpen2(true)
+                    setDivIsOpen(false)
                   }}
                 >
-                  My page
-                </div>
-              </NavLink>
-              <li
-                onClick={() => {
-                  setOpen(true)
-                  setDivIsOpen(false)
-                }}
-                className="hover:text-red-400 mt-2 cursor-pointer"
-              >
-                개인정보 수정
-              </li>
-              <li
-                onClick={() => {
-                  localStorage.clear()
-                  window.location.replace("/")
-                }}
-                className="hover:text-red-400 mt-2 cursor-pointer"
-              >
-                로그아웃
-              </li>
-
-              <li
-                className="hover:text-red-400 mt-2 cursor-pointer"
-                onClick={() => {
-                  setOpen2(true)
-                  setDivIsOpen(false)
-                }}
-              >
-                회원 탈퇴
-              </li>
+                  회원 탈퇴
+                </li>
+              </NavItem>
             </ul>
           </Card>
         </div>
