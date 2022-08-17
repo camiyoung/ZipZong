@@ -52,7 +52,6 @@ export const memberRemove = createAsyncThunk(
   async (memberId) => {
     try {
       const res = await http.put(`member/remove/${memberId}`)
-      console.log(res)
       if (res.data.message === "success" && res.data.data === true) {
         localStorage.clear()
         window.location.replace("/")
