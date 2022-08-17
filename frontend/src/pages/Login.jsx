@@ -43,7 +43,8 @@ export default function Login() {
       localStorage.setItem("memberId", Number(collectedMemberId))
       localStorage.setItem("nickname", nickname)
 
-      window.location.replace("/")
+      console.log(nickname, accessToken, refreshToken)
+      // window.location.replace("/")
     }
 
     if (accessToken && !nickname) {
