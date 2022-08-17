@@ -23,6 +23,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         if (jwtService.verifyToken(accessToken)) {
             return true;
         }
+        System.out.println("실행!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         throw new CustomException(CustomExceptionList.ACCESS_TOKEN_ERROR);
     }
 }
