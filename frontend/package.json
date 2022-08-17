@@ -17,6 +17,7 @@
     "flowbite": "^1.5.1",
     "flowbite-react": "^0.1.5",
     "install": "^0.13.0",
+    "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "npm": "^8.14.0",
     "openvidu-browser": "^2.22.0",
