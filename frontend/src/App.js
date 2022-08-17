@@ -45,7 +45,6 @@ function App() {
       window.removeEventListener("resize", handleResize)
     }
   }, [handleResize])
-  console.log(windowWidth)
 
   useEffect(() => {
     const checkLogined = async () => {
