@@ -17,8 +17,6 @@ export default function RoomPage() {
     memberRepIcon: icon,
   } = useSelector((state) => state.member)
 
-  // console.log(groupId)
-
   const roomTitle = useSelector((state) => state.exercise.roomTitle)
 
   const { teamId } = useParams()

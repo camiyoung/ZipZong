@@ -17,7 +17,6 @@ export default function RankPage() {
     AOS.init()
 
     http.get("ranking/info").then((res) => {
-      // console.log(res)
       setRankingInfo(res.data.data)
     })
   }, [])

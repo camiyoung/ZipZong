@@ -41,8 +41,8 @@ const MakeRoomForm = ({ teamId }) => {
       <h1 className="text-xl font-semibold text-center mb-2">운동방 만들기</h1>
       {teamRoutine?.length === 0 ? (
         <div className="w-full ">
-          <div className=" my-5 p-5">
-            <p className="text-center">그룹의 운동 루틴이 없습니다 🥲</p>
+          <div className=" my-3 p-5">
+            <p className="text-center">그룹의 운동 루틴이 없습니다!</p>
             <p className="text-center">
               운동 시작을 위해서는 1개 이상의 루틴이 필요합니다.
             </p>
