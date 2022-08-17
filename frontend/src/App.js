@@ -84,31 +84,31 @@ function App() {
           <BrowserRouter>
             <Navbar />
             <Routes>
-              {/* <Route
-              element={<ProtectedRoute token={token} nickname={nickname} />}
-            > */}
-              <Route path="*" element={<NotFound />} />
-              <Route path="/" element={<Navigate replace to="/mypage" />} />
-              <Route path="/components" element={<Components />} />
-
-              <Route path="/group/:teamId" element={<Group />} />
-              {/* <Route path="/group" element={<Group />} /> */}
-
-              <Route path="/groupset/:teamId" element={<GroupSet />} />
-              <Route path="/groupset" element={<GroupSet />} />
-              <Route path="/routine/:teamId" element={<Routine />} />
-              <Route path="/routine/:teamId/make" element={<RoutineMake />} />
               <Route
-                path="/routine/:teamId/:routineId"
-                element={<RoutineMake />}
-              />
+                element={<ProtectedRoute token={token} nickname={nickname} />}
+              >
+                <Route path="*" element={<NotFound />} />
+                <Route path="/" element={<Navigate replace to="/mypage" />} />
+                <Route path="/components" element={<Components />} />
 
-              {/* <Route path="/room" element={<RoomPage />} /> */}
-              <Route path="/room/:teamId" element={<RoomPage />} />
-              <Route path="/mypage" element={<MyPage />} />
-              <Route path="/rank" element={<RankPage />} />
-              <Route path="/result" element={<ExerciseResultPage />} />
-              {/* </Route> */}
+                <Route path="/group/:teamId" element={<Group />} />
+                {/* <Route path="/group" element={<Group />} /> */}
+
+                <Route path="/groupset/:teamId" element={<GroupSet />} />
+                <Route path="/groupset" element={<GroupSet />} />
+                <Route path="/routine/:teamId" element={<Routine />} />
+                <Route path="/routine/:teamId/make" element={<RoutineMake />} />
+                <Route
+                  path="/routine/:teamId/:routineId"
+                  element={<RoutineMake />}
+                />
+
+                {/* <Route path="/room" element={<RoomPage />} /> */}
+                <Route path="/room/:teamId" element={<RoomPage />} />
+                <Route path="/mypage" element={<MyPage />} />
+                <Route path="/rank" element={<RankPage />} />
+                <Route path="/result" element={<ExerciseResultPage />} />
+              </Route>
 
               <Route path="/login" element={<Login />} />
               <Route path="/invite" element={<Invite />} />
