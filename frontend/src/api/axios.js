@@ -38,11 +38,19 @@ function Instance() {
               )
               config.headers["refreshToken"] =
                 localStorage.getItem("refreshToken")
+              config.headers["accessToken"] =
+                localStorage.getItem("accessToken")
+              return config
+            })
+            .catch((err) => {
+              console.log("엑세스 토큰 발급 요청 에러 ", err)
             })
         }
+      } else {
+        config.headers["accessToken"] = localStorage.getItem("accessToken")
+        config.headers["refreshToken"] = localStorage.getItem("refreshToken")
+        return config
       }
-      config.headers["accessToken"] = localStorage.getItem("accessToken")
-      return config
     },
     (error) => {
       return Promise.reject(error)
