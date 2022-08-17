@@ -35,7 +35,7 @@ export default function Invite() {
   return (
     <div className="w-full h-full flex justify-center flex-col items-center">
       <div
-        className="bg-white w-[50%] h-[70%] rounded-3xl bg-gradient-to-t"
+        className="bg-white w-[50%] rounded-3xl bg-gradient-to-t mt-[7%]"
         style={{
           boxShadow:
             "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
@@ -46,7 +46,7 @@ export default function Invite() {
           backgroundPosition: "center center",
         }}
       >
-        <p className="text-center font-semibold text-[50px] mt-[120px]">
+        <p className="text-center font-semibold text-[50px] mt-[5rem]">
           {teamName}
         </p>
         <p className="text-center text-[24px]">그룹에서 당신을 초대합니다.</p>
@@ -61,7 +61,7 @@ export default function Invite() {
           <p>{teamContent}</p>
         </div>
 
-        <div className="flex mt-[60px] justify-evenly">
+        <div className="flex mt-[40px] justify-evenly mb-[30px]">
           <Button
             size="xl"
             onClick={() => {
