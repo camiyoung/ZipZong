@@ -15,7 +15,10 @@ public class MemberInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-
+        if(true) {
+            System.out.println("테스트!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            return true;
+        }
 
         throw new CustomException(CustomExceptionList.NO_AUTHENTICATION_ERROR);
     }
