@@ -22,14 +22,14 @@ public class WebConfig implements WebMvcConfigurer {
                 // 팀 초대 링크로 팀 아이디 조회
                 .excludePathPatterns("/team/invite-link/**",
                                         "/registration/team/**");
-        interceptorRegistry.addInterceptor(memberInterceptor)
-                //.addPathPatterns("/**");
-                .excludePathPatterns("/**");
-        interceptorRegistry.addInterceptor(teamInterceptor)
-                //.addPathPatterns("/**");
-                .excludePathPatterns("/**");
-        interceptorRegistry.addInterceptor(teamLeaderInterceptor)
-                //.addPathPatterns("/**");
-                .excludePathPatterns("/**");
+//        interceptorRegistry.addInterceptor(memberInterceptor)
+//                //.addPathPatterns("/**");
+//                .excludePathPatterns("/**");
+//        interceptorRegistry.addInterceptor(teamInterceptor)
+//                //.addPathPatterns("/**");
+//                .excludePathPatterns("/**");
+//        interceptorRegistry.addInterceptor(teamLeaderInterceptor)
+//                //.addPathPatterns("/**");
+//                .excludePathPatterns("/**");
     }
 }
