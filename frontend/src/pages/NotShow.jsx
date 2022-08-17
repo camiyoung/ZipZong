@@ -1,8 +1,13 @@
 export default function NotShow() {
   return (
     <div
-      className="w-screen h-full bg-white flex justify-center items-center fixed"
-      style={{ position: "absolute", zIndex: "9999", height: "100vh" }}
+      className="w-screen h-screen bg-white flex justify-center items-center"
+      style={{
+        height: "100vh",
+        width: "100vw",
+        display: "flex",
+        zIndex: "999",
+      }}
     >
       <div className="flex flex-col items-center">
         <p className="text-4xl font-semibold">
