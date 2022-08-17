@@ -66,7 +66,7 @@ function App() {
               element={<RoutineMake />}
             />
 
-            {/* <Route path="/login" element={<Login />} /> */}
+            <Route path="/login" element={<Login />} />
             {/* <Route path="/room" element={<RoomPage />} /> */}
             <Route path="/room/:teamId" element={<RoomPage />} />
             <Route path="/mypage" element={<MyPage />} />
