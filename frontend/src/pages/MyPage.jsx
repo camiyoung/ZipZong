@@ -26,7 +26,9 @@ export default function MyPage() {
   }, [dispatch])
 
   useEffect(() => {
-    dispatch(memberExerciseHistorySumCheck(memberId))
+    if (memberId) {
+      dispatch(memberExerciseHistorySumCheck(memberId))
+    }
 
     let flag = 0
     for (let i = 0; i < registeredTeam.length; ++i) {
@@ -38,15 +40,14 @@ export default function MyPage() {
     if (flag === 0) {
       // 초대메시지 코드
       const checkInviteTeamId = localStorage.getItem("inviteTeamId")
-      if (checkInviteTeamId) {
-        alert("초대 코드로 가입 ")
+      if (checkInviteTeamId && memberId) {
         dispatch(teamJoin({ teamId: checkInviteTeamId, memberId: memberId }))
         localStorage.removeItem("inviteTeamId")
       }
     } else {
       alert("이미 가입된 팀입니다!")
     }
-  }, [])
+  }, [memberId])
   return (
     <div className="pb-10">
       <div className="flex justify-center mt-5">
