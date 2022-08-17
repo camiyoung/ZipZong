@@ -103,26 +103,17 @@ export default function MemberList() {
             </div>
 
             <div className=" text-xl my-4">{memberInfo.nickname}</div>
-            <div className="border-b-2 border-b-lgBlue-400 ">
-              {" "}
+            <div className="border-t-2 border-t-lgBlue-400 pt-2 ">
               우리 팀 가입일 : {memberInfo.registrationDate}
             </div>
             {memberInfo.lastExercised && (
-              <div className="border-b-2 border-b-lgBlue-400 ">
-                마지막으로 운동한 날짜 : {memberInfo.lastExercised}
+              <div className=" ">
+                마지막 운동일 : {memberInfo.lastExercised}
               </div>
             )}
-            <div className="border-b-2 border-b-lgBlue-400 ">
-              {" "}
-              현재 스트릭 : {memberInfo.currentStrick} 일
-            </div>
-            <div className="border-b-2 border-b-lgBlue-400 ">
-              최대 스트릭 : {memberInfo.maximumStrick} 일
-            </div>
-            <div className="border-b-2 border-b-lgBlue-400 ">
-              {" "}
-              총 운동시간 : {memberInfo.totalTime} 분
-            </div>
+            <div className=" ">현재 스트릭 : {memberInfo.currentStrick} 일</div>
+            <div className=" ">최대 스트릭 : {memberInfo.maximumStrick} 일</div>
+            <div className=" ">총 운동시간 : {memberInfo.totalTime} 분</div>
           </div>
         </Modal>
       )}
