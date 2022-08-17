@@ -21,11 +21,11 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry interceptorRegistry) {
 
         interceptorRegistry.addInterceptor(authInterceptor)
-                .addPathPatterns("/api/**")
+                .addPathPatterns("/**")
                 // 팀 초대 링크로 팀 아이디 조회
-                .excludePathPatterns("/api/team/invite-link/**", "/api/registration/team/**");
+                .excludePathPatterns("**/team/invite-link/**", "**/registration/team/**");
 //        interceptorRegistry.addInterceptor(memberInterceptor)
-//                //.addPathPatterns("/**");
+//                //.addPathPatterns    ("/**");
 //                .excludePathPatterns("/**");
 //        interceptorRegistry.addInterceptor(teamInterceptor)
 //                //.addPathPatterns("/**");
