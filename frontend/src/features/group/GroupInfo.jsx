@@ -103,19 +103,34 @@ const MakeRoomForm = ({ teamId }) => {
   )
 }
 
-const ResignTeam = ({ teamId, memberId }) => {
+const ResignTeam = ({ teamId, memberId, modalClose }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   return (
     <div>
-      <p style={{ color: "red" }}>정말 그룹을 탈퇴하시겠습니까?</p>
-      <Button
-        text="탈퇴"
-        onClick={() => {
-          dispatch(teamResign({ teamId, memberId }))
-          navigate("/mypage")
-        }}
-      />
+      <p className="text-center text-xl font-semibold">
+        정말 그룹을 탈퇴하시겠습니까?
+      </p>
+      <p className="text-center text-[11px] mt-1 text-gray-600">
+        탈퇴하시면 운동 기록 및 달성 아이콘들이 삭제됩니다.
+      </p>
+      <div className="flex justify-evenly mt-5">
+        <div
+          className="shadow-md border-2 w-[120px] h-[40px] border-white font-semibold flex justify-center py-1 rounded-2xl text-lg text-white cursor-pointer bg-gradient-to-t from-red-500 to-red-300 hover:bg-gradient-to-t hover:from-red-600 hover:to-red-400"
+          onClick={() => {
+            dispatch(teamResign({ teamId, memberId }))
+            navigate("/mypage")
+          }}
+        >
+          탈퇴
+        </div>
+        <div
+          className="shadow-md border-2 w-[120px] h-[40px] border-white font-semibold flex justify-center p-1 rounded-2xl text-lg text-white cursor-pointer bg-gradient-to-t from-lgBlue-500 to-lgBlue-300 hover:bg-gradient-to-t hover:from-lgBlue-600 hover:to-lgBlue-400"
+          onClick={modalClose}
+        >
+          취소
+        </div>
+      </div>
     </div>
   )
 }
@@ -170,7 +185,11 @@ function GroupManagement() {
       <Modal isOpen={isOpen} modalClose={modalClose}>
         {modalContent === "make" && <MakeRoomForm teamId={fetchTeamId} />}
         {modalContent === "resign" && (
-          <ResignTeam teamId={fetchTeamId} memberId={memberId} />
+          <ResignTeam
+            teamId={fetchTeamId}
+            memberId={memberId}
+            modalClose={modalClose}
+          />
         )}
       </Modal>
       {/* 모달 영역 1 끝 */}

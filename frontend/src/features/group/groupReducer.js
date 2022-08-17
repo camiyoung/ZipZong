@@ -108,7 +108,6 @@ export const teamCreate = createAsyncThunk(
       if (res2.data.message === "success") {
         return res2
       }
-      console.log("팀이 생성되었습니다.")
     }
   }
 )
@@ -367,7 +366,6 @@ export const groupSlice = createSlice({
     })
 
     builder.addCase(roomInfoGet.fulfilled, (state, action) => {
-      console.log(action.payload.data.data)
       state.roomStatus = action.payload.data.data.status
       state.roomParticipant = action.payload.data.data.participant
       state.roomName = action.payload.data.data.name
