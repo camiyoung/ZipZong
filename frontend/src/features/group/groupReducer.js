@@ -131,11 +131,9 @@ export const teamDelete = createAsyncThunk(
 export const teamLinkLookup = createAsyncThunk(
   "team/link",
   async (inviteLink) => {
-    console.log(1)
     const res = await axios.get(
       `${process.env.REACT_APP_BASE_URL}team/${inviteLink}`
     )
-    console.log(res)
     if ((res.data.message = "success")) {
       const teamIdByLink = res.data.data
       const res2 = await axios.get(
