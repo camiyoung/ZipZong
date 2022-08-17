@@ -17,6 +17,8 @@ import ImageIcon from "../icon/ImageIcon"
 import Logo from "../../assets/Logo.svg"
 import { Carousel } from "flowbite-react"
 import "./Navbar.css"
+import "../../components/button/NegativeBtn.css"
+import "../../components/button/PositiveBtn.css"
 
 const NavItem = ({ children }) => {
   return <li className="m-2 flex justify-center items-center">{children}</li>
@@ -46,11 +48,9 @@ export default function NavbarComponent() {
   // Modal
   const [isOpen, setOpen] = useState(false) // 개인정보 수정
   const [isOpen2, setOpen2] = useState(false) // 회원탈퇴
-  const [isOpen3, setOpen3] = useState(false) // 로그아웃
   const [isOpen4, setOpen4] = useState(false) // 튜토리얼
   const modalClose = () => setOpen(false) // 개인정보 수정
   const modalClose2 = () => setOpen2(false) // 회원탈퇴
-  const modalClose3 = () => setOpen3(false) // 로그아웃
   const modalCLose4 = () => setOpen4(false) // 튜토리얼
 
   const handleSubmit = (e) => {
@@ -218,32 +218,6 @@ export default function NavbarComponent() {
       </Modal>
       {/* 개인 정보 수정 모달 끝 */}
 
-      {/* 로그아웃 모달 시작 */}
-      <Modal isOpen={isOpen3} modalClose={modalClose3} className="w-[100px]">
-        <div className="flex flex-col items-center justify-center">
-          <p className="text-xl">
-            정말 <span className="text-red-600">로그아웃</span>하시겠습니까?
-          </p>
-          <div className="flex justify-center items-center mt-2">
-            <Button
-              size="xl"
-              color="failure"
-              onClick={() => {
-                localStorage.clear()
-                window.location.replace("/")
-              }}
-            >
-              Yes
-            </Button>
-            <div className="mx-5"></div>
-            <Button size="xl" onClick={modalClose3}>
-              No
-            </Button>
-          </div>
-        </div>
-      </Modal>
-      {/* 로그아웃 모달 끝 */}
-
       {/* 회원탈퇴 모달 시작 */}
       <Modal isOpen={isOpen2} modalClose={modalClose2} className="w-[100px]">
         <div className="flex flex-col items-center justify-center">
@@ -256,19 +230,20 @@ export default function NavbarComponent() {
             className="max-w-[150px] text-center"
           />
           <div className="flex justify-center items-center mt-2">
-            <Button
-              size="xs"
-              color="failure"
-              onClick={() => {
-                dispatch(memberRemove(memberId))
-              }}
+            <button
+              className="negative-btn mr-10"
+              role="button"
+              onClick={() => dispatch(memberRemove(memberId))}
             >
-              Yes
-            </Button>
-            <div className="mx-5"></div>
-            <Button size="xl" onClick={modalClose2}>
-              No
-            </Button>
+              예
+            </button>
+            <button
+              className="positive-btn"
+              role="button"
+              onClick={modalClose2}
+            >
+              아니오
+            </button>
           </div>
         </div>
       </Modal>
@@ -390,7 +365,8 @@ export default function NavbarComponent() {
                 </li>
                 <li
                   onClick={() => {
-                    setOpen3(true)
+                    localStorage.clear()
+                    window.location.replace("/")
                   }}
                   className="navlink ml-4"
                 >
