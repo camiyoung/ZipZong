@@ -3,10 +3,12 @@ package jibjoong.jibjoong.interceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+@EnableWebMvc
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
@@ -19,9 +21,9 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry interceptorRegistry) {
 
         interceptorRegistry.addInterceptor(authInterceptor)
-                .addPathPatterns("api/**")
+                .addPathPatterns("/api/**")
                 // 팀 초대 링크로 팀 아이디 조회
-                .excludePathPatterns("api/team/invite-link/**", "api/registration/team/**");
+                .excludePathPatterns("/api/team/invite-link/**", "/api/registration/team/**");
 //        interceptorRegistry.addInterceptor(memberInterceptor)
 //                //.addPathPatterns("/**");
 //                .excludePathPatterns("/**");
