@@ -81,6 +81,7 @@ export default function Group() {
                       focus:ring-primary-400
                       focus:border-primary-400
                     "
+                maxlength="8"
                 onChange={(e) => {
                   setTeamName(e.target.value)
                 }}
