@@ -19,6 +19,7 @@ public class HallOfFameResponse {
     @Setter
     public static class HallOfFame {
         int rank;
+        Long teamId;
         String teamIcon;
         String teamName;
         int satisfiedTime;
@@ -28,6 +29,7 @@ public class HallOfFameResponse {
     @Setter
     public static class StrickRank {
         int rank;
+        Long teamId;
         String teamIcon;
         String teamName;
         int maxStrick;
@@ -37,6 +39,7 @@ public class HallOfFameResponse {
     @Setter
     public static class TimeRank {
         int rank;
+        Long teamId;
         String teamIcon;
         String teamName;
         int totalTime;
@@ -46,6 +49,7 @@ public class HallOfFameResponse {
     @Setter
     public static class PersonalStrickRank {
         int rank;
+        Long memberId;
         String memberIcon;
         String nickName;
         int maxStrick;
@@ -55,6 +59,7 @@ public class HallOfFameResponse {
     @Setter
     public static class PersonalTimeRank {
         int rank;
+        Long memberId;
         String memberIcon;
         String nickName;
         int totalTime;
