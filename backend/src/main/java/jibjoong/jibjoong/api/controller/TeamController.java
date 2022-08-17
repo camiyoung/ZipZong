@@ -83,6 +83,13 @@ public class TeamController {
         return new ResponseEntity<>(makeBasicResponse(SUCCESS,teamId), HttpStatus.OK);
     }
 
+    // 그룹명 중복체크
+    @GetMapping("/duplicate/{name}")
+    public ResponseEntity<BasicResponse<String>> CheckNameDuplicated(@PathVariable String name) {
+        boolean result = teamService.isNameDuplicate(name);
+        String responseMessage = result ? "DUPLICATE" : "NON-DUPLICATE";
+        return new ResponseEntity<>(makeBasicResponse(SUCCESS, responseMessage), HttpStatus.OK);
+    }
 
     private <T> BasicResponse<T> makeBasicResponse(String message, T data) {
         return BasicResponse.<T>builder()

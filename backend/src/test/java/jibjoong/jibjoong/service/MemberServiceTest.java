@@ -9,6 +9,7 @@ import jibjoong.jibjoong.db.domain.MemberIcon;
 import jibjoong.jibjoong.db.domain.Team;
 import jibjoong.jibjoong.db.repository.memberteam.*;
 import jibjoong.jibjoong.enums.CheckExist;
+import jibjoong.jibjoong.exception.CustomException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -114,7 +115,7 @@ class MemberServiceTest {
         memberRepository.save(member);
 
         //then
-        Assertions.assertThrows(IllegalStateException.class, () -> {
+        Assertions.assertThrows(CustomException.class, () -> {
             //when
             memberService.updateNickName("nickname1", "nickname1");
 

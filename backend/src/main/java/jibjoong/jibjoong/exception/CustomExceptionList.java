@@ -29,8 +29,9 @@ public enum CustomExceptionList {
     ROOM_NOT_FOUND_ERROR(HttpStatus.NOT_FOUND,"E015","존재하지 않는 운동방 입니다."),
     MEMBER_ALREADY_ENTER_ROOM(HttpStatus.CONFLICT,"E016","회원이 이미 운동방에 있습니다."),
     MEMBER_NOT_JOIN_GROUP(HttpStatus.FORBIDDEN,"E017","그룹 가입 개수를 초과했습니다."),
-    MAX_MEMBER_JOIN_GROUP(HttpStatus.FORBIDDEN,"E018","최대 가입 인원을 초과했습니다.");
-
+    MAX_MEMBER_JOIN_GROUP(HttpStatus.FORBIDDEN,"E018","최대 가입 인원을 초과했습니다."),
+    MEMBER_NAME_DUPLICATED(HttpStatus.FORBIDDEN, "E019", "중복된 닉네임입니다."),
+    TEAM_NAME_DUPLICATED(HttpStatus.FORBIDDEN, "E020", "중복된 그룹명입니다.");
 
     private final HttpStatus status;
     private final String code;

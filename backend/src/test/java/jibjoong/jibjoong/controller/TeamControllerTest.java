@@ -292,6 +292,45 @@ class TeamControllerTest {
                      ));
     }
 
+    @Test
+    @DisplayName("그룹명 중복시 DUPLICATE 메시지 반환")
+    void checkTeamNameDuplicatedReturnDUPLICATE() throws Exception {
+        //given
+        String teamName = "작심삼일";
+        given(teamService.isNameDuplicate(any(String.class))).willReturn(true);
+
+        //when
+        RequestBuilder requestBuilder = RestDocumentationRequestBuilders.get("/team/duplicate/{name}", teamName);
+        ResultActions resultActions = mockMvc.perform(requestBuilder);
+
+        //then
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.data").value("DUPLICATE"))
+                .andDo(document("check-team-name-duplicate",
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("message").description("메시지"),
+                                fieldWithPath("data").description("중복 여부")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("그룹명 중복안되면 NON-DUPLICATE 메시지 반환")
+    void checkTeamNameDuplicatedReturnNONDUPLICATE() throws Exception {
+        //given0
+        String teamName = "작심삼일";
+        given(teamService.isNameDuplicate(any(String.class))).willReturn(false);
+
+        //when
+        RequestBuilder requestBuilder = RestDocumentationRequestBuilders.get("/team/duplicate/{name}", teamName);
+        ResultActions resultActions = mockMvc.perform(requestBuilder);
+
+        //then
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.data").value("NON-DUPLICATE"));
+    }
+
     private TeamIconResponse makeTeamIconResponse() {
         TeamIconResponse teamIconResponse = new TeamIconResponse();
         teamIconResponse.setTeamId(1L);

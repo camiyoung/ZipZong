@@ -12,4 +12,8 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
 
     @Query("select t from Team t where t.isDeleted is null")
     List<Team> getAllTeamNoDeleted();
+
+    boolean existsByName(String name);
+
+    Optional<Team> findByName(String name);
 }

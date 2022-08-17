@@ -4,6 +4,7 @@ import jibjoong.jibjoong.api.dto.team.TeamMemberId;
 import jibjoong.jibjoong.api.dto.team.request.TeamInfoRequest;
 import jibjoong.jibjoong.api.dto.team.response.TeamResponse;
 import jibjoong.jibjoong.api.service.RegistrationService;
+import jibjoong.jibjoong.exception.CustomExceptionList;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -48,7 +49,7 @@ class RegistrationServiceTest {
     @DisplayName("초기에 그룹 생성")
     void createTeam() {
         //given
-        Team team = makeTeam("link");
+        Team team = makeTeam("link", "team1");
         Member member = makeMember("nickname");
         Member savedMember = memberRepository.save(member);
 
@@ -65,7 +66,7 @@ class RegistrationServiceTest {
     @DisplayName("존재하는 링크로 회원가입")
     void joinTeam() {
         //given
-        Team team = makeTeam("link");
+        Team team = makeTeam("link", "team1");
         Member member = makeMember("nickname");
 
         Member savedMember = memberRepository.save(member);
@@ -89,12 +90,11 @@ class RegistrationServiceTest {
         Member member1 = makeMember("nickname1");
         Member member2 = makeMember("nickname2");
 
-        Team team1 = makeTeam("link1");
-        Team team2 = makeTeam("link2");
+        Team team1 = makeTeam("link1", "team1");
+        Team team2 = makeTeam("link2", "team2");
         Member savedMember1 = memberRepository.save(member1);
         Member savedMember2 = memberRepository.save(member2);
         registrationService.createTeam(team1, savedMember1.getId());
-        registrationService.createTeam(team2, savedMember1.getId());
         registrationService.createTeam(team2, savedMember2.getId());
 
 
@@ -103,9 +103,8 @@ class RegistrationServiceTest {
 
 
         //then
-        Assertions.assertEquals(2, teamResponses.size());
+        Assertions.assertEquals(1, teamResponses.size());
         Assertions.assertEquals(teamResponses.get(0).getCount(),1);
-        Assertions.assertEquals(teamResponses.get(1).getCount(),2);
 
     }
 
@@ -122,8 +121,8 @@ class RegistrationServiceTest {
         memberRepository.save(member3);
         memberRepository.save(member4);
 
-        Team team1 = makeTeam("team1");
-        Team team2 = makeTeam("team2");
+        Team team1 = makeTeam("link1", "team1");
+        Team team2 = makeTeam("link2", "team2");
         Team savedTeam1 = teamRepository.save(team1);
         teamRepository.save(team2);
 
@@ -147,7 +146,7 @@ class RegistrationServiceTest {
         TeamInfoRequest teamInfo = registrationService.getTeamInfo(savedTeam1.getId());
 
         //then
-        Assertions.assertEquals(teamInfo.getName(),"groupName");
+        Assertions.assertEquals(teamInfo.getName(),"team1");
         Assertions.assertEquals(teamInfo.getMembers().get(0).getNickname(),"member1");
         Assertions.assertEquals(teamInfo.getMembers().get(1).getNickname(),"member2");
         Assertions.assertEquals(teamInfo.getMembers().get(2).getNickname(),"member3");
@@ -176,7 +175,7 @@ class RegistrationServiceTest {
         Member savedMember1 = memberRepository.save(member1);
         Member savedMember2 = memberRepository.save(member2);
 
-        Team team = makeTeam("link");
+        Team team = makeTeam("link", "team1");
         Team savedTeam = teamRepository.save(team);
 
         Registration registration1 = Registration.createRegistration(member1, team);
@@ -201,7 +200,7 @@ class RegistrationServiceTest {
         Member savedMember1 = memberRepository.save(member1);
         Member savedMember2 = memberRepository.save(member2);
 
-        Team team = makeTeam("link");
+        Team team = makeTeam("link", "team1");
         Team savedTeam = teamRepository.save(team);
 
         Registration registration1 = Registration.createRegistration(member1, team);
@@ -220,10 +219,12 @@ class RegistrationServiceTest {
     void resignTeam() {
         //given
         Member member = makeMember("nickname");
-        Team team = makeTeam("link");
+        Team team = makeTeam("link", "team1");
         Member savedMember = memberRepository.save(member);
-        Team savedTeam = teamRepository.save(team);
         registrationService.createTeam(team, savedMember.getId());
+        Team savedTeam = teamRepository.findByName("team1").orElseThrow(
+                () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR)
+        );
 
         //when
         registrationService.resignTeam(savedMember.getId(), savedTeam.getId());
@@ -243,7 +244,7 @@ class RegistrationServiceTest {
         Member savedMember1 = memberRepository.save(member1);
         memberRepository.save(member2);
 
-        Team team1 = makeTeam("team1");
+        Team team1 = makeTeam("team1", "team1");
         Team savedTeam1 = teamRepository.save(team1);
 
         Registration registration1 = Registration.createRegistration(member1,team1);
@@ -269,7 +270,7 @@ class RegistrationServiceTest {
         memberRepository.save(member1);
         Member savedMember1 = memberRepository.save(member2);
 
-        Team team1 = makeTeam("team1");
+        Team team1 = makeTeam("link", "team1");
         Team savedTeam1 = teamRepository.save(team1);
 
         Registration registration1 = Registration.createRegistration(member1,team1);
@@ -294,7 +295,7 @@ class RegistrationServiceTest {
         Member savedMember1 = memberRepository.save(member1);
         Member savedMember2 = memberRepository.save(member2);
 
-        Team team1 = makeTeam("team1");
+        Team team1 = makeTeam("link", "team1");
         Team savedTeam1 = teamRepository.save(team1);
 
         Registration registration1 = Registration.createRegistration(member1,team1);
@@ -319,7 +320,7 @@ class RegistrationServiceTest {
         Member savedMember1 = memberRepository.save(member1);
         Member savedMember2 = memberRepository.save(member2);
 
-        Team team1 = makeTeam("team1");
+        Team team1 = makeTeam("link", "team1");
         Team savedTeam1 = teamRepository.save(team1);
 
         Registration registration1 = Registration.createRegistration(member1,team1);
@@ -345,10 +346,10 @@ class RegistrationServiceTest {
                      .build();
     }
 
-    private Team makeTeam(String link) {
+    private Team makeTeam(String link, String name) {
         return Team.builder()
                    .inviteLink(link)
-                   .name("groupName")
+                   .name(name)
                    .repIcon("repIcon")
                    .build();
     }

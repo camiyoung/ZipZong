@@ -76,7 +76,6 @@ public class ExerciseServiceTest {
         Team team = makeTeam().orElseThrow();
         memberRepository.save(member1Temp);
         memberRepository.save(member2Temp);
-        teamRepository.save(team);
 
         Member member1 = memberRepository.findByNickname("황승주").orElseThrow();
         Member member2 = memberRepository.findByNickname("츄츄").orElseThrow();
@@ -111,7 +110,6 @@ public class ExerciseServiceTest {
         Team team = makeTeam().orElseThrow();
         memberRepository.save(member1Temp);
         memberRepository.save(member2Temp);
-        teamRepository.save(team);
 
         Member member1 = memberRepository.findByNickname("황승주").orElseThrow();
         Member member2 = memberRepository.findByNickname("츄츄").orElseThrow();
@@ -142,7 +140,6 @@ public class ExerciseServiceTest {
         Team team = makeTeam().orElseThrow();
         memberRepository.save(member1Temp);
         memberRepository.save(member2Temp);
-        teamRepository.save(team);
 
         Member member1 = memberRepository.findByNickname("황승주").orElseThrow();
         Member member2 = memberRepository.findByNickname("츄츄").orElseThrow();
@@ -169,7 +166,6 @@ public class ExerciseServiceTest {
         Team team = makeTeam().orElseThrow();
         memberRepository.save(member1Temp);
         memberRepository.save(member2Temp);
-        teamRepository.save(team);
 
         Member member1 = memberRepository.findByNickname("황승주").orElseThrow();
         Member member2 = memberRepository.findByNickname("츄츄").orElseThrow();
@@ -192,7 +188,6 @@ public class ExerciseServiceTest {
         Team team = makeTeam().orElseThrow();
         memberRepository.save(member1Temp);
         memberRepository.save(member2Temp);
-        teamRepository.save(team);
 
         Member member1 = memberRepository.findByNickname("황승주").orElseThrow();
         Member member2 = memberRepository.findByNickname("츄츄").orElseThrow();
@@ -219,7 +214,6 @@ public class ExerciseServiceTest {
         Team team = makeTeam().orElseThrow();
         memberRepository.save(member1Temp);
         memberRepository.save(member2Temp);
-        teamRepository.save(team);
 
         Member member1 = memberRepository.findByNickname("황승주").orElseThrow();
         Member member2 = memberRepository.findByNickname("츄츄").orElseThrow();
@@ -246,7 +240,6 @@ public class ExerciseServiceTest {
         Team team = makeTeam().orElseThrow();
         memberRepository.save(member1Temp);
         memberRepository.save(member2Temp);
-        teamRepository.save(team);
 
         Member member1 = memberRepository.findByNickname("황승주").orElseThrow();
         Member member2 = memberRepository.findByNickname("츄츄").orElseThrow();
@@ -271,7 +264,6 @@ public class ExerciseServiceTest {
         Team team = makeTeam().orElseThrow();
         memberRepository.save(member1Temp);
         memberRepository.save(member2Temp);
-        teamRepository.save(team);
 
         Member member1 = memberRepository.findByNickname("황승주").orElseThrow();
         Member member2 = memberRepository.findByNickname("츄츄").orElseThrow();
@@ -296,7 +288,6 @@ public class ExerciseServiceTest {
         Team team = makeTeam().orElseThrow();
         memberRepository.save(member1Temp);
         memberRepository.save(member2Temp);
-        teamRepository.save(team);
 
         Member member1 = memberRepository.findByNickname("황승주").orElseThrow();
         Member member2 = memberRepository.findByNickname("츄츄").orElseThrow();
