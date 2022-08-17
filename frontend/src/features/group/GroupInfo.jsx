@@ -168,7 +168,7 @@ function GroupManagement() {
   // useEffect
   useEffect(() => {
     // dispatch(teamInfo(fetchTeamId))
-    if (teamLeader.nickname === memberNickname) {
+    if (teamLeader && teamLeader.nickname === memberNickname) {
       setIsLeader(true)
     } else {
       setIsLeader(false)
@@ -307,7 +307,9 @@ export default function GroupInfo() {
             </div>
             <div className="flex items-center">
               <p className="mr-1">그룹장:</p>{" "}
-              <p className="mr-2"> {teamLeader.nickname}</p>
+              {teamLeader ? (
+                <p className="mr-2"> {teamLeader.nickname}</p>
+              ) : null}
               <p className="flex items-center">
                 <UserIcon />
                 {teamMembers.length} / 10
