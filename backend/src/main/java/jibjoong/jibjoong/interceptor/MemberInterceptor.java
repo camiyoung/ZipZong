@@ -16,6 +16,7 @@ public class MemberInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
 
+
         throw new CustomException(CustomExceptionList.NO_AUTHENTICATION_ERROR);
     }
 }
