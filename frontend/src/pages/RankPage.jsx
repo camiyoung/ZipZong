@@ -16,8 +16,6 @@ export default function RankPage() {
     audioRef.current.volume = 0.1
     AOS.init()
 
-    console.log(http)
-
     http.get("ranking/info").then((res) => {
       setRankingInfo(res.data.data)
     })
