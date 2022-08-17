@@ -128,24 +128,21 @@ export const teamDelete = createAsyncThunk(
 
 // 팀 초대링크로 팀 아이디 조회
 // 여기는 axios 막으면 안됨
-export const teamLinkLookup = createAsyncThunk(
-  "team/link",
-  async (inviteLink) => {
-    const res = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}team/${inviteLink}`
+export const teamLinkLookup = createAsyncThunk("team/link", async (info) => {
+  const res = await axios.get(
+    `${process.env.REACT_APP_BASE_URL}team/${info.inviteLink}/${info.teamId}`
+  )
+  if ((res.data.message = "success")) {
+    const teamIdByLink = res.data.data
+    const res2 = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}registration/team/${teamIdByLink}`
     )
-    if ((res.data.message = "success")) {
-      const teamIdByLink = res.data.data
-      const res2 = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}registration/team/${teamIdByLink}`
-      )
 
-      if (res2.data.message === "success") {
-        return [res.data, res2.data]
-      }
+    if (res2.data.message === "success") {
+      return [res.data, res2.data]
     }
   }
-)
+})
 
 // 팀 가입
 export const teamJoin = createAsyncThunk("registration/join", async (info) => {
