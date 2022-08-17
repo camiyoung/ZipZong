@@ -287,6 +287,7 @@ public class RankingService {
             HallOfFameResponse.HallOfFame hallOfFame = new HallOfFameResponse.HallOfFame();
 
             hallOfFame.setRank(rank);
+            hallOfFame.setTeamId(teamId);
             hallOfFame.setTeamIcon(team.getRepIcon());
             hallOfFame.setTeamName(team.getName());
             hallOfFame.setSatisfiedTime(satisfiedTime);
@@ -320,6 +321,7 @@ public class RankingService {
             HallOfFameResponse.StrickRank strickRank = new HallOfFameResponse.StrickRank();
 
             strickRank.setRank(rank);
+            strickRank.setTeamId(teamId);
             strickRank.setTeamIcon(team.getRepIcon());
             strickRank.setTeamName(team.getName());
             strickRank.setMaxStrick(maxStrick);
@@ -353,6 +355,7 @@ public class RankingService {
             HallOfFameResponse.TimeRank timeRank = new HallOfFameResponse.TimeRank();
 
             timeRank.setRank(rank);
+            timeRank.setTeamId(teamId);
             timeRank.setTeamIcon(team.getRepIcon());
             timeRank.setTeamName(team.getName());
             timeRank.setTotalTime(totalTime);
@@ -386,6 +389,7 @@ public class RankingService {
             HallOfFameResponse.PersonalStrickRank strickRank = new HallOfFameResponse.PersonalStrickRank();
 
             strickRank.setRank(rank);
+            strickRank.setMemberId(memberId);
             strickRank.setMemberIcon(member.getRepIcon());
             strickRank.setNickName(member.getNickname());
             strickRank.setMaxStrick(maxStrick);
@@ -419,6 +423,7 @@ public class RankingService {
             HallOfFameResponse.PersonalTimeRank timeRank = new HallOfFameResponse.PersonalTimeRank();
 
             timeRank.setRank(rank);
+            timeRank.setMemberId(memberId);
             timeRank.setMemberIcon(member.getRepIcon());
             timeRank.setNickName(member.getNickname());
             timeRank.setTotalTime(totalTime);
@@ -463,6 +468,7 @@ public class RankingService {
             TeamRankingResponse.StrickRankDetail strickRankDetail = new TeamRankingResponse.StrickRankDetail();
 
             strickRankDetail.setRank(rank);
+            strickRankDetail.setTeamId(teamId);
             strickRankDetail.setTeamIcon(team.getRepIcon());
             strickRankDetail.setTeamName(team.getName());
             strickRankDetail.setMaxStrick(maxStrick);
@@ -517,6 +523,7 @@ public class RankingService {
             TeamRankingResponse.TimeRankDetail timeRankDetail = new TeamRankingResponse.TimeRankDetail();
 
             timeRankDetail.setRank(rank);
+            timeRankDetail.setTeamId(teamId);
             timeRankDetail.setTeamIcon(team.getRepIcon());
             timeRankDetail.setTeamName(team.getName());
             timeRankDetail.setTotalTime(totalTime);
@@ -571,6 +578,7 @@ public class RankingService {
             MemberRankingResponse.StrickRankDetail strickRankDetail = new MemberRankingResponse.StrickRankDetail();
 
             strickRankDetail.setRank(rank);
+            strickRankDetail.setMemberId(memberId);
             strickRankDetail.setMemberIcon(member.getRepIcon());
             strickRankDetail.setNickName(member.getNickname());
             strickRankDetail.setMaxStrick(maxStrick);
@@ -625,6 +633,7 @@ public class RankingService {
             MemberRankingResponse.TimeRankDetail timeRankDetail = new MemberRankingResponse.TimeRankDetail();
 
             timeRankDetail.setRank(rank);
+            timeRankDetail.setMemberId(memberId);
             timeRankDetail.setMemberIcon(member.getRepIcon());
             timeRankDetail.setNickName(member.getNickname());
             timeRankDetail.setTotalTime(totalTime);

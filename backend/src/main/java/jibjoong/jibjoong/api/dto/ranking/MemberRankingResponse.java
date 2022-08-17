@@ -23,6 +23,7 @@ public class MemberRankingResponse {
     @Setter
     public static class StrickRankDetail {
         int rank;
+        Long memberId;
         String memberIcon;
         String nickName;
         int maxStrick;
@@ -40,6 +41,7 @@ public class MemberRankingResponse {
     @Setter
     public static class TimeRankDetail {
         int rank;
+        Long memberId;
         String memberIcon;
         String nickName;
         int totalTime;
