@@ -34,8 +34,9 @@ export default function CollectedIcons() {
             ? allGroupIcons.map((imageName, idx) => {
                 return (
                   <Tooltip
-                    content={<ShowExpression imageUrl={imageName} key={idx} />}
+                    content={<ShowExpression imageUrl={imageName} />}
                     placement="bottom"
+                    key={idx}
                   >
                     <div
                       className="m-2.5 cursor-pointer"
