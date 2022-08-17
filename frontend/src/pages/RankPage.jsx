@@ -79,6 +79,7 @@ export default function RankPage() {
                         "AM 12:00을 기준으로 갱신됩니다.",
                       ]}
                       list={rankingInfo.timeRanks}
+                      type={category}
                     />
                   )}
                 </div>
@@ -91,6 +92,7 @@ export default function RankPage() {
                         "AM 12:00을 기준으로 갱신됩니다.",
                       ]}
                       list={rankingInfo.strickRanks}
+                      type={category}
                     />
                   )}
                 </div>
@@ -106,7 +108,7 @@ export default function RankPage() {
                         "AM 12:00을 기준으로 갱신됩니다.",
                       ]}
                       list={rankingInfo.personalTimeRanks}
-                      type={"personal"}
+                      type={category}
                     />
                   )}
                 </div>
@@ -119,7 +121,7 @@ export default function RankPage() {
                         "AM 12:00을 기준으로 갱신됩니다.",
                       ]}
                       list={rankingInfo.personalStrickRanks}
-                      type={"personal"}
+                      type={category}
                     />
                   )}
                 </div>
