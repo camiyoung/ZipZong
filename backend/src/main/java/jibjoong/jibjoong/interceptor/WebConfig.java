@@ -15,9 +15,13 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry interceptorRegistry) {
+
+        //
         interceptorRegistry.addInterceptor(authInterceptor)
                 //.addPathPatterns("/**");
-                .excludePathPatterns("/**");
+                // 팀 초대 링크로 팀 아이디 조회
+                .excludePathPatterns("/team/invite-link/**",
+                                        "/registration/team/**");
         interceptorRegistry.addInterceptor(memberInterceptor)
                 //.addPathPatterns("/**");
                 .excludePathPatterns("/**");
