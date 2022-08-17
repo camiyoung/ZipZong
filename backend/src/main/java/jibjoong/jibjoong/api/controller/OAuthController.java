@@ -18,6 +18,7 @@ import jibjoong.jibjoong.exception.CustomExceptionList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +32,7 @@ public class OAuthController {
     static final String SUCCESS = "success";
 
     @GetMapping("/info")
-    public String createToken(Authentication authentication) {
+    public void createToken(HttpServletResponse response, Authentication authentication) throws IOException {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         Map<String, Object> attributes = oAuth2User.getAttributes();
 
@@ -55,17 +56,28 @@ public class OAuthController {
             nickname = "";
         }
 
-        return "redirect:" + UriComponentsBuilder.fromUriString("http://i7a805.p.ssafy.io/login")
-                                                 .queryParam("accessToken", token.getAccessToken())
-                                                 .queryParam("refreshToken", token.getRefreshToken())
-                                                 .queryParam("accessTokenExpiration", accessTokenExpiration)
-                                                 .queryParam("refreshTokenExpiration", refreshTokenExpiration)
-                                                 .queryParam("memberId", member.getId().toString())
-                                                 .queryParam("hasNickname", hasNickname.toString())
-                                                 .queryParam("nickname",nickname)
-                                                 .build()
-                                                 .encode(StandardCharsets.UTF_8)
-                                                 .toUriString();
+        response.sendRedirect(UriComponentsBuilder.fromUriString("http://i7a805.p.ssafy.io/login")
+                .queryParam("accessToken", token.getAccessToken())
+                .queryParam("refreshToken", token.getRefreshToken())
+                .queryParam("accessTokenExpiration", accessTokenExpiration)
+                .queryParam("refreshTokenExpiration", refreshTokenExpiration)
+                .queryParam("memberId", member.getId().toString())
+                .queryParam("hasNickname", hasNickname.toString())
+                .queryParam("nickname",nickname)
+                .build()
+                .encode(StandardCharsets.UTF_8)
+                .toUriString());
+//        return "redirect:" + UriComponentsBuilder.fromUriString("http://i7a805.p.ssafy.io/login")
+//                                                 .queryParam("accessToken", token.getAccessToken())
+//                                                 .queryParam("refreshToken", token.getRefreshToken())
+//                                                 .queryParam("accessTokenExpiration", accessTokenExpiration)
+//                                                 .queryParam("refreshTokenExpiration", refreshTokenExpiration)
+//                                                 .queryParam("memberId", member.getId().toString())
+//                                                 .queryParam("hasNickname", hasNickname.toString())
+//                                                 .queryParam("nickname",nickname)
+//                                                 .build()
+//                                                 .encode(StandardCharsets.UTF_8)
+//                                                 .toUriString();
 
     }
 
