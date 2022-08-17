@@ -53,7 +53,7 @@ export default function Invite() {
 
         <div className="mt-[150px]">
           <div className="text-center flex justify-center items-center">
-            <p className="px-10 text-lg">그룹장: {teamLeader.nickname}</p>
+            <p className="px-10 text-[24px]">그룹장: {teamLeader.nickname}</p>
             <p className="flex ">
               <UserIcon /> {teamMembers.length} / {10} 명
             </p>
