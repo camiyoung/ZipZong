@@ -5,7 +5,6 @@ import CollectedIcons from "../features/group/CollectedIcons"
 import GroupSetInfo from "../features/group/GroupSetInfo"
 import GroupSetMemberList from "../features/group/GroupSetMemberList"
 
-import Button from "../components/button/Button"
 import {
   registrationTeam,
   teamDelete,
@@ -13,6 +12,8 @@ import {
   teamAllIcons,
 } from "../features/group/groupReducer"
 import Modal from "../components/modal/Modal"
+import "../components/button/PositiveBtn.css"
+import "../components/button/NegativeBtn.css"
 
 export default function GroupSet() {
   const dispatch = useDispatch()
@@ -67,18 +68,20 @@ export default function GroupSet() {
               삭제된 그룹은 다시 복구할 수 없으며 멤버들이 모두 탈퇴됩니다.
             </p>
             <div className="flex justify-evenly mt-5">
-              <div
-                className="shadow-md border-2 w-[120px] h-[40px] border-white font-semibold flex justify-center py-1 rounded-2xl text-lg text-white cursor-pointer bg-gradient-to-t from-red-500 to-red-300 hover:bg-gradient-to-t hover:from-red-600 hover:to-red-400"
+              <button
+                className="negative-btn mr-10"
+                role="button"
                 onClick={deleteTeamFunction}
               >
                 예
-              </div>
-              <div
-                className="shadow-md border-2 w-[120px] h-[40px] border-white font-semibold flex justify-center p-1 rounded-2xl text-lg text-white cursor-pointer bg-gradient-to-t from-lgBlue-500 to-lgBlue-300 hover:bg-gradient-to-t hover:from-lgBlue-600 hover:to-lgBlue-400"
+              </button>
+              <button
+                className="positive-btn"
+                role="button"
                 onClick={modalClose}
               >
                 아니오
-              </div>
+              </button>
             </div>
           </div>
         </Modal>

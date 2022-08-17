@@ -8,6 +8,8 @@ import UserIcon from "../../components/icon/UserIcon"
 import Modal from "../../components/modal/Modal"
 import Button from "../../components/button/Button"
 import { teamExpel, teamAssign, teamInfo } from "./groupReducer"
+import "../../components/button/PositiveBtn.css"
+import "../../components/button/NegativeBtn.css"
 
 export default function GroupSetMemberList() {
   const dispatch = useDispatch()
@@ -90,40 +92,38 @@ export default function GroupSetMemberList() {
             탈퇴된 회원의 누적 운동 정보는 사라지지 않습니다.
           </div>
           <div className="flex justify-center pt-3">
-            <div>
-              <Button
-                text="아니오"
-                width="w-32"
-                bgColor="bg-info"
-                onClick={() => setExpulsionOpen(false)}
-              />
-            </div>
-            <div className="ml-3">
-              <Button
-                text="예"
-                bgColor="bg-danger"
-                width="w-32"
-                // 회원 강퇴 로직
-                onClick={() => {
-                  if (parseInt(memberId) === teamLeader.memberId) {
-                    dispatch(
-                      teamExpel({
-                        leaderId: teamLeader.memberId,
-                        followerId: otherMemberId,
-                        teamId: fetchTeamId,
-                      })
-                    )
-                    dispatch(teamInfo(fetchTeamId))
+            <button
+              className="negative-btn mr-10"
+              role="button"
+              // 회원 강퇴 로직
+              onClick={() => {
+                if (parseInt(memberId) === teamLeader.memberId) {
+                  dispatch(
+                    teamExpel({
+                      leaderId: teamLeader.memberId,
+                      followerId: otherMemberId,
+                      teamId: fetchTeamId,
+                    })
+                  )
+                  dispatch(teamInfo(fetchTeamId))
 
-                    // 강퇴하면 아예 새로고침하는 코드
-                    window.location.replace(`/groupset/${fetchTeamId}`)
-                  } else {
-                    alert("그룹장만 회원을 강퇴할 수 있습니다!")
-                    modalExpulsionClose()
-                  }
-                }}
-              />
-            </div>
+                  // 강퇴하면 아예 새로고침하는 코드
+                  window.location.replace(`/groupset/${fetchTeamId}`)
+                } else {
+                  alert("그룹장만 회원을 강퇴할 수 있습니다!")
+                  modalExpulsionClose()
+                }
+              }}
+            >
+              예
+            </button>
+            <button
+              className="positive-btn"
+              role="button"
+              onClick={() => setExpulsionOpen(false)}
+            >
+              아니오
+            </button>
           </div>
         </div>
       </Modal>
@@ -138,40 +138,35 @@ export default function GroupSetMemberList() {
             위임 후 즉시 그룹 페이지로 이동됩니다.
           </div>
           <div className="flex justify-center pt-3">
-            <div>
-              <Button
-                text="아니오"
-                width="w-32"
-                bgColor="bg-info"
-                onClick={() => setMandateOpen(false)}
-              />
-            </div>
-            <div className="ml-3">
-              <Button
-                text="예"
-                bgColor="bg-danger"
-                width="w-32"
-                onClick={() => {
-                  if (parseInt(memberId) === teamLeader.memberId) {
-                    dispatch(
-                      teamAssign({
-                        leaderId: teamLeader.memberId,
-                        followerId: otherMemberId,
-                        teamId: fetchTeamId,
-                      })
-                    )
-                    navigate(`/group/${fetchTeamId}`)
-                  } else {
-                    alert("그룹장만 위임 권한이 있습니다!")
-                    modalMandateClose()
-                  }
-                }}
-                // 여기는 그룹장 위임 로직
-                // 위임 후 그룹 페이지로 리다이렉트 시켜주세요 (일반 멤버의 그룹 설정 접근 불가)
-                // onClick={() =>
-                // }
-              />
-            </div>
+            <button
+              className="negative-btn mr-10"
+              role="button"
+              onClick={() => {
+                if (parseInt(memberId) === teamLeader.memberId) {
+                  dispatch(
+                    teamAssign({
+                      leaderId: teamLeader.memberId,
+                      followerId: otherMemberId,
+                      teamId: fetchTeamId,
+                    })
+                  )
+                  navigate(`/group/${fetchTeamId}`)
+                } else {
+                  alert("그룹장만 위임 권한이 있습니다!")
+                  modalMandateClose()
+                }
+              }}
+            >
+              예
+            </button>
+            <button
+              className="positive-btn"
+              role="button"
+              onClick={() => setMandateOpen(false)}
+            >
+              아니오
+            </button>
+            <div></div>
           </div>
         </div>
       </Modal>
@@ -208,5 +203,3 @@ export default function GroupSetMemberList() {
     </div>
   )
 }
-
-// 회원 명단 클릭하였을떄 그룹장 위임 및 강퇴 메뉴가 나타나야 함! - 미구현
