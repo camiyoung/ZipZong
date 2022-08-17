@@ -27,7 +27,9 @@ export default function Invite() {
   } = useSelector((state) => state.group)
   const memberId = localStorage.getItem("memberId")
   useEffect(() => {
-    dispatch(teamLinkLookup(fetchGroundId))
+    dispatch(
+      teamLinkLookup({ inviteLink: fetchGroundId, teamId: inviteTeamId })
+    )
     if (memberId) {
       dispatch(registrationTeam(memberId))
     }
