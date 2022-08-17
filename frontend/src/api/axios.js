@@ -36,9 +36,9 @@ function Instance() {
                 "accessTokenExpiration",
                 res.data.accessTokenExpiration
               )
+              config.headers["refreshToken"] =
+                localStorage.getItem("refreshToken")
             })
-
-          config.headers["refreshToken"] = localStorage.getItem("refreshToken")
         }
       }
       config.headers["accessToken"] = localStorage.getItem("accessToken")
