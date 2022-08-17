@@ -25,20 +25,20 @@ function App() {
   const token = localStorage.getItem("accessToken")
   const nickname = localStorage.getItem("nickname")
 
-  // useEffect(() => {
-  //   const checkLogined = async () => {
-  //     if (!token) return
-  //     if (!nickname) {
-  //       // 토큰 있는데 닉네임이 없는 경우 -> 회원가입시 소셜 로그인만 완료후 닉네임을 설정하지 않은 경우.
-  //       // 다시 로그인하고 닉네임 설정하도록 돌려보냄.
-  //       return
-  //     }
-  //     dispatch(memberInfo(nickname))
-  //     dispatch(memberIconListReview(localStorage.getItem("memberId")))
-  //   }
+  useEffect(() => {
+    const checkLogined = async () => {
+      if (!token) return
+      if (!nickname) {
+        // 토큰 있는데 닉네임이 없는 경우 -> 회원가입시 소셜 로그인만 완료후 닉네임을 설정하지 않은 경우.
+        // 다시 로그인하고 닉네임 설정하도록 돌려보냄.
+        return
+      }
+      dispatch(memberInfo(nickname))
+      dispatch(memberIconListReview(localStorage.getItem("memberId")))
+    }
 
-  //   checkLogined()
-  // }, [])
+    checkLogined()
+  }, [])
 
   return (
     <>
