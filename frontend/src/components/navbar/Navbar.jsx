@@ -156,7 +156,7 @@ export default function NavbarComponent() {
                       focus:ring-primary-400
                       focus:border-primary-400
                     "
-                      maxlength="8"
+                      maxLength="8"
                       value={nickname}
                       onChange={(event) => {
                         setNickname(event.target.value)

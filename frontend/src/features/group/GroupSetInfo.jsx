@@ -48,7 +48,7 @@ export default function GroupSetInfo() {
                       focus:border-primary-400
                     "
                 onChange={(e) => setGroupName(e.target.value)}
-                maxlength="8"
+                maxLength="8"
               />
             </div>
             <div className="pb-1">그룹 설명</div>

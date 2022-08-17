@@ -52,7 +52,7 @@ export default function RoutineMake() {
             sm:text-md
             focus:ring-blue-500
             focus:border-blue-500"
-            maxlength="20"
+            maxLength="20"
           />
         </div>
       </div>
