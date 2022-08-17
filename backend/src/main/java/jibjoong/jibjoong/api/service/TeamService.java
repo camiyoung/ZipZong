@@ -74,6 +74,10 @@ public class TeamService {
      */
 
     public ChangeTeamInfoResponse changeProfileInfo(Long teamId, String name, String content) {
+        if(teamRepository.existsByName(name)) {
+            throw new CustomException(CustomExceptionList.TEAM_NAME_DUPLICATED);
+        }
+
         Team team = teamRepository.findById(teamId)
                                   .orElseThrow(
                                           () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR)
@@ -133,4 +137,10 @@ public class TeamService {
     }
 
 
+    public boolean isNameDuplicate(String name) {
+        if (teamRepository.existsByName(name)) {
+            return true;
+        }
+        return false;
+    }
 }

@@ -39,6 +39,11 @@ public class RegistrationService {
     public TeamMemberId createTeam(Team team, Long memberId) {
         //Team, Member, Registration
 
+        // 그룹명이 중복되면 Exception
+        if(teamRepository.existsByName(team.getName())){
+            throw new CustomException(CustomExceptionList.TEAM_NAME_DUPLICATED);
+        }
+
         //가입한 팀이 5개 이상인 경우 Exception
         //프론트에서 추가 요청이 들어와서 수정함 (22/08/13, 신슬기)
         List<Registration> registrations = registrationRepository.findJoinedTeamNoResigned(memberId);

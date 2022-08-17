@@ -36,7 +36,7 @@ public class MemberService {
 
     public String updateNickName(String origin, String nickname) {
         if (memberRepository.existsByNickname(nickname)) {
-            throw new IllegalStateException("닉네임 중복");
+            throw new CustomException(CustomExceptionList.MEMBER_NAME_DUPLICATED);
         }
         memberRepository.findByNickname(origin)
                         .orElseThrow(
