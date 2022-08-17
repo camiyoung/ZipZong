@@ -186,20 +186,21 @@ export default function GroupSetMemberList() {
           </span>
         </p>
       </div>
-      {teamMembers.map(
-        ({ nickname, createdAt, role, repIcon, memberId }, idx) => {
-          return (
-            <GroupHover
-              key={idx}
-              nickname={nickname}
-              date={createdAt}
-              isLeader={role}
-              imageUrl={`/images/badgeIcon/${repIcon}.png`}
-              selectedMemberId={memberId}
-            />
-          )
-        }
-      )}
+      {teamMembers &&
+        teamMembers.map(
+          ({ nickname, createdAt, role, repIcon, memberId }, idx) => {
+            return (
+              <GroupHover
+                key={idx}
+                nickname={nickname}
+                date={createdAt}
+                isLeader={role}
+                imageUrl={`/images/badgeIcon/${repIcon}.png`}
+                selectedMemberId={memberId}
+              />
+            )
+          }
+        )}
     </div>
   )
 }
