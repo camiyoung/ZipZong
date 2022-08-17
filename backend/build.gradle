@@ -38,7 +38,7 @@ dependencies {
 	testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc") //restdocs 의존성
 	asciidoctorExt("org.springframework.restdocs:spring-restdocs-asciidoctor") // restdocs asciidoctor의 extension을 사용하기 위한 의존성 추가
 }
- 배포 시 주석
+
 ext {
 	snippetsDir = file('build/generated-snippets')
 }
