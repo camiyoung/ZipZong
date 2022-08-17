@@ -21,7 +21,6 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        log.debug("=======================되나?========================");
         String accessToken = request.getHeader("accessToken");
         if (jwtService.verifyToken(accessToken)) {
             return true;
