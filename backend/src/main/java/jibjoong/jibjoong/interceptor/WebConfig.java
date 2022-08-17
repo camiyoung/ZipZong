@@ -1,6 +1,8 @@
 package jibjoong.jibjoong.interceptor;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -21,15 +23,15 @@ public class WebConfig implements WebMvcConfigurer {
 
         interceptorRegistry.addInterceptor(authInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("**/team/invite-link/**", "**/registration/team/**");
+                .excludePathPatterns("/team/invite-link/**", "/registration/team/**");
         interceptorRegistry.addInterceptor(memberInterceptor)
-                .addPathPatterns("/**");
-//                .excludePathPatterns("/**");
-//        interceptorRegistry.addInterceptor(teamInterceptor)
-//                //.addPathPatterns("/**");
-//                .excludePathPatterns("/**");
-//        interceptorRegistry.addInterceptor(teamLeaderInterceptor)
-//                //.addPathPatterns("/**");
-//                .excludePathPatterns("/**");
+                //.addPathPatterns("/**")
+                .excludePathPatterns("/**");
+        interceptorRegistry.addInterceptor(teamInterceptor)
+                //.addPathPatterns("/**")
+                .excludePathPatterns("/**");
+        interceptorRegistry.addInterceptor(teamLeaderInterceptor)
+                //.addPathPatterns("/**")
+                .excludePathPatterns("/**");
     }
 }

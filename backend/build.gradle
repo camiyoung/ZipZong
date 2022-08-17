@@ -44,6 +44,7 @@ ext {
 }
 
 test {
+	exclude '**/*'
 	outputs.dir snippetsDir
 }
 

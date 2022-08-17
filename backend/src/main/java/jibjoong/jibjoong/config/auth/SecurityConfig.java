@@ -33,14 +33,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.addAllowedOrigin("http://localhost:3000");
-        configuration.addAllowedOrigin("http://i7a805.p.ssafy.io:3000");
-        configuration.addAllowedOrigin("https://i7a805.p.ssafy.io:3000");
-        configuration.addAllowedOrigin("https://i7a805.p.ssafy.io");
+        configuration.addAllowedOriginPattern("http://localhost:3000");
+        configuration.addAllowedOriginPattern("http://localhost:8080");
+        configuration.addAllowedOriginPattern("http://i7a805.p.ssafy.io:8080");
+        configuration.addAllowedOriginPattern("https://i7a805.p.ssafy.io:8080");
+        configuration.addAllowedOriginPattern("http://i7a805.p.ssafy.io:3000");
+        configuration.addAllowedOriginPattern("https://i7a805.p.ssafy.io:3000");
+        configuration.addAllowedOriginPattern("https://i7a805.p.ssafy.io");
+        configuration.addAllowedOriginPattern("*");
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
         configuration.setAllowCredentials(true);
-        System.out.println("켰다켰다");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
