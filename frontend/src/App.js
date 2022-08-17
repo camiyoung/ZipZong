@@ -1,5 +1,5 @@
 import "./App.css"
-
+import { throttle } from "lodash"
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import Navbar from "./components/navbar/Navbar"
 import Components from "./pages/Components"
@@ -34,12 +34,12 @@ function App() {
     setWindowWidth(window.innerWidth)
   }
   useEffect(() => {
-    window.addEventListener("resize", handleResize)
+    window.addEventListener("resize", throttle(handleResize, 200))
     return () => {
       // cleanup
       window.removeEventListener("resize", handleResize)
     }
-  }, [])
+  }, [handleResize])
 
   console.log(windowWidth, windowHeight)
 
