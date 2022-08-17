@@ -17,7 +17,7 @@ export default function CollectedIcons() {
   const [allGroupIcons, setAllGroupIcons] = useState("")
   useEffect(() => {
     setAllGroupIcons([...icons, ...basicTeamIcons])
-  }, [])
+  }, [icons])
 
   return (
     <div className="flex justify-center flex-col mx-5 rounded-lg mt-14">

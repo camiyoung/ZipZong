@@ -99,10 +99,10 @@ const Top3Info = ({ team }) => {
   return (
     <div className=" text-lg font-semibold absolute  flex  flex-col justify-center items-center w-[80%] h-[80%]  ">
       <div
-        className={` top3 border-double border-4  px-2 rounded-xl flex flex-col items-center py-2  ${gradient[rank]} `}
+        className={` top3 border-double border-4  px-2 rounded-xl flex flex-col items-center py-2 pt-3 ${gradient[rank]} `}
       >
         {rank !== -1 ? (
-          <Avatar img={`/images/badgeIcon/${icon}.png`} />
+          <Avatar img={`/images/badgeIcon/${icon}.png`} rounded={true} />
         ) : (
           <Avatar rounded={true} />
         )}
@@ -117,7 +117,7 @@ const Top3Info = ({ team }) => {
 
 export const TopRank = ({ list }) => {
   const rankList = [...list]
-  if (rankList.length < 10) {
+  if (rankList.length < 5) {
     for (let i = rankList.length; i < 5; i++) rankList.push(defaultItem)
   }
 
