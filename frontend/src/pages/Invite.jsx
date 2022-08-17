@@ -9,6 +9,8 @@ import {
 // import Button from "../components/button/Button"
 import { Button } from "flowbite-react"
 import UserIcon from "../components/icon/UserIcon"
+import "../components/button/PositiveBtn.css"
+import "../components/button/NegativeBtn.css"
 
 // 초대 페이지
 export default function Invite() {
@@ -51,19 +53,24 @@ export default function Invite() {
         </p>
         <p className="text-center text-[24px]">그룹에서 당신을 초대합니다.</p>
 
-        <div className="mt-[150px]">
+        <div className="mt-[150px] flex flex-col justify-center items-center">
           <div className="text-center flex justify-center items-center">
-            <p className="px-10 text-[24px]">그룹장: {teamLeader.nickname}</p>
-            <p className="flex ">
-              <UserIcon /> {teamMembers.length} / {10} 명
-            </p>
+            <p className="px-10 text-md">그룹장: {teamLeader.nickname}</p>
+            <div className="flex">
+              <UserIcon />
+              <p className="ml-2">
+                {teamMembers.length} / {10} 명
+              </p>
+            </div>
           </div>
-          <p>{teamContent}</p>
+          <div className="border-2 w-[300px] border-black my-5"></div>
+          <p className="text-center">{teamContent}</p>
         </div>
 
         <div className="flex mt-[40px] justify-evenly mb-[30px]">
-          <Button
-            size="xl"
+          <button
+            className="positive-btn"
+            role="button"
             onClick={() => {
               // 리프레쉬 토큰이 존재하면 팀 조인 후 마이페이지로 이동
               let flag = 0
@@ -91,12 +98,16 @@ export default function Invite() {
             }}
           >
             수락
-          </Button>
+          </button>
 
           {/* 초대 메시지 거절 시 이전 페이지로 이동 */}
-          <Button size="xl" color="failure" onClick={() => navigate(-1)}>
+          <button
+            className="negative-btn"
+            role="button"
+            onClick={() => navigate(-1)}
+          >
             거절
-          </Button>
+          </button>
         </div>
       </div>
     </div>
