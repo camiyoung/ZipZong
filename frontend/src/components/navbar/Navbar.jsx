@@ -221,7 +221,7 @@ export default function NavbarComponent() {
       {/* 회원탈퇴 모달 시작 */}
       <Modal isOpen={isOpen2} modalClose={modalClose2} className="w-[100px]">
         <div className="flex flex-col items-center justify-center">
-          <p className="text-xl">
+          <p className="text-xl mb-5">
             정말 <span className="text-red-600">탈퇴</span>하시겠습니까?
           </p>
           <img
@@ -229,7 +229,7 @@ export default function NavbarComponent() {
             alt="회원탈퇴 금지 이미지"
             className="max-w-[150px] text-center"
           />
-          <div className="flex justify-center items-center mt-2">
+          <div className="flex justify-center items-center mt-5">
             <button
               className="negative-btn mr-10"
               role="button"
