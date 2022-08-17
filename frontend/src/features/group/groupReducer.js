@@ -129,6 +129,7 @@ export const teamDelete = createAsyncThunk(
 // 팀 초대링크로 팀 아이디 조회
 // 여기는 axios 막으면 안됨
 export const teamLinkLookup = createAsyncThunk("team/link", async (info) => {
+  console.log(1)
   const res = await axios.get(
     `${process.env.REACT_APP_BASE_URL}team/${info.inviteLink}/${info.teamId}`
   )
