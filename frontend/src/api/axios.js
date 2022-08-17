@@ -18,7 +18,8 @@ function Instance() {
         // refresh token 만료 시
         if (RefreshTokenExpireCheck()) {
           //access token & refresh token 둘 다 만료됐을 시
-          window.location.replace("/login")
+          // window.location.replace("/login")
+          console.log("토큰 만료됨 ")
         } else {
           // access token 만료 & refresh token 만료되지 않았을 시
           axios
