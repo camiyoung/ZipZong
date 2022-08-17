@@ -55,7 +55,10 @@ export default function Invite() {
 
         <div className="mt-[150px] flex flex-col justify-center items-center">
           <div className="text-center flex justify-center items-center">
-            <p className="px-10 text-md">그룹장: {teamLeader.nickname}</p>
+            {teamLeader ? (
+              <p className="px-10 text-md">그룹장: {teamLeader.nickname}</p>
+            ) : null}
+
             <div className="flex">
               <UserIcon />
               <p className="ml-2">

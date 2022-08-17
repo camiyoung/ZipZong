@@ -10,17 +10,6 @@ import SmallTextInput from "../../components/input/SmallTextInput"
 import LargeTextInput from "../../components/input/LargeTextInput"
 import { NavLink } from "react-router-dom"
 
-const Groups = [
-  {
-    groupName: "집에서 운동중",
-    icon: "https://pbs.twimg.com/profile_images/980421048498716672/LZsqP0kf_400x400.jpg",
-  },
-  {
-    groupName: "작심삼일",
-    icon: "https://t1.daumcdn.net/cfile/tistory/1906E7334F22D2583F",
-  },
-]
-
 export default function Group() {
   const dispatch = useDispatch()
   const [isOpen, setOpen] = useState(false)
