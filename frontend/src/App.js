@@ -14,17 +14,36 @@ import Login from "./pages/Login"
 import ExerciseResultPage from "./pages/ExerciseResutlPage"
 import Routine from "./pages/Routine"
 import RoutineMake from "./pages/RoutineMake"
-import { useEffect } from "react"
+import { useState, useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { memberInfo } from "./features/login/memberReducer"
 import { memberIconListReview } from "./features/myPage/myPageReducer"
 import NotFound from "./pages/NotFound"
+import NotShow from "./pages/NotShow"
 
 function App() {
   const dispatch = useDispatch()
   const token = localStorage.getItem("accessToken")
   const nickname = localStorage.getItem("nickname")
 
+  // 화면 Resize
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight)
+  const handleResize = () => {
+    setWindowHeight(window.innerHeight)
+    setWindowWidth(window.innerWidth)
+  }
+  useEffect(() => {
+    window.addEventListener("resize", handleResize)
+    return () => {
+      // cleanup
+      window.removeEventListener("resize", handleResize)
+    }
+  }, [])
+
+  console.log(windowWidth, windowHeight)
+
+  // 로그인
   useEffect(() => {
     const checkLogined = async () => {
       if (!token) return
@@ -42,39 +61,43 @@ function App() {
 
   return (
     <>
-      {!token || !nickname ? (
-        <Login />
+      {windowWidth > 1240 ? (
+        !token || !nickname ? (
+          <Login />
+        ) : (
+          <div className="w-screen bg-gradient-to-b from-secondary-100 to-lgBlue-200">
+            <BrowserRouter>
+              <Navbar />
+              <Routes>
+                <Route path="*" element={<NotFound />} />
+                <Route path="/" element={<Navigate replace to="/mypage" />} />
+                <Route path="/components" element={<Components />} />
+                <Route path="/invite" element={<Invite />} />
+
+                <Route path="/group/:teamId" element={<Group />} />
+                {/* <Route path="/group" element={<Group />} /> */}
+
+                <Route path="/groupset/:teamId" element={<GroupSet />} />
+                <Route path="/groupset" element={<GroupSet />} />
+                <Route path="/routine/:teamId" element={<Routine />} />
+                <Route path="/routine/:teamId/make" element={<RoutineMake />} />
+                <Route
+                  path="/routine/:teamId/:routineId"
+                  element={<RoutineMake />}
+                />
+
+                {/* <Route path="/login" element={<Login />} /> */}
+                {/* <Route path="/room" element={<RoomPage />} /> */}
+                <Route path="/room/:teamId" element={<RoomPage />} />
+                <Route path="/mypage" element={<MyPage />} />
+                <Route path="/rank" element={<RankPage />} />
+                <Route path="/result" element={<ExerciseResultPage />} />
+              </Routes>
+            </BrowserRouter>
+          </div>
+        )
       ) : (
-        <div className="w-screen bg-gradient-to-b from-secondary-100 to-lgBlue-200">
-          <BrowserRouter>
-            <Navbar />
-            <Routes>
-              <Route path="*" element={<NotFound />} />
-              <Route path="/" element={<Navigate replace to="/mypage" />} />
-              <Route path="/components" element={<Components />} />
-              <Route path="/invite" element={<Invite />} />
-
-              <Route path="/group/:teamId" element={<Group />} />
-              {/* <Route path="/group" element={<Group />} /> */}
-
-              <Route path="/groupset/:teamId" element={<GroupSet />} />
-              <Route path="/groupset" element={<GroupSet />} />
-              <Route path="/routine/:teamId" element={<Routine />} />
-              <Route path="/routine/:teamId/make" element={<RoutineMake />} />
-              <Route
-                path="/routine/:teamId/:routineId"
-                element={<RoutineMake />}
-              />
-
-              {/* <Route path="/login" element={<Login />} /> */}
-              {/* <Route path="/room" element={<RoomPage />} /> */}
-              <Route path="/room/:teamId" element={<RoomPage />} />
-              <Route path="/mypage" element={<MyPage />} />
-              <Route path="/rank" element={<RankPage />} />
-              <Route path="/result" element={<ExerciseResultPage />} />
-            </Routes>
-          </BrowserRouter>
-        </div>
+        <NotShow />
       )}
     </>
   )
