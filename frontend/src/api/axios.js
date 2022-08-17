@@ -40,6 +40,8 @@ function Instance() {
                 localStorage.getItem("refreshToken")
               config.headers["accessToken"] =
                 localStorage.getItem("accessToken")
+
+              console.log("새 엑세스 토큰 헤더에 등록 ")
               return config
             })
             .catch((err) => {
@@ -47,6 +49,7 @@ function Instance() {
             })
         }
       } else {
+        console.log("기존 엑세스 토큰 ")
         config.headers["accessToken"] = localStorage.getItem("accessToken")
         config.headers["refreshToken"] = localStorage.getItem("refreshToken")
         return config
