@@ -23,7 +23,7 @@ public class WebConfig implements WebMvcConfigurer {
 
         interceptorRegistry.addInterceptor(authInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/api/oauth/**, /api/team/invite-link/**", "/api/registration/team/**");
+                .excludePathPatterns("/oauth/**", "/team/invite-link/**", "/registration/team/**");
         interceptorRegistry.addInterceptor(memberInterceptor)
                 //.addPathPatterns("/**")
                 .excludePathPatterns("/**");
