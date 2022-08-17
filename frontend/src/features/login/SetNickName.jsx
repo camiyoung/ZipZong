@@ -16,7 +16,6 @@ export default function SetNickName() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (nickname.length > 0) {
-      console.log(nickname)
       // 닉네임 유효성 검사
       NicknameValidation(nickname).then(async (res) => {
         if (res === "NON-DUPLICATE") {
