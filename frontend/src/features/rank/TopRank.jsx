@@ -1,5 +1,7 @@
 // import "flowbite"
 import { Carousel, Avatar } from "flowbite-react"
+import { useEffect, useState } from "react"
+import { http } from "../../api/axios"
 
 const RankSlider = ({ list }) => {
   return (
@@ -88,26 +90,75 @@ const CompletedBadge = ({ day, rank }) => {
   )
 }
 
-const Top3Info = ({ team }) => {
-  const gradient = {
-    1: "top1",
-    2: "top2",
-    3: "top3",
-  }
+const gradient = {
+  1: "top1",
+  2: "top2",
+  3: "top3",
+}
 
-  const { rank, teamName: name, satisfiedTime: day, teamIcon: icon } = team
+const Top3Info = ({ team }) => {
+  const {
+    rank,
+    teamName: name,
+    satisfiedTime: day,
+    teamIcon: icon,
+    teamId: id,
+  } = team
+
+  const [info, setInfo] = useState()
+
+  useEffect(() => {
+    async function getInfo() {
+      const {
+        data: { data },
+      } = await http.get(`information/team/${id}`)
+      setInfo(data)
+    }
+    if (id) getInfo()
+  }, [])
+
   return (
-    <div className=" text-lg font-semibold absolute  flex  flex-col justify-center items-center w-[80%] h-[80%]  ">
+    <div className=" text-lg font-semibold absolute  flex  flex-col justify-center items-center w-[80%] h-[80%]   ">
       <div
-        className={` top3 border-double border-4  px-2 rounded-xl flex flex-col items-center py-2 pt-3 ${gradient[rank]} `}
+        className={` relative top3 border-double border-4  px-2 rounded-xl flex flex-col items-center py-2 pt-3 ${gradient[rank]}  `}
       >
+        {info && (
+          <div className="w-full h-full  absolute flex justify-center items-center   opacity-0 hover:opacity-100 -top-2 scale-110 z-10 transition-all ">
+            <div className=" bg-white absolute -left-40 text-sm w-full p-4 rounded-2xl font-normal shadow-md  ">
+              <h1 className="text-base font-medium">{info.teamName}</h1>
+              <div className="border p-2 rounded-2xl">
+                <p> 총 운동 시간 {info.totalTime}</p>
+                <p>최대 스트릭 {info.maximumStrick}</p>
+                <p>현재 스트릭 {info.currentStrick}</p>
+              </div>
+
+              <div className=" bg-white rounded-2xl">
+                {info.content && <p className=" ">{info.content}</p>}
+                {info.teamLeader && (
+                  <p>
+                    그룹장 👑 <span className="text-xs">{info.teamLeader}</span>
+                  </p>
+                )}
+
+                {info.createDate && (
+                  <p>
+                    생성 <span className="text-xs">{info.createDate}</span>
+                  </p>
+                )}
+                {info.teamMembers && (
+                  <p className="text-xs"> {info.teamMembers.join(",")}</p>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
         {rank !== -1 ? (
           <Avatar img={`/images/badgeIcon/${icon}.png`} rounded={true} />
         ) : (
           <Avatar rounded={true} />
         )}
         <div className=" px-2 rounded-xl my-1 ">{name}</div>
-        <div className=" font-medium text-base ">
+        <div className=" font-medium text-base relative ">
           {rank !== -1 && <CompletedBadge day={day} rank={rank} />}
         </div>
       </div>

@@ -1,9 +1,24 @@
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState, useRef, useEffect, useCallback } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
 import Modal from "../../components/modal/Modal"
 import ImageIcon from "../../components/icon/ImageIcon"
 import Button from "../../components/button/Button"
+import { http } from "../../api/axios"
+import { useParams } from "react-router"
+
+const MemberInfo = ({ onClose, info }) => {
+  return (
+    <div className="absolute bg-white  z-30  " onClick={onClose}>
+      <p>{info.nickname}</p>
+      <p>{info.registrationDate}</p>
+      <p>{info.lastExercised}</p>
+      <p>{info.currentStrick}</p>
+      <p>{info.maximumStrick}</p>
+      <p>{info.totalTime}</p>
+    </div>
+  )
+}
 
 export default function MemberList() {
   const { inviteLink, teamMembers, teamCurrentStreak } = useSelector(
@@ -23,6 +38,19 @@ export default function MemberList() {
       modalClose()
     })
   }
+
+  const [memberInfo, setMemberInfo] = useState()
+  const [clicked, setClicked] = useState()
+  const { teamId } = useParams()
+
+  const getMemberInfo = useCallback(async (memberId, idx) => {
+    const {
+      data: { data },
+    } = await http.get(`information/member/${teamId}/${memberId}`)
+
+    setMemberInfo(data)
+  }, [])
+
   return (
     // group 원들의 정보를 받아야 함
     <div className="mt-10 w-4/5">
@@ -62,13 +90,53 @@ export default function MemberList() {
       </Modal>
       {/* 초대 링크 모달 영역 끝 */}
 
+      {memberInfo && (
+        <Modal isOpen={memberInfo} modalClose={() => setMemberInfo()}>
+          <div className=" bg-white  z-30  w-30 flex flex-col justify-center items-center space-y-3 py-8 text-medium font-medium">
+            <div>
+              <ImageIcon
+                image={`/images/badgeIcon/${memberInfo.memberIcon}.png`}
+                size="large"
+                shape="round"
+                borderStyle="none"
+              />
+            </div>
+
+            <div className=" text-xl my-4">{memberInfo.nickname}</div>
+            <div className="border-b-2 border-b-lgBlue-400 ">
+              {" "}
+              우리 팀 가입일 : {memberInfo.registrationDate}
+            </div>
+            {memberInfo.lastExercised && (
+              <div className="border-b-2 border-b-lgBlue-400 ">
+                마지막으로 운동한 날짜 : {memberInfo.lastExercised}
+              </div>
+            )}
+            <div className="border-b-2 border-b-lgBlue-400 ">
+              {" "}
+              현재 스트릭 : {memberInfo.currentStrick} 일
+            </div>
+            <div className="border-b-2 border-b-lgBlue-400 ">
+              최대 스트릭 : {memberInfo.maximumStrick} 일
+            </div>
+            <div className="border-b-2 border-b-lgBlue-400 ">
+              {" "}
+              총 운동시간 : {memberInfo.totalTime} 분
+            </div>
+          </div>
+        </Modal>
+      )}
+
       <div className="flex w-full flex-wrap">
         {teamMembers.map(
           ({ nickname, repIcon, hasExercised, memberId }, idx) => {
             return (
               <div
-                className="hover:scale-110 cursor-pointer w-[10%] px-2"
+                className="hover:scale-110 cursor-pointer w-[10%] px-2  relative"
                 key={idx}
+                onClick={() => {
+                  getMemberInfo(memberId, idx)
+                }}
               >
                 <div
                   className={
@@ -94,6 +162,7 @@ export default function MemberList() {
             )
           }
         )}
+
         {teamMembers.length < 10 ? (
           <div
             onClick={() => setOpen(true)}
