@@ -39,6 +39,7 @@ export default function MyPage() {
       // 초대메시지 코드
       const checkInviteTeamId = localStorage.getItem("inviteTeamId")
       if (checkInviteTeamId) {
+        alert("초대 코드로 가입 ")
         dispatch(teamJoin({ teamId: checkInviteTeamId, memberId: memberId }))
         localStorage.removeItem("inviteTeamId")
       }
