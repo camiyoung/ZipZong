@@ -67,8 +67,8 @@ function App() {
     redirectPath = "/login",
     children,
   }) => {
-    if (!token && !nickname) {
-      return <Navigate to={redirectPath} replace />
+    if (!token || !nickname) {
+      return <Navigate replace to={redirectPath} />
     }
 
     return children ? children : <Outlet />
@@ -76,9 +76,6 @@ function App() {
 
   return (
     <>
-      {/* {!token || !nickname ? (
-        <Login />
-      ) : ( */}
       {/* {windowWidth >= 1240 ? ( */}
       <div className="w-screen bg-gradient-to-b from-secondary-100 to-lgBlue-200">
         <BrowserRouter>
@@ -115,9 +112,9 @@ function App() {
           </Routes>
         </BrowserRouter>
       </div>
+
       {/* ) : (
         <NotShow /> */}
-      {/* )} */}
       {/* )} */}
     </>
   )
