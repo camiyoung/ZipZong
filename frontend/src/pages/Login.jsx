@@ -44,7 +44,7 @@ export default function Login() {
       localStorage.setItem("nickname", nickname)
 
       console.log(nickname, accessToken, refreshToken)
-      // window.location.replace("/")
+      window.location.replace("/")
     }
 
     if (accessToken && !nickname) {
