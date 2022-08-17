@@ -370,7 +370,7 @@ export default function NavbarComponent() {
                 className="max-w-[100px] rounded-full navlink ml-[20px]"
               />
 
-              <div className="dropdown" style={{ width: "180px" }}>
+              <div className="dropdown" style={{ width: "177px" }}>
                 <NavLink to="/mypage" className="navlink ml-4">
                   <div
                     onClick={() => {
