@@ -28,10 +28,10 @@ public class WebConfig implements WebMvcConfigurer {
                 //.addPathPatterns("/**")
                 .excludePathPatterns("/**");
         interceptorRegistry.addInterceptor(teamInterceptor)
-                //.addPathPatterns("/**")
-                .excludePathPatterns("/**");
+                .addPathPatterns("/ranking/team/{teamId}", "/routine/{teamId}");
+                //.excludePathPatterns("/**");
         interceptorRegistry.addInterceptor(teamLeaderInterceptor)
-                //.addPathPatterns("/**")
-                .excludePathPatterns("/**");
+                .addPathPatterns("/team/icons/{teamId}");
+                //.excludePathPatterns("/**");
     }
 }

@@ -15,8 +15,10 @@ public class TeamInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
-
+        if(true) {
+            System.out.println(request.getQueryString());
+            return true;
+        }
         throw new CustomException(CustomExceptionList.NO_AUTHENTICATION_ERROR);
     }
 }
