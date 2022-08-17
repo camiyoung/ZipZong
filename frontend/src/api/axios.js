@@ -22,6 +22,7 @@ function Instance() {
           window.location.replace("/login")
         } else {
           // access token 만료 & refresh token 만료되지 않았을 시
+          console.log("리프레쉬 토큰으로 요청 ")
           axios
             .get(`${process.env.REACT_APP_BASE_URL}oauth/refresh`, {
               headers: {
@@ -29,6 +30,7 @@ function Instance() {
               },
             })
             .then((res) => {
+              console.log("새로운 엑세스 토큰 받음 ", res.data)
               localStorage.setItem("accessToken", res.data.accessToken)
               localStorage.setItem(
                 "accessTokenExpiration",
