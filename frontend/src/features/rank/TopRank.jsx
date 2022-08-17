@@ -123,30 +123,31 @@ const Top3Info = ({ team }) => {
         className={` relative top3 border-double border-4  px-2 rounded-xl flex flex-col items-center py-2 pt-3 ${gradient[rank]}  `}
       >
         {info && (
-          <div className="w-full h-full  absolute flex justify-center items-center   opacity-0 hover:opacity-100 -top-2 scale-110 z-10 transition-all ">
-            <div className=" bg-white absolute -left-40 text-sm w-full p-4 rounded-2xl font-normal shadow-md  ">
-              <h1 className="text-base font-medium">{info.teamName}</h1>
-              <div className="border p-2 rounded-2xl">
-                <p> 총 운동 시간 {info.totalTime}</p>
-                <p>최대 스트릭 {info.maximumStrick}</p>
-                <p>현재 스트릭 {info.currentStrick}</p>
+          <div className="w-full h-full  absolute flex justify-center items-center   opacity-0 hover:opacity-100 -top-2 scale-110 z-10 transition-all duration-500">
+            <div className=" bg-white/40 border-blue-200 absolute -left-40 text-sm w-full p-4 rounded-2xl font-normal shadow-md   ">
+              <h1 className="text-base font-medium mb-0.5">
+                {info.nickname || info.teamName}
+              </h1>
+              {info.createDate && (
+                <p className="text-xs mb-1">
+                  <span>생성 : {info.createDate} </span>
+                </p>
+              )}
+              {info.content && (
+                <p className=" text-xs mb-2 border-b-2 border-b-lightBlue pb-1 pb">
+                  {info.content}
+                </p>
+              )}
+
+              <div className="p-1 rounded mb-2 text-xs">
+                <p> 총 운동 시간 : {info.totalTime}분</p>
+                <p>최대 스트릭 : {info.maximumStrick}일</p>
+                <p>현재 스트릭 : {info.currentStrick}일</p>
               </div>
 
-              <div className=" bg-white rounded-2xl">
-                {info.content && <p className=" ">{info.content}</p>}
-                {info.teamLeader && (
-                  <p>
-                    그룹장 👑 <span className="text-xs">{info.teamLeader}</span>
-                  </p>
-                )}
-
-                {info.createDate && (
-                  <p>
-                    생성 <span className="text-xs">{info.createDate}</span>
-                  </p>
-                )}
+              <div className=" text-xs border-t-2 border-t-lightBlue pt-1">
                 {info.teamMembers && (
-                  <p className="text-xs"> {info.teamMembers.join(",")}</p>
+                  <p className="text-xs"> {info.teamMembers.join(" / ")}</p>
                 )}
               </div>
             </div>

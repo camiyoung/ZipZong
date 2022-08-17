@@ -55,40 +55,40 @@ const InfoModal = ({ id, type }) => {
   }, [type])
   return (
     <div
-      className="w-full h-full  absolute  opacity-0  hover:opacity-100  z-50 "
+      className="w-full h-full  absolute  opacity-0  hover:opacity-100  z-50 transition-all hover:duration-700"
       onClick={() => {
         console.log(info)
       }}
     >
       {info && info.currentStrick !== -1 && (
-        <div className="w-48  absolute -right-10  z-50 border-2 rounded-2xl p-3 text-sm bg-white">
+        <div className="w-48  absolute -right-8 translate-y-2  z-10  rounded-2xl p-3 text-sm bg-white shadow-md border-lgBlue-300 border-4">
           {info && (
             <div className="w-full h-full roudned-2xl text-center">
-              <h1 className="text-base font-medium">
+              <h1 className="text-base font-medium mb-0.5">
                 {info.nickname || info.teamName}
               </h1>
-              <div className="border p-2 rounded-2xl">
-                <p> 총 운동 시간 {info.totalTime}</p>
-                <p>최대 스트릭 {info.maximumStrick}</p>
-                <p>현재 스트릭 {info.currentStrick}</p>
+              {info.createDate && (
+                <p className="text-xs mb-1">
+                  <span>생성 : {info.createDate} </span>
+                </p>
+              )}
+              {info.content ? (
+                <p className=" text-xs mb-2 border-b-2 border-b-lightBlue pb-1 pb">
+                  {info.content}
+                </p>
+              ) : (
+                <p className=" text-xs mb-2 border-b-2 border-b-lightBlue pb-1 pb"></p>
+              )}
+
+              <div className="p-1 rounded mb-2">
+                <p> 총 운동 시간 : {info.totalTime}분</p>
+                <p>최대 스트릭 : {info.maximumStrick}일</p>
+                <p>현재 스트릭 : {info.currentStrick}일</p>
               </div>
               {type === "group" && (
-                <div className=" bg-white rounded-2xl">
-                  {info.content && <p className=" ">{info.content}</p>}
-                  {info.teamLeader && (
-                    <p>
-                      그룹장 👑{" "}
-                      <span className="text-xs">{info.teamLeader}</span>
-                    </p>
-                  )}
-
-                  {info.createDate && (
-                    <p>
-                      생성 <span className="text-xs">{info.createDate}</span>
-                    </p>
-                  )}
+                <div className=" bg-white text-xs border-t-2 border-t-lightBlue pt-1">
                   {info.teamMembers && (
-                    <p className="text-xs"> {info.teamMembers.join(",")}</p>
+                    <p className="text-xs"> {info.teamMembers.join(" / ")}</p>
                   )}
                 </div>
               )}
