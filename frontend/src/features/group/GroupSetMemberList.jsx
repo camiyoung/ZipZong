@@ -44,8 +44,7 @@ export default function GroupSetMemberList() {
             <ImageIcon image={imageUrl} size="smmiddle" shape="round" />
             <span className="ml-3">{nickname}</span>
             <span className="mx-2">
-              ({date.substr(0, 4)}년 {date.substr(5, 2)}월 {date.substr(8, 2)}일
-              가입)
+              ({date[0]}년 {date[1]}월 {date[2]}일 가입)
             </span>
             {isLeader === "LEADER" ? <span>👑</span> : null}
             {isLeader === "LEADER" ? null : (
