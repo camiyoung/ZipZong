@@ -84,7 +84,6 @@ function MyExercise({
         setTimeout(() => {
           console.log("결과 전송 끝 !")
           setFinished(true)
-          http.delete(`room/${teamId}`)
         }, 4000)
       }
 
@@ -101,7 +100,11 @@ function MyExercise({
       const res = JSON.parse(event.data)
       console.log("운동 결과 데이터 수신", res)
       // setExercising(true)
+
       dispatch(setAllExerciseResult(res.data))
+      // if (isRoomAdmin) {
+      //   http.delete(`room/${teamId}`)
+      // }
       leaveSession()
       navigate("/result")
     })
@@ -109,6 +112,7 @@ function MyExercise({
     user.getStreamManager().stream.session.on("signal:exit", (event) => {
       console.log("비정상종료 ", event.data)
       setExercising(false)
+      leaveSession()
       setAlert("error")
     })
   }, [])
