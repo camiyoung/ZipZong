@@ -7,8 +7,10 @@ import ImageIcon from "../../components/icon/ImageIcon"
 import UserIcon from "../../components/icon/UserIcon"
 import Button from "../../components/button/Button"
 import Modal from "../../components/modal/Modal"
-import { teamInfo, teamResign } from "./groupReducer"
+import { teamInfo, teamResign, registrationTeam } from "./groupReducer"
 import { setRoutine, setRoomTitle } from "../room/exerciseReducer"
+import "../../components/button/PositiveBtn.css"
+import "../../components/button/NegativeBtn.css"
 
 const MakeRoomForm = ({ teamId }) => {
   const dispatch = useDispatch()
@@ -109,28 +111,27 @@ const ResignTeam = ({ teamId, memberId, modalClose }) => {
   const navigate = useNavigate()
   return (
     <div>
-      <p className="text-center text-xl font-semibold">
+      <p className="text-center text-xl font-semibold mt-[1rem]">
         정말 그룹을 탈퇴하시겠습니까?
       </p>
       <p className="text-center text-[11px] mt-1 text-gray-600">
         탈퇴하시면 운동 기록 및 달성 아이콘들이 삭제됩니다.
       </p>
-      <div className="flex justify-evenly mt-5">
-        <div
-          className="shadow-md border-2 w-[120px] h-[40px] border-white font-semibold flex justify-center py-1 rounded-2xl text-lg text-white cursor-pointer bg-gradient-to-t from-red-500 to-red-300 hover:bg-gradient-to-t hover:from-red-600 hover:to-red-400"
+      <div className="flex justify-evenly mt-5 mb-[1rem]">
+        <button
+          className="negative-btn"
+          role="button"
           onClick={() => {
             dispatch(teamResign({ teamId, memberId }))
+            dispatch(registrationTeam(memberId))
             navigate("/mypage")
           }}
         >
           탈퇴
-        </div>
-        <div
-          className="shadow-md border-2 w-[120px] h-[40px] border-white font-semibold flex justify-center p-1 rounded-2xl text-lg text-white cursor-pointer bg-gradient-to-t from-lgBlue-500 to-lgBlue-300 hover:bg-gradient-to-t hover:from-lgBlue-600 hover:to-lgBlue-400"
-          onClick={modalClose}
-        >
+        </button>
+        <button className="positive-btn" role="button" onClick={modalClose}>
           취소
-        </div>
+        </button>
       </div>
     </div>
   )
@@ -147,12 +148,16 @@ function GroupManagement() {
   const [isLeader, setIsLeader] = useState(false)
 
   // 모달 관련 UseState
-  const [isOpen, setOpen] = useState(false)
+  const [isOpen, setRealOpen] = useState(false)
   const [modalContent, setModalContent] = useState("") // 모달 안에 들어갈 내용
 
-  const modalClose = () => {
+  const setOpen = async (value) => {
+    await setRealOpen(value)
+  }
+
+  const modalClose = async () => {
+    await setOpen(false)
     setModalContent("")
-    setOpen(false)
   }
 
   const enterRoom = () => {
@@ -183,16 +188,20 @@ function GroupManagement() {
   return (
     <div className="w-1/2 ml-10">
       {/* 모달 영역 1 */}
-      <Modal isOpen={isOpen} modalClose={modalClose}>
-        {modalContent === "make" && <MakeRoomForm teamId={fetchTeamId} />}
-        {modalContent === "resign" && (
-          <ResignTeam
-            teamId={fetchTeamId}
-            memberId={memberId}
-            modalClose={modalClose}
-          />
-        )}
-      </Modal>
+      {modalContent && (
+        <Modal isOpen={isOpen} modalClose={modalClose}>
+          {modalContent === "make" && (
+            <MakeRoomForm teamId={fetchTeamId} modalClose={modalClose} />
+          )}
+          {modalContent === "resign" && (
+            <ResignTeam
+              teamId={fetchTeamId}
+              memberId={memberId}
+              modalClose={modalClose}
+            />
+          )}
+        </Modal>
+      )}
       {/* 모달 영역 1 끝 */}
 
       {/* 카드 영역 */}

@@ -52,6 +52,7 @@ export default class ToolbarComponent extends Component {
 
   leaveSession() {
     this.props.leaveSession()
+    this.props.goBack()
   }
 
   toggleChat() {

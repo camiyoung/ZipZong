@@ -14,6 +14,7 @@ import {
 import Modal from "../components/modal/Modal"
 import "../components/button/PositiveBtn.css"
 import "../components/button/NegativeBtn.css"
+import "../components/button/NeutralBtn.css"
 
 export default function GroupSet() {
   const dispatch = useDispatch()
@@ -51,23 +52,32 @@ export default function GroupSet() {
             <GroupSetMemberList />
           </div>
         </div>
-        <div className="mx-5 pt-5 flex justify-end mb-20">
-          <div
-            className="shadow-md border-2 w-[120px] h-[40px] border-white font-semibold flex justify-center p-1 rounded-2xl text-lg text-white cursor-pointer bg-gradient-to-t from-gray-500 to-gray-300 hover:bg-gradient-to-t hover:from-gray-600 hover:to-gray-400"
+        <div className="pt-5 flex justify-end mb-6">
+          <button
+            className="neutral-btn mr-6"
+            role="button"
+            onClick={() => navigate(`/group/${fetchTeamId}`)}
+          >
+            <p className="mb-1">그룹 페이지</p>
+            <p>돌아가기</p>
+          </button>
+          <button
+            className="negative-btn"
+            role="button"
             onClick={() => setOpen(true)}
           >
             그룹 삭제
-          </div>
+          </button>
         </div>
         <Modal isOpen={isOpen} modalClose={modalClose}>
-          <div>
+          <div className="mt-5">
             <p className="text-center text-xl font-semibold">
               정말 그룹을 삭제하시겠습니까?
             </p>
             <p className="text-center text-[11px] mt-1 text-gray-600">
               삭제된 그룹은 다시 복구할 수 없으며 멤버들이 모두 탈퇴됩니다.
             </p>
-            <div className="flex justify-evenly mt-5">
+            <div className="flex justify-evenly my-5">
               <button
                 className="negative-btn mr-10"
                 role="button"

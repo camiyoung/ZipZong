@@ -26,25 +26,12 @@ import { memberInfo } from "./features/login/memberReducer"
 import { memberIconListReview } from "./features/myPage/myPageReducer"
 import NotFound from "./pages/NotFound"
 import NotShow from "./pages/NotShow"
-import { throttle } from "lodash"
+import Forbidden from "./pages/Forbidden"
 
 function App() {
   const dispatch = useDispatch()
   const token = localStorage.getItem("accessToken")
   const nickname = localStorage.getItem("nickname")
-
-  // 화면 Resize
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
-  const handleResize = () => {
-    setWindowWidth(window.innerWidth)
-  }
-  useEffect(() => {
-    window.addEventListener("resize", throttle(handleResize, 200))
-    return () => {
-      // cleanup
-      window.removeEventListener("resize", handleResize)
-    }
-  }, [handleResize])
 
   useEffect(() => {
     const checkLogined = async () => {
@@ -74,10 +61,31 @@ function App() {
     return children ? children : <Outlet />
   }
 
+  useEffect(() => {
+    window.onbeforeunload = function pushRefresh() {
+      window.scrollTo(0, 0)
+    }
+  }, [])
+
   return (
     <>
-      {/* {windowWidth >= 1240 ? ( */}
       <div className="w-screen bg-gradient-to-b from-secondary-100 to-lgBlue-200">
+        {/* 화면 크기 조절 DIV 주석 풀어야 함 */}
+        <div className="cover waves hidden">
+          <div className="w-full h-full flex justify-center items-center">
+            <div className="wave"></div>
+            <div className="wave"></div>
+            <div className="wave"></div>
+            <div>
+              <p className="text-center text-white font-semibold text-[2.5rem] mb-[2rem]">
+                본 페이지는 1240px이상에서 화면을 제공합니다.
+              </p>
+              <p className="text-center text-white font-semibold text-[2.5rem]">
+                가로 크기를 늘려주세요.
+              </p>
+            </div>
+          </div>
+        </div>
         <BrowserRouter>
           <Navbar />
           <Routes>
@@ -105,6 +113,8 @@ function App() {
               <Route path="/mypage" element={<MyPage />} />
               <Route path="/rank" element={<RankPage />} />
               <Route path="/result" element={<ExerciseResultPage />} />
+
+              <Route path="/forbidden" element={<Forbidden />} />
             </Route>
 
             <Route path="/login" element={<Login />} />
@@ -112,10 +122,6 @@ function App() {
           </Routes>
         </BrowserRouter>
       </div>
-
-      {/* ) : (
-        <NotShow /> */}
-      {/* )} */}
     </>
   )
 }

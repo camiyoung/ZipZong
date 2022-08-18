@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router"
-import { Spinner } from "flowbite-react"
+import { useNavigate, useParams } from "react-router"
 
 const Error = ({ title, message, groupId }) => {
   const navigate = useNavigate()
   const path = groupId ? groupId : ""
 
+  const { teamId } = useParams()
+
   const movePage = () => {
-    navigate(`/group/${path}`)
+    navigate(`/group/${teamId}`)
   }
-  const [duration, setDuration] = useState(15)
+  const [duration, setDuration] = useState(5)
 
   useEffect(() => {
     if (duration === 0) {
-      navigate(`/group/${path}`)
+      navigate(`/group/${teamId}`)
     }
 
     const countdown = setInterval(() => {
@@ -82,21 +83,49 @@ const Alret = ({ title, message }) => {
   )
 }
 
+const Info = ({ title, onClose }) => {
+  return (
+    <div className="p-6 text-center flex flex-col items-center w-full h-full relative justify-center">
+      <h3 className="my-5 text-4xl font-semibold text-primary-500  ">
+        {title}
+      </h3>
+      <div
+        onClick={onClose}
+        className="absolute top-2 right-2  font-bold w-12 h-12 text-center flex justify-center items-center  rounded-lg cursor-pointer"
+      >
+        <span className="text-gray-500">X</span>
+      </div>
+      <img src="/images/room/info-enter.png" className="mb-2 w-3/5 h-3/5" />
+      <div className="flex justify-center items-center flex-col mb-7  text-2xl  bg-lgBlue-200 p-4 px-8 rounded-lg w-full">
+        <p className="font-semibold">그림과 같이 전신이 잘 보이도록 서주세요</p>
+      </div>
+    </div>
+  )
+}
+
 function AlertModal({
   title = "에러페이지",
   message = undefined,
   groupId,
   type = "alert",
+  onClose,
 }) {
+  console.log("모달 타입:", type)
   return (
-    <div className="w-full h-full absolute bg-[#000000a1] z-50 top-0 left-0 flex flex-col justify-center items-center">
-      <div className="relative bg-white rounded-lg shadow w-2/6 ">
-        {type === "error" ? (
-          <Error title={title} message={message} groupId={groupId} />
-        ) : (
-          <Alret title={title} message={message} />
-        )}
-      </div>
+    <div className="w-full h-full absolute bg-[#000000a1] z-[9999] top-0 left-0 flex flex-col justify-center items-center">
+      {type === "info" ? (
+        <div className="relative bg-white rounded-lg shadow w-3/5 h-4/5  ">
+          <Info title={title} message={message} onClose={onClose} />
+        </div>
+      ) : (
+        <div className="relative bg-white rounded-lg shadow w-2/6 ">
+          {type === "error" ? (
+            <Error title={title} message={message} groupId={groupId} />
+          ) : (
+            <Alret title={title} message={message} />
+          )}
+        </div>
+      )}
     </div>
   )
 }

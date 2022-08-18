@@ -18,14 +18,14 @@ export default function GroupExerciseInfo() {
   }, [])
 
   return (
-    <div className="flex mt-12 mb-20 w-4/5 p-1">
+    <div className="flex mb-20 w-4/5 p-1">
       <div className="flex w-full flex-wrap ">
         {performTeamTotals
           ? performTeamTotals.map(({ performName, performTotal }, idx) => {
               return (
                 <div key={idx} className="w-[33.33%] p-3">
                   <div className="flex text-lg items-center  bg-white rounded-2xl p-3 shadow-md w-full">
-                    <div className="flex items-center w-[45%] ml-2">
+                    <div className="flex items-center w-[50%] ml-2">
                       <ExerciseIcon
                         size="middle"
                         shape="round"

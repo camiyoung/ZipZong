@@ -124,13 +124,16 @@ const Top3Info = ({ team }) => {
       >
         {info && (
           <div className="w-full h-full  absolute flex justify-center items-center   opacity-0 hover:opacity-100 -top-2 scale-110 z-10 transition-all duration-500">
-            <div className=" bg-white/40 border-blue-200 absolute -left-40 text-sm w-full p-4 rounded-2xl font-normal shadow-md   ">
+            <div className=" bg-white/40 border-blue-200 absolute -left-40 text-sm w-full p-2  py-3 rounded-2xl font-normal shadow-md   ">
               <h1 className="text-base font-medium mb-0.5">
                 {info.nickname || info.teamName}
               </h1>
               {info.createDate && (
                 <p className="text-xs mb-1">
-                  <span>생성 : {info.createDate} </span>
+                  <span>
+                    생성 : {info.createDate[0]}년 {info.createDate[1]}월{" "}
+                    {info.createDate[2]}일{" "}
+                  </span>
                 </p>
               )}
               {info.content && (
@@ -223,7 +226,7 @@ export const TopRank = ({ list }) => {
             <img
               src="/images/rankPage/gold.png"
               alt=""
-              className=" w-[75%] h-[75%]"
+              className=" w-[77%] h-[75%]"
             />
             <Top3Info team={top3[2]} />
           </div>

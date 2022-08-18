@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { useLocation } from "react-router"
 
 import Modal from "../../components/modal/Modal"
 import ImageIcon from "../../components/icon/ImageIcon"
@@ -21,6 +22,8 @@ const MemberInfo = ({ onClose, info }) => {
 }
 
 export default function MemberList() {
+  const dispatch = useDispatch()
+  const location = useLocation()
   const { inviteLink, teamMembers, teamCurrentStreak } = useSelector(
     (state) => state.group
   )
@@ -42,13 +45,19 @@ export default function MemberList() {
   const [memberInfo, setMemberInfo] = useState()
   const [clicked, setClicked] = useState()
   const { teamId } = useParams()
-
+  const currentMemberId = useSelector((state) => state.member.memberId)
+  const { memberRepIcon, memberNickname } = useSelector((state) => state.member)
   const getMemberInfo = useCallback(async (memberId, idx) => {
     const {
       data: { data },
     } = await http.get(`information/member/${teamId}/${memberId}`)
 
     setMemberInfo(data)
+  }, [])
+  useEffect(() => {
+    setTimeout(() => {
+      window.scrollTo(0, 0)
+    }, 0)
   }, [])
 
   return (
@@ -89,7 +98,6 @@ export default function MemberList() {
         </div>
       </Modal>
       {/* 초대 링크 모달 영역 끝 */}
-
       {memberInfo && (
         <Modal isOpen={memberInfo} modalClose={() => setMemberInfo()}>
           <div className=" bg-white  z-30  w-30 flex flex-col justify-center items-center space-y-3 py-8 text-medium font-medium">
@@ -104,11 +112,14 @@ export default function MemberList() {
 
             <div className=" text-xl my-4">{memberInfo.nickname}</div>
             <div className="border-t-2 border-t-lgBlue-400 pt-2 ">
-              우리 팀 가입일 : {memberInfo.registrationDate}
+              우리 팀 가입일 : {memberInfo.registrationDate[0]}년{" "}
+              {memberInfo.registrationDate[1]}월{" "}
+              {memberInfo.registrationDate[2]}일
             </div>
             {memberInfo.lastExercised && (
               <div className=" ">
-                마지막 운동일 : {memberInfo.lastExercised}
+                마지막 운동일 : {memberInfo.lastExercised[0]}년{" "}
+                {memberInfo.lastExercised[1]}월 {memberInfo.lastExercised[2]}일
               </div>
             )}
             <div className=" ">현재 스트릭 : {memberInfo.currentStrick} 일</div>
@@ -138,15 +149,24 @@ export default function MemberList() {
                 >
                   <div className="flex justify-center mb-2">
                     {" "}
-                    <ImageIcon
-                      image={`/images/badgeIcon/${repIcon}.png`}
-                      size="large"
-                      shape="round"
-                      borderStyle="none"
-                    />
+                    {currentMemberId == memberId ? (
+                      <ImageIcon
+                        image={`/images/badgeIcon/${memberRepIcon}.png`}
+                        size="large"
+                        shape="round"
+                        borderStyle="none"
+                      />
+                    ) : (
+                      <ImageIcon
+                        image={`/images/badgeIcon/${repIcon}.png`}
+                        size="large"
+                        shape="round"
+                        borderStyle="none"
+                      />
+                    )}
                   </div>
                   <div className="text-sm font-medium flex justify-center px-5 h-[50px] items-center">
-                    {nickname}
+                    {currentMemberId == memberId ? memberNickname : nickname}
                   </div>
                 </div>
               </div>
@@ -161,16 +181,17 @@ export default function MemberList() {
           >
             <div
               className={
-                "w-full h-full flex flex-col items-center rounded-3xl shadow-md py-8 border-2 border-gray-100"
+                "w-full h-full flex flex-col items-center rounded-3xl shadow-md py-8 border-2 bg-white/20 hover:bg-white/40"
               }
             >
               <div className="flex justify-center mb-2">
-                <ImageIcon
-                  image="http://cdn.onlinewebfonts.com/svg/img_356964.png"
-                  size="large"
-                  borderStyle="none"
+                <img
+                  src="/images/plus.png"
+                  alt="플러스 아이콘"
+                  className="w-[6rem] border-4 border-black rounded-full p-4"
                 />
               </div>
+
               <div className="text-sm font-medium flex justify-center px-5 h-[50px] items-center">
                 멤버 초대
               </div>

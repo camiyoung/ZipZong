@@ -3,8 +3,6 @@ import {
   configureStore,
   getDefaultMiddleware,
 } from "@reduxjs/toolkit"
-import { persistReducer } from "redux-persist"
-import storage from "redux-persist/lib/storage"
 import groupReducer from "./features/group/groupReducer"
 import memberReducer from "./features/login/memberReducer"
 import myPageReducer from "./features/myPage/myPageReducer"

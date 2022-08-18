@@ -22,6 +22,7 @@ class Room extends Component {
   constructor(props) {
     super(props)
 
+    this.enterError = false
     this.OPENVIDU_SERVER_URL = this.props.openviduServerUrl
       ? this.props.openviduServerUrl
       : "https://i7a805.p.ssafy.io:8443"
@@ -81,12 +82,14 @@ class Room extends Component {
 
     setTimeout(() => {
       this.setState({ modelLoded: true })
+      this.setAlert("enter")
     }, 5000)
     this.joinSession()
   }
 
   componentWillUnmount() {
     window.removeEventListener("resize", this.checkSize)
+    console.log("입장 에러로 언마운트", this.enterError)
     this.leaveSession()
   }
 
@@ -169,12 +172,21 @@ class Room extends Component {
 
   async connectWebCam() {
     //카메라 접근 요청창을 위함
-    await navigator.mediaDevices.getUserMedia({
-      audio: true,
-      video: true,
-    })
 
-    const devices = await this.OV.getDevices()
+    let devices
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+        video: true,
+      })
+      devices = await this.OV.getDevices()
+    } catch (err) {
+      alert("사용 가능한 웹캠이 없습니다. ")
+      this.enterError = true
+      this.props.goBack()
+
+      console.log(this.leaveSession, this.props.goBack)
+    }
     const videoDevices = devices.filter(
       (device) => device.kind === "videoinput"
     )
@@ -254,35 +266,61 @@ class Room extends Component {
 
   leaveSession() {
     const mySession = this.state.session
-    const nickname = this.state.localUser.getNickname()
-    console.log(
-      "퇴장할거야 ",
-      this.state.localUser.getNickname(),
-      mySession.sessionId
-    )
+    console.log("입장에러 ", this.enterError)
+    if (this.enterError) {
+      if (mySession) {
+        http
+          .delete(
+            `/room/${mySession.sessionId}/leave/${localStorage.getItem(
+              "nickname"
+            )}}`
+          )
+          .then((res) => {
+            mySession.disconnect()
+          })
+      }
+      mySession.disconnect()
+    }
+    const nickname = this.enterError
+      ? this.props.user
+      : this.state.localUser.getNickname()
+    console.log("퇴장할거야 ", nickname, mySession.sessionId)
     http
       .delete(`/room/${mySession.sessionId}/leave/${nickname}`)
       .then((res) => {
+        mySession.disconnect()
+        // Empty all properties...
+        this.OV = null
         console.log("방을 퇴장합니다.", res.data)
+        if (this.state.isRoomAdmin) {
+          axios.delete(
+            `${this.OPENVIDU_SERVER_URL}"/openvidu/api/sessions/${mySession.sessionId}"`,
+            {
+              headers: {
+                Authorization:
+                  "Basic " + btoa("OPENVIDUAPP:" + this.OPENVIDU_SERVER_SECRET),
+                "Content-Type": "application/json",
+              },
+            }
+          )
+          http
+            .delete(`room/${mySession.sessionId}`)
+            .catch(console.log("이미 삭제된 방입니다."))
+        }
       })
       .catch((error) => {
-        console.log(error)
+        console.log("이미 방장이 삭제한 방")
+        console.log("방을 퇴장합니다.", error)
+        this.OV = null
       })
 
-    if (mySession) {
-      mySession.disconnect()
-    }
-
-    // Empty all properties...
-    this.OV = null
-
-    this.setState({
-      session: undefined,
-      subscribers: [],
-      mySessionId: "SessionA",
-      myUserName: "OpenVidu_User" + Math.floor(Math.random() * 100),
-      localUser: undefined,
-    })
+    // this.setState({
+    //   session: undefined,
+    //   subscribers: [],
+    //   mySessionId: "SessionA",
+    //   myUserName: "OpenVidu_User" + Math.floor(Math.random() * 100),
+    //   localUser: undefined,
+    // })
   }
   camStatusChanged() {
     localUser.setVideoActive(!localUser.isVideoActive())
@@ -587,6 +625,7 @@ class Room extends Component {
         switchCamera={this.switchCamera}
         leaveSession={this.leaveSession}
         toggleChat={this.toggleChat}
+        goBack={this.props.goBack}
       />
     )
 
@@ -614,8 +653,17 @@ class Room extends Component {
       <div className="h-full">
         {!this.state.modelLoded ? (
           <div className="h-full flex  flex-col items-center justify-center">
+            <div className="text-secondary-200 mb-4 text-xl">
+              운동방에 입장 중입니다.
+            </div>
             <Spinner />
-            <div className="text-secondary-200">운동방에 입장 중입니다.</div>
+            <div className="text-secondary-200 text-2xl font-medium ">
+              브라우저 창의 크기를 유지해주세요.
+            </div>
+            <p className="text-secondary-200">
+              {" "}
+              창 크기가 작아지면 참여가 불가할 수 있습니다.
+            </p>
           </div>
         ) : (
           <div className="flex h-full bg-secondary-200 rounded-2xl shadow-inner ">
@@ -646,6 +694,24 @@ class Room extends Component {
                 type="alret"
               />
             )}
+            {this.state.alert?.type === "enter" && (
+              <AlertModal
+                title={"운동방에 입장하셨습니다."}
+                message={[]}
+                type="info"
+                onClose={() => this.setAlert("")}
+              />
+            )}
+            {this.state.alert?.type === "video" && (
+              <AlertModal
+                title={"사용가능한 웹캠이 없습니다."}
+                message={[
+                  "집중 서비스를 이용하기 위해서는 웹캠이 필수입니다.",
+                  "카메라, 마이크 권한 허용이 필요합니다.",
+                ]}
+                type="error"
+              />
+            )}
             <div className="w-1/6  min-w-[300px] p-3" id="subscribersArea">
               <OtherPeople subscribers={this.state.subscribers} />
             </div>
@@ -662,6 +728,7 @@ class Room extends Component {
                     user={this.state.localUser}
                     setAlert={this.setAlert}
                     leaveRoom={this.leaveSession}
+                    leaveSession={this.leaveSession}
                   />
                 )}
             </div>
@@ -717,16 +784,25 @@ class Room extends Component {
           localUser.setRole("admin")
           this.setState({ isRoomAdmin: true })
           const roomtitle = this.props.roomTitle
-            ? this.props.roomTitle
-            : "운동합시다~"
+
+          if (!roomtitle) {
+            alert("잘못된 접근입니다. 올바른 루트로 방을 생성해주세요.")
+            this.enterError = true
+            this.leaveSession()
+            window.location.replace(`/group/${sessionId}`)
+          }
           const nick = this.props.user || localStorage.getItem("nickname")
-          http.post(`room/${sessionId}`, {
-            roomName: roomtitle,
-            mode: "EXERCISE",
-            routineId: 1,
-            creator: nick,
-          })
-          resolve(response.data.id)
+          http
+            .post(`room/${sessionId}`, {
+              roomName: roomtitle,
+              mode: "EXERCISE",
+              routineId: 1,
+              creator: nick,
+            })
+            .then((res) => {
+              console.log("새로운방 등록", res)
+              resolve(response.data.id)
+            })
         })
         .catch((response) => {
           var error = Object.assign({}, response)
@@ -736,13 +812,15 @@ class Room extends Component {
               .post(`room/${sessionId}/enter/${nick}`)
               .then((res) => {
                 console.log("참여 완료 :", res)
+                resolve(sessionId)
               })
               .catch((err) => {
-                // console.log("이미 존재하는 회원 ")
-                // this.setAlert("already")
+                console.log(err, nick)
+                this.enterError = true
+                this.leaveSession()
+                alert("이미 참여중인 방입니다.", nick)
+                // window.location.replace(`/group/${sessionId}`)
               })
-
-            resolve(sessionId)
           } else {
             console.log(error)
 

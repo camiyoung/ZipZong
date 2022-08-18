@@ -9,11 +9,13 @@ import UserIcon from "../../components/icon/UserIcon"
 import SmallTextInput from "../../components/input/SmallTextInput"
 import LargeTextInput from "../../components/input/LargeTextInput"
 import { NavLink } from "react-router-dom"
+import { TeamNameValidation } from "../../utils/TeamNameValidation"
 
 export default function Group() {
   const dispatch = useDispatch()
   const [isOpen, setOpen] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
+
   const modalClose = () => setOpen(false)
   const memberId = useSelector((state) => state.member.memberId)
 
@@ -25,19 +27,27 @@ export default function Group() {
 
   // 그룹 생성하는 코드
   const teamCreateButton = () => {
+    console.log(3)
     if (teamName) {
-      dispatch(
-        teamCreate({
-          name: teamName,
-          content: teamContent,
-          repIcon: "basic",
-          memberId: memberId,
-        })
-      )
-      modalClose()
-      setErrorMessage("")
+      // 팀 명 중복체크
+      TeamNameValidation(teamName).then(async (res) => {
+        if (res.data.data === "NON-DUPLICATE") {
+          dispatch(
+            teamCreate({
+              name: teamName,
+              content: teamContent,
+              repIcon: "basic",
+              memberId: memberId,
+            })
+          )
+          modalClose()
+          setErrorMessage("")
+        } else if (res.data.data === "DUPLICATE") {
+          setErrorMessage("중복된 그룹명입니다.")
+        }
+      })
     } else {
-      setErrorMessage("그룹 명을 한 글자 이상 작성해주세요.")
+      setErrorMessage("그룹명을 한 글자 이상 작성해주세요.")
     }
   }
 
@@ -159,13 +169,13 @@ export default function Group() {
             onClick={() => setOpen(true)}
             className="flex w-1/5 justify-center"
           >
-            <div className="hover:scale-110 border w-11/12 shadow-lg flex justify-center items-center rounded-3xl cursor-pointer">
+            <div className="hover:scale-110 border w-11/12 shadow-lg flex justify-center items-center rounded-3xl cursor-pointer bg-white/20 hover:bg-white/40">
               <div className="flex justify-center items-center w-full rounded-3xl h-[270px]">
-                <div className="flex flex-col jusitfy-center ">
-                  <Icon
-                    image="http://cdn.onlinewebfonts.com/svg/img_356964.png"
-                    size="xLarge"
-                    borderStyle="none"
+                <div className="flex flex-col jusitfy-center items-center">
+                  <img
+                    src="/images/plus.png"
+                    alt="플러스 아이콘"
+                    className="w-[8.5rem] border-4 border-black rounded-full p-4"
                   />
                   <div className="flex flex-col justify-center pt-5">
                     <span className="pl-1 text-md text-center">그룹을</span>
