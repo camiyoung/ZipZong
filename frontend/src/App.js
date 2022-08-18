@@ -26,7 +26,6 @@ import { memberInfo } from "./features/login/memberReducer"
 import { memberIconListReview } from "./features/myPage/myPageReducer"
 import NotFound from "./pages/NotFound"
 import NotShow from "./pages/NotShow"
-import { throttle } from "lodash"
 import Forbidden from "./pages/Forbidden"
 
 function App() {
@@ -72,11 +71,14 @@ function App() {
     <>
       <div className="w-screen bg-gradient-to-b from-secondary-100 to-lgBlue-200">
         {/* 화면 크기 조절 DIV 주석 풀어야 함 */}
-        <div className="cover hidden">
-          <p className="text-center font-semibold text-[50px] mb-[30px] mt-[20%]">
+        <div className="cover hidden waves">
+          <div class="wave"></div>
+          <div class="wave"></div>
+          <div class="wave"></div>
+          <p className="text-center text-white font-semibold text-[2.5rem] mb-[30px] mt-[20%]">
             본 페이지는 1240px이상에서 화면을 제공합니다.
           </p>
-          <p className="text-center font-semibold text-[50px]">
+          <p className="text-center text-white font-semibold text-[2.5rem]">
             가로 크기를 늘려주세요.
           </p>
         </div>
