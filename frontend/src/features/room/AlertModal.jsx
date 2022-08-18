@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router"
-import { Spinner } from "flowbite-react"
+import { useNavigate, useParams } from "react-router"
 
 const Error = ({ title, message, groupId }) => {
   const navigate = useNavigate()
   const path = groupId ? groupId : ""
 
+  const { teamId } = useParams()
+
   const movePage = () => {
-    navigate(`/group/${path}`)
+    navigate(`/group/${teamId}`)
   }
-  const [duration, setDuration] = useState(15)
+  const [duration, setDuration] = useState(5)
 
   useEffect(() => {
     if (duration === 0) {
-      navigate(`/group/${path}`)
+      navigate(`/group/${teamId}`)
     }
 
     const countdown = setInterval(() => {

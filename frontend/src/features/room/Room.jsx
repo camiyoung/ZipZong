@@ -279,14 +279,14 @@ class Room extends Component {
     http
       .delete(`/room/${mySession.sessionId}/leave/${nickname}`)
       .then((res) => {
+        mySession.disconnect()
+        // Empty all properties...
+        this.OV = null
         console.log("방을 퇴장합니다.", res.data)
       })
       .catch((error) => {
         console.log(error)
       })
-
-    // Empty all properties...
-    this.OV = null
 
     this.setState({
       session: undefined,
