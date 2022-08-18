@@ -283,9 +283,14 @@ class Room extends Component {
         // Empty all properties...
         this.OV = null
         console.log("방을 퇴장합니다.", res.data)
+        if (this.state.isRoomAdmin) {
+          http
+            .delete(`room/${mySession.sessionId}`)
+            .catch(console.log("모든 인원이 나가서 이미 삭제된 방입니다."))
+        }
       })
       .catch((error) => {
-        console.log(error)
+        console.log("이미 방장이 삭제한 방")
       })
 
     // this.setState({
