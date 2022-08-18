@@ -32,7 +32,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/ranking/team/{teamId}", "/routine/{teamId}");
                 //.excludePathPatterns("/**");
         interceptorRegistry.addInterceptor(teamLeaderInterceptor)
-                .addPathPatterns("/team/icons/{teamId}");
+                .addPathPatterns("/team/icons/{team-id}");
                 //.excludePathPatterns("/**");
     }
 }

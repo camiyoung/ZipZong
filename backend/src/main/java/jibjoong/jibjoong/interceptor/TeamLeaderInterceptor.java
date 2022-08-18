@@ -29,7 +29,7 @@ public class TeamLeaderInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Map<String, String> pathVariables = (Map)request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-        String value = (String) pathVariables.get("teamId");
+        String value = (String) pathVariables.get("team-id");
 
         String accessToken = request.getHeader("accessToken");
         String email = jwtService.getEmail(accessToken);
