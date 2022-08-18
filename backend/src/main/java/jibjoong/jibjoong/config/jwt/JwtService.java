@@ -16,7 +16,7 @@ import java.util.Date;
 public class JwtService {
     private String secretKey = "token-secret-key";
     //10분
-    static final long ACCESS_PERIOD = 1000L * 60L * 10L;
+    static final long ACCESS_PERIOD = 1000L * 60L * 60L * 9L;
     //3달
     static final long REFRESH_PERIOD = 1000L * 60L * 60L * 24L * 30L;
 
