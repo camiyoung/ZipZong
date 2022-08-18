@@ -49,7 +49,6 @@ export const getSessionInfo = createAsyncThunk(
   "exercise/room",
   async (sessionId) => {
     const { data } = await openvidu.get(`/${sessionId}`)
-    //   console.log(data)
     return data.connections.content
   }
 )
@@ -80,6 +79,7 @@ export const exerciseReducer = createSlice({
     todoIndex: -1,
     successCount: 0,
     isExercising: false, //
+    myPercentage: undefined,
   },
   reducers: {
     setRoomTitle: (state, action) => {
@@ -94,10 +94,19 @@ export const exerciseReducer = createSlice({
             prev + Math.ceil((cur.performNum / cur.targetNum) * 100),
           0
         ) / myres.length
-      state.result.myResult.percentage = res
+      state.result.myResult.percentage = res.toFixed()
     },
     setAllExerciseResult: (state, action) => {
       state.result.allResult = action.payload
+      const mynickname = localStorage.getItem("nickname")
+      for (let i; i < state.result.allResult.personalPercentages.length; i++) {
+        if (
+          state.result.allResult.personalPercentages[i].nickname === mynickname
+        ) {
+          state.myPercentage = state.result.allResult[i].percentage
+          break
+        }
+      }
     },
     setRoutine: (state, action) => {
       state.routineId = action.payload

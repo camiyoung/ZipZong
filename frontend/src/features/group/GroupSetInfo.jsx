@@ -1,10 +1,11 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { useLocation } from "react-router-dom"
 import Button from "../../components/button/Button"
 import ImageIcon from "../../components/icon/ImageIcon"
 import Modal from "../../components/modal/Modal"
 import { teamInfoModify } from "./groupReducer"
+import { TeamNameValidation } from "../../utils/TeamNameValidation"
 
 export default function GroupSetInfo() {
   const dispatch = useDispatch()
@@ -17,10 +18,34 @@ export default function GroupSetInfo() {
   // 그룹 프로필 수정
   const [groupName, setGroupName] = useState("")
   const [groupContent, setGroupContent] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
 
   // Modal
   const [isOpen, setOpen] = useState(false)
   const modalClose = () => setOpen(false)
+
+  useEffect(() => {
+    if (teamName) setGroupName(teamName)
+    if (teamContent) setGroupContent(teamContent)
+  }, [teamName, teamContent])
+
+  const onSubmit = () => {
+    if (groupName) {
+      TeamNameValidation(groupName).then(async (res) => {
+        dispatch(
+          teamInfoModify({
+            teamId: fetchTeamId,
+            name: groupName,
+            content: groupContent,
+          })
+        )
+        modalClose()
+        setErrorMessage("")
+      })
+    } else {
+      setErrorMessage("그룹명을 한 글자 이상 작성해주세요.")
+    }
+  }
 
   return (
     <div className="mx-5">
@@ -49,6 +74,7 @@ export default function GroupSetInfo() {
                     "
                 onChange={(e) => setGroupName(e.target.value)}
                 maxLength="8"
+                value={groupName}
               />
             </div>
             <div className="pb-1">그룹 설명</div>
@@ -67,25 +93,20 @@ export default function GroupSetInfo() {
                       focus:border-primary-400
                     "
                 onChange={(e) => setGroupContent(e.target.value)}
+                value={groupContent}
               />
             </div>
           </div>
         </div>
         <div className="pb-3 flex justify-end mt-3">
+          <div className="flex w-[322px] text-sm items-center text-red-600">
+            {errorMessage}
+          </div>
           <div className="r-0">
             <button
-              onClick={() => {
-                dispatch(
-                  teamInfoModify({
-                    teamId: fetchTeamId,
-                    name: groupName,
-                    content: groupContent,
-                  })
-                )
-                modalClose()
-              }}
+              onClick={onSubmit}
               type="button"
-              className="bg-lightBlue rounded-md border border-gray-300 shadow-sm px-4 py-2 text-base font-medium text-gray-700 hover:bg-primary-300 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+              className="bg-lightBlue rounded-md border border-gray-300 shadow-sm text-base font-medium text-white hover:bg-primary-300 sm:mt-0 sm:py-2 sm:px-[0.3rem] w-[8rem] sm:text-sm"
             >
               그룹 프로필 수정
             </button>

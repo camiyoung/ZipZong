@@ -7,6 +7,9 @@ import SetNickName from "../features/login/SetNickName"
 import { registrationTeam } from "../features/group/groupReducer"
 import Logo from "../assets/Logo.svg"
 import { Carousel } from "flowbite-react"
+import ImageCarousel from "../features/login/ImageCarousel"
+import "../features/login/ImageCarousel.css"
+
 export default function Login() {
   const [showMakeNickname, setMakeNickname] = useState(false)
   let accessToken,
@@ -64,26 +67,13 @@ export default function Login() {
   }, [])
 
   return (
-    <div className=" w-full h-screen  bg-gradient-to-tl from-begie to-lightBlue flex justify-center items-center  ">
-      <div className="flex  w-4/5 bg-white h-4/5  max-w-[1000px] min-w-[700px] rounded-2xl p-4 shadow-xl ">
-        <div className="w-1/2 h-full bg-primary-500 rounded-2xl">
-          <Carousel leftControl=" " rightControl=" ">
-            <div className="w-full flex justify-center">
-              집에서 운동중 가입 환영
-            </div>
-            <div className="w-full flex justify-center">SNS 로그인</div>
-            <div className="w-full flex justify-center">
-              네이버, 카카오, 구글 모두 가능
-            </div>
-          </Carousel>
+    <div className=" w-full h-screen grid-carousel bg-gradient-to-tl from-begie to-lightBlue flex justify-center items-center  ">
+      <div className=" flex  w-4/5 bg-white h-4/5  max-w-[1000px] min-w-[700px] rounded-2xl p-4 pb-0 shadow-xl ">
+        <div className="w-1/2 h-full  rounded-2xl mt-5 ">
+          <ImageCarousel />
         </div>
         <div className="w-1/2  h-full  p-4 flex justify-center items-center flex-col relative ">
-          <img
-            src={Logo}
-            style={{ height: "60px" }}
-            alt="logo"
-            className="absolute top-4 right-6"
-          />
+          <img src={Logo} style={{ height: "60px" }} alt="logo" />
           {showMakeNickname ? <SetNickName /> : <NotLoggedInYet />}
         </div>
       </div>

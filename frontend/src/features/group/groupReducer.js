@@ -112,6 +112,12 @@ export const teamCreate = createAsyncThunk(
   }
 )
 
+// export const teamDuplicateCheck = createAsyncThunk(
+//   "team/duplicate", async (info) => {
+//     const
+//   }
+// )
+
 // 팀 삭제
 export const teamDelete = createAsyncThunk(
   "registration/delete-team",

@@ -181,13 +181,12 @@ export default function SideBar({ chatComponent, user, isRoomAdmin, tmModel }) {
     exersiceRoutine.exercise.forEach((info) => {
       todo.push({
         type: "exercise",
-        duration: 10,
+        duration: 20,
         exerciseName: info.name,
         targetNum: info.count,
         // success: 0,
       })
-      // todo.push({ type: "breaktime", duration: exersiceRoutine.breakTime })
-      todo.push({ type: "breaktime", duration: 2 })
+      todo.push({ type: "breaktime", duration: exersiceRoutine.breakTime })
     })
     todo.pop()
 
@@ -245,7 +244,7 @@ export default function SideBar({ chatComponent, user, isRoomAdmin, tmModel }) {
                   className="w-1/2 border-2 border-white border-r-0 shadow-md h-full rounded-tl-2xl text-gray-600 hover:bg-lgBlue-500 hover:text-white hover:scale-110 hover:border-r-2 transition-all"
                   onClick={() => setShowSelectRoutine(true)}
                 >
-                  <span className="">루틴 변경</span>
+                  <span className="">루틴 선택</span>
                 </button>
                 <button
                   className="w-1/2 border-2 border-white shadow-md h-full rounded-tr-2xl text-gray-600 hover:bg-lgBlue-500 hover:text-white hover:scale-110 hover:border-l-2 transition-all"
@@ -264,7 +263,7 @@ export default function SideBar({ chatComponent, user, isRoomAdmin, tmModel }) {
           <div id="routine-info" className="h-5/6 overflow-auto">
             {!isExercising ? (
               <div className="w-full h-full  flex flex-col items-center  pt-4">
-                <h1 className="font-medium text-lg mb-2">수행할 운동 루틴</h1>
+                <h1 className="font-medium  mb-2">수행할 운동 루틴</h1>
                 <h2 className=" italic bg-lgBlue-300 my-2 px-4">
                   <span className=" mr-2 ">{exersiceRoutine.routineName} </span>{" "}
                   <span className="text-sm ">

@@ -29,7 +29,12 @@ export default function CalendarForm() {
   const [dayExercised, setDayExercised] = useState("")
   const [dayShield, setDayShield] = useState("")
 
-  const isGroup = useState(location.pathname.split("/")[1])
+  const [isGroup] = useState(location.pathname.split("/")[1])
+  const [groupIdChanged, setGroupIdChanged] = useState("")
+
+  useEffect(() => {
+    setGroupIdChanged(location.pathname)
+  }, [location.pathname])
 
   const loadDate = (currentDate) => {
     const validDate = currentDate || date
@@ -37,7 +42,7 @@ export default function CalendarForm() {
     const year = validDate.getFullYear()
     dispatch(changeYear(year))
     dispatch(changeMonth(month))
-    if (isGroup[0] === "group") {
+    if (isGroup === "group") {
       let teamId = location.pathname.split("/")[2]
       dispatch(
         teamMonthHistoryCheck({
@@ -66,7 +71,7 @@ export default function CalendarForm() {
     dispatch(showMonthChange(date.getMonth() + 1))
     dispatch(showDayChange(tmpDay))
 
-    if (isGroup[0] === "group") {
+    if (isGroup === "group") {
       if (teamDailyHistory.length !== 0) {
         dispatch(setTeamDailyHistory(teamDailyHistory[tmpDay - 1].performs))
       }
@@ -92,7 +97,7 @@ export default function CalendarForm() {
       )
       setDayShield("")
     }
-  }, [date, activeDate])
+  }, [date, activeDate, groupIdChanged])
 
   useEffect(() => {
     setDayExercised(
@@ -114,10 +119,10 @@ export default function CalendarForm() {
         if (state === "SHIELD") return true
       })
     )
-  }, [teamDailyHistory])
+  }, [teamDailyHistory, groupIdChanged])
 
   return (
-    <div className="app w-1/4">
+    <div className="app">
       <div className="calendar-container">
         <Calendar
           className="react-calendar p-5 h-[340px] rounded-3xl shadow-md"

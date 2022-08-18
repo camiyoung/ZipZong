@@ -27,17 +27,8 @@ export default function RoomPage() {
         data: { data },
       } = await http.get(`room/${teamId}`)
       if (data.status === "EXERCISING") {
-      } else if (data.status === "READY" && nickname) {
-        http
-          .post(`room/${teamId}/enter/${nickname}`)
-          .then((res) => {
-            dispatch(resetInfo())
-            setExercising(false)
-          })
-          .catch(() => {
-            alert("이미 참여중인 방입니다.")
-            navigate(`/group/${teamId}`)
-          })
+        alert("이미 운동이 시작된 방입니다. ")
+        moveToGroupPage()
       } else {
         dispatch(resetInfo())
         setExercising(false)
@@ -45,6 +36,10 @@ export default function RoomPage() {
     }
     roomStatus()
   }, [teamId])
+
+  const moveToGroupPage = () => {
+    navigate(`/group/${teamId}`)
+  }
 
   return (
     <>
@@ -64,6 +59,7 @@ export default function RoomPage() {
             icon={icon}
             sessionName={teamId}
             roomTitle={roomTitle}
+            goBack={moveToGroupPage}
           />
         </div>
       )}

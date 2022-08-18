@@ -20,8 +20,8 @@ export default class TeachableMachine extends Component {
     }
     this.beforAction = undefined
     this.videoRef = undefined
-    this.canvasRef = React.createRef()
-    this.canvas = undefined
+    // this.canvasRef = React.createRef()
+    // this.canvas = undefined
     this.tmModel = undefined
     this.changeAction = this.changeAction.bind(this)
     this.predicFunction = undefined
@@ -86,10 +86,10 @@ export default class TeachableMachine extends Component {
   async init() {
     this.videoRef.width = this.videoRef.offsetWidth
     this.videoRef.height = this.videoRef.offsetHeight
-    this.canvas = this.canvasRef.current
-    this.canvas.width = this.videoRef.width
-    this.canvas.height = this.videoRef.height
-    this.setState({ ctx: this.canvas.getContext("2d") })
+    // this.canvas = this.canvasRef.current
+    // this.canvas.width = this.videoRef.width
+    // this.canvas.height = this.videoRef.height
+    // this.setState({ ctx: this.canvas.getContext("2d") })
   }
 
   async loop() {
@@ -102,16 +102,16 @@ export default class TeachableMachine extends Component {
   async predict() {
     const { pose, posenetOutput } = await this.model.estimatePose(this.videoRef)
     const prediction = await this.model.predict(posenetOutput)
-    const predictionsList = prediction.map((res, i) => (
-      <div key={i}>
-        <span className=" text-4xl font-bold">
-          {res.className} : {res.probability.toFixed(2)}
-        </span>
-      </div>
-    ))
+    // const predictionsList = prediction.map((res, i) => (
+    //   <div key={i}>
+    //     <span className=" text-4xl font-bold">
+    //       {res.className} : {res.probability.toFixed(2)}
+    //     </span>
+    //   </div>
+    // ))
     // console.log("리스트", predictionsList)
-    this.drawPose(pose)
-    this.setState({ resEle: predictionsList })
+    // this.drawPose(pose)
+    // this.setState({ resEle: predictionsList })
     this.updateCount(prediction)
   }
 
@@ -152,15 +152,15 @@ export default class TeachableMachine extends Component {
   render() {
     return (
       <div className="w-full h-full absolute z-20">
-        <div className="w-[300px] h-[200px] bg-white absolute right-0 border-4">
+        {/* <div className="w-[300px] h-[200px] bg-white absolute right-0 border-4">
           {this.state.resEle && (
             <div>
               {this.state.resEle}
               count: {this.state.successCount}
             </div>
           )}
-        </div>
-        <canvas ref={this.canvasRef} className="z-50 -scale-x-[1]"></canvas>
+        </div> */}
+        {/* <canvas ref={this.canvasRef} className="z-50 -scale-x-[1]"></canvas> */}
       </div>
     )
   }

@@ -4,6 +4,7 @@ import Workout from "../assets/workout.svg"
 import AOS from "aos"
 import "aos/dist/aos.css"
 import { useSelector } from "react-redux"
+import { useNavigate } from "react-router"
 
 const grid = {
   1: "grid-cols-1",
@@ -46,7 +47,7 @@ const ResultCard = ({ name, target, performed }) => {
 
 const OtherPlayerResult = ({ name, res }) => {
   return (
-    <div className="bg-indigo-500/80 text-white w-24 h-24 border border-indigo-400 flex justify-center items-center flex-col m-2 rounded-lg shadow-xl shadow-indigo-500/40">
+    <div className="bg-indigo-500/80 text-white w-24 h-24 min-w-[92px] border border-indigo-400 flex justify-center items-center flex-col m-2 rounded-lg shadow-xl shadow-indigo-500/40">
       <div className="text-sm text-center">{name}</div>
       <p className="text-sm text-center">{res} %</p>
     </div>
@@ -55,6 +56,8 @@ const OtherPlayerResult = ({ name, res }) => {
 export default function ExerciseResulPage() {
   const [hasRes, setHasRes] = useState(false)
   const result = useSelector((state) => state.exercise.result)
+  const myPercentage = useSelector((state) => state.exercise.myPercentage)
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (result.myResult && result.allResult) setHasRes(true)
@@ -75,15 +78,15 @@ export default function ExerciseResulPage() {
             <img
               src={Workout}
               alt=""
-              className="absolute  -right-40 w-2/6 h-3/6 top-10  animate-slide-from-right  -z-1"
+              className="absolute  -right-40 w-3/6 h-3/6 top-10  animate-slide-from-right  -z-1"
             />
             <h1 className=" text-4xl my-4  text-indigo-500 font-semibold ">
               운동이 종료되었습니다!
             </h1>
             {result.myResult && (
               <h2 className="font-medium text-2xl m-4 text-gray-600 ">
-                {result.myResult.percentage !== undefined && (
-                  <span> 내 달성률 : {result.myResult.percentage}%</span>
+                {myPercentage !== undefined && (
+                  <span> 내 달성률 : {myPercentage}%</span>
                 )}
               </h2>
             )}
@@ -111,7 +114,10 @@ export default function ExerciseResulPage() {
           </section>
           {/* 운동 루틴 결과 섹션 */}
           {result.myResult && (
-            <section className="w-full flex justify-center items-center flex-col p-8 bg-white/70 rounded-xl  shadow-lg">
+            <section className="w-full flex justify-center items-center flex-col p-8  pb-16 bg-white rounded-xl  shadow-md">
+              <h1 className="text-2xl font-semibold my-4 text-lgBlue-700">
+                내 운동 기록
+              </h1>
               <div
                 className={` grid content-center align-middle ${
                   result.myResult.personalResultDetails.length < 5
@@ -130,6 +136,17 @@ export default function ExerciseResulPage() {
               </div>
             </section>
           )}
+
+          <div className="w-full flex items-center justify-center my-8">
+            <button
+              onClick={() => {
+                navigate("/")
+              }}
+              className="bg-lgBlue-400 border border-white w-[250px]   font-bold text-xl rounded-2xl p-3 shadow-lg text-white"
+            >
+              마이 페이지 가기
+            </button>
+          </div>
         </div>
       </div>
     </>

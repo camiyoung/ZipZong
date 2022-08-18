@@ -35,7 +35,7 @@ export default function SetNickName() {
 
   return (
     <div className="w-4/5 flex justify-start items-center flex-col">
-      <p className="  text-lg  text-primary-500 mb-6 ">
+      <p className="  text-lg  text-primary-500 mb-3 mt-[2.5rem]">
         집중에서 사용하실 닉네임을 입력해주세요.
       </p>
       <form
