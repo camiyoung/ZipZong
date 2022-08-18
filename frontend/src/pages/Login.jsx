@@ -1,53 +1,53 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { checkMemberId, nicknamePush } from "../features/login/memberReducer";
-import NotLoggedInYet from "../features/login/NotLoggedInYet";
-import SetNickName from "../features/login/SetNickName";
-import { registrationTeam } from "../features/group/groupReducer";
-import Logo from "../assets/Logo.svg";
-import { Carousel } from "flowbite-react";
-import ImageCarousel from "../features/login/ImageCarousel";
-import "../features/login/ImageCarousel.css";
+import React, { useEffect, useState } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { checkMemberId, nicknamePush } from "../features/login/memberReducer"
+import NotLoggedInYet from "../features/login/NotLoggedInYet"
+import SetNickName from "../features/login/SetNickName"
+import { registrationTeam } from "../features/group/groupReducer"
+import Logo from "../assets/Logo.svg"
+import { Carousel } from "flowbite-react"
+import ImageCarousel from "../features/login/ImageCarousel"
+import "../features/login/ImageCarousel.css"
 
 export default function Login() {
-  const [showMakeNickname, setMakeNickname] = useState(false);
+  const [showMakeNickname, setMakeNickname] = useState(false)
   let accessToken,
     refreshToken,
     accessTokenExpiration,
     refreshTokenExpiration,
     hasNickname,
     collectedMemberId,
-    nickname;
+    nickname
   useEffect(() => {
-    accessToken = new URL(window.location.href).searchParams.get("accessToken");
+    accessToken = new URL(window.location.href).searchParams.get("accessToken")
     refreshToken = new URL(window.location.href).searchParams.get(
       "refreshToken"
-    );
+    )
     accessTokenExpiration = new URL(window.location.href).searchParams.get(
       "accessTokenExpiration"
-    );
+    )
     refreshTokenExpiration = new URL(window.location.href).searchParams.get(
       "refreshTokenExpiration"
-    );
-    hasNickname = new URL(window.location.href).searchParams.get("hasNickname");
+    )
+    hasNickname = new URL(window.location.href).searchParams.get("hasNickname")
     collectedMemberId = new URL(window.location.href).searchParams.get(
       "memberId"
-    );
-    nickname = new URL(window.location.href).searchParams.get("nickname");
+    )
+    nickname = new URL(window.location.href).searchParams.get("nickname")
     // console.log(accessToken, "닉넴:", nickname)
 
     if (!!accessToken && nickname !== "") {
       // console.log("토큰 있고 닉넴 있음  ")
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
-      localStorage.setItem("accessTokenExpiration", accessTokenExpiration);
-      localStorage.setItem("refreshTokenExpiration", refreshTokenExpiration);
-      localStorage.setItem("memberId", Number(collectedMemberId));
-      localStorage.setItem("nickname", nickname);
+      localStorage.setItem("accessToken", accessToken)
+      localStorage.setItem("refreshToken", refreshToken)
+      localStorage.setItem("accessTokenExpiration", accessTokenExpiration)
+      localStorage.setItem("refreshTokenExpiration", refreshTokenExpiration)
+      localStorage.setItem("memberId", Number(collectedMemberId))
+      localStorage.setItem("nickname", nickname)
 
-      console.log(nickname, accessToken, refreshToken);
-      window.location.replace("/");
+      console.log(nickname, accessToken, refreshToken)
+      window.location.replace("/")
     }
 
     if (accessToken && !nickname) {
@@ -57,14 +57,14 @@ export default function Login() {
       //   refreshTokenExpiration,
       //   accessToken
       // )
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
-      localStorage.setItem("accessTokenExpiration", accessTokenExpiration);
-      localStorage.setItem("refreshTokenExpiration", refreshTokenExpiration);
-      localStorage.setItem("memberId", Number(collectedMemberId));
-      setMakeNickname(true);
+      localStorage.setItem("accessToken", accessToken)
+      localStorage.setItem("refreshToken", refreshToken)
+      localStorage.setItem("accessTokenExpiration", accessTokenExpiration)
+      localStorage.setItem("refreshTokenExpiration", refreshTokenExpiration)
+      localStorage.setItem("memberId", Number(collectedMemberId))
+      setMakeNickname(true)
     }
-  }, []);
+  }, [])
 
   return (
     <div className=" w-full h-screen grid-carousel bg-gradient-to-tl from-begie to-lightBlue flex justify-center items-center  ">
@@ -78,5 +78,5 @@ export default function Login() {
         </div>
       </div>
     </div>
-  );
+  )
 }
