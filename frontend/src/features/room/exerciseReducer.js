@@ -79,6 +79,7 @@ export const exerciseReducer = createSlice({
     todoIndex: -1,
     successCount: 0,
     isExercising: false, //
+    myPercentage: undefined,
   },
   reducers: {
     setRoomTitle: (state, action) => {
@@ -97,6 +98,15 @@ export const exerciseReducer = createSlice({
     },
     setAllExerciseResult: (state, action) => {
       state.result.allResult = action.payload
+      const mynickname = localStorage.getItem("nickname")
+      for (let i; i < state.result.allResult.personalPercentages.length; i++) {
+        if (
+          state.result.allResult.personalPercentages[i].nickname === mynickname
+        ) {
+          state.myPercentage = state.result.allResult[i].percentage
+          break
+        }
+      }
     },
     setRoutine: (state, action) => {
       state.routineId = action.payload

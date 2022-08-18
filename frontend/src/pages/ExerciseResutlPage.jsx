@@ -56,6 +56,7 @@ const OtherPlayerResult = ({ name, res }) => {
 export default function ExerciseResulPage() {
   const [hasRes, setHasRes] = useState(false)
   const result = useSelector((state) => state.exercise.result)
+  const myPercentage = useSelector((state) => state.exercise.myPercentage)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -84,8 +85,8 @@ export default function ExerciseResulPage() {
             </h1>
             {result.myResult && (
               <h2 className="font-medium text-2xl m-4 text-gray-600 ">
-                {result.myResult.percentage !== undefined && (
-                  <span> 내 달성률 : {result.myResult.percentage}%</span>
+                {myPercentage !== undefined && (
+                  <span> 내 달성률 : {myPercentage}%</span>
                 )}
               </h2>
             )}
