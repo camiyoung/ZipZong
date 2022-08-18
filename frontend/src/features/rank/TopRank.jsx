@@ -1,7 +1,7 @@
 // import "flowbite"
-import { Carousel, Avatar } from "flowbite-react"
-import { useEffect, useState } from "react"
-import { http } from "../../api/axios"
+import { Carousel, Avatar } from "flowbite-react";
+import { useEffect, useState } from "react";
+import { http } from "../../api/axios";
 
 const RankSlider = ({ list }) => {
   return (
@@ -34,35 +34,35 @@ const RankSlider = ({ list }) => {
         </div>
       ))}
     </Carousel>
-  )
-}
+  );
+};
 
 const defaultItem = {
   rank: -1,
   teamIcon: undefined,
   teamName: "",
   satisfiedTime: "",
-}
+};
 
 const caculateDate = (day = 0) => {
-  const date = new Date()
-  date.setDate(date.getDate() - day)
+  const date = new Date();
+  date.setDate(date.getDate() - day);
   const completedDay = date
     .toLocaleDateString()
     .split(".")
-    .map((item) => item.trim())
+    .map((item) => item.trim());
 
-  completedDay.pop()
-  const res = `${completedDay[0]}년 ${completedDay[1]}월 ${completedDay[2]}일`
-  return res
-}
+  completedDay.pop();
+  const res = `${completedDay[0]}년 ${completedDay[1]}월 ${completedDay[2]}일`;
+  return res;
+};
 
 const CompletedBadge = ({ day, rank }) => {
   const color = {
     1: "moving-grad text-white",
     2: "bg-pink-600 text-white",
     3: "bg-yellow-500 text-white",
-  }
+  };
 
   return (
     <span
@@ -87,14 +87,14 @@ const CompletedBadge = ({ day, rank }) => {
         <span>{day}일전 66일 달성</span>
       )}
     </span>
-  )
-}
+  );
+};
 
 const gradient = {
   1: "top1",
   2: "top2",
   3: "top3",
-}
+};
 
 const Top3Info = ({ team }) => {
   const {
@@ -103,19 +103,19 @@ const Top3Info = ({ team }) => {
     satisfiedTime: day,
     teamIcon: icon,
     teamId: id,
-  } = team
+  } = team;
 
-  const [info, setInfo] = useState()
+  const [info, setInfo] = useState();
 
   useEffect(() => {
     async function getInfo() {
       const {
         data: { data },
-      } = await http.get(`information/team/${id}`)
-      setInfo(data)
+      } = await http.get(`information/team/${id}`);
+      setInfo(data);
     }
-    if (id) getInfo()
-  }, [])
+    if (id) getInfo();
+  }, []);
 
   return (
     <div className=" text-lg font-semibold absolute  flex  flex-col justify-center items-center w-[80%] h-[80%]   ">
@@ -130,7 +130,10 @@ const Top3Info = ({ team }) => {
               </h1>
               {info.createDate && (
                 <p className="text-xs mb-1">
-                  <span>생성 : {info.createDate} </span>
+                  <span>
+                    생성 : {info.createDate[0]}년 {info.createDate[1]}월{" "}
+                    {info.createDate[2]}일{" "}
+                  </span>
                 </p>
               )}
               {info.content && (
@@ -164,17 +167,17 @@ const Top3Info = ({ team }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export const TopRank = ({ list }) => {
-  const rankList = [...list]
+  const rankList = [...list];
   if (rankList.length < 5) {
-    for (let i = rankList.length; i < 5; i++) rankList.push(defaultItem)
+    for (let i = rankList.length; i < 5; i++) rankList.push(defaultItem);
   }
 
-  const top3 = [rankList[0], rankList[1], rankList[2]]
-  const under3 = rankList.slice(3)
+  const top3 = [rankList[0], rankList[1], rankList[2]];
+  const under3 = rankList.slice(3);
 
   return (
     <div
@@ -233,5 +236,5 @@ export const TopRank = ({ list }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
