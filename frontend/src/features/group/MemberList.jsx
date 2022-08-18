@@ -1,11 +1,11 @@
-import React, { useState, useRef, useEffect, useCallback } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import React, { useState, useRef, useEffect, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import Modal from "../../components/modal/Modal"
-import ImageIcon from "../../components/icon/ImageIcon"
-import Button from "../../components/button/Button"
-import { http } from "../../api/axios"
-import { useParams } from "react-router"
+import Modal from "../../components/modal/Modal";
+import ImageIcon from "../../components/icon/ImageIcon";
+import Button from "../../components/button/Button";
+import { http } from "../../api/axios";
+import { useParams } from "react-router";
 
 const MemberInfo = ({ onClose, info }) => {
   return (
@@ -17,44 +17,44 @@ const MemberInfo = ({ onClose, info }) => {
       <p>{info.maximumStrick}</p>
       <p>{info.totalTime}</p>
     </div>
-  )
-}
+  );
+};
 
 export default function MemberList() {
   const { inviteLink, teamMembers, teamCurrentStreak } = useSelector(
     (state) => state.group
-  )
-  const [isOpen, setOpen] = useState(false)
-  const modalClose = () => setOpen(false)
-  const copyLinkRef = useRef()
-  const [link, setLink] = useState("")
+  );
+  const [isOpen, setOpen] = useState(false);
+  const modalClose = () => setOpen(false);
+  const copyLinkRef = useRef();
+  const [link, setLink] = useState("");
 
   const copyTextUrl = () => {
-    copyLinkRef.current.focus()
-    copyLinkRef.current.select()
+    copyLinkRef.current.focus();
+    copyLinkRef.current.select();
 
     navigator.clipboard.writeText(copyLinkRef.current.value).then(() => {
-      alert("링크를 복사했습니다.")
-      modalClose()
-    })
-  }
+      alert("링크를 복사했습니다.");
+      modalClose();
+    });
+  };
 
-  const [memberInfo, setMemberInfo] = useState()
-  const [clicked, setClicked] = useState()
-  const { teamId } = useParams()
+  const [memberInfo, setMemberInfo] = useState();
+  const [clicked, setClicked] = useState();
+  const { teamId } = useParams();
 
   const getMemberInfo = useCallback(async (memberId, idx) => {
     const {
       data: { data },
-    } = await http.get(`information/member/${teamId}/${memberId}`)
+    } = await http.get(`information/member/${teamId}/${memberId}`);
 
-    setMemberInfo(data)
-  }, [])
+    setMemberInfo(data);
+  }, []);
   useEffect(() => {
     setTimeout(() => {
-      window.scrollTo(0, 0)
-    }, 0)
-  }, [])
+      window.scrollTo(0, 0);
+    }, 0);
+  }, []);
 
   return (
     // group 원들의 정보를 받아야 함
@@ -109,11 +109,14 @@ export default function MemberList() {
 
             <div className=" text-xl my-4">{memberInfo.nickname}</div>
             <div className="border-t-2 border-t-lgBlue-400 pt-2 ">
-              우리 팀 가입일 : {memberInfo.registrationDate}
+              우리 팀 가입일 : {memberInfo.registrationDate[0]}년{" "}
+              {memberInfo.registrationDate[1]}월{" "}
+              {memberInfo.registrationDate[2]}일
             </div>
             {memberInfo.lastExercised && (
               <div className=" ">
-                마지막 운동일 : {memberInfo.lastExercised}
+                마지막 운동일 : {memberInfo.lastExercised[0]}년{" "}
+                {memberInfo.lastExercised[1]}월 {memberInfo.lastExercised[2]}일
               </div>
             )}
             <div className=" ">현재 스트릭 : {memberInfo.currentStrick} 일</div>
@@ -131,7 +134,7 @@ export default function MemberList() {
                 className="hover:scale-110 cursor-pointer w-[10%] px-2  relative"
                 key={idx}
                 onClick={() => {
-                  getMemberInfo(memberId, idx)
+                  getMemberInfo(memberId, idx);
                 }}
               >
                 <div
@@ -155,7 +158,7 @@ export default function MemberList() {
                   </div>
                 </div>
               </div>
-            )
+            );
           }
         )}
 
@@ -185,5 +188,5 @@ export default function MemberList() {
         ) : null}
       </div>
     </div>
-  )
+  );
 }
