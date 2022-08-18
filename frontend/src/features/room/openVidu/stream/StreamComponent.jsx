@@ -72,6 +72,9 @@ export default class StreamComponent extends Component {
             className=" bg-[#c9d8da7c] px-3 py-1 pr-5 rounded-r-lg  border-orange-700"
           >
             {this.props.user.getNickname()}
+            {JSON.parse(
+              this.props.user.getStreamManager().stream.connection.data
+            ).admin && <span className="text-xl p-1"> 👑 </span>}
           </span>
           {this.props.user.isLocal() && <span id=""> </span>}
         </div>
