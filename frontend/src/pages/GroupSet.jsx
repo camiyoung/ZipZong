@@ -14,6 +14,7 @@ import {
 import Modal from "../components/modal/Modal"
 import "../components/button/PositiveBtn.css"
 import "../components/button/NegativeBtn.css"
+import "../components/button/NeutralBtn.css"
 
 export default function GroupSet() {
   const dispatch = useDispatch()
@@ -51,13 +52,14 @@ export default function GroupSet() {
             <GroupSetMemberList />
           </div>
         </div>
-        <div className="mx-5 pt-5 flex justify-end mb-20">
-          <div
-            className="shadow-md border-2 w-[120px] h-[40px] border-white font-semibold flex justify-center p-1 rounded-2xl text-lg text-white cursor-pointer bg-gradient-to-t from-gray-500 to-gray-300 hover:bg-gradient-to-t hover:from-gray-600 hover:to-gray-400"
+        <div className="pt-5 flex justify-end mb-6">
+          <button
+            className="neutral-btn"
+            role="button"
             onClick={() => setOpen(true)}
           >
             그룹 삭제
-          </div>
+          </button>
         </div>
         <Modal isOpen={isOpen} modalClose={modalClose}>
           <div className="mt-5">
