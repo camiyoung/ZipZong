@@ -1,6 +1,6 @@
-import { Avatar } from "flowbite-react"
-import { useEffect, useState } from "react"
-import { http } from "../../api/axios"
+import { Avatar } from "flowbite-react";
+import { useEffect, useState } from "react";
+import { http } from "../../api/axios";
 
 const rankList = [
   "그룹1",
@@ -13,7 +13,7 @@ const rankList = [
   "그룹8",
   "그룹9",
   "그룹10",
-]
+];
 
 // const info = {
 //   nickname: "승주",
@@ -37,27 +37,27 @@ const rankList = [
 // }
 
 const InfoModal = ({ id, type }) => {
-  const [info, setInfo] = useState()
+  const [info, setInfo] = useState();
   useEffect(() => {
     async function getInfo() {
-      const category = type === "group" ? "team" : "member"
+      const category = type === "group" ? "team" : "member";
       const {
         data: { data },
-      } = await http.get(`information/${category}/${id}`)
-      setInfo(data)
+      } = await http.get(`information/${category}/${id}`);
+      setInfo(data);
     }
-    if (id && type) getInfo()
+    if (id && type) getInfo();
     else {
       setInfo({
         currentStrick: -1,
-      })
+      });
     }
-  }, [type])
+  }, [type]);
   return (
     <div
       className="w-full h-full  absolute  opacity-0  hover:opacity-100  z-50 transition-all hover:duration-700"
       onClick={() => {
-        console.log(info)
+        console.log(info);
       }}
     >
       {info && info.currentStrick !== -1 && (
@@ -69,7 +69,10 @@ const InfoModal = ({ id, type }) => {
               </h1>
               {info.createDate && (
                 <p className="text-xs mb-1">
-                  <span>생성 : {info.createDate} </span>
+                  <span>
+                    생성 : {info.createDate[0]}년 {info.createDate[1]}월{" "}
+                    {info.createDate[2]}일{" "}
+                  </span>
                 </p>
               )}
               {info.content ? (
@@ -97,8 +100,8 @@ const InfoModal = ({ id, type }) => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
 const ListItem = ({ group, type }) => {
   return (
@@ -141,12 +144,12 @@ const ListItem = ({ group, type }) => {
         )}
       </li>
     </div>
-  )
-}
+  );
+};
 
 const defaultItem = {
   rank: "-1",
-}
+};
 
 export const RankList = ({
   title = "제목",
@@ -154,21 +157,21 @@ export const RankList = ({
   list = rankList,
   type,
 }) => {
-  let rankList = [...list]
-  console.log(title, type)
+  let rankList = [...list];
+  console.log(title, type);
   if (rankList.length < 10) {
-    for (let i = rankList.length; i < 10; i++) rankList.push(defaultItem)
+    for (let i = rankList.length; i < 10; i++) rankList.push(defaultItem);
   }
 
   if (type !== "group") {
     const tmpList = rankList.map((item) => {
-      return { ...item, teamName: item.nickName, teamIcon: item.memberIcon }
-    })
-    rankList = tmpList
+      return { ...item, teamName: item.nickName, teamIcon: item.memberIcon };
+    });
+    rankList = tmpList;
   }
 
   // console.log(rankList)
-  const category = type === "group" ? "그룹" : "개인"
+  const category = type === "group" ? "그룹" : "개인";
 
   return (
     <>
@@ -192,5 +195,5 @@ export const RankList = ({
         </ul>
       </div>
     </>
-  )
-}
+  );
+};
