@@ -766,13 +766,17 @@ class Room extends Component {
             ? this.props.roomTitle
             : "운동합시다~"
           const nick = this.props.user || localStorage.getItem("nickname")
-          http.post(`room/${sessionId}`, {
-            roomName: roomtitle,
-            mode: "EXERCISE",
-            routineId: 1,
-            creator: nick,
-          })
-          resolve(response.data.id)
+          http
+            .post(`room/${sessionId}`, {
+              roomName: roomtitle,
+              mode: "EXERCISE",
+              routineId: 1,
+              creator: nick,
+            })
+            .then((res) => {
+              console.log("새로운방 등록", res)
+              resolve(response.data.id)
+            })
         })
         .catch((response) => {
           var error = Object.assign({}, response)
