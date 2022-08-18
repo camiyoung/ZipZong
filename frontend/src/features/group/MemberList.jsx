@@ -1,12 +1,11 @@
 import React, { useState, useRef, useEffect, useCallback } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useLocation } from "react-router-dom"
+
 import Modal from "../../components/modal/Modal"
 import ImageIcon from "../../components/icon/ImageIcon"
 import Button from "../../components/button/Button"
 import { http } from "../../api/axios"
 import { useParams } from "react-router"
-import { teamInfo } from "./groupReducer"
 
 const MemberInfo = ({ onClose, info }) => {
   return (
@@ -31,7 +30,6 @@ export default function MemberList() {
   const modalClose = () => setOpen(false)
   const copyLinkRef = useRef()
   const [link, setLink] = useState("")
-  const fetchTeamId = location.pathname.split("/")[2]
 
   const copyTextUrl = () => {
     copyLinkRef.current.focus()
@@ -46,8 +44,6 @@ export default function MemberList() {
   const [memberInfo, setMemberInfo] = useState()
   const [clicked, setClicked] = useState()
   const { teamId } = useParams()
-  const currentMemberId = useSelector((state) => state.member.memberId)
-  const { memberRepIcon, memberNickname } = useSelector((state) => state.member)
 
   const getMemberInfo = useCallback(async (memberId, idx) => {
     const {
@@ -56,7 +52,6 @@ export default function MemberList() {
 
     setMemberInfo(data)
   }, [])
-
   useEffect(() => {
     setTimeout(() => {
       window.scrollTo(0, 0)
@@ -115,11 +110,14 @@ export default function MemberList() {
 
             <div className=" text-xl my-4">{memberInfo.nickname}</div>
             <div className="border-t-2 border-t-lgBlue-400 pt-2 ">
-              우리 팀 가입일 : {memberInfo.registrationDate}
+              우리 팀 가입일 : {memberInfo.registrationDate[0]}년{" "}
+              {memberInfo.registrationDate[1]}월{" "}
+              {memberInfo.registrationDate[2]}일
             </div>
             {memberInfo.lastExercised && (
               <div className=" ">
-                마지막 운동일 : {memberInfo.lastExercised}
+                마지막 운동일 : {memberInfo.lastExercised[0]}년{" "}
+                {memberInfo.lastExercised[1]}월 {memberInfo.lastExercised[2]}일
               </div>
             )}
             <div className=" ">현재 스트릭 : {memberInfo.currentStrick} 일</div>
