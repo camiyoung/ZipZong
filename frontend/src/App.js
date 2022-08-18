@@ -71,16 +71,20 @@ function App() {
     <>
       <div className="w-screen bg-gradient-to-b from-secondary-100 to-lgBlue-200">
         {/* 화면 크기 조절 DIV 주석 풀어야 함 */}
-        <div className="cover hidden waves">
-          <div class="wave"></div>
-          <div class="wave"></div>
-          <div class="wave"></div>
-          <p className="text-center text-white font-semibold text-[2.5rem] mb-[30px] mt-[20%]">
-            본 페이지는 1240px이상에서 화면을 제공합니다.
-          </p>
-          <p className="text-center text-white font-semibold text-[2.5rem]">
-            가로 크기를 늘려주세요.
-          </p>
+        <div className="cover waves hidden">
+          <div className="w-full h-full flex justify-center items-center">
+            <div className="wave"></div>
+            <div className="wave"></div>
+            <div className="wave"></div>
+            <div>
+              <p className="text-center text-white font-semibold text-[2.5rem] mb-[2rem]">
+                본 페이지는 1240px이상에서 화면을 제공합니다.
+              </p>
+              <p className="text-center text-white font-semibold text-[2.5rem]">
+                가로 크기를 늘려주세요.
+              </p>
+            </div>
+          </div>
         </div>
         <BrowserRouter>
           <Navbar />
