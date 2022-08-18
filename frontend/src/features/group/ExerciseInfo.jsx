@@ -242,7 +242,7 @@ export default function ExerciseInfo() {
                 {stateGroupDailyHistory === null ||
                 stateGroupDailyHistory.length === 0 ? (
                   // true, false 순서를 바꾸면 정상적으로 작동함 -> 운동을 하면 결과, 없으면 운동 안했다는 메시지 출력
-                  <p className="text-[30px] text-center font-semibold">
+                  <p className="text-lg font-normal text-center w-full">
                     운동 기록이 존재하지 않습니다!
                   </p>
                 ) : (

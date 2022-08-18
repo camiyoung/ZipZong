@@ -113,11 +113,11 @@ export default function GroupRank() {
             }}
           >
             <p className="text-5xl text-white font-bold mb-3">그룹 랭킹</p>
-            <p className="text-lg text-white font-normal">{teamName} 그룹</p>
+            <p className="text-lg text-white font-normal">{teamName}</p>
           </div>
           <div className="w-3/4 h-full flex items-center justify-center">
             {!strickRank && !timeRank ? (
-              <span className="text-[30px] text-center font-semibold">
+              <span className="text-lg font-normal">
                 {" "}
                 그룹 기록이 존재하지 않습니다.{" "}
               </span>
