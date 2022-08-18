@@ -101,7 +101,7 @@ class Room extends Component {
     // console.log("세션 id:", this.sessionName)
     console.log("joinSession 시작 세션 ID:", this.sessionName)
     this.OV = new OpenVidu()
-    this.OV.enableProdMode()
+    // this.OV.enableProdMode()
 
     this.setState(
       {
@@ -288,13 +288,13 @@ class Room extends Component {
         console.log(error)
       })
 
-    this.setState({
-      session: undefined,
-      subscribers: [],
-      mySessionId: "SessionA",
-      myUserName: "OpenVidu_User" + Math.floor(Math.random() * 100),
-      localUser: undefined,
-    })
+    // this.setState({
+    //   session: undefined,
+    //   subscribers: [],
+    //   mySessionId: "SessionA",
+    //   myUserName: "OpenVidu_User" + Math.floor(Math.random() * 100),
+    //   localUser: undefined,
+    // })
   }
   camStatusChanged() {
     localUser.setVideoActive(!localUser.isVideoActive())
