@@ -46,6 +46,10 @@ export default function RoomPage() {
     roomStatus()
   }, [teamId])
 
+  const moveToGroupPage = () => {
+    navigate(`/group/${teamId}`)
+  }
+
   return (
     <>
       {isExercising ? (
@@ -64,6 +68,7 @@ export default function RoomPage() {
             icon={icon}
             sessionName={teamId}
             roomTitle={roomTitle}
+            goBack={moveToGroupPage}
           />
         </div>
       )}
