@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { useLocation } from "react-router"
 
 import Modal from "../../components/modal/Modal"
 import ImageIcon from "../../components/icon/ImageIcon"
@@ -44,7 +45,8 @@ export default function MemberList() {
   const [memberInfo, setMemberInfo] = useState()
   const [clicked, setClicked] = useState()
   const { teamId } = useParams()
-
+  const currentMemberId = useSelector((state) => state.member.memberId)
+  const { memberRepIcon, memberNickname } = useSelector((state) => state.member)
   const getMemberInfo = useCallback(async (memberId, idx) => {
     const {
       data: { data },
