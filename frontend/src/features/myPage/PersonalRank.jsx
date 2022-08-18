@@ -113,7 +113,10 @@ function PersonalRank({ memberId, memberNickname }) {
           </div>
           <div className="w-3/4 h-full flex items-center justify-center">
             {!strickRank && !timeRank ? (
-              <span> 운동 기록이 존재하지 않습니다. </span>
+              <span className="text-[30px] text-center font-semibold">
+                {" "}
+                개인 기록이 존재하지 않습니다.{" "}
+              </span>
             ) : (
               <div className="flex justify-center w-full h-full ">
                 <div className="flex w-1/2 ">

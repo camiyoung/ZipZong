@@ -73,9 +73,14 @@ export default function ExerciseInfo() {
                 borderRadius: "1rem 0px 0px 1rem",
               }}
             >
-              <p className="text-5xl text-white font-bold mb-3">{showYear}년</p>
+              <p className="text-5xl text-white font-bold mb-3">
+                {showYear}
+                <span className="text-4xl">년</span>
+              </p>
               <p className="text-5xl text-white font-bold mb-5">
-                {showMonth}월 {showDay}일
+                {showMonth}
+                <span className="text-4xl">월</span> {showDay}
+                <span className="text-4xl">일</span>
               </p>
               <p className="text-lg text-white font-normal">
                 {" "}
@@ -88,7 +93,7 @@ export default function ExerciseInfo() {
                   {stateDailyHistory === null ||
                   stateDailyHistory.length === 0 ? (
                     // true, false 순서를 바꾸면 정상적으로 작동함 -> 운동을 하면 결과, 없으면 운동 안했다는 메시지 출력
-                    <span className="text-lg">
+                    <span className="text-[30px] text-center font-semibold">
                       운동 기록이 존재하지 않습니다.
                     </span>
                   ) : (
