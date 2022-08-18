@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect, useCallback } from "react"
 import { useDispatch, useSelector } from "react-redux"
-
+import { useLocation } from "react-router-dom"
 import Modal from "../../components/modal/Modal"
 import ImageIcon from "../../components/icon/ImageIcon"
 import Button from "../../components/button/Button"
 import { http } from "../../api/axios"
 import { useParams } from "react-router"
+import { teamInfo } from "./groupReducer"
 
 const MemberInfo = ({ onClose, info }) => {
   return (
@@ -21,6 +22,8 @@ const MemberInfo = ({ onClose, info }) => {
 }
 
 export default function MemberList() {
+  const dispatch = useDispatch()
+  const location = useLocation()
   const { inviteLink, teamMembers, teamCurrentStreak } = useSelector(
     (state) => state.group
   )
@@ -28,6 +31,7 @@ export default function MemberList() {
   const modalClose = () => setOpen(false)
   const copyLinkRef = useRef()
   const [link, setLink] = useState("")
+  const fetchTeamId = location.pathname.split("/")[2]
 
   const copyTextUrl = () => {
     copyLinkRef.current.focus()
@@ -42,6 +46,8 @@ export default function MemberList() {
   const [memberInfo, setMemberInfo] = useState()
   const [clicked, setClicked] = useState()
   const { teamId } = useParams()
+  const currentMemberId = useSelector((state) => state.member.memberId)
+  const { memberRepIcon, memberNickname } = useSelector((state) => state.member)
 
   const getMemberInfo = useCallback(async (memberId, idx) => {
     const {
@@ -50,6 +56,7 @@ export default function MemberList() {
 
     setMemberInfo(data)
   }, [])
+
   useEffect(() => {
     setTimeout(() => {
       window.scrollTo(0, 0)
@@ -94,7 +101,6 @@ export default function MemberList() {
         </div>
       </Modal>
       {/* 초대 링크 모달 영역 끝 */}
-
       {memberInfo && (
         <Modal isOpen={memberInfo} modalClose={() => setMemberInfo()}>
           <div className=" bg-white  z-30  w-30 flex flex-col justify-center items-center space-y-3 py-8 text-medium font-medium">
@@ -143,15 +149,24 @@ export default function MemberList() {
                 >
                   <div className="flex justify-center mb-2">
                     {" "}
-                    <ImageIcon
-                      image={`/images/badgeIcon/${repIcon}.png`}
-                      size="large"
-                      shape="round"
-                      borderStyle="none"
-                    />
+                    {currentMemberId == memberId ? (
+                      <ImageIcon
+                        image={`/images/badgeIcon/${memberRepIcon}.png`}
+                        size="large"
+                        shape="round"
+                        borderStyle="none"
+                      />
+                    ) : (
+                      <ImageIcon
+                        image={`/images/badgeIcon/${repIcon}.png`}
+                        size="large"
+                        shape="round"
+                        borderStyle="none"
+                      />
+                    )}
                   </div>
                   <div className="text-sm font-medium flex justify-center px-5 h-[50px] items-center">
-                    {nickname}
+                    {currentMemberId == memberId ? memberNickname : nickname}
                   </div>
                 </div>
               </div>

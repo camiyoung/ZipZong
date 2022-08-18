@@ -7,9 +7,8 @@ import ImageIcon from "../../components/icon/ImageIcon"
 import UserIcon from "../../components/icon/UserIcon"
 import Button from "../../components/button/Button"
 import Modal from "../../components/modal/Modal"
-import { teamInfo, teamResign } from "./groupReducer"
+import { teamInfo, teamResign, registrationTeam } from "./groupReducer"
 import { setRoutine, setRoomTitle } from "../room/exerciseReducer"
-
 import "../../components/button/PositiveBtn.css"
 import "../../components/button/NegativeBtn.css"
 
@@ -124,6 +123,7 @@ const ResignTeam = ({ teamId, memberId, modalClose }) => {
           role="button"
           onClick={() => {
             dispatch(teamResign({ teamId, memberId }))
+            dispatch(registrationTeam(memberId))
             navigate("/mypage")
           }}
         >
