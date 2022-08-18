@@ -9,11 +9,13 @@ import UserIcon from "../../components/icon/UserIcon"
 import SmallTextInput from "../../components/input/SmallTextInput"
 import LargeTextInput from "../../components/input/LargeTextInput"
 import { NavLink } from "react-router-dom"
+import { TeamNameValidation } from "../../utils/TeamNameValidation"
 
 export default function Group() {
   const dispatch = useDispatch()
   const [isOpen, setOpen] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
+
   const modalClose = () => setOpen(false)
   const memberId = useSelector((state) => state.member.memberId)
 
@@ -25,17 +27,25 @@ export default function Group() {
 
   // 그룹 생성하는 코드
   const teamCreateButton = () => {
+    console.log(3)
     if (teamName) {
-      dispatch(
-        teamCreate({
-          name: teamName,
-          content: teamContent,
-          repIcon: "basic",
-          memberId: memberId,
-        })
-      )
-      modalClose()
-      setErrorMessage("")
+      // 팀 명 중복체크
+      TeamNameValidation(teamName).then(async (res) => {
+        if (res.data.data === "NON-DUPLICATE") {
+          dispatch(
+            teamCreate({
+              name: teamName,
+              content: teamContent,
+              repIcon: "basic",
+              memberId: memberId,
+            })
+          )
+          modalClose()
+          setErrorMessage("")
+        } else if (res.data.data === "DUPLICATE") {
+          setErrorMessage("중복된 그룹명입니다.")
+        }
+      })
     } else {
       setErrorMessage("그룹 명을 한 글자 이상 작성해주세요.")
     }
