@@ -22,6 +22,7 @@ class Room extends Component {
   constructor(props) {
     super(props)
 
+    this.enterError = false
     this.OPENVIDU_SERVER_URL = this.props.openviduServerUrl
       ? this.props.openviduServerUrl
       : "https://i7a805.p.ssafy.io:8443"
@@ -88,6 +89,7 @@ class Room extends Component {
 
   componentWillUnmount() {
     window.removeEventListener("resize", this.checkSize)
+    console.log("입장 에러로 언마운트", this.enterError)
     this.leaveSession()
   }
 
@@ -170,14 +172,20 @@ class Room extends Component {
 
   async connectWebCam() {
     //카메라 접근 요청창을 위함
-    await navigator.mediaDevices.getUserMedia({
-      audio: true,
-      video: true,
-    })
 
-    const devices = await this.OV.getDevices()
-    if (devices.length === 0) {
-      this.setState("error")
+    let devices
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+        video: true,
+      })
+      devices = await this.OV.getDevices()
+    } catch (err) {
+      alert("사용 가능한 웹캠이 없습니다. ")
+      this.enterError = true
+      this.props.goBack()
+
+      console.log(this.leaveSession, this.props.goBack)
     }
     const videoDevices = devices.filter(
       (device) => device.kind === "videoinput"
@@ -258,12 +266,16 @@ class Room extends Component {
 
   leaveSession() {
     const mySession = this.state.session
-    const nickname = this.state.localUser.getNickname()
-    console.log(
-      "퇴장할거야 ",
-      this.state.localUser.getNickname(),
-      mySession.sessionId
-    )
+    console.log("입장에러 ", this.enterError)
+    if (this.enterError) {
+      if (mySession) {
+        mySession.disconnect()
+      }
+    }
+    const nickname = this.enterError
+      ? this.props.user
+      : this.state.localUser.getNickname()
+    console.log("퇴장할거야 ", nickname, mySession.sessionId)
     http
       .delete(`/room/${mySession.sessionId}/leave/${nickname}`)
       .then((res) => {
@@ -272,10 +284,6 @@ class Room extends Component {
       .catch((error) => {
         console.log(error)
       })
-
-    if (mySession) {
-      mySession.disconnect()
-    }
 
     // Empty all properties...
     this.OV = null
@@ -666,6 +674,16 @@ class Room extends Component {
                 message={[]}
                 type="info"
                 onClose={() => this.setAlert("")}
+              />
+            )}
+            {this.state.alert?.type === "video" && (
+              <AlertModal
+                title={"사용가능한 웹캠이 없습니다."}
+                message={[
+                  "집중 서비스를 이용하기 위해서는 웹캠이 필수입니다.",
+                  "카메라, 마이크 권한 허용이 필요합니다.",
+                ]}
+                type="error"
               />
             )}
             <div className="w-1/6  min-w-[300px] p-3" id="subscribersArea">
