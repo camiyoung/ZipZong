@@ -54,7 +54,15 @@ export default function GroupSet() {
         </div>
         <div className="pt-5 flex justify-end mb-6">
           <button
-            className="neutral-btn"
+            className="neutral-btn mr-6"
+            role="button"
+            onClick={() => navigate(`/group/${fetchTeamId}`)}
+          >
+            <p className="mb-1">그룹 페이지</p>
+            <p>돌아가기</p>
+          </button>
+          <button
+            className="negative-btn"
             role="button"
             onClick={() => setOpen(true)}
           >
