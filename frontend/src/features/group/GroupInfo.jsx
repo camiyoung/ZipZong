@@ -148,12 +148,16 @@ function GroupManagement() {
   const [isLeader, setIsLeader] = useState(false)
 
   // 모달 관련 UseState
-  const [isOpen, setOpen] = useState(false)
+  const [isOpen, setRealOpen] = useState(false)
   const [modalContent, setModalContent] = useState("") // 모달 안에 들어갈 내용
 
-  const modalClose = () => {
+  const setOpen = async (value) => {
+    await setRealOpen(value)
+  }
+
+  const modalClose = async () => {
+    await setOpen(false)
     setModalContent("")
-    setOpen(false)
   }
 
   const enterRoom = () => {
@@ -184,16 +188,20 @@ function GroupManagement() {
   return (
     <div className="w-1/2 ml-10">
       {/* 모달 영역 1 */}
-      <Modal isOpen={isOpen} modalClose={modalClose}>
-        {modalContent === "make" && <MakeRoomForm teamId={fetchTeamId} />}
-        {modalContent === "resign" && (
-          <ResignTeam
-            teamId={fetchTeamId}
-            memberId={memberId}
-            modalClose={modalClose}
-          />
-        )}
-      </Modal>
+      {modalContent && (
+        <Modal isOpen={isOpen} modalClose={modalClose}>
+          {modalContent === "make" && (
+            <MakeRoomForm teamId={fetchTeamId} modalClose={modalClose} />
+          )}
+          {modalContent === "resign" && (
+            <ResignTeam
+              teamId={fetchTeamId}
+              memberId={memberId}
+              modalClose={modalClose}
+            />
+          )}
+        </Modal>
+      )}
       {/* 모달 영역 1 끝 */}
 
       {/* 카드 영역 */}
