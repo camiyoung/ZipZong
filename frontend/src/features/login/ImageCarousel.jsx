@@ -62,7 +62,7 @@ export default function ImageCarousel() {
           <img src="/images/badgeIcon/groupMaxStreak7Days.png" alt="" />
           <img src="/images/badgeIcon/groupMaxStreak21Days.png" alt="" />
           <img src="/images/badgeIcon/groupMaxStreak66Days.png" alt="" />
-          <img src="/images/badgeIcon/groupShiedFirstUse.png" alt="" />
+          <img src="/images/badgeIcon/groupShieldFirstUse.png" alt="" />
           <img src="/images/badgeIcon/person4.png" alt="" />
         </div>
 
