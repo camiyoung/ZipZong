@@ -93,7 +93,7 @@ export const exerciseReducer = createSlice({
             prev + Math.ceil((cur.performNum / cur.targetNum) * 100),
           0
         ) / myres.length
-      state.result.myResult.percentage = res
+      state.result.myResult.percentage = res.toFixed()
     },
     setAllExerciseResult: (state, action) => {
       state.result.allResult = action.payload
