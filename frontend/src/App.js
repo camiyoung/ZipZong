@@ -76,7 +76,9 @@ function App() {
 
   return (
     <>
-      {/* {windowWidth >= 1240 ? ( */}
+      {/* {windowWidth < 1240 ? (
+        <NotShow />
+      ) : ( */}
       <div className="w-screen bg-gradient-to-b from-secondary-100 to-lgBlue-200">
         <BrowserRouter>
           <Navbar />
@@ -112,9 +114,6 @@ function App() {
           </Routes>
         </BrowserRouter>
       </div>
-
-      {/* ) : (
-        <NotShow /> */}
       {/* )} */}
     </>
   )
