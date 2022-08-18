@@ -43,7 +43,7 @@ export default function NavbarComponent() {
       setNickname(memberNickname)
       setIcon(memberRepIcon)
     }
-  }, [member])
+  }, [member, memberRepIcon])
 
   // Modal
   const [isOpen, setOpen] = useState(false) // 개인정보 수정
