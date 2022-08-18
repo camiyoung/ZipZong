@@ -22,6 +22,7 @@ function MyExercise({
   tmModel,
   user,
   setAlert,
+  leaveSession,
 }) {
   // console.log("userInfo ", user)
   const isExercising = useSelector((state) => state.exercise.isExercising)
@@ -101,6 +102,7 @@ function MyExercise({
       console.log("운동 결과 데이터 수신", res)
       // setExercising(true)
       dispatch(setAllExerciseResult(res.data))
+      leaveSession()
       navigate("/result")
     })
 
