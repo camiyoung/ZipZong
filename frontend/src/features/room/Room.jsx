@@ -269,8 +269,17 @@ class Room extends Component {
     console.log("입장에러 ", this.enterError)
     if (this.enterError) {
       if (mySession) {
-        mySession.disconnect()
+        http
+          .delete(
+            `/room/${mySession.sessionId}/leave/${localStorage.getItem(
+              "nickname"
+            )}}`
+          )
+          .then((res) => {
+            mySession.disconnect()
+          })
       }
+      mySession.disconnect()
     }
     const nickname = this.enterError
       ? this.props.user
@@ -284,13 +293,25 @@ class Room extends Component {
         this.OV = null
         console.log("방을 퇴장합니다.", res.data)
         if (this.state.isRoomAdmin) {
+          axios.delete(
+            `${this.OPENVIDU_SERVER_URL}"/openvidu/api/sessions/${mySession.sessionId}"`,
+            {
+              headers: {
+                Authorization:
+                  "Basic " + btoa("OPENVIDUAPP:" + this.OPENVIDU_SERVER_SECRET),
+                "Content-Type": "application/json",
+              },
+            }
+          )
           http
             .delete(`room/${mySession.sessionId}`)
-            .catch(console.log("모든 인원이 나가서 이미 삭제된 방입니다."))
+            .catch(console.log("이미 삭제된 방입니다."))
         }
       })
       .catch((error) => {
         console.log("이미 방장이 삭제한 방")
+        console.log("방을 퇴장합니다.", error)
+        this.OV = null
       })
 
     // this.setState({
@@ -763,8 +784,13 @@ class Room extends Component {
           localUser.setRole("admin")
           this.setState({ isRoomAdmin: true })
           const roomtitle = this.props.roomTitle
-            ? this.props.roomTitle
-            : "운동합시다~"
+
+          if (!roomtitle) {
+            alert("잘못된 접근입니다. 올바른 루트로 방을 생성해주세요.")
+            this.enterError = true
+            this.leaveSession()
+            window.location.replace(`/group/${sessionId}`)
+          }
           const nick = this.props.user || localStorage.getItem("nickname")
           http
             .post(`room/${sessionId}`, {
@@ -789,10 +815,11 @@ class Room extends Component {
                 resolve(sessionId)
               })
               .catch((err) => {
-                alert("이미 참여중인 방입니다.")
+                console.log(err, nick)
                 this.enterError = true
                 this.leaveSession()
-                window.location.replace(`/group/${sessionId}`)
+                alert("이미 참여중인 방입니다.", nick)
+                // window.location.replace(`/group/${sessionId}`)
               })
           } else {
             console.log(error)
