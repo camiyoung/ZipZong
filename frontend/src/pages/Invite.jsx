@@ -37,40 +37,41 @@ export default function Invite() {
   return (
     <div className="w-full h-full flex justify-center flex-col items-center">
       <div
-        className="bg-white w-[50%] rounded-3xl bg-gradient-to-t mt-[7%]"
+        className="bg-white w-[50%] h-[50%] rounded-3xl mt-[7%]"
         style={{
           boxShadow:
             "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
-          backgroundImage: `url("/images/inviteIcon/invitation.png")`,
-          backgroundSize: "100px",
-          objectFit: "cover",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center center",
         }}
       >
-        <p className="text-center font-semibold text-[50px] mt-[5rem]">
-          {teamName}
+        <p className="text-center text-[24px] mt-[5rem]">
+          <span className="font-semibold text-[30px]">{teamName} </span>
+          그룹과 함께 운동해요.
         </p>
-        <p className="text-center text-[24px]">그룹에서 당신을 초대합니다.</p>
 
-        <div className="mt-[150px] flex flex-col justify-center items-center">
-          <div className="text-center flex justify-center items-center">
+        <div className="flex justify-center mt-5">
+          <img
+            src="/images/inviteIcon/invitation.png"
+            alt="Invitation Img"
+            className="w-[100px]"
+          />
+        </div>
+
+        <div className=" flex flex-col justify-center items-center mt-5">
+          <div className="flex">
             {teamLeader ? (
-              <p className="px-10 text-md">그룹장: {teamLeader.nickname}</p>
+              <p className="text-md mr-10">그룹장: {teamLeader.nickname}</p>
             ) : null}
-
-            <div className="flex">
+            <div className="flex ">
               <UserIcon />
               <p className="ml-2">
                 {teamMembers.length} / {10} 명
               </p>
             </div>
           </div>
-          <div className="border-2 w-[300px] border-black my-5"></div>
-          <p className="text-center">{teamContent}</p>
+          <p className="mt-10">그룹 설명: {teamContent}</p>
         </div>
 
-        <div className="flex mt-[40px] justify-evenly mb-[30px]">
+        <div className="flex mt-[40px] justify-evenly mb-[5rem]">
           <button
             className="positive-btn"
             role="button"
