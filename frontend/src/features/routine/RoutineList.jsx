@@ -105,10 +105,9 @@ export default function RoutineList() {
                 onClick={() => navigate(`/routine/${params.teamId}/make`)}
               >
                 <div className="flex justify-center">
-                  <ImageIcon
-                    image="http://cdn.onlinewebfonts.com/svg/img_356964.png"
-                    size="large"
-                    borderStyle="none"
+                  <img
+                    src="/images/plus.png"
+                    className="w-[5.6rem] border-4 border-black rounded-full p-4"
                   />
                 </div>
                 <p className="p-2 font-bold flex justify-center text-lg">

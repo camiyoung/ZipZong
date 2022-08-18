@@ -208,7 +208,7 @@ export default function NavbarComponent() {
             <div className="r-0">
               <button
                 type="submit"
-                className="bg-lightBlue rounded-md border border-gray-300 shadow-sm px-4 py-2 text-base font-medium text-gray-700 hover:bg-primary-300 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                className="bg-lightBlue rounded-md border border-gray-300 shadow-sm px-4 py-2 text-base font-medium text-white hover:bg-primary-300 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
               >
                 정보 수정
               </button>
