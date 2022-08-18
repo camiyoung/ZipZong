@@ -60,14 +60,14 @@ export default function GroupSet() {
           </div>
         </div>
         <Modal isOpen={isOpen} modalClose={modalClose}>
-          <div>
+          <div className="mt-5">
             <p className="text-center text-xl font-semibold">
               정말 그룹을 삭제하시겠습니까?
             </p>
             <p className="text-center text-[11px] mt-1 text-gray-600">
               삭제된 그룹은 다시 복구할 수 없으며 멤버들이 모두 탈퇴됩니다.
             </p>
-            <div className="flex justify-evenly mt-5">
+            <div className="flex justify-evenly my-5">
               <button
                 className="negative-btn mr-10"
                 role="button"

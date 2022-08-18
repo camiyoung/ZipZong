@@ -229,7 +229,7 @@ export default function NavbarComponent() {
             alt="회원탈퇴 금지 이미지"
             className="max-w-[150px] text-center"
           />
-          <div className="flex justify-center items-center mt-5">
+          <div className="flex justify-center items-center my-5">
             <button
               className="negative-btn mr-10"
               role="button"
