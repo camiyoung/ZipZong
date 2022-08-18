@@ -181,7 +181,7 @@ export default function SideBar({ chatComponent, user, isRoomAdmin, tmModel }) {
     exersiceRoutine.exercise.forEach((info) => {
       todo.push({
         type: "exercise",
-        duration: 60,
+        duration: 20,
         exerciseName: info.name,
         targetNum: info.count,
         // success: 0,

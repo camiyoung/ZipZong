@@ -92,7 +92,7 @@ export class Model {
     const action = className
     const prob = parseInt(probability.toFixed(2))
     let correctDone = false
-    if (prob === 1) {
+    if (prob >= 0.85) {
       if (action === "Sleepy_Right") {
         if (beforeAction === "Sleepy_Left") {
           console.log("성공")
@@ -112,7 +112,7 @@ export class Model {
 
     const prob = parseInt(probability.toFixed(2))
     let correctDone = false
-    if (prob === 1) {
+    if (prob >= 0.85) {
       if (action === "Up") {
         if (beforeAction === "Down") {
           this.count++ //운동 1회 카운트 진행하고, 기존 값 초기화
@@ -137,7 +137,7 @@ export class Model {
     const action = className
     const prob = parseInt(probability.toFixed(2))
     let correctDone = false
-    if (prob === 1) {
+    if (prob >= 0.85) {
       if (action === "Push_Up") {
         if (beforeAction === "Stand_Up") {
           console.log("성공")
@@ -156,7 +156,7 @@ export class Model {
     const action = className
     const prob = parseInt(probability.toFixed(2))
     let correctDone = false
-    if (prob >= 0.9) {
+    if (prob >= 0.85) {
       if (action === "Push_Down") {
         if (beforeAction === "Push_Up") {
           console.log("성공")
@@ -175,7 +175,7 @@ export class Model {
     const action = className
     const prob = parseInt(probability.toFixed(2))
     let correctDone = false
-    if (prob === 1) {
+    if (prob >= 0.85) {
       if (action === "Squat") {
         if (beforeAction === "Stand_Up") {
           console.log("성공")
@@ -194,7 +194,7 @@ export class Model {
     const action = className
     const prob = parseInt(probability.toFixed(2))
     let correctDone = false
-    if (prob === 1) {
+    if (prob >= 0.85) {
       if (action === "Squat") {
         if (beforeAction === "Stand_Up") {
           console.log("성공")
@@ -213,7 +213,7 @@ export class Model {
     const action = className
     const prob = parseInt(probability.toFixed(2))
     let correctDone = false
-    if (prob === 1) {
+    if (prob >= 0.85) {
       if (action === "Up") {
         if (beforeAction === "Down") {
           console.log("성공")
