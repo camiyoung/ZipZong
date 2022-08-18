@@ -587,6 +587,7 @@ class Room extends Component {
         switchCamera={this.switchCamera}
         leaveSession={this.leaveSession}
         toggleChat={this.toggleChat}
+        goBack={this.props.goBack}
       />
     )
 
