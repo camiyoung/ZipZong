@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { useLocation } from "react-router-dom"
 import Button from "../../components/button/Button"
@@ -23,6 +23,29 @@ export default function GroupSetInfo() {
   // Modal
   const [isOpen, setOpen] = useState(false)
   const modalClose = () => setOpen(false)
+
+  useEffect(() => {
+    if (teamName) setGroupName(teamName)
+    if (teamContent) setGroupContent(teamContent)
+  }, [teamName, teamContent])
+
+  const onSubmit = () => {
+    if (groupName) {
+      TeamNameValidation(groupName).then(async (res) => {
+        dispatch(
+          teamInfoModify({
+            teamId: fetchTeamId,
+            name: groupName,
+            content: groupContent,
+          })
+        )
+        modalClose()
+        setErrorMessage("")
+      })
+    } else {
+      setErrorMessage("그룹명을 한 글자 이상 작성해주세요.")
+    }
+  }
 
   return (
     <div className="mx-5">
@@ -51,6 +74,7 @@ export default function GroupSetInfo() {
                     "
                 onChange={(e) => setGroupName(e.target.value)}
                 maxLength="8"
+                value={groupName}
               />
             </div>
             <div className="pb-1">그룹 설명</div>
@@ -69,6 +93,7 @@ export default function GroupSetInfo() {
                       focus:border-primary-400
                     "
                 onChange={(e) => setGroupContent(e.target.value)}
+                value={groupContent}
               />
             </div>
           </div>
@@ -79,27 +104,7 @@ export default function GroupSetInfo() {
           </div>
           <div className="r-0">
             <button
-              onClick={() => {
-                if (groupName) {
-                  TeamNameValidation(groupName).then(async (res) => {
-                    if (res.data.data === "NON-DUPLICATE") {
-                      dispatch(
-                        teamInfoModify({
-                          teamId: fetchTeamId,
-                          name: groupName,
-                          content: groupContent,
-                        })
-                      )
-                      modalClose()
-                      setErrorMessage("")
-                    } else if (res.data.data === "DUPLICATE") {
-                      setErrorMessage("중복된 그룹명입니다.")
-                    }
-                  })
-                } else {
-                  setErrorMessage("그룹명을 한 글자 이상 작성해주세요.")
-                }
-              }}
+              onClick={onSubmit}
               type="button"
               className="bg-lightBlue rounded-md border border-gray-300 shadow-sm text-base font-medium text-white hover:bg-primary-300 sm:mt-0 sm:py-2 sm:px-[0.3rem] w-[8rem] sm:text-sm"
             >
