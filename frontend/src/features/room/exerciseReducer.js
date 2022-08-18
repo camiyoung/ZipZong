@@ -49,7 +49,6 @@ export const getSessionInfo = createAsyncThunk(
   "exercise/room",
   async (sessionId) => {
     const { data } = await openvidu.get(`/${sessionId}`)
-    //   console.log(data)
     return data.connections.content
   }
 )
