@@ -27,6 +27,7 @@ import java.util.Map;
 @RequestMapping("/oauth")
 @RequiredArgsConstructor
 public class OAuthController {
+    // @author 황승주
     private final JwtService jwtService;
     private final MemberRepository memberRepository;
     static final String SUCCESS = "success";
@@ -80,7 +81,7 @@ public class OAuthController {
 //                                                 .toUriString();
 
     }
-
+    // @author 황승주
     @GetMapping("/refresh")
     public ResponseEntity<Map<String, String>> checkRefreshToken(HttpServletRequest request, HttpServletResponse response) {
         String refreshToken = request.getHeader("refreshToken");

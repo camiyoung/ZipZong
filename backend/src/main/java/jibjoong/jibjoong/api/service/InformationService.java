@@ -27,7 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 public class InformationService {
-
+    // @author 황승주
     final TeamRepository teamRepository;
     final TeamHistoryRepository teamHistoryRepository;
     final TeamHistoryDetailRepository teamHistoryDetailRepository;

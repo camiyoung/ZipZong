@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 @Slf4j
 public class AuthInterceptor implements HandlerInterceptor {
-
+    // @author 황승주
     private final JwtService jwtService;
 
     @Override

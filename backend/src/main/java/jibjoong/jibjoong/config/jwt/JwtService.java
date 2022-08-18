@@ -14,6 +14,7 @@ import java.util.Date;
 
 @Service
 public class JwtService {
+    // @author 황승주
     private String secretKey = "token-secret-key";
     //10분
     static final long ACCESS_PERIOD = 1000L * 60L * 60L * 9L;

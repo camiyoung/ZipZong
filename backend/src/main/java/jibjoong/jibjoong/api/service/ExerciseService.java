@@ -29,7 +29,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @Transactional
 public class ExerciseService {
-
+    // @author 황승주
     private final MemberRepository memberRepository;
     private final TeamRepository teamRepository;
     private final RegistrationRepository registrationRepository;

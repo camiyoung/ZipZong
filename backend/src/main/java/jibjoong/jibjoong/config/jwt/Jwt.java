@@ -9,6 +9,7 @@ import lombok.ToString;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Jwt {
+    // @author 황승주
     private String accessToken;
     private String refreshToken;
 

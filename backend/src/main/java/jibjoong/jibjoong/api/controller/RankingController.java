@@ -21,6 +21,7 @@ import java.util.List;
 @Slf4j
 @RequestMapping("/ranking")
 public class RankingController {
+    // @author 황승주
     final RankingService rankingService;
 
     static final String SUCCESS = "success";

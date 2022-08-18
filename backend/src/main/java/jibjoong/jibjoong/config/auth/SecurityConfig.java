@@ -13,6 +13,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity //spring security 설정을 활성화시켜주는 어노테이션
 @RequiredArgsConstructor //final 필드 생성자 만들어줌
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    // @author 황승주
     private final OAuthService oAuthService;
 
     @Override

@@ -19,11 +19,12 @@ import jibjoong.jibjoong.api.service.InformationService;
 @Slf4j
 @RequestMapping("/information")
 public class InformationController {
+    // @author 황승주
 
     final InformationService informationService;
     static final String SUCCESS = "success";
 
-    // 팀 상세정보
+    // 그룹 상세정보 조회
     @GetMapping("/team/{teamId}")
     public ResponseEntity<BasicResponse<TeamDetailResponse>> teamInfoDetail(@PathVariable Long teamId) {
 
@@ -32,7 +33,7 @@ public class InformationController {
         return new ResponseEntity<>(makeBasicResponse(SUCCESS, response), HttpStatus.OK);
     }
 
-    // 멤버 상세정보
+    // 멤버 상세정보 조회
     @GetMapping("/member/{memberId}")
     public ResponseEntity<BasicResponse<MemberDetailResponse>> memberInfoDetail(@PathVariable Long memberId) {
 
@@ -41,7 +42,7 @@ public class InformationController {
         return new ResponseEntity<>(makeBasicResponse(SUCCESS, response), HttpStatus.OK);
     }
 
-    // 멤버 상세정보
+    // 그룹원 상세정보 조회
     @GetMapping("/member/{teamId}/{memberId}")
     public ResponseEntity<BasicResponse<TeamMemberDetailResponse>> teamMemberInfoDetail(@PathVariable Long teamId, @PathVariable Long memberId) {
 

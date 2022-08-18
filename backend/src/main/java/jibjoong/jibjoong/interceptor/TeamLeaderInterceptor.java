@@ -21,6 +21,7 @@ import java.util.Objects;
 @Component
 @RequiredArgsConstructor
 public class TeamLeaderInterceptor implements HandlerInterceptor {
+    // @author 황승주
 
     private final JwtService jwtService;
     private final MemberRepository memberRepository;

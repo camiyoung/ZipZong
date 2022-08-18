@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RegistrationRepository extends JpaRepository<Registration, Long> {
+    // @author 황승주
 
     @EntityGraph(attributePaths = {"team", "member"})
     @Query("select r from Registration r where r.team.id =:teamId and r.isResign is null")

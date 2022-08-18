@@ -9,6 +9,7 @@ import jibjoong.jibjoong.db.domain.TeamHistory;
 import java.util.Optional;
 
 public interface TeamHistoryRepository extends JpaRepository<TeamHistory, Long> {
+    // @author 황승주
     @EntityGraph(attributePaths = {"team"})
     @Query("select h from TeamHistory h where h.team.id = :teamId")
     Optional<TeamHistory> findByTeamId(@Param("teamId") Long teamId);

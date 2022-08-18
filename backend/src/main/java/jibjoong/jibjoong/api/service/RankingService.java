@@ -35,7 +35,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Transactional
 public class RankingService {
-
+    // @author 황승주
     private final MemberRepository memberRepository;
     private final TeamRepository teamRepository;
     private final MemberCalendarRepository memberCalendarRepository;

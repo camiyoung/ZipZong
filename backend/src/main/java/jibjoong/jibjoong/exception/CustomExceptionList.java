@@ -11,6 +11,7 @@ import java.util.NoSuchElementException;
 @Getter
 @ToString
 public enum CustomExceptionList {
+    // @author 황승주
 
     RUNTIME_EXCEPTION(HttpStatus.BAD_REQUEST, "E001", "잘못된 요청입니다."),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "E002", "서버 오류 입니다."),

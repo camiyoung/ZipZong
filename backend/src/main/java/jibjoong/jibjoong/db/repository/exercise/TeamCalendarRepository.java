@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TeamCalendarRepository extends JpaRepository<TeamCalendar, Long> {
+    // @author 황승주
     Optional<TeamCalendar> findByTeamIdAndCheckDate(Long teamId, LocalDate checkDate);
 
     @Query("select c from TeamCalendar c where c.team.id = :teamId " +

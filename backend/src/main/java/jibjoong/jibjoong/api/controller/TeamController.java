@@ -83,6 +83,7 @@ public class TeamController {
         return new ResponseEntity<>(makeBasicResponse(SUCCESS,teamId), HttpStatus.OK);
     }
 
+    // @author 황승주
     // 그룹명 중복체크
     @GetMapping("/duplicate/{name}")
     public ResponseEntity<BasicResponse<String>> CheckNameDuplicated(@PathVariable String name) {

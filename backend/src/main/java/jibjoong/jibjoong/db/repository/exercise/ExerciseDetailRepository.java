@@ -8,6 +8,7 @@ import jibjoong.jibjoong.db.domain.ExerciseDetail;
 import java.util.List;
 
 public interface ExerciseDetailRepository extends JpaRepository<ExerciseDetail, Long> {
+    // @author 황승주
 
     @Query("select d from ExerciseDetail d where d.exercise.id in" +
             "(select e.id from Exercise e where YEAR(e.exerciseDate) = :year" +

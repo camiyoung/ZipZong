@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MemberCalendarRepository extends JpaRepository<MemberCalendar, Long> {
-
+    // @author 황승주
     Optional<MemberCalendar> findByMemberIdAndCheckDate(Long memberId, LocalDate checkDate);
 
     @Query("select c from MemberCalendar c where c.member.id = :memberId " +

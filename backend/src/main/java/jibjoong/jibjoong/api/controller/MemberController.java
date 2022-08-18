@@ -34,7 +34,7 @@ public class MemberController {
     }
 
     /*
-        회원 닉네임 설정/ 변경 전 중복 확인
+        회원 닉네임 설정 / 변경 전 중복 확인
      */
 
     @GetMapping("/duplicate/{nickname}")
@@ -99,6 +99,7 @@ public class MemberController {
         return new ResponseEntity<>(makeBasicResponse(SUCCESS, nicknameChangeResponse.getNickname()), HttpStatus.CREATED);
     }
 
+    // @author 황승주
     // 회원 탈퇴
     @PutMapping("/remove/{memberId}")
     public ResponseEntity<BasicResponse<Boolean>> removeMember(@PathVariable("memberId") Long memberId) {

@@ -19,6 +19,7 @@ import java.util.List;
 @Slf4j
 @RequestMapping("/exercise")
 public class ExerciseController {
+    // @author 황승주
 
     final ExerciseService exerciseService;
 
@@ -48,6 +49,7 @@ public class ExerciseController {
         return new ResponseEntity<>(makeBasicResponse(SUCCESS, response), HttpStatus.CREATED);
     }
 
+    // 그룹 월별 운동기록 조회
     @GetMapping("/history/team")
     public ResponseEntity<BasicResponse<ExerciseTeamHistoryResponse>> exerciseTeamHistory(@ModelAttribute ExerciseTeamHistoryRequest request) {
 
@@ -56,6 +58,7 @@ public class ExerciseController {
         return new ResponseEntity<>(makeBasicResponse(SUCCESS, response), HttpStatus.OK);
     }
 
+    // 그룹 누적 운동기록 조회
     @GetMapping("/history/team/sum")
     public ResponseEntity<BasicResponse<ExerciseTeamTotalResponse>> exerciseTeamTotal(@RequestParam Long teamId) {
         ExerciseTeamTotalResponse response = exerciseService.totalTeamHistory(teamId);
@@ -63,6 +66,7 @@ public class ExerciseController {
         return new ResponseEntity<>(makeBasicResponse(SUCCESS, response), HttpStatus.OK);
     }
 
+    // 회원 월별 운동기록 조회
     @GetMapping("/history/member")
     public ResponseEntity<BasicResponse<ExerciseMemberHistoryResponse>> exerciseMemberHistory(@ModelAttribute ExerciseMemberHistoryRequest request) {
         Long memberId = request.getMemberId();
@@ -74,6 +78,7 @@ public class ExerciseController {
         return new ResponseEntity<>(makeBasicResponse(SUCCESS, response), HttpStatus.OK);
     }
 
+    // 회원 누적 운동기록 조회
     @GetMapping("/history/member/sum")
     public ResponseEntity<BasicResponse<ExerciseMemberTotalResponse>> exerciseMemberTotal(@RequestParam Long memberId) {
         ExerciseMemberTotalResponse response = exerciseService.totalMemberHistory(memberId);
@@ -81,6 +86,7 @@ public class ExerciseController {
         return new ResponseEntity<>(makeBasicResponse(SUCCESS, response), HttpStatus.OK);
     }
 
+    // 그룹 내 오늘 운동한 그룹원 조회
     @GetMapping("/today/team")
     public ResponseEntity<BasicResponse<ExerciseTeamTodayResponse>> exerciseTeamToday(@RequestParam Long teamId) {
         ExerciseTeamTodayResponse response = exerciseService.exerciseMemberToday(teamId);

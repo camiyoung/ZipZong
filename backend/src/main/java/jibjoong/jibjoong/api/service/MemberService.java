@@ -83,6 +83,7 @@ public class MemberService {
                                    .collect(Collectors.toList());
     }
 
+    // @author 황승주
     // 회원 탈퇴
     public Boolean removeUser(Long memberId) {
         List<Registration> registrations = registrationRepository.findJoinedTeamNoResigned(memberId);

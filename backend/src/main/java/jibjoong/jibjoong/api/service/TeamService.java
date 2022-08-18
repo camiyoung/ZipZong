@@ -136,7 +136,7 @@ public class TeamService {
         return team.getId();
     }
 
-
+    // @author 황승주
     public boolean isNameDuplicate(String name) {
         if (teamRepository.existsByName(name)) {
             return true;

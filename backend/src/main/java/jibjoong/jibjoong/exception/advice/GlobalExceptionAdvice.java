@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionAdvice {
+    // @author 황승주
     @ExceptionHandler(value = CustomException.class)
     public ResponseEntity<ExceptionResponse> customExceptionHandler(CustomException e) {
         return makeResponseEntity(e.getException());
