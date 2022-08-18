@@ -101,7 +101,7 @@ class Room extends Component {
     // console.log("세션 id:", this.sessionName)
     console.log("joinSession 시작 세션 ID:", this.sessionName)
     this.OV = new OpenVidu()
-    // this.OV.enableProdMode()
+    this.OV.enableProdMode()
 
     this.setState(
       {
@@ -781,7 +781,7 @@ class Room extends Component {
               .catch((err) => {
                 alert("이미 참여중인 방입니다.")
                 this.enterError = true
-                this.leaveSession
+                this.leaveSession()
                 window.location.replace(`/group/${sessionId}`)
               })
 
