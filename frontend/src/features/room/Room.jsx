@@ -81,6 +81,7 @@ class Room extends Component {
 
     setTimeout(() => {
       this.setState({ modelLoded: true })
+      this.setAlert("enter")
     }, 5000)
     this.joinSession()
   }
@@ -175,6 +176,9 @@ class Room extends Component {
     })
 
     const devices = await this.OV.getDevices()
+    if (devices.length === 0) {
+      this.setState("error")
+    }
     const videoDevices = devices.filter(
       (device) => device.kind === "videoinput"
     )
@@ -615,8 +619,17 @@ class Room extends Component {
       <div className="h-full">
         {!this.state.modelLoded ? (
           <div className="h-full flex  flex-col items-center justify-center">
+            <div className="text-secondary-200 mb-4 text-xl">
+              운동방에 입장 중입니다.
+            </div>
             <Spinner />
-            <div className="text-secondary-200">운동방에 입장 중입니다.</div>
+            <div className="text-secondary-200 text-2xl font-medium ">
+              브라우저 창의 크기를 유지해주세요.
+            </div>
+            <p className="text-secondary-200">
+              {" "}
+              창 크기가 작아지면 참여가 불가할 수 있습니다.
+            </p>
           </div>
         ) : (
           <div className="flex h-full bg-secondary-200 rounded-2xl shadow-inner ">
@@ -645,6 +658,14 @@ class Room extends Component {
                   "현재 페이지를 닫지 말고 잠시만 기다려주세요.",
                 ]}
                 type="alret"
+              />
+            )}
+            {this.state.alert?.type === "enter" && (
+              <AlertModal
+                title={"운동방에 입장하셨습니다."}
+                message={[]}
+                type="info"
+                onClose={() => this.setAlert("")}
               />
             )}
             <div className="w-1/6  min-w-[300px] p-3" id="subscribersArea">
