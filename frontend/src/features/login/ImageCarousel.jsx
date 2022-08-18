@@ -2,7 +2,7 @@ import "./ImageCarousel.css"
 
 export default function ImageCarousel() {
   return (
-    <div>
+    <div className="">
       <div class="marquee">
         <div class="marquee__group">
           <img src="/images/badgeIcon/bee.png" alt="" />
@@ -49,21 +49,21 @@ export default function ImageCarousel() {
         </div>
 
         <div aria-hidden="true" class="marquee__group">
-          <img src="/images/badgeIcon/groupMaxStreak7Days.png" alt="" />
-          <img src="/images/badgeIcon/groupMaxStreak21Days.png" alt="" />
-          <img src="/images/badgeIcon/groupMaxStreak66Days.png" alt="" />
-          <img src="/images/badgeIcon/groupShiedFirstUse.png" alt="" />
-          <img src="/images/badgeIcon/person4.png" alt="" />
-        </div>
-      </div>
-
-      <div class="marquee marquee--reverse">
-        <div class="marquee__group">
           <img src="/images/badgeIcon/pig.png" alt="" />
           <img src="/images/badgeIcon/rabbit.png" alt="" />
           <img src="/images/badgeIcon/shrimp.png" alt="" />
           <img src="/images/badgeIcon/turtle.png" alt="" />
           <img src="/images/badgeIcon/walrus.png" alt="" />
+        </div>
+      </div>
+
+      <div class="marquee marquee--reverse">
+        <div class="marquee__group">
+          <img src="/images/badgeIcon/groupMaxStreak7Days.png" alt="" />
+          <img src="/images/badgeIcon/groupMaxStreak21Days.png" alt="" />
+          <img src="/images/badgeIcon/groupMaxStreak66Days.png" alt="" />
+          <img src="/images/badgeIcon/groupShiedFirstUse.png" alt="" />
+          <img src="/images/badgeIcon/person4.png" alt="" />
         </div>
 
         <div aria-hidden="true" class="marquee__group">

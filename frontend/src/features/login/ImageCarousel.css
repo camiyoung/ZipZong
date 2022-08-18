@@ -1,24 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Corben:wght@700&display=swap");
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  min-height: 100vh;
-}
-
-body {
+.grid-carousel {
   --space: 2rem;
-
-  display: grid;
-  align-content: center;
-  overflow: hidden;
   gap: var(--space);
-  width: 100%;
-  font-family: "Corben", system-ui, sans-serif;
-  font-size: 1.5rem;
-  line-height: 1.5;
 }
 
 .marquee {
