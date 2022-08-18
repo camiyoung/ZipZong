@@ -30,6 +30,11 @@ export default function RankPage() {
       setMusicPlay(true)
     }
   }
+  useEffect(() => {
+    setTimeout(() => {
+      window.scrollTo(0, 0)
+    }, 0)
+  }, [])
 
   return (
     <div className=" w-full flex justify-center pt-10 pb-20 ">
