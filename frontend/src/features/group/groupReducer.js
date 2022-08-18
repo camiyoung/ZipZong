@@ -112,7 +112,6 @@ export const teamCreate = createAsyncThunk(
   }
 )
 
-// 팀 명 중복체크
 // export const teamDuplicateCheck = createAsyncThunk(
 //   "team/duplicate", async (info) => {
 //     const

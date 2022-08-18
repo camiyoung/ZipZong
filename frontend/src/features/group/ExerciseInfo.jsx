@@ -192,7 +192,9 @@ export default function ExerciseInfo() {
   return (
     <div className="flex flex-col flex-wrap w-4/5">
       <div className="flex w-full justify-center mt-10">
-        <CalendarForm />
+        <div className="w-1/4">
+          <CalendarForm />
+        </div>
 
         <div className="ml-10 rounded-3xl bg-white min-w-min h-[340px] w-[70%] flex shadow-md">
           <div

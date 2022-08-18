@@ -47,7 +47,7 @@ export default function Group() {
         }
       })
     } else {
-      setErrorMessage("그룹 명을 한 글자 이상 작성해주세요.")
+      setErrorMessage("그룹명을 한 글자 이상 작성해주세요.")
     }
   }
 
@@ -169,13 +169,13 @@ export default function Group() {
             onClick={() => setOpen(true)}
             className="flex w-1/5 justify-center"
           >
-            <div className="hover:scale-110 border w-11/12 shadow-lg flex justify-center items-center rounded-3xl cursor-pointer">
+            <div className="hover:scale-110 border w-11/12 shadow-lg flex justify-center items-center rounded-3xl cursor-pointer bg-white/20 hover:bg-white/40">
               <div className="flex justify-center items-center w-full rounded-3xl h-[270px]">
-                <div className="flex flex-col jusitfy-center ">
-                  <Icon
-                    image="http://cdn.onlinewebfonts.com/svg/img_356964.png"
-                    size="xLarge"
-                    borderStyle="none"
+                <div className="flex flex-col jusitfy-center items-center">
+                  <img
+                    src="/images/plus.png"
+                    alt="플러스 아이콘"
+                    className="w-[8.5rem] border-4 border-black rounded-full p-4"
                   />
                   <div className="flex flex-col justify-center pt-5">
                     <span className="pl-1 text-md text-center">그룹을</span>

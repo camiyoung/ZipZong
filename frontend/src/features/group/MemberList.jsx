@@ -166,16 +166,17 @@ export default function MemberList() {
           >
             <div
               className={
-                "w-full h-full flex flex-col items-center rounded-3xl shadow-md py-8 border-2 border-gray-100"
+                "w-full h-full flex flex-col items-center rounded-3xl shadow-md py-8 border-2 bg-white/20 hover:bg-white/40"
               }
             >
               <div className="flex justify-center mb-2">
-                <ImageIcon
-                  image="http://cdn.onlinewebfonts.com/svg/img_356964.png"
-                  size="large"
-                  borderStyle="none"
+                <img
+                  src="/images/plus.png"
+                  alt="플러스 아이콘"
+                  className="w-[6rem] border-4 border-black rounded-full p-4"
                 />
               </div>
+
               <div className="text-sm font-medium flex justify-center px-5 h-[50px] items-center">
                 멤버 초대
               </div>
