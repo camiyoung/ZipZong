@@ -84,7 +84,7 @@ const Alret = ({ title, message }) => {
 
 const Info = ({ title, onClose }) => {
   return (
-    <div className="p-6 text-center flex flex-col items-center w-full relative">
+    <div className="p-6 text-center flex flex-col items-center w-full h-full relative justify-center">
       <h3 className="my-5 text-4xl font-semibold text-primary-500  ">
         {title}
       </h3>
@@ -94,7 +94,7 @@ const Info = ({ title, onClose }) => {
       >
         <span className="text-gray-500">X</span>
       </div>
-      <img src="/images/room/info-enter.png" className="mb-2 w-4/5" />
+      <img src="/images/room/info-enter.png" className="mb-2 w-3/5 h-3/5" />
       <div className="flex justify-center items-center flex-col mb-7  text-2xl  bg-lgBlue-200 p-4 px-8 rounded-lg w-full">
         <p className="font-semibold">그림과 같이 전신이 잘 보이도록 서주세요</p>
       </div>
