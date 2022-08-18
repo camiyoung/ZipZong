@@ -27,6 +27,7 @@ import { memberIconListReview } from "./features/myPage/myPageReducer"
 import NotFound from "./pages/NotFound"
 import NotShow from "./pages/NotShow"
 import { throttle } from "lodash"
+import Forbidden from "./pages/Forbidden"
 
 function App() {
   const dispatch = useDispatch()
@@ -106,6 +107,8 @@ function App() {
               <Route path="/mypage" element={<MyPage />} />
               <Route path="/rank" element={<RankPage />} />
               <Route path="/result" element={<ExerciseResultPage />} />
+
+              <Route path="/forbidden" element={<Forbidden />} />
             </Route>
 
             <Route path="/login" element={<Login />} />

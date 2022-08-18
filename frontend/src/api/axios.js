@@ -60,6 +60,9 @@ function Instance() {
         originalRequest.headers["accessToken"] = newAccessToken
         // 401로 요청 실패했던 요청 새로운 accessToken으로 재요청
         return axios(originalRequest)
+      } else if (status === 403) {
+        // console.log("권한 없음")
+        window.location.replace("/forbidden")
       }
       return Promise.reject(error)
     }
