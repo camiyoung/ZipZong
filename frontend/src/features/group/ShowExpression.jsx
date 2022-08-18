@@ -30,7 +30,7 @@ export default function ShowExpression({ imageUrl }) {
     { groupMaxExerciseTime100: "그룹에서 총 운동시간 100시간 달성" },
     { groupMaxExerciseTime1000: "그룹에서 총 운동시간 1000시간 달성" },
     { groupMaxExerciseTime10000: "그룹에서 총 운동시간 10000시간 달성" },
-    { groupShiedFirstUse: "그룹 쉴드의 첫 사용" },
+    { groupShieldFirstUse: "그룹 쉴드의 첫 사용" },
   ]
   return (
     <div>
