@@ -21,7 +21,7 @@ export const createRoutine = createAsyncThunk(
 export const modifyRoutine = createAsyncThunk(
   "routine/modify",
   async (info) => {
-    const res = await http.put(`routine/${info.routineId}`, info.routine)
+    const res = await http.put(`routine/modify/${info.routineId}`, info.routine)
     const res2 = await http.get(`routine/${res.data.data}`)
     return res2.data
   }
@@ -31,7 +31,7 @@ export const modifyRoutine = createAsyncThunk(
 export const deleteRoutine = createAsyncThunk(
   "routine/delete",
   async (routineId) => {
-    const res = await http.delete(`routine/${routineId}`)
+    const res = await http.delete(`routine/remove/${routineId}`)
     const res2 = await http.get(`routine/${res.data.data}`)
     return res2.data
   }
