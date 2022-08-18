@@ -74,7 +74,10 @@ public class TeamService {
      */
 
     public ChangeTeamInfoResponse changeProfileInfo(Long teamId, String name, String content) {
-        if(teamRepository.existsByName(name)) {
+        if(teamRepository.existsByName(name) && !teamRepository.findById(teamId).orElseThrow(
+                () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR))
+                .getName().equals(name)
+        ) {
             throw new CustomException(CustomExceptionList.TEAM_NAME_DUPLICATED);
         }
 
