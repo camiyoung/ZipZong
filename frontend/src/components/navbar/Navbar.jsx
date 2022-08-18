@@ -4,7 +4,6 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom"
 import { registrationTeam, teamInfo } from "../../features/group/groupReducer"
 import Modal from "../modal/Modal"
 import { NicknameValidation } from "../../utils/NicknameValidation"
-import { Button } from "flowbite-react"
 
 import {
   nicknameChange,
@@ -12,10 +11,8 @@ import {
   logout,
   memberRemove,
 } from "../../features/login/memberReducer"
-import Card from "../card/Card"
 import ImageIcon from "../icon/ImageIcon"
 import Logo from "../../assets/Logo.svg"
-import { Carousel } from "flowbite-react"
 import "./Navbar.css"
 import "../../components/button/NegativeBtn.css"
 import "../../components/button/PositiveBtn.css"
@@ -48,10 +45,8 @@ export default function NavbarComponent() {
   // Modal
   const [isOpen, setOpen] = useState(false) // 개인정보 수정
   const [isOpen2, setOpen2] = useState(false) // 회원탈퇴
-  const [isOpen4, setOpen4] = useState(false) // 튜토리얼
   const modalClose = () => setOpen(false) // 개인정보 수정
   const modalClose2 = () => setOpen2(false) // 회원탈퇴
-  const modalCLose4 = () => setOpen4(false) // 튜토리얼
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -249,35 +244,6 @@ export default function NavbarComponent() {
       </Modal>
       {/* 회원탈퇴 모달 끝 */}
 
-      {/* 튜토리얼 모달 시작 */}
-      <Modal isOpen={isOpen4} modalClose={modalCLose4} className="w-full">
-        <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
-          <Carousel slideInterval={5000}>
-            <img
-              src="https://flowbite.com/docs/images/carousel/carousel-1.svg"
-              alt="..."
-            />
-            <img
-              src="https://flowbite.com/docs/images/carousel/carousel-2.svg"
-              alt="..."
-            />
-            <img
-              src="https://flowbite.com/docs/images/carousel/carousel-3.svg"
-              alt="..."
-            />
-            <img
-              src="https://flowbite.com/docs/images/carousel/carousel-4.svg"
-              alt="..."
-            />
-            <img
-              src="https://flowbite.com/docs/images/carousel/carousel-5.svg"
-              alt="..."
-            />
-          </Carousel>
-        </div>
-      </Modal>
-      {/* 튜토리얼 모달 끝 */}
-
       <div className="w-screen flex justify-center">
         <nav className="flex justify-between py-3 w-4/5 items-center">
           <NavLink to="/">
@@ -285,14 +251,9 @@ export default function NavbarComponent() {
           </NavLink>
           <ul className="flex navbar-links">
             <NavItem>
-              <p
-                className="navlink"
-                onClick={() => {
-                  setOpen4(true)
-                }}
-              >
+              <NavLink to="/tutorial" className="navlink">
                 튜토리얼
-              </p>
+              </NavLink>
             </NavItem>
             <NavItem>
               <NavLink to="/rank" className="navlink">

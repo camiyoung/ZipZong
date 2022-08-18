@@ -12,7 +12,7 @@ import Components from "./pages/Components"
 import Invite from "./pages/Invite"
 import Group from "./pages/Group"
 import GroupSet from "./pages/GroupSet"
-import Home from "./pages/Home"
+import Tutorial from "./pages/Tutorial"
 import MyPage from "./pages/MyPage"
 import RoomPage from "./pages/RoomPage"
 import RankPage from "./pages/RankPage"
@@ -109,6 +109,7 @@ function App() {
               />
 
               {/* <Route path="/room" element={<RoomPage />} /> */}
+              <Route path="/tutorial" element={<Tutorial />} />
               <Route path="/room/:teamId" element={<RoomPage />} />
               <Route path="/mypage" element={<MyPage />} />
               <Route path="/rank" element={<RankPage />} />
