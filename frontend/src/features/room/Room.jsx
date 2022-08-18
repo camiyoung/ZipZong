@@ -786,6 +786,7 @@ class Room extends Component {
               .post(`room/${sessionId}/enter/${nick}`)
               .then((res) => {
                 console.log("참여 완료 :", res)
+                resolve(sessionId)
               })
               .catch((err) => {
                 alert("이미 참여중인 방입니다.")
@@ -793,8 +794,6 @@ class Room extends Component {
                 this.leaveSession()
                 window.location.replace(`/group/${sessionId}`)
               })
-
-            resolve(sessionId)
           } else {
             console.log(error)
 
