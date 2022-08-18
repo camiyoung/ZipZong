@@ -65,8 +65,10 @@ export default function ExerciseInfo() {
     <div className="flex mt-10 flex-col w-4/5">
       <div className="flex">
         <div className="flex w-full justify-center">
-          <CalendarForm />
-          <div className="ml-10 rounded-3xl bg-white min-w-min h-[340px] w-[70%] flex shadow-md">
+          <div className="w-1/4 m-3">
+            <CalendarForm />
+          </div>
+          <div className="rounded-3xl bg-white h-[340px] w-[70%] flex shadow-md m-3 ">
             <div
               className="w-1/4 bg-lgBlue-400 h-full bg-gradient-to-t from-lgBlue-500 to-secondary-300 flex flex-col justify-center items-center"
               style={{
