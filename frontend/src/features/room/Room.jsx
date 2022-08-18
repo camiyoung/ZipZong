@@ -702,6 +702,7 @@ class Room extends Component {
                     user={this.state.localUser}
                     setAlert={this.setAlert}
                     leaveRoom={this.leaveSession}
+                    leaveSession={this.leaveSession}
                   />
                 )}
             </div>
