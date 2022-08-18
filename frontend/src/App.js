@@ -33,19 +33,6 @@ function App() {
   const token = localStorage.getItem("accessToken")
   const nickname = localStorage.getItem("nickname")
 
-  // 화면 Resize
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
-  const handleResize = () => {
-    setWindowWidth(window.innerWidth)
-  }
-  useEffect(() => {
-    window.addEventListener("resize", throttle(handleResize, 200))
-    return () => {
-      // cleanup
-      window.removeEventListener("resize", handleResize)
-    }
-  }, [handleResize])
-
   useEffect(() => {
     const checkLogined = async () => {
       if (!token) return
@@ -74,12 +61,24 @@ function App() {
     return children ? children : <Outlet />
   }
 
+  useEffect(() => {
+    window.onbeforeunload = function pushRefresh() {
+      window.scrollTo(0, 0)
+    }
+  }, [])
+
   return (
     <>
-      {/* {windowWidth < 1240 ? (
-        <NotShow />
-      ) : ( */}
       <div className="w-screen bg-gradient-to-b from-secondary-100 to-lgBlue-200">
+        {/* 화면 크기 조절 DIV 주석 풀어야 함 */}
+        {/* <div className="cover hidden">
+          <p className="text-center font-semibold text-[50px] mb-[30px] mt-[20%]">
+            본 페이지는 1240px이상에서 화면을 제공합니다.
+          </p>
+          <p className="text-center font-semibold text-[50px]">
+            가로 크기를 늘려주세요.
+          </p>
+        </div> */}
         <BrowserRouter>
           <Navbar />
           <Routes>
@@ -114,7 +113,6 @@ function App() {
           </Routes>
         </BrowserRouter>
       </div>
-      {/* )} */}
     </>
   )
 }

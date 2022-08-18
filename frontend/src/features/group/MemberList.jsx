@@ -50,6 +50,11 @@ export default function MemberList() {
 
     setMemberInfo(data)
   }, [])
+  useEffect(() => {
+    setTimeout(() => {
+      window.scrollTo(0, 0)
+    }, 0)
+  }, [])
 
   return (
     // group 원들의 정보를 받아야 함
