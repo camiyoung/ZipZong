@@ -42,7 +42,7 @@ export default function Group() {
         </div> */}
         <MemberList inviteLink={inviteLink} />
       </div>
-      <div className="flex justify-center flex-col items-center mt-14">
+      <div className="flex justify-center flex-col items-center mt-20">
         <div className="text-center">
           <p className="flex justify-center mb-5 font-bold text-3xl">
             🧑‍🤝‍🧑 그룹 운동 정보
