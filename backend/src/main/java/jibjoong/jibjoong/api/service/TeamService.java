@@ -74,7 +74,7 @@ public class TeamService {
      */
 
     public ChangeTeamInfoResponse changeProfileInfo(Long teamId, String name, String content) {
-        if(teamRepository.teamNameDuplicatedNoDeleted(name) && !teamRepository.findById(teamId).orElseThrow(
+        if(teamRepository.teamNameDuplicatedNoDeleted(name).isPresent() && !teamRepository.findById(teamId).orElseThrow(
                 () -> new CustomException(CustomExceptionList.TEAM_NOT_FOUND_ERROR))
                 .getName().equals(name)
         ) {
@@ -141,7 +141,7 @@ public class TeamService {
 
     // @author 황승주
     public boolean isNameDuplicate(String name) {
-        if (teamRepository.teamNameDuplicatedNoDeleted(name)){
+        if (teamRepository.teamNameDuplicatedNoDeleted(name).isPresent()){
             return true;
         }
         return false;

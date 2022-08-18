@@ -40,7 +40,7 @@ public class RegistrationService {
         //Team, Member, Registration
 
         // 그룹명이 중복되면 Exception
-        if(teamRepository.teamNameDuplicatedNoDeleted(team.getName())){
+        if(teamRepository.teamNameDuplicatedNoDeleted(team.getName()).isPresent()){
             throw new CustomException(CustomExceptionList.TEAM_NAME_DUPLICATED);
         }
 

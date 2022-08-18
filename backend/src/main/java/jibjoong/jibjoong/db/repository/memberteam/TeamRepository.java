@@ -15,7 +15,7 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
     List<Team> getAllTeamNoDeleted();
 
     @Query("select t from Team t where t.isDeleted is null and t.name = :name")
-    boolean teamNameDuplicatedNoDeleted(@Param("name") String name);
+    Optional<Team> teamNameDuplicatedNoDeleted(@Param("name") String name);
 
     boolean existsByName(String name);
 
