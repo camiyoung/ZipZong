@@ -779,8 +779,10 @@ class Room extends Component {
                 console.log("참여 완료 :", res)
               })
               .catch((err) => {
-                // console.log("이미 존재하는 회원 ")
-                // this.setAlert("already")
+                alert("이미 참여중인 방입니다.")
+                this.enterError = true
+                this.leaveSession
+                window.location.replace(`/group/${sessionId}`)
               })
 
             resolve(sessionId)
