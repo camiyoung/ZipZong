@@ -5,6 +5,7 @@ import Button from "../../components/button/Button"
 import ImageIcon from "../../components/icon/ImageIcon"
 import Modal from "../../components/modal/Modal"
 import { teamInfoModify } from "./groupReducer"
+import { TeamNameValidation } from "../../utils/TeamNameValidation"
 
 export default function GroupSetInfo() {
   const dispatch = useDispatch()
@@ -17,6 +18,7 @@ export default function GroupSetInfo() {
   // 그룹 프로필 수정
   const [groupName, setGroupName] = useState("")
   const [groupContent, setGroupContent] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
 
   // Modal
   const [isOpen, setOpen] = useState(false)
@@ -72,20 +74,34 @@ export default function GroupSetInfo() {
           </div>
         </div>
         <div className="pb-3 flex justify-end mt-3">
+          <div className="flex w-[322px] text-sm items-center text-red-600">
+            {errorMessage}
+          </div>
           <div className="r-0">
             <button
               onClick={() => {
-                dispatch(
-                  teamInfoModify({
-                    teamId: fetchTeamId,
-                    name: groupName,
-                    content: groupContent,
+                if (groupName) {
+                  TeamNameValidation(groupName).then(async (res) => {
+                    if (res.data.data === "NON-DUPLICATE") {
+                      dispatch(
+                        teamInfoModify({
+                          teamId: fetchTeamId,
+                          name: groupName,
+                          content: groupContent,
+                        })
+                      )
+                      modalClose()
+                      setErrorMessage("")
+                    } else if (res.data.data === "DUPLICATE") {
+                      setErrorMessage("중복된 그룹명입니다.")
+                    }
                   })
-                )
-                modalClose()
+                } else {
+                  setErrorMessage("그룹명을 한 글자 이상 작성해주세요.")
+                }
               }}
               type="button"
-              className="bg-lightBlue rounded-md border border-gray-300 shadow-sm px-4 py-2 text-base font-medium text-gray-700 hover:bg-primary-300 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+              className="bg-lightBlue rounded-md border border-gray-300 shadow-sm text-base font-medium text-white hover:bg-primary-300 sm:mt-0 sm:py-2 sm:px-[0.3rem] w-[8rem] sm:text-sm"
             >
               그룹 프로필 수정
             </button>
