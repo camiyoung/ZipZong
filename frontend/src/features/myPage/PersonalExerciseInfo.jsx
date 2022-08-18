@@ -13,34 +13,6 @@ import CalendarForm from "../../components/calendar/CalendarForm"
 import ExerciseIcon from "../../components/icon/ExerciseIcon"
 import ChangeLanguage from "../routine/ChangeLanguage"
 
-const dayExerciseInfo = [
-  {
-    performName: "PUSHUP",
-    performNum: 18,
-    performTime: 1,
-  },
-  {
-    performName: "LEGRAISE",
-    performNum: 30,
-    performTime: 2,
-  },
-  {
-    performName: "MOUNTAINCLIMING",
-    performNum: 30,
-    performTime: 2,
-  },
-  {
-    performName: "BURPEE",
-    performNum: 30,
-    performTime: 2,
-  },
-  {
-    performName: "SQUAT",
-    performNum: 30,
-    performTime: 2,
-  },
-]
-
 export default function ExerciseInfo() {
   const dispatch = useDispatch()
   const { memberId, memberNickname } = useSelector((state) => state.member)
@@ -103,9 +75,14 @@ export default function ExerciseInfo() {
                 borderRadius: "1rem 0px 0px 1rem",
               }}
             >
-              <p className="text-5xl text-white font-bold mb-3">{showYear}년</p>
+              <p className="text-5xl text-white font-bold mb-3">
+                {showYear}
+                <span className="text-4xl">년</span>
+              </p>
               <p className="text-5xl text-white font-bold mb-5">
-                {showMonth}월 {showDay}일
+                {showMonth}
+                <span className="text-4xl">월</span> {showDay}
+                <span className="text-4xl">일</span>
               </p>
               <p className="text-lg text-white font-normal">
                 {" "}
@@ -118,9 +95,9 @@ export default function ExerciseInfo() {
                   {stateDailyHistory === null ||
                   stateDailyHistory.length === 0 ? (
                     // true, false 순서를 바꾸면 정상적으로 작동함 -> 운동을 하면 결과, 없으면 운동 안했다는 메시지 출력
-                    <span className="text-lg">
+                    <p className="text-lg font-normal text-center w-full">
                       운동 기록이 존재하지 않습니다.
-                    </span>
+                    </p>
                   ) : (
                     stateDailyHistory.map(
                       ({ performName, performNum, performTime }, idx) => {

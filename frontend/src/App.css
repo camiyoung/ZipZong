@@ -31,3 +31,13 @@ body {
     rgba(192, 192, 192, 0.534) 100%
   );
 }
+@media screen and (max-width: 1240px) {
+  .cover {
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    z-index: 9999;
+    position: fixed;
+    display: block;
+  }
+}

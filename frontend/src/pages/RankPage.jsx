@@ -17,7 +17,6 @@ export default function RankPage() {
     AOS.init()
 
     http.get("ranking/info").then((res) => {
-      // console.log(res)
       setRankingInfo(res.data.data)
     })
   }, [])
@@ -31,6 +30,11 @@ export default function RankPage() {
       setMusicPlay(true)
     }
   }
+  useEffect(() => {
+    setTimeout(() => {
+      window.scrollTo(0, 0)
+    }, 0)
+  }, [])
 
   return (
     <div className=" w-full flex justify-center pt-10 pb-20 ">
@@ -80,6 +84,7 @@ export default function RankPage() {
                         "AM 12:00을 기준으로 갱신됩니다.",
                       ]}
                       list={rankingInfo.timeRanks}
+                      type={category}
                     />
                   )}
                 </div>
@@ -92,6 +97,7 @@ export default function RankPage() {
                         "AM 12:00을 기준으로 갱신됩니다.",
                       ]}
                       list={rankingInfo.strickRanks}
+                      type={category}
                     />
                   )}
                 </div>
@@ -107,7 +113,7 @@ export default function RankPage() {
                         "AM 12:00을 기준으로 갱신됩니다.",
                       ]}
                       list={rankingInfo.personalTimeRanks}
-                      type={"personal"}
+                      type={category}
                     />
                   )}
                 </div>
@@ -120,7 +126,7 @@ export default function RankPage() {
                         "AM 12:00을 기준으로 갱신됩니다.",
                       ]}
                       list={rankingInfo.personalStrickRanks}
-                      type={"personal"}
+                      type={category}
                     />
                   )}
                 </div>

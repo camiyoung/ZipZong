@@ -108,7 +108,6 @@ export const teamCreate = createAsyncThunk(
       if (res2.data.message === "success") {
         return res2
       }
-      console.log("팀이 생성되었습니다.")
     }
   }
 )
@@ -208,7 +207,7 @@ export const groupSlice = createSlice({
     inviteLink: null,
     icons: [],
     basicIcons: [
-      "basic",
+      "deer",
       "bee",
       "elephant",
       "ferret",
@@ -218,34 +217,22 @@ export const groupSlice = createSlice({
       "rabbit",
       "walrus",
       "yak",
+      "cougar",
+      "crab",
+      "fish",
+      "octopus",
+      "squirrel",
+      "turtle",
+      "whale",
+      "shrimp",
     ],
+    basicTeamIcons: ["basic", "person2", "person3", "person4"],
     teamName: null,
     teamContent: null,
     teamRepIcons: "basic",
     shieldCount: 0,
-    teamMembers: [
-      {
-        repIcon: "basic",
-        name: "name",
-        nickname: "nickname1",
-        createdAt: "2022-08-03T14:15:44.6943268",
-        role: "LEADER",
-      },
-      {
-        repIcon: "basic",
-        name: "name",
-        nickname: "nickname2",
-        createdAt: "2022-08-03T14:15:44.6943268",
-        role: "FOLLOWER",
-      },
-    ],
-    teamLeader: {
-      repIcon: "basic",
-      name: "name",
-      nickname: "nickname1",
-      createdAt: "2022-08-03T14:15:44.6943268",
-      role: "LEADER",
-    },
+    teamMembers: [],
+    teamLeader: null,
     teamCurrentStreak: 0,
     performTeamTotals: null,
     roomStatus: "",
@@ -358,7 +345,6 @@ export const groupSlice = createSlice({
     })
 
     builder.addCase(roomInfoGet.fulfilled, (state, action) => {
-      console.log(action.payload.data.data)
       state.roomStatus = action.payload.data.data.status
       state.roomParticipant = action.payload.data.data.participant
       state.roomName = action.payload.data.data.name

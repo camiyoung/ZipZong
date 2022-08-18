@@ -1,0 +1,63 @@
+.navbar-links {
+  list-style-type: none;
+  display: flex;
+}
+.navbar-links li .navlink {
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+  color: #444;
+  padding: 20px 20px;
+  font-weight: 700;
+  transition: 0.4s all;
+}
+.navbar-links ul .navlink {
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+  color: #444;
+  padding: 20px 20px;
+  font-weight: 700;
+  transition: 0.4s all;
+}
+
+.navbar-links .navbar-dropdown {
+  position: relative;
+}
+
+.navbar-links .navbar-dropdown:hover .dropdown {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+.navbar-links .navbar-dropdown .dropdown {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  padding: 20px 0;
+  top: 100%;
+  transform: translateY(50px);
+  right: 1rem;
+  width: 300px;
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0px 10px 10px 3px rgba(0, 0, 0, 0.3);
+  z-index: 111;
+  transition: 0.4s all;
+}
+.navbar-links .navbar-dropdown .dropdown .navlink {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-weight: 400;
+}
+.navbar-dropdown .dropdown .navlink:hover {
+  padding-left: 30px;
+}
+.navbar-links .navlink:hover {
+  color: rgb(63, 147, 190);
+}
+
+.navlink {
+  font-size: larger;
+}

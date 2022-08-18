@@ -11,7 +11,7 @@ const Video = ({ user, streamId }) => {
 
 export default function OtherPeople({ subscribers }) {
   return (
-    <div className=" h-full w-full flex flex-col items-center justify-center bg-white p-2 border-2   overflow-auto  rounded-2xl shadow-lg scrollbar-hide snap-y ">
+    <div className=" h-full w-full flex flex-col items-center justify-center bg-white p-2    overflow-auto  rounded-2xl shadow-lg scrollbar-hide snap-y ">
       {subscribers.map((sub, i) => (
         <Video
           user={sub}

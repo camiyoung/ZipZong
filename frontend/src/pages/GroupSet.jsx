@@ -5,7 +5,6 @@ import CollectedIcons from "../features/group/CollectedIcons"
 import GroupSetInfo from "../features/group/GroupSetInfo"
 import GroupSetMemberList from "../features/group/GroupSetMemberList"
 
-import Button from "../components/button/Button"
 import {
   registrationTeam,
   teamDelete,
@@ -13,6 +12,8 @@ import {
   teamAllIcons,
 } from "../features/group/groupReducer"
 import Modal from "../components/modal/Modal"
+import "../components/button/PositiveBtn.css"
+import "../components/button/NegativeBtn.css"
 
 export default function GroupSet() {
   const dispatch = useDispatch()
@@ -50,41 +51,37 @@ export default function GroupSet() {
             <GroupSetMemberList />
           </div>
         </div>
-        <div className="mx-5 pt-5 flex justify-end">
-          <Button
-            text="그룹 삭제"
-            height="h-10"
-            bgColor="bg-danger"
-            onClick={() => {
-              setOpen(true)
-            }}
-          />
+        <div className="mx-5 pt-5 flex justify-end mb-20">
+          <div
+            className="shadow-md border-2 w-[120px] h-[40px] border-white font-semibold flex justify-center p-1 rounded-2xl text-lg text-white cursor-pointer bg-gradient-to-t from-gray-500 to-gray-300 hover:bg-gradient-to-t hover:from-gray-600 hover:to-gray-400"
+            onClick={() => setOpen(true)}
+          >
+            그룹 삭제
+          </div>
         </div>
         <Modal isOpen={isOpen} modalClose={modalClose}>
-          <div className="mt-3 mb-3">
-            <div className="flex justify-center mb-1">
+          <div className="mt-5">
+            <p className="text-center text-xl font-semibold">
               정말 그룹을 삭제하시겠습니까?
-            </div>
-            <div className="mb-3 text-red-600 text-sm flex justify-center">
+            </p>
+            <p className="text-center text-[11px] mt-1 text-gray-600">
               삭제된 그룹은 다시 복구할 수 없으며 멤버들이 모두 탈퇴됩니다.
-            </div>
-            <div className="flex justify-center pt-3">
-              <div>
-                <Button
-                  text="아니오"
-                  width="w-32"
-                  bgColor="bg-info"
-                  onClick={modalClose}
-                />
-              </div>
-              <div className="ml-3">
-                <Button
-                  text="예"
-                  bgColor="bg-danger"
-                  width="w-32"
-                  onClick={deleteTeamFunction}
-                />
-              </div>
+            </p>
+            <div className="flex justify-evenly my-5">
+              <button
+                className="negative-btn mr-10"
+                role="button"
+                onClick={deleteTeamFunction}
+              >
+                예
+              </button>
+              <button
+                className="positive-btn"
+                role="button"
+                onClick={modalClose}
+              >
+                아니오
+              </button>
             </div>
           </div>
         </Modal>

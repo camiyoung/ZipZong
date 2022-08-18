@@ -18,12 +18,9 @@ export default function RoutineMake() {
 
   useEffect(() => {
     if (params.routineId) {
-      console.log(params.routineId)
-      console.log(routines)
       const modify = routines.find(
         (element) => element.routineId === Number(params.routineId)
       )
-      console.log(modify)
       setRoutine(modify.exercise)
       setBreakTime(modify.breakTime)
       setRoutineName(modify.routineName)
@@ -55,6 +52,7 @@ export default function RoutineMake() {
             sm:text-md
             focus:ring-blue-500
             focus:border-blue-500"
+            maxLength="20"
           />
         </div>
       </div>

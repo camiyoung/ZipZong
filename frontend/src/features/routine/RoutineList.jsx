@@ -101,12 +101,12 @@ export default function RoutineList() {
           <div className="w-[20%]">
             <div className="p-2">
               <div
-                className="p-2 bg-white rounded-2xl border border-gray-200 shadow-md"
+                className="hover:scale-110 p-2 py-6 rounded-2xl border border-gray-200 shadow-md cursor-pointer"
                 onClick={() => navigate(`/routine/${params.teamId}/make`)}
               >
-                <div className="flex justify-center p-2">
+                <div className="flex justify-center">
                   <ImageIcon
-                    image="https://icons-for-free.com/download-icon-circle+more+plus+icon-1320183136549593898_512.png"
+                    image="http://cdn.onlinewebfonts.com/svg/img_356964.png"
                     size="large"
                     borderStyle="none"
                   />
