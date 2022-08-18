@@ -1,7 +1,7 @@
 // import "flowbite"
-import { Carousel, Avatar } from "flowbite-react";
-import { useEffect, useState } from "react";
-import { http } from "../../api/axios";
+import { Carousel, Avatar } from "flowbite-react"
+import { useEffect, useState } from "react"
+import { http } from "../../api/axios"
 
 const RankSlider = ({ list }) => {
   return (
@@ -34,35 +34,35 @@ const RankSlider = ({ list }) => {
         </div>
       ))}
     </Carousel>
-  );
-};
+  )
+}
 
 const defaultItem = {
   rank: -1,
   teamIcon: undefined,
   teamName: "",
   satisfiedTime: "",
-};
+}
 
 const caculateDate = (day = 0) => {
-  const date = new Date();
-  date.setDate(date.getDate() - day);
+  const date = new Date()
+  date.setDate(date.getDate() - day)
   const completedDay = date
     .toLocaleDateString()
     .split(".")
-    .map((item) => item.trim());
+    .map((item) => item.trim())
 
-  completedDay.pop();
-  const res = `${completedDay[0]}년 ${completedDay[1]}월 ${completedDay[2]}일`;
-  return res;
-};
+  completedDay.pop()
+  const res = `${completedDay[0]}년 ${completedDay[1]}월 ${completedDay[2]}일`
+  return res
+}
 
 const CompletedBadge = ({ day, rank }) => {
   const color = {
     1: "moving-grad text-white",
     2: "bg-pink-600 text-white",
     3: "bg-yellow-500 text-white",
-  };
+  }
 
   return (
     <span
@@ -87,14 +87,14 @@ const CompletedBadge = ({ day, rank }) => {
         <span>{day}일전 66일 달성</span>
       )}
     </span>
-  );
-};
+  )
+}
 
 const gradient = {
   1: "top1",
   2: "top2",
   3: "top3",
-};
+}
 
 const Top3Info = ({ team }) => {
   const {
@@ -103,19 +103,19 @@ const Top3Info = ({ team }) => {
     satisfiedTime: day,
     teamIcon: icon,
     teamId: id,
-  } = team;
+  } = team
 
-  const [info, setInfo] = useState();
+  const [info, setInfo] = useState()
 
   useEffect(() => {
     async function getInfo() {
       const {
         data: { data },
-      } = await http.get(`information/team/${id}`);
-      setInfo(data);
+      } = await http.get(`information/team/${id}`)
+      setInfo(data)
     }
-    if (id) getInfo();
-  }, []);
+    if (id) getInfo()
+  }, [])
 
   return (
     <div className=" text-lg font-semibold absolute  flex  flex-col justify-center items-center w-[80%] h-[80%]   ">
@@ -124,7 +124,7 @@ const Top3Info = ({ team }) => {
       >
         {info && (
           <div className="w-full h-full  absolute flex justify-center items-center   opacity-0 hover:opacity-100 -top-2 scale-110 z-10 transition-all duration-500">
-            <div className=" bg-white/40 border-blue-200 absolute -left-40 text-sm w-full p-4 rounded-2xl font-normal shadow-md   ">
+            <div className=" bg-white/40 border-blue-200 absolute -left-40 text-sm w-full p-2  py-3 rounded-2xl font-normal shadow-md   ">
               <h1 className="text-base font-medium mb-0.5">
                 {info.nickname || info.teamName}
               </h1>
@@ -167,17 +167,17 @@ const Top3Info = ({ team }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export const TopRank = ({ list }) => {
-  const rankList = [...list];
+  const rankList = [...list]
   if (rankList.length < 5) {
-    for (let i = rankList.length; i < 5; i++) rankList.push(defaultItem);
+    for (let i = rankList.length; i < 5; i++) rankList.push(defaultItem)
   }
 
-  const top3 = [rankList[0], rankList[1], rankList[2]];
-  const under3 = rankList.slice(3);
+  const top3 = [rankList[0], rankList[1], rankList[2]]
+  const under3 = rankList.slice(3)
 
   return (
     <div
@@ -226,7 +226,7 @@ export const TopRank = ({ list }) => {
             <img
               src="/images/rankPage/gold.png"
               alt=""
-              className=" w-[75%] h-[75%]"
+              className=" w-[77%] h-[75%]"
             />
             <Top3Info team={top3[2]} />
           </div>
@@ -236,5 +236,5 @@ export const TopRank = ({ list }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
