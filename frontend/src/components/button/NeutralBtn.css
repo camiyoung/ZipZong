@@ -1,0 +1,36 @@
+.neutral-btn {
+  background: white;
+  border: 1px solid #868e96;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+  box-sizing: border-box;
+  color: #868e96;
+  cursor: pointer;
+  display: inline-block;
+  font-family: nunito, roboto, proxima-nova, "proxima nova", sans-serif;
+  font-size: 16px;
+  width: 130px;
+  font-weight: 800;
+  line-height: 16px;
+  min-height: 40px;
+  outline: 0;
+  padding: 12px 14px;
+  text-align: center;
+  text-rendering: geometricprecision;
+  text-transform: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+}
+
+.neutral-btn:hover,
+.neutral-btn:active {
+  background-color: #868e96;
+  background-position: 0 0;
+  color: white;
+}
+
+.neutral-btn:active {
+  opacity: 0.5;
+}
