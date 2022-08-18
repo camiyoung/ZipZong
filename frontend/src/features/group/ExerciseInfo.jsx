@@ -190,7 +190,7 @@ export default function ExerciseInfo() {
   }, [stateGroupDailyHistory])
 
   return (
-    <div className="flex flex-col flex-wrap w-full">
+    <div className="flex flex-col flex-wrap w-4/5">
       <div className="flex w-full justify-center mt-10">
         <CalendarForm />
 
@@ -201,9 +201,14 @@ export default function ExerciseInfo() {
               borderRadius: "1rem 0px 0px 1rem",
             }}
           >
-            <p className="text-5xl text-white font-bold mb-3">{showYear}년</p>
+            <p className="text-5xl text-white font-bold mb-3">
+              {showYear}
+              <span className="text-4xl">년</span>
+            </p>
             <p className="text-5xl text-white font-bold mb-5">
-              {showMonth}월 {showDay}일
+              {showMonth}
+              <span className="text-4xl">월</span> {showDay}
+              <span className="text-4xl">일</span>
             </p>
             <p className="text-lg text-white font-normal"> {teamName}</p>
             <span className="text-sm mt-0.5 text-gray-100">
@@ -213,15 +218,23 @@ export default function ExerciseInfo() {
           <div className="w-3/4 h-full flex items-center justify-center">
             <div className="flex flex-col justify-center w-10/12">
               <div className="h-[50px] flex items-center justify-center">
-                <div className="flex items-center justify-center mt-1">
-                  <p className="text-[14px] mr-1">다같이 운동한 시간:</p>
+                <div className="flex items-center justify-center mt-10">
+                  {stateGroupDailyHistory === null ||
+                  stateGroupDailyHistory.length === 0 ? null : (
+                    <p className="text-[20px] font-semibold mr-1">
+                      다같이 운동한 시간:
+                    </p>
+                  )}
                   {teamDailyTotalTime && teamDailyTotalTime >= 60 ? (
-                    <p className="text-[18px]">
+                    <p className="text-[24px] font-semibold">
                       {parseInt(teamDailyTotalTime / 60)} 시간{" "}
                       {teamDailyTotalTime % 60} 분
                     </p>
-                  ) : (
-                    <p className="text-[18px]">{teamDailyTotalTime} 분</p>
+                  ) : stateGroupDailyHistory === null ||
+                    stateGroupDailyHistory.length === 0 ? null : (
+                    <p className="text-[24px] font-semibold">
+                      {teamDailyTotalTime} 분
+                    </p>
                   )}
                 </div>
               </div>
@@ -229,9 +242,9 @@ export default function ExerciseInfo() {
                 {stateGroupDailyHistory === null ||
                 stateGroupDailyHistory.length === 0 ? (
                   // true, false 순서를 바꾸면 정상적으로 작동함 -> 운동을 하면 결과, 없으면 운동 안했다는 메시지 출력
-                  <span className="text-lg">
-                    운동 기록이 존재하지 않습니다.
-                  </span>
+                  <p className="text-lg font-normal text-center w-full">
+                    운동 기록이 존재하지 않습니다!
+                  </p>
                 ) : (
                   stateGroupDailyHistory.map(
                     ({ performName, performNum, performTime }, idx) => {

@@ -27,7 +27,7 @@ export default function GroupSetInfo() {
       {/* 모달 영역 */}
       <Modal isOpen={isOpen} modalClose={modalClose}>
         <div className="text-xl flex justify-center pb-5 font-bold">
-          그룹 프로필 수정
+          그룹 프로필 변경
         </div>
         <div className="flex flex-col">
           <div>
@@ -48,6 +48,7 @@ export default function GroupSetInfo() {
                       focus:border-primary-400
                     "
                 onChange={(e) => setGroupName(e.target.value)}
+                maxLength="8"
               />
             </div>
             <div className="pb-1">그룹 설명</div>
@@ -106,7 +107,7 @@ export default function GroupSetInfo() {
             />
           ) : null}
         </div>
-        <div className="w-4/5">
+        <div className="w-4/5 pl-4">
           <div className="flex mb-2">
             <p className="text-3xl font-semibold mr-5">{teamName}</p>
             <Button

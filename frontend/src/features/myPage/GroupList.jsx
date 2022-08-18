@@ -10,17 +10,6 @@ import SmallTextInput from "../../components/input/SmallTextInput"
 import LargeTextInput from "../../components/input/LargeTextInput"
 import { NavLink } from "react-router-dom"
 
-const Groups = [
-  {
-    groupName: "집에서 운동중",
-    icon: "https://pbs.twimg.com/profile_images/980421048498716672/LZsqP0kf_400x400.jpg",
-  },
-  {
-    groupName: "작심삼일",
-    icon: "https://t1.daumcdn.net/cfile/tistory/1906E7334F22D2583F",
-  },
-]
-
 export default function Group() {
   const dispatch = useDispatch()
   const [isOpen, setOpen] = useState(false)
@@ -81,6 +70,7 @@ export default function Group() {
                       focus:ring-primary-400
                       focus:border-primary-400
                     "
+                maxLength="8"
                 onChange={(e) => {
                   setTeamName(e.target.value)
                 }}
@@ -130,7 +120,10 @@ export default function Group() {
       <div className="flex">
         {registeredTeam.map(({ teamName, icon, count, groupId }, idx) => {
           return (
-            <div className="flex w-1/5 h-[270px] justify-center" key={idx}>
+            <div
+              className="hover:scale-110 flex w-1/5 h-[270px] justify-center"
+              key={idx}
+            >
               <div
                 className="w-11/12 shadow-md flex justify-center items-center bg-cover rounded-3xl"
                 style={{
@@ -139,7 +132,7 @@ export default function Group() {
               >
                 <div className="w-full h-full backdrop-blur-xl rounded-3xl flex flex-col items-center">
                   <div className="flex items-center justify-center w-full h-full">
-                    <NavLink key={idx} to={`/group/${groupId}`}>
+                    <NavLink to={`/group/${groupId}`}>
                       <Icon
                         image={`/images/badgeIcon/${icon}.png`}
                         size="xLarge2"
@@ -166,17 +159,19 @@ export default function Group() {
             onClick={() => setOpen(true)}
             className="flex w-1/5 justify-center"
           >
-            <div className="w-11/12 shadow-md flex justify-center items-center rounded-3xl cursor-pointer">
-              <div className="flex justify-center items-center w-full bg-white rounded-3xl h-[270px]">
-                <div className="flex w-4/5 ">
+            <div className="hover:scale-110 border w-11/12 shadow-lg flex justify-center items-center rounded-3xl cursor-pointer">
+              <div className="flex justify-center items-center w-full rounded-3xl h-[270px]">
+                <div className="flex flex-col jusitfy-center ">
                   <Icon
-                    image="https://icons-for-free.com/download-icon-circle+more+plus+icon-1320183136549593898_512.png"
-                    size="large"
+                    image="http://cdn.onlinewebfonts.com/svg/img_356964.png"
+                    size="xLarge"
                     borderStyle="none"
                   />
-                  <div className="flex flex-col justify-center pl-3">
-                    <span className="pl-1 text-md">그룹을</span>
-                    <span className="pl-1 text-md">만들어보세요.</span>
+                  <div className="flex flex-col justify-center pt-5">
+                    <span className="pl-1 text-md text-center">그룹을</span>
+                    <span className="pl-1 text-md text-center">
+                      만들어보세요.
+                    </span>
                   </div>
                 </div>
               </div>

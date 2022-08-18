@@ -6,15 +6,7 @@ import ExerciseIcon from "../../components/icon/ExerciseIcon"
 import ChangeLanguage from "../routine/ChangeLanguage"
 import { http } from "../../api/axios"
 import { useParams } from "react-router"
-
-const style = {
-  buttonAdmin:
-    "relative inline-flex items-center justify-center p-0.5  mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800",
-  buttonText:
-    "relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0",
-  buttonDisable:
-    "text-white bg-blue-400 dark:bg-blue-500 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 text-center",
-}
+import language from "../../utils/LanguceChange"
 
 const ErrorToast = ({ message, setError }) => {
   const close = () => {
@@ -63,19 +55,25 @@ const SelectRoutine = ({ closeMoal, user }) => {
     closeMoal()
   }
   return (
-    <div className="w-full h-full fixed z-50 top-0 left-0 flex flex-col justify-center items-center">
-      <div className="relative bg-white rounded-lg shadow w-4/6 ">
-        <div onClick={() => closeMoal()}>닫기 </div>
-        루틴 선택
-        {routines.map((routine, index) => (
-          <div
-            className="border-2 border-yellow-300"
-            key={index}
-            onClick={() => selectRoutine(routine)}
-          >
-            {routine.routineName}
-          </div>
-        ))}
+    <div
+      className="w-full h-full fixed z-50 top-0 left-0 flex flex-col justify-center items-center bg-[#53626392] transition-all"
+      onClick={() => closeMoal()}
+    >
+      <div className="relative bg-white rounded-2xl  w-3/6 max-w-[700px]  shadow-lg border ">
+        <div className="w-full h-[40px] bg-gradient-to-l from-lgBlue-500 to-secondary-500 rounded-t-2xl  text-center text-medium flex justify-center items-center">
+          <span>루틴 선택 </span>
+        </div>
+        <ul className="p-5 w-full flex justify-center items-center flex-col">
+          {routines.map((routine, index) => (
+            <li
+              className=" w-4/5 border-2 border-lgBlue-200 my-2 p-2 rounded-xl shadow-md flex justify-center items-center text-gray-500 cursor-pointer hover:scale-110 transition-all"
+              key={index}
+              onClick={() => selectRoutine(routine)}
+            >
+              <span> {routine.routineName}</span>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   )
@@ -83,17 +81,10 @@ const SelectRoutine = ({ closeMoal, user }) => {
 
 const NotActiveButtons = () => {
   return (
-    <div id="buttons" className="border flex justify-center items-center p-2">
-      <Tooltip content="루틴 변경은 방장만 가능합니다." placement="bottom">
-        <button className={`${style.buttonDisable} `}>
-          <span>루틴 변경 </span>
-        </button>
-      </Tooltip>
-      <Tooltip content="게임 시작은 방장만 가능합니다." placement="bottom">
-        <button className={`${style.buttonDisable}`}>
-          <span>게임 시작</span>
-        </button>
-      </Tooltip>
+    <div className="w-full h-full flex rounded-t-2xl bg-gradient-to-l from-lgBlue-500 to-secondary-500 shadow-md border-2 border-white justify-center items-center cursor-not-allowed">
+      <div className="w-full text-sm text-center text-gray-500">
+        루틴 변경과 게임 시작은 방장만 가능합니다.
+      </div>
     </div>
   )
 }
@@ -109,7 +100,7 @@ const ExerciseCard = ({ exercise }) => {
           backgroundImage: `url(/images/exerciseIcon/${name}.png)`,
         }}
       >
-        <div className="w-full h-full backdrop-blur-lg rounded-3xl">
+        <div className="w-full h-full backdrop-blur-lg rounded-3xl ">
           <div className="flex flex-col justify-center items-center w-full h-full py-6">
             <ExerciseIcon
               size="large"
@@ -134,12 +125,12 @@ const ExerciseInfo = () => {
   const todo = useSelector((state) => state.exercise.todoList)
   const index = useSelector((state) => state.exercise.todoIndex)
   const current = index === -1 ? undefined : todo[index]
-  // const current = undefined
+  // const current = 3
   const successCount = useSelector((state) => state.exercise.successCount)
   return (
     <div className="0 w-full h-full flex flex-col justify-center items-center">
       {!current ? (
-        <div>준비 </div>
+        <div> Ready </div>
       ) : (
         <div className="flex">
           {/* <div>{current.exerciseName}</div> */}
@@ -147,7 +138,7 @@ const ExerciseInfo = () => {
           <div className="flex  items-center justify-center flex-col ">
             <div>
               {current.type === "exercise"
-                ? `Todo :${current.targetNum}`
+                ? `Todo ${current.targetNum} `
                 : "휴식"}
             </div>
             <div>
@@ -231,36 +222,36 @@ export default function SideBar({ chatComponent, user, isRoomAdmin, tmModel }) {
   }
 
   return (
-    <div className="w-full h-full p-3 relative">
+    <div className="w-full h-full p-3 relative ">
       {showSelectRoutine && (
         <SelectRoutine
           closeMoal={() => setShowSelectRoutine(false)}
           user={user}
         />
       )}
-      <div className="h-2/5 bg-white rounded-2xl relative shadow-md">
+      <div className="h-2/5 bg-white rounded-2xl relative shadow-md w-full">
         {isExercising ? (
-          <div className=" flex justify-center items-center p-2 h-1/6 moving-grad rounded-t-2xl shadow-lg">
+          <div className=" flex justify-center items-center p-2 h-[40px] moving-grad rounded-t-2xl shadow-lg border-2 border-white text-gray-700">
             <span>운동중</span>
           </div>
         ) : (
           <div
             id="buttons"
-            className=" flex justify-center items-center p-2 h-1/6"
+            className=" flex justify-center items-center   h-[40px]  rounded-t-2xl w-full"
           >
             {isRoomAdmin ? (
-              <div>
+              <div className="w-full h-full rounded-t-2xl bg-gradient-to-l from-lgBlue-500 to-secondary-500">
                 <button
-                  className={`${style.buttonAdmin} `}
+                  className="w-1/2 border-2 border-white border-r-0 shadow-md h-full rounded-tl-2xl text-gray-600 hover:bg-lgBlue-500 hover:text-white hover:scale-110 hover:border-r-2 transition-all"
                   onClick={() => setShowSelectRoutine(true)}
                 >
-                  <span className={`${style.buttonText}`}>루틴 변경</span>
+                  <span className="">루틴 선택</span>
                 </button>
                 <button
-                  className={`${style.buttonAdmin}`}
+                  className="w-1/2 border-2 border-white shadow-md h-full rounded-tr-2xl text-gray-600 hover:bg-lgBlue-500 hover:text-white hover:scale-110 hover:border-l-2 transition-all"
                   onClick={startExercise}
                 >
-                  <span className={`${style.buttonText}`}>게임 시작</span>
+                  <span className="">운동 시작</span>
                 </button>
               </div>
             ) : (
@@ -272,22 +263,38 @@ export default function SideBar({ chatComponent, user, isRoomAdmin, tmModel }) {
         {exersiceRoutine && (
           <div id="routine-info" className="h-5/6 overflow-auto">
             {!isExercising ? (
-              <div>
-                <h1>수행할 운동 루틴</h1>
-                <h2>{exersiceRoutine.routineName}</h2>
-                {exersiceRoutine.exercise.map((exercise, index) => (
-                  <div key={index}>
-                    <div>
-                      {exercise.name} : {exercise.count} 개
-                    </div>
-                  </div>
-                ))}
+              <div className="w-full h-full  flex flex-col items-center  pt-4">
+                <h1 className="font-medium  mb-2">수행할 운동 루틴</h1>
+                <h2 className=" italic bg-lgBlue-300 my-2 px-4">
+                  <span className=" mr-2 ">{exersiceRoutine.routineName} </span>{" "}
+                  <span className="text-sm ">
+                    ({parseInt(exersiceRoutine.totalTime / 60)} min)
+                  </span>
+                </h2>
+                <ul className="w-full flex flex-col items-center">
+                  {exersiceRoutine.exercise.map((exercise, index) => (
+                    <li
+                      key={index}
+                      className="border-b-2 w-4/5  p-1 rounded  my-0.5"
+                    >
+                      <div className="text-center">
+                        {language[exercise.name]} {exercise.count} 개
+                      </div>
+                    </li>
+                  ))}
+                </ul>
               </div>
             ) : (
               <ExerciseInfo />
             )}
           </div>
         )}
+        {!exersiceRoutine && (
+          <div className="h-5/6 overflow-auto flex justify-center items-center text-gray-600">
+            운동 루틴을 선택해주세요.
+          </div>
+        )}
+
         {errorMessage && (
           <ErrorToast message={errorMessage} setError={setError} />
         )}

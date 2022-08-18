@@ -1,9 +1,24 @@
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState, useRef, useEffect, useCallback } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
 import Modal from "../../components/modal/Modal"
 import ImageIcon from "../../components/icon/ImageIcon"
 import Button from "../../components/button/Button"
+import { http } from "../../api/axios"
+import { useParams } from "react-router"
+
+const MemberInfo = ({ onClose, info }) => {
+  return (
+    <div className="absolute bg-white  z-30  " onClick={onClose}>
+      <p>{info.nickname}</p>
+      <p>{info.registrationDate}</p>
+      <p>{info.lastExercised}</p>
+      <p>{info.currentStrick}</p>
+      <p>{info.maximumStrick}</p>
+      <p>{info.totalTime}</p>
+    </div>
+  )
+}
 
 export default function MemberList() {
   const { inviteLink, teamMembers, teamCurrentStreak } = useSelector(
@@ -18,39 +33,107 @@ export default function MemberList() {
     copyLinkRef.current.focus()
     copyLinkRef.current.select()
 
-    navigator.clipboard
-      .writeText(copyLinkRef.current.value)
-      .then(() => alert("링크를 복사했습니다."))
+    navigator.clipboard.writeText(copyLinkRef.current.value).then(() => {
+      alert("링크를 복사했습니다.")
+      modalClose()
+    })
   }
+
+  const [memberInfo, setMemberInfo] = useState()
+  const [clicked, setClicked] = useState()
+  const { teamId } = useParams()
+
+  const getMemberInfo = useCallback(async (memberId, idx) => {
+    const {
+      data: { data },
+    } = await http.get(`information/member/${teamId}/${memberId}`)
+
+    setMemberInfo(data)
+  }, [])
+  useEffect(() => {
+    setTimeout(() => {
+      window.scrollTo(0, 0)
+    }, 0)
+  }, [])
+
   return (
     // group 원들의 정보를 받아야 함
-    <div className="mt-10 w-full">
-      {/* 모달 영역 */}
+    <div className="mt-10 w-4/5">
+      {/* 초대 링크 모달 영역 시작 */}
       <Modal isOpen={isOpen} modalClose={modalClose}>
-        <form className="py-3 pb-5">
-          <p className="text-3xl font-semibold text-center mb-5">초대링크</p>
+        <div className="flex justify-center flex-col items-center">
+          <p className="text-3xl font-semibold text-center mb-2">초대링크</p>
+          <img
+            src="/images/inviteIcon/invite1.png"
+            alt="초대링크 아이콘1"
+            className="max-h-[100px] mb-4"
+          />
+          <p className="text-center text-secondary-800 mb-5">
+            같이 운동할 사람을 초대해 보세요!
+          </p>
           <div className="flex justify-center items-center">
             <input
               type="text"
               ref={copyLinkRef}
               value={`https://i7a805.p.ssafy.io/invite?groundId=${inviteLink}`}
-              className="mr-3"
+              className="py-3 rounded-l-md"
               readOnly
             />
-            <Button
+            <button
+              className="text-white bg-blue-400 hover:bg-blue-600 h-[50px] w-[50px] rounded-r-md"
               onClick={() => copyTextUrl()}
-              text="복사"
-              width="w-20"
-            ></Button>
+            >
+              복사
+            </button>
+            {/* <Button
+            onClick={() => copyTextUrl()}
+            text="복사"
+            width="w-20"
+          ></Button> */}
           </div>
-        </form>
+        </div>
       </Modal>
-      {/* 모달 영역 끝 */}
+      {/* 초대 링크 모달 영역 끝 */}
+
+      {memberInfo && (
+        <Modal isOpen={memberInfo} modalClose={() => setMemberInfo()}>
+          <div className=" bg-white  z-30  w-30 flex flex-col justify-center items-center space-y-3 py-8 text-medium font-medium">
+            <div>
+              <ImageIcon
+                image={`/images/badgeIcon/${memberInfo.memberIcon}.png`}
+                size="large"
+                shape="round"
+                borderStyle="none"
+              />
+            </div>
+
+            <div className=" text-xl my-4">{memberInfo.nickname}</div>
+            <div className="border-t-2 border-t-lgBlue-400 pt-2 ">
+              우리 팀 가입일 : {memberInfo.registrationDate}
+            </div>
+            {memberInfo.lastExercised && (
+              <div className=" ">
+                마지막 운동일 : {memberInfo.lastExercised}
+              </div>
+            )}
+            <div className=" ">현재 스트릭 : {memberInfo.currentStrick} 일</div>
+            <div className=" ">최대 스트릭 : {memberInfo.maximumStrick} 일</div>
+            <div className=" ">총 운동시간 : {memberInfo.totalTime} 분</div>
+          </div>
+        </Modal>
+      )}
+
       <div className="flex w-full flex-wrap">
         {teamMembers.map(
           ({ nickname, repIcon, hasExercised, memberId }, idx) => {
             return (
-              <div className="w-[10%] px-2" key={idx}>
+              <div
+                className="hover:scale-110 cursor-pointer w-[10%] px-2  relative"
+                key={idx}
+                onClick={() => {
+                  getMemberInfo(memberId, idx)
+                }}
+              >
                 <div
                   className={
                     hasExercised
@@ -75,6 +158,7 @@ export default function MemberList() {
             )
           }
         )}
+
         {teamMembers.length < 10 ? (
           <div
             onClick={() => setOpen(true)}

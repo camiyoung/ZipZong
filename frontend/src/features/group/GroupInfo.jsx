@@ -10,13 +10,16 @@ import Modal from "../../components/modal/Modal"
 import { teamInfo, teamResign } from "./groupReducer"
 import { setRoutine, setRoomTitle } from "../room/exerciseReducer"
 
+import "../../components/button/PositiveBtn.css"
+import "../../components/button/NegativeBtn.css"
+
 const MakeRoomForm = ({ teamId }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const teamRoutine = useSelector((state) => state.routine.routines)
 
   const [title, setTitle] = useState("")
-  const [routineId, setRoutineId] = useState()
+
   const [errorMsg, setErrorMsg] = useState("")
 
   const enterRoom = () => {
@@ -25,65 +28,111 @@ const MakeRoomForm = ({ teamId }) => {
   }
 
   const onSubmit = () => {
-    if (!!title && !!routineId) {
+    if (!!title) {
       enterRoom()
     } else {
-      setErrorMsg("제목과 루틴 선택은 필수입니다.")
+      setErrorMsg("방 제목은 필수입니다.")
     }
   }
 
+  useEffect(() => {
+    if (title) setErrorMsg("")
+  }, [title])
+
   return (
-    <div>
-      <form action="">
-        <div>
-          <label htmlFor="title">방 제목</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(event) => setTitle(event.target.value)}
-            id="title"
-          />
+    <div className=" w-full p-4 ">
+      <h1 className="text-xl font-semibold text-center mb-2">운동방 만들기</h1>
+      {teamRoutine?.length === 0 ? (
+        <div className="w-full ">
+          <div className=" my-3 p-5">
+            <p className="text-center">그룹의 운동 루틴이 없습니다!</p>
+            <p className="text-center">
+              운동 시작을 위해서는 1개 이상의 루틴이 필요합니다.
+            </p>
+          </div>
+          <Link to={`/routine/${teamId}`}>
+            <div className="flex pt-2 text-lgBlue-600 justify-center font-bold text-md">
+              <button className="bg-lgBlue-200 border border-white w-[250px]   font-bold text-xl rounded-2xl p-3 shadow-lg">
+                루틴 만들기
+              </button>
+            </div>
+          </Link>
         </div>
-        <div>
-          <label htmlFor="routine">루틴</label>
-          <select
-            onChange={(event) => setRoutineId(event.target.value)}
-            value={routineId}
-            id="routine"
-          >
-            <option value="">루틴을 선택하세요 </option>
-            {teamRoutine.map((routine) => (
-              <option value={routine.routineId} key={routine.routineId}>
-                {routine.routineName}
-              </option>
-            ))}
-          </select>
-          <Link to={`/routine/${teamId}`}>루틴 만들기 </Link>
-        </div>
-        <div>
-          <p className="text-red-500">{errorMsg && <div>{errorMsg}</div>}</p>
-        </div>
-        <button type="button" onClick={onSubmit}>
-          생성
-        </button>
-      </form>
+      ) : (
+        <form
+          action=""
+          className="w-full flex flex-col items-center justify-center p-12 pb-4"
+        >
+          <p className="text-center mb-4">
+            {" "}
+            새로운 운동방의 제목을 입력해주세요.
+          </p>
+
+          <div className="relative z-0 mb-4 mt-2  w-4/5  group ">
+            <input
+              type="text"
+              name="floating_last_name"
+              id="floating_last_name"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder=" "
+              maxLength="20"
+              onChange={(event) => setTitle(event.target.value)}
+              // required
+            />
+            <label
+              htmlFor="floating_last_name"
+              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            >
+              방 제목
+            </label>
+          </div>
+
+          <div>
+            <p className="text-red-500 h-12">
+              {errorMsg && <div>{errorMsg}</div>}
+            </p>
+          </div>
+          <div className="flex pt-2 text-lgBlue-600 justify-center font-bold text-md">
+            <button
+              type="button"
+              onClick={onSubmit}
+              className="bg-lgBlue-200 border border-white w-[250px]   font-bold text-xl rounded-2xl p-3 shadow-lg"
+            >
+              방 만들기
+            </button>
+          </div>
+        </form>
+      )}
     </div>
   )
 }
 
-const ResignTeam = ({ teamId, memberId }) => {
+const ResignTeam = ({ teamId, memberId, modalClose }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   return (
     <div>
-      <p style={{ color: "red" }}>정말 그룹을 탈퇴하시겠습니까?</p>
-      <Button
-        text="탈퇴"
-        onClick={() => {
-          dispatch(teamResign({ teamId, memberId }))
-          navigate("/mypage")
-        }}
-      />
+      <p className="text-center text-xl font-semibold mt-[1rem]">
+        정말 그룹을 탈퇴하시겠습니까?
+      </p>
+      <p className="text-center text-[11px] mt-1 text-gray-600">
+        탈퇴하시면 운동 기록 및 달성 아이콘들이 삭제됩니다.
+      </p>
+      <div className="flex justify-evenly mt-5 mb-[1rem]">
+        <button
+          className="negative-btn"
+          role="button"
+          onClick={() => {
+            dispatch(teamResign({ teamId, memberId }))
+            navigate("/mypage")
+          }}
+        >
+          탈퇴
+        </button>
+        <button className="positive-btn" role="button" onClick={modalClose}>
+          취소
+        </button>
+      </div>
     </div>
   )
 }
@@ -120,7 +169,7 @@ function GroupManagement() {
   // useEffect
   useEffect(() => {
     // dispatch(teamInfo(fetchTeamId))
-    if (teamLeader.nickname === memberNickname) {
+    if (teamLeader && teamLeader.nickname === memberNickname) {
       setIsLeader(true)
     } else {
       setIsLeader(false)
@@ -138,7 +187,11 @@ function GroupManagement() {
       <Modal isOpen={isOpen} modalClose={modalClose}>
         {modalContent === "make" && <MakeRoomForm teamId={fetchTeamId} />}
         {modalContent === "resign" && (
-          <ResignTeam teamId={fetchTeamId} memberId={memberId} />
+          <ResignTeam
+            teamId={fetchTeamId}
+            memberId={memberId}
+            modalClose={modalClose}
+          />
         )}
       </Modal>
       {/* 모달 영역 1 끝 */}
@@ -232,7 +285,7 @@ export default function GroupInfo() {
   } = useSelector((state) => state.group)
 
   return (
-    <div className="w-full flex mt-5 px-3">
+    <div className="w-4/5 flex mt-5 px-3">
       <div className="w-1/2 flex items-center rounded-3xl py-8 px-8 custom-border">
         <div className="flex justify-center items-center mr-5">
           {teamRepIcons ? (
@@ -255,7 +308,9 @@ export default function GroupInfo() {
             </div>
             <div className="flex items-center">
               <p className="mr-1">그룹장:</p>{" "}
-              <p className="mr-2"> {teamLeader.nickname}</p>
+              {teamLeader ? (
+                <p className="mr-2"> {teamLeader.nickname}</p>
+              ) : null}
               <p className="flex items-center">
                 <UserIcon />
                 {teamMembers.length} / 10

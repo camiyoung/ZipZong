@@ -10,11 +10,11 @@ const ListItem = ({ item }) => {
     >
       <div
         className={`flex justify-evenly  rounded-full shadow-md  border border-secondary-300 bg-white  shadow-lgBlue-200 ${
-          item.me ? "py-2 w-[80%]" : " w-[70%]  py-1  "
+          item.me ? "py-2 w-[85%]" : " w-[75%]  py-1  "
         }`}
       >
         <div
-          className={` w-1/12  min-w-[30px]   font-semibold  mr-2 text-primary-300 `}
+          className={` w-1/12  min-w-[45px] text-center   font-semibold  pt-0.5   text-primary-300 `}
         >
           {item.rank} 위
         </div>
@@ -22,10 +22,9 @@ const ListItem = ({ item }) => {
           style={{
             backgroundImage: `url(/images/badgeIcon/${item.memberIcon}.png)`,
           }}
-          className={`bg-cover borderColor:border-secondary-900 w-6 h-6`}
+          className={`bg-cover borderColor:border-secondary-900 w-[30px] h-[30px] rounded-full`}
         ></div>
         <div>
-          {" "}
           {item.nickName}
           {item.me && (
             <span className="  bg-gradient-to-br from-[#7bcaff] to-[#ffb3f2]  text-white   text-xs text-center inline-block  font-semibold ml-2 px-2.5 py-0.5 rounded -translate-y-0.5">
@@ -34,15 +33,15 @@ const ListItem = ({ item }) => {
           )}
         </div>
         {item.maxStrick && (
-          <div className="text-center text-lg  font-medium text-gray-500">
+          <div className="text-center font-medium text-gray-500 ">
             {item.maxStrick}
-            <span className="text-sm"> 일째</span>
+            <span className="text-sm">일째</span>
           </div>
         )}
         {item.totalTime && (
-          <div className="text-center text-lg  font-medium text-gray-500">
+          <div className="text-center  font-medium text-gray-500">
             {item.totalTime}
-            <span className="text-sm"> 분째</span>
+            <span className="text-sm">분째</span>
           </div>
         )}
       </div>
@@ -69,9 +68,10 @@ const RankList = ({ title, description, list }) => {
 }
 
 const makeList = (list) => {
+  if (!list) return undefined
   const over =
     list.over.length > 2
-      ? list.over.slice(list.over.length - 3, list.over.length - 1)
+      ? list.over.slice(list.over.length - 2, list.over.length)
       : [...list.over]
   const under = list.under.length > 2 ? list.under.slice(0, 2) : [...list.under]
 
@@ -89,7 +89,7 @@ function PersonalRank({ memberId, memberNickname }) {
         data: { data },
       } = await http.get(`ranking/member/${memberId}`)
       const { strickRank, timeRank } = data
-      //   console.log(strickRank, timeRank)
+
       setStrickRank(makeList(strickRank))
       setTimeRank(makeList(timeRank))
     }
@@ -112,26 +112,33 @@ function PersonalRank({ memberId, memberNickname }) {
             </p>
           </div>
           <div className="w-3/4 h-full flex items-center justify-center">
-            <div className="flex justify-center w-full h-full ">
-              <div className="flex w-1/2 ">
-                {timeRank && (
-                  <RankList
-                    title={"⏰ 타임 랭킹"}
-                    description={"누적 시간"}
-                    list={timeRank}
-                  />
-                )}
+            {!strickRank && !timeRank ? (
+              <span className="text-lg font-normal">
+                {" "}
+                개인 기록이 존재하지 않습니다.{" "}
+              </span>
+            ) : (
+              <div className="flex justify-center w-full h-full ">
+                <div className="flex w-1/2 ">
+                  {timeRank && (
+                    <RankList
+                      title={"⏰ 타임 랭킹"}
+                      description={"누적 시간"}
+                      list={timeRank}
+                    />
+                  )}
+                </div>
+                <div className="flex w-1/2 ">
+                  {strickRank && (
+                    <RankList
+                      title={"🗓️ 스트릭 랭킹"}
+                      description={"최장 기간"}
+                      list={strickRank}
+                    />
+                  )}
+                </div>
               </div>
-              <div className="flex w-1/2 ">
-                {strickRank && (
-                  <RankList
-                    title={"🗓️ 스트릭 랭킹"}
-                    description={"최장 기간"}
-                    list={strickRank}
-                  />
-                )}
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

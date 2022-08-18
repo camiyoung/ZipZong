@@ -5,6 +5,7 @@ import { registrationTeam, teamInfo } from "../../features/group/groupReducer"
 import Modal from "../modal/Modal"
 import { NicknameValidation } from "../../utils/NicknameValidation"
 import { Button } from "flowbite-react"
+
 import {
   nicknameChange,
   memberIconSelect,
@@ -14,67 +15,43 @@ import {
 import Card from "../card/Card"
 import ImageIcon from "../icon/ImageIcon"
 import Logo from "../../assets/Logo.svg"
+import { Carousel } from "flowbite-react"
+import "./Navbar.css"
+import "../../components/button/NegativeBtn.css"
+import "../../components/button/PositiveBtn.css"
 
 const NavItem = ({ children }) => {
   return <li className="m-2 flex justify-center items-center">{children}</li>
 }
 
-const GroupList = ({ setVisible, groups }) => {
-  return (
-    <div className="absolute z-30 top-[0.8rem] right-[-2.6rem]">
-      <Card size="middle">
-        {groups.length > 0 ? (
-          <ul>
-            {groups.map(({ teamName, icon, count, groupId }, idx) => {
-              return (
-                <NavLink key={idx} to={`/group/${groupId}`}>
-                  <li className="flex justify-between mt-2 hover:text-red-400">
-                    <div className="flex">
-                      <ImageIcon
-                        image={`/images/badgeIcon/${icon}.png`}
-                        shape="round"
-                        size="small"
-                      />
-                      <div className="ml-2 block truncate w-[140px]">
-                        {teamName}
-                      </div>
-                    </div>
-                    <p className="text-sm ml-2">
-                      {count}/10<span className="text-[4px]"> 명</span>
-                    </p>
-                  </li>
-                </NavLink>
-              )
-            })}
-          </ul>
-        ) : (
-          <p>그룹에 가입해보세요!</p>
-        )}
-      </Card>
-    </div>
-  )
-}
-
-const InfoList = ({ setVisible, memberId, showInfo }) => {
+export default function NavbarComponent() {
   const dispatch = useDispatch()
+  const location = useLocation()
 
-  const { memberNickname, memberRepIcon } = useSelector((state) => state.member)
-  const { basicIcons } = useSelector((state) => state.group)
+  const member = useSelector((state) => state.member)
+  const { memberId, memberRepIcon, memberNickname } = member
+  const { registeredTeam, basicIcons } = useSelector((state) => state.group)
   const { memberIconList } = useSelector((state) => state.mypage)
+  const allIcons = [...basicIcons]
 
-  const allIcons = [...basicIcons, ...memberIconList]
-
-  const [nickname, setNickname] = useState(memberNickname)
-  const [icon, setIcon] = useState(memberRepIcon)
+  const [nickname, setNickname] = useState("")
+  const [icon, setIcon] = useState("")
   const [errorMessage, setErrorMessage] = useState("")
 
-  // Modal
-  const [isOpen, setOpen] = useState(false)
-  const [isOpen2, setOpen2] = useState(false)
-  const modalClose = () => setOpen(false)
-  const modalClose2 = () => setOpen2(false)
+  useEffect(() => {
+    if (memberNickname && memberRepIcon) {
+      setNickname(memberNickname)
+      setIcon(memberRepIcon)
+    }
+  }, [member])
 
-  const [divIsOpen, setDivIsOpen] = useState(true)
+  // Modal
+  const [isOpen, setOpen] = useState(false) // 개인정보 수정
+  const [isOpen2, setOpen2] = useState(false) // 회원탈퇴
+  const [isOpen4, setOpen4] = useState(false) // 튜토리얼
+  const modalClose = () => setOpen(false) // 개인정보 수정
+  const modalClose2 = () => setOpen2(false) // 회원탈퇴
+  const modalCLose4 = () => setOpen4(false) // 튜토리얼
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -109,7 +86,6 @@ const InfoList = ({ setVisible, memberId, showInfo }) => {
               })
             )
             modalClose()
-            setVisible(false)
             setErrorMessage("")
           } else if (res === "DUPLICATE") {
             setErrorMessage("중복된 닉네임입니다.")
@@ -121,21 +97,28 @@ const InfoList = ({ setVisible, memberId, showInfo }) => {
     }
   }
 
+  // 회원이 가입한 팀 정보
+  useEffect(() => {
+    if (memberId) {
+      dispatch(registrationTeam(memberId))
+    }
+  }, [memberId])
+
+  if (
+    location.pathname.split("/")[1] === "room" ||
+    location.pathname.split("/")[1] === "login" ||
+    location.pathname.split("/")[1] === "invite"
+  ) {
+    return
+  }
+
   return (
-    <div
-      onMouseOver={() => {
-        setVisible(true)
-      }}
-      onMouseLeave={() => {
-        setVisible(false)
-      }}
-    >
+    <div className="flex justify-center py-3">
       {/* 개인 정보 수정 모달 시작 */}
       <Modal
         isOpen={isOpen}
         modalClose={() => {
           modalClose()
-          setVisible(false)
         }}
       >
         <form onSubmit={handleSubmit}>
@@ -173,6 +156,7 @@ const InfoList = ({ setVisible, memberId, showInfo }) => {
                       focus:ring-primary-400
                       focus:border-primary-400
                     "
+                      maxLength="8"
                       value={nickname}
                       onChange={(event) => {
                         setNickname(event.target.value)
@@ -237,7 +221,7 @@ const InfoList = ({ setVisible, memberId, showInfo }) => {
       {/* 회원탈퇴 모달 시작 */}
       <Modal isOpen={isOpen2} modalClose={modalClose2} className="w-[100px]">
         <div className="flex flex-col items-center justify-center">
-          <p className="text-xl">
+          <p className="text-xl mb-5">
             정말 <span className="text-red-600">탈퇴</span>하시겠습니까?
           </p>
           <img
@@ -245,180 +229,161 @@ const InfoList = ({ setVisible, memberId, showInfo }) => {
             alt="회원탈퇴 금지 이미지"
             className="max-w-[150px] text-center"
           />
-          <div className="flex justify-center items-center mt-2">
-            <Button
-              size="xs"
-              color="failure"
-              onClick={() => {
-                dispatch(memberRemove(memberId))
-              }}
+          <div className="flex justify-center items-center my-5">
+            <button
+              className="negative-btn mr-10"
+              role="button"
+              onClick={() => dispatch(memberRemove(memberId))}
             >
-              Yes
-            </Button>
-            <div className="mx-5"></div>
-            <Button size="xl" onClick={modalClose2}>
-              No
-            </Button>
+              예
+            </button>
+            <button
+              className="positive-btn"
+              role="button"
+              onClick={modalClose2}
+            >
+              아니오
+            </button>
           </div>
         </div>
       </Modal>
       {/* 회원탈퇴 모달 끝 */}
 
-      {divIsOpen && (
-        <div className="absolute z-30 top-[1.5rem] right-[0.1rem]">
-          <Card size="small">
-            <ul>
-              <NavItem>
-                <NavLink to="/mypage" className="hover:text-red-400">
+      {/* 튜토리얼 모달 시작 */}
+      <Modal isOpen={isOpen4} modalClose={modalCLose4} className="w-full">
+        <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
+          <Carousel slideInterval={5000}>
+            <img
+              src="https://flowbite.com/docs/images/carousel/carousel-1.svg"
+              alt="..."
+            />
+            <img
+              src="https://flowbite.com/docs/images/carousel/carousel-2.svg"
+              alt="..."
+            />
+            <img
+              src="https://flowbite.com/docs/images/carousel/carousel-3.svg"
+              alt="..."
+            />
+            <img
+              src="https://flowbite.com/docs/images/carousel/carousel-4.svg"
+              alt="..."
+            />
+            <img
+              src="https://flowbite.com/docs/images/carousel/carousel-5.svg"
+              alt="..."
+            />
+          </Carousel>
+        </div>
+      </Modal>
+      {/* 튜토리얼 모달 끝 */}
+
+      <div className="w-screen flex justify-center">
+        <nav className="flex justify-between py-3 w-4/5 items-center">
+          <NavLink to="/">
+            <img src={Logo} style={{ height: "60px" }} alt="logo" />
+          </NavLink>
+          <ul className="flex navbar-links">
+            <NavItem>
+              <p
+                className="navlink"
+                onClick={() => {
+                  setOpen4(true)
+                }}
+              >
+                튜토리얼
+              </p>
+            </NavItem>
+            <NavItem>
+              <NavLink to="/rank" className="navlink">
+                명예의 전당
+              </NavLink>
+            </NavItem>
+            <li className="navbar-dropdown my-auto">
+              <p className="navlink">그룹 목록</p>
+              <div className="dropdown">
+                <p className="font-semibold text-xl ml-5 mb-5">
+                  내가 가입한 그룹 목록
+                </p>
+                <hr className="mb-4" />
+                {registeredTeam &&
+                  registeredTeam.map(
+                    ({ count, groupId, icon, teamName }, idx) => {
+                      return (
+                        <NavLink
+                          key={idx}
+                          to={`/group/${groupId}`}
+                          className="navlink mb-2"
+                        >
+                          <div className="flex items-center">
+                            <ImageIcon
+                              image={`/images/badgeIcon/${icon}.png`}
+                              shape="round"
+                              size="small"
+                            />
+                            <div className="ml-2 block truncate w-[160px]">
+                              {teamName}
+                            </div>
+                            <p>
+                              {count}/10<span className="text-[1rem]"> 명</span>
+                            </p>
+                          </div>
+                        </NavLink>
+                      )
+                    }
+                  )}
+                {!registeredTeam ? (
+                  <p className="navlink">그룹에 가입해보세요!</p>
+                ) : null}
+              </div>
+            </li>
+
+            <ul className="navbar-dropdown my-auto">
+              <img
+                src={`/images/badgeIcon/${memberRepIcon}.png`}
+                alt="멤버 아이콘"
+                className="max-w-[100px] rounded-full navlink ml-[20px]"
+              />
+
+              <div className="dropdown" style={{ width: "177px" }}>
+                <NavLink to="/mypage" className="navlink ml-4">
                   <div
                     onClick={() => {
                       modalClose()
-                      setVisible(false)
                     }}
                   >
                     My page
                   </div>
                 </NavLink>
-              </NavItem>
-              <NavItem>
                 <li
                   onClick={() => {
                     setOpen(true)
-                    setDivIsOpen(false)
                   }}
-                  className="hover:text-red-400 mt-2 cursor-pointer"
+                  className="navlink ml-4"
                 >
                   개인정보 수정
                 </li>
-              </NavItem>
-              <NavItem>
                 <li
                   onClick={() => {
                     localStorage.clear()
                     window.location.replace("/")
                   }}
-                  className="hover:text-red-400 mt-2 cursor-pointer"
+                  className="navlink ml-4"
                 >
                   로그아웃
                 </li>
-              </NavItem>
-              <NavItem>
+                <hr />
                 <li
-                  className="hover:text-red-400 mt-2 cursor-pointer"
                   onClick={() => {
                     setOpen2(true)
-                    setDivIsOpen(false)
                   }}
+                  className="navlink ml-4"
+                  style={{ color: "red" }}
                 >
                   회원 탈퇴
                 </li>
-              </NavItem>
+              </div>
             </ul>
-          </Card>
-        </div>
-      )}
-    </div>
-  )
-}
-
-export default function NavbarComponent() {
-  const dispatch = useDispatch()
-  const location = useLocation()
-
-  const { memberId, memberRepIcon } = useSelector((state) => state.member)
-  const { registeredTeam } = useSelector((state) => state.group)
-  const [showGroup, setShowGroup] = useState(false)
-  const [showInfo, setShowInfo] = useState(false)
-
-  // 회원이 가입한 팀 정보
-  useEffect(() => {
-    if (memberId) {
-      dispatch(registrationTeam(memberId))
-    }
-  }, [memberId])
-
-  if (
-    location.pathname.split("/")[1] === "room" ||
-    location.pathname.split("/")[1] === "login" ||
-    location.pathname.split("/")[1] === "invite"
-  ) {
-    return
-  }
-
-  return (
-    <div className="flex justify-center py-3">
-      <div className="w-screen flex justify-center">
-        <nav className="flex justify-between py-3 w-4/5">
-          <div>
-            <NavLink to="/">
-              <img src={Logo} style={{ height: "60px" }} alt="logo" />
-            </NavLink>
-          </div>
-          <ul className="flex">
-            <NavItem>
-              <NavLink to="/tutorial" className="hover:text-red-400">
-                튜토리얼
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink to="/rank" className="hover:text-red-400">
-                명예의 전당
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <div
-                onMouseOver={() => {
-                  setShowGroup(true)
-                }}
-                onMouseLeave={() => {
-                  setShowGroup(false)
-                }}
-                className="hover:text-red-400 cursor-default"
-              >
-                그룹 목록
-              </div>
-              <div
-                onMouseOver={() => {
-                  setShowGroup(true)
-                }}
-                onMouseLeave={() => {
-                  setShowGroup(false)
-                }}
-                className="relative cursor-default"
-              >
-                {showGroup && (
-                  <GroupList
-                    setVisible={setShowGroup}
-                    groups={registeredTeam}
-                  />
-                )}
-              </div>
-            </NavItem>
-
-            <NavItem>
-              <div
-                onMouseOver={() => {
-                  setShowInfo(true)
-                }}
-                onMouseLeave={() => {
-                  setShowInfo(false)
-                }}
-                className="relative"
-              >
-                <ImageIcon
-                  image={`/images/badgeIcon/${memberRepIcon}.png`}
-                  size="small"
-                  shape="round"
-                />
-                {showInfo && (
-                  <InfoList
-                    setVisible={setShowInfo}
-                    memberId={memberId}
-                    showInfo={showInfo}
-                  />
-                )}
-              </div>
-            </NavItem>
           </ul>
         </nav>
       </div>

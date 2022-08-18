@@ -8,28 +8,16 @@ import { Tooltip } from "flowbite-react"
 import ShowExpression from "./ShowExpression"
 
 import { teamRepIconModify } from "./groupReducer"
-const prizes = [
-  "bee",
-  "elephant",
-  "basic",
-  "ferret",
-  "frog",
-  "pandaBear",
-  "pig",
-  "rabbit",
-  "walrus",
-  "yak",
-]
 
 export default function CollectedIcons() {
   const dispatch = useDispatch()
   const location = useLocation()
   const fetchTeamId = location.pathname.split("/")[2]
-  const { basicIcons, icons } = useSelector((state) => state.group)
+  const { basicTeamIcons, icons } = useSelector((state) => state.group)
   const [allGroupIcons, setAllGroupIcons] = useState("")
   useEffect(() => {
-    setAllGroupIcons([...icons, ...basicIcons])
-  }, [])
+    setAllGroupIcons([...icons, ...basicTeamIcons])
+  }, [icons])
 
   return (
     <div className="flex justify-center flex-col mx-5 rounded-lg mt-14">
@@ -46,8 +34,9 @@ export default function CollectedIcons() {
             ? allGroupIcons.map((imageName, idx) => {
                 return (
                   <Tooltip
-                    content={<ShowExpression imageUrl={imageName} key={idx} />}
+                    content={<ShowExpression imageUrl={imageName} />}
                     placement="bottom"
+                    key={idx}
                   >
                     <div
                       className="m-2.5 cursor-pointer"

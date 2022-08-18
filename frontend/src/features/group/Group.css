@@ -48,7 +48,7 @@
 
 .grad3 {
   display: flex;
-  background: linear-gradient(270deg, #ffffff, #c3e9fa);
+  background: linear-gradient(270deg, #ffffff, #bfe6e4);
   background-size: 200% 200%;
   animation: MoveGrad 5s ease infinite;
   align-items: center;

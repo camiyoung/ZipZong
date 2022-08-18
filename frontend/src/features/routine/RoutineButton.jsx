@@ -48,7 +48,6 @@ export default function RoutineButton({
               breakTime,
               totalTime,
             }
-            console.log(newRoutine)
             if (routineId) {
               dispatch(modifyRoutine({ routineId, routine: newRoutine }))
             } else {

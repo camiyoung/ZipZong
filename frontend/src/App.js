@@ -1,6 +1,12 @@
 import "./App.css"
 
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  Outlet,
+} from "react-router-dom"
 import Navbar from "./components/navbar/Navbar"
 import Components from "./pages/Components"
 import Invite from "./pages/Invite"
@@ -14,11 +20,13 @@ import Login from "./pages/Login"
 import ExerciseResultPage from "./pages/ExerciseResutlPage"
 import Routine from "./pages/Routine"
 import RoutineMake from "./pages/RoutineMake"
-import { useEffect } from "react"
+import { useState, useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { memberInfo } from "./features/login/memberReducer"
 import { memberIconListReview } from "./features/myPage/myPageReducer"
 import NotFound from "./pages/NotFound"
+import NotShow from "./pages/NotShow"
+import { throttle } from "lodash"
 
 function App() {
   const dispatch = useDispatch()
@@ -40,19 +48,46 @@ function App() {
     checkLogined()
   }, [])
 
+  const ProtectedRoute = ({
+    token,
+    nickname,
+    redirectPath = "/login",
+    children,
+  }) => {
+    if (!token || !nickname) {
+      return <Navigate replace to={redirectPath} />
+    }
+
+    return children ? children : <Outlet />
+  }
+
+  useEffect(() => {
+    window.onbeforeunload = function pushRefresh() {
+      window.scrollTo(0, 0)
+    }
+  }, [])
+
   return (
     <>
-      {!token || !nickname ? (
-        <Login />
-      ) : (
-        <div className="w-screen bg-gradient-to-b from-secondary-100 to-lgBlue-200">
-          <BrowserRouter>
-            <Navbar />
-            <Routes>
+      <div className="w-screen bg-gradient-to-b from-secondary-100 to-lgBlue-200">
+        {/* 화면 크기 조절 DIV 주석 풀어야 함 */}
+        {/* <div className="cover hidden">
+          <p className="text-center font-semibold text-[50px] mb-[30px] mt-[20%]">
+            본 페이지는 1240px이상에서 화면을 제공합니다.
+          </p>
+          <p className="text-center font-semibold text-[50px]">
+            가로 크기를 늘려주세요.
+          </p>
+        </div> */}
+        <BrowserRouter>
+          <Navbar />
+          <Routes>
+            <Route
+              element={<ProtectedRoute token={token} nickname={nickname} />}
+            >
               <Route path="*" element={<NotFound />} />
               <Route path="/" element={<Navigate replace to="/mypage" />} />
               <Route path="/components" element={<Components />} />
-              <Route path="/invite" element={<Invite />} />
 
               <Route path="/group/:teamId" element={<Group />} />
               {/* <Route path="/group" element={<Group />} /> */}
@@ -66,16 +101,18 @@ function App() {
                 element={<RoutineMake />}
               />
 
-              {/* <Route path="/login" element={<Login />} /> */}
               {/* <Route path="/room" element={<RoomPage />} /> */}
               <Route path="/room/:teamId" element={<RoomPage />} />
               <Route path="/mypage" element={<MyPage />} />
               <Route path="/rank" element={<RankPage />} />
               <Route path="/result" element={<ExerciseResultPage />} />
-            </Routes>
-          </BrowserRouter>
-        </div>
-      )}
+            </Route>
+
+            <Route path="/login" element={<Login />} />
+            <Route path="/invite" element={<Invite />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
     </>
   )
 }
