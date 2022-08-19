@@ -16,7 +16,7 @@ const ListItem = ({ item }) => {
         }`}
       >
         <div
-          className={` w-1/12  min-w-[30px]   font-semibold  mr-2 text-primary-300 `}
+          className={` w-1/12  min-w-[45px]   font-semibold  mr-2 text-primary-300 `}
         >
           {item.rank} 위
         </div>
