@@ -17,6 +17,7 @@ import MyPage from "./pages/MyPage"
 import RoomPage from "./pages/RoomPage"
 import RankPage from "./pages/RankPage"
 import Login from "./pages/Login"
+import LoginCheck from "./pages/LoginCheck"
 import ExerciseResultPage from "./pages/ExerciseResutlPage"
 import Routine from "./pages/Routine"
 import RoutineMake from "./pages/RoutineMake"
@@ -119,6 +120,7 @@ function App() {
             </Route>
 
             <Route path="/login" element={<Login />} />
+            <Route path="/logincheck" elecmemt={<LoginCheck />} />
             <Route path="/invite" element={<Invite />} />
           </Routes>
         </BrowserRouter>

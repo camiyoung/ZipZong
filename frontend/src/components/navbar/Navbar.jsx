@@ -102,7 +102,8 @@ export default function NavbarComponent() {
   if (
     location.pathname.split("/")[1] === "room" ||
     location.pathname.split("/")[1] === "login" ||
-    location.pathname.split("/")[1] === "invite"
+    location.pathname.split("/")[1] === "invite" ||
+    location.pathname.split("/")[1] === "logincheck"
   ) {
     return
   }
