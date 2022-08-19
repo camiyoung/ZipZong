@@ -57,7 +57,7 @@ public class OAuthController {
             nickname = "";
         }
 
-        response.sendRedirect(UriComponentsBuilder.fromUriString("http://i7a805.p.ssafy.io/logincheck/")
+        response.sendRedirect(UriComponentsBuilder.fromUriString("http://i7a805.p.ssafy.io/logincheck")
                 .queryParam("accessToken", token.getAccessToken())
                 .queryParam("refreshToken", token.getRefreshToken())
                 .queryParam("accessTokenExpiration", accessTokenExpiration)
