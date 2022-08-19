@@ -69,7 +69,14 @@ export default function Login() {
   return (
     <div className=" w-full h-screen grid-carousel bg-gradient-to-tl from-begie to-lightBlue flex justify-center items-center  ">
       <div className=" flex  w-4/5 bg-white h-4/5  max-w-[1000px] min-w-[700px] rounded-2xl p-4 pb-0 shadow-xl ">
-        <Spinner aria-label="Default status example" />
+        <div className="w-1/2  h-full  p-4 flex justify-center items-center flex-col relative ">
+          <img src={Logo} style={{ height: "60px" }} alt="logo" />
+          {showMakeNickname ? (
+            <SetNickName />
+          ) : (
+            <Spinner aria-label="Default status example" />
+          )}
+        </div>
       </div>
     </div>
   )
