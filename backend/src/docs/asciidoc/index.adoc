@@ -27,6 +27,8 @@ operation::get-icons[snippets='http-request,path-parameters,http-response,respon
 operation::set-repIcon[snippets='http-request,request-fields,http-response,response-fields']
 === 회원 아이콘 추가
 operation::add-Icon[snippets='http-request,request-fields,http-response,response-fields']
+=== 회원 탈퇴
+operation::remove-user[snippets='http-request,path-parameters,http-response,response-fields']
 
 [[Team-API]]
 == Team API
@@ -41,6 +43,8 @@ operation::team-set-repIcon[snippets='http-request,request-fields,http-response,
 operation::team-add-Icon[snippets='http-request,request-fields,http-response,response-fields']
 === 팀 정보 변경
 operation::team-change-teamInfo[snippets='http-request,request-fields,http-response,response-fields']
+=== 팀 명 중복체크
+operation::check-team-name-duplicate[snippets='http-request,http-response,response-fields']
 
 [[Registraion-API]]
 == Registration API
@@ -77,6 +81,8 @@ operation::exercise-team-history[snippets='http-request,request-parameters,http-
 operation::exercise-member-monthly[snippets='http-request,request-parameters,http-response,response-fields']
 === 개인 누적 운동기록 조회
 operation::exercise-member-history[snippets='http-request,request-parameters,http-response,response-fields']
+=== 오늘 운동한 멤버리스트 조회
+operation::exercise-team-today[snippets='http-request,request-parameters,http-response,response-fields']
 
 [[Routine-API]]
 == Routine API
@@ -85,7 +91,45 @@ operation::exercise-member-history[snippets='http-request,request-parameters,htt
 operation::create-routine-by-team[snippets='http-request,path-parameters,http-response,response-fields']
 === 팀별 루틴 조회
 operation::get-routine-by-team[snippets='http-request,path-parameters,http-response,response-fields']
+=== 루틴별 운동 조회
+operation::get-routine-detail-by-routine[snippets='http-request,path-parameters,http-response,response-fields']
 === 루틴 수정
 operation::modify-routine-by-routineId[snippets='http-request,path-parameters,http-response,response-fields']
 === 루틴 삭제
 operation::delete-routine-by-routineId[snippets='http-request,path-parameters,http-response,response-fields']
+
+[[Room-API]]
+== Room API
+
+=== 팀별 운동방 생성
+operation::create-room-by-team[snippets='http-request,path-parameters,http-response,response-fields']
+=== 생성된 운동방에 입장
+operation::enter-room-by-team[snippets='http-request,path-parameters,http-response,response-fields']
+=== 방 상태(정보) 조회
+operation::get-room-status[snippets='http-request,path-parameters,http-response,response-fields']
+=== 방장과 참여자가 방을 퇴장
+operation::leave-room[snippets='http-request,path-parameters,http-response,response-fields']
+=== 운동 종료 후 방을 삭제
+operation::delete-room-by-creator[snippets='http-request,path-parameters,http-response,response-fields']
+=== 방 상태를 운동중으로 변경
+operation::start-room-by-teamId[snippets='http-request,path-parameters,http-response,response-fields']
+
+[[Ranking-API]]
+== Ranking API
+
+=== 명예의 전당 페이지 조회
+operation::show-ranking-page[snippets='http-request,http-response,response-fields']
+=== 팀 순위 정보 조회
+operation::show-team-ranking[snippets='http-request,path-parameters,http-response,response-fields']
+=== 멤버 순위 정보 조회
+operation::show-member-ranking[snippets='http-request,path-parameters,http-response,response-fields']
+
+[[Information-API]]
+== Information API
+
+=== 팀 상세정보 조회
+operation::show-team-detail[snippets='http-request,path-parameters,http-response,response-fields']
+=== 멤버 상세정보 조회
+operation::show-member-detail[snippets='http-request,path-parameters,http-response,response-fields']
+=== 그룹 내 멤버 상세정보 조회
+operation::show-team-member-detail[snippets='http-request,path-parameters,http-response,response-fields']

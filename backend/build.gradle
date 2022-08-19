@@ -2,10 +2,11 @@ plugins {
 	id 'org.springframework.boot' version '2.7.1'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
-	id "org.asciidoctor.jvm.convert" version "3.3.2"
+	// 배포 시 주석
+	//id "org.asciidoctor.jvm.convert" version "3.3.2"
 }
 
-group = 'zipzong'
+group = 'jibjoong'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
@@ -13,7 +14,8 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
-	asciidoctorExt
+	// 배포 시 주석
+ // asciidoctorExt
 }
 
 repositories {
@@ -23,6 +25,7 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
@@ -30,37 +33,41 @@ dependencies {
 	runtimeOnly 'mysql:mysql-connector-java'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor("org.springframework.boot:spring-boot-starter-data-jpa")
+	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'	//security 테스트 의존성
-	testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc") //restdocs 의존성
-	asciidoctorExt("org.springframework.restdocs:spring-restdocs-asciidoctor") // restdocs asciidoctor의 extension을 사용하기 위한 의존성 추가
+	// 배포 시 주석
+//	testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc") //restdocs 의존성
+//	asciidoctorExt("org.springframework.restdocs:spring-restdocs-asciidoctor") // restdocs asciidoctor의 extension을 사용하기 위한 의존성 추가
 }
 
-ext {
-	snippetsDir = file('build/generated-snippets')
-}
-
-test {
-	outputs.dir snippetsDir
-}
-
-asciidoctor {
-	inputs.dir snippetsDir
-	configurations 'asciidoctorExt'
-	dependsOn test
-}
-
-bootJar {
-	dependsOn asciidoctor
-	copy {
-		from "${asciidoctor.outputDir}"            // /html5를 사용하지 않는다!
-		into 'src/main/resources/static/docs'    // /static/docs로 복사!
-	}
-}
-
-tasks.named('test') {
-	useJUnitPlatform()
-}
+// 배포 시 주석
+//ext {
+//	snippetsDir = file('build/generated-snippets')
+//}
+//
+//test {
+//	outputs.dir snippetsDir
+//}
+//
+//asciidoctor {
+//	inputs.dir snippetsDir
+//	configurations 'asciidoctorExt'
+//	dependsOn test
+//}
+//
+//bootJar {
+//	dependsOn asciidoctor
+//	copy {
+//		from "${asciidoctor.outputDir}"            // /html5를 사용하지 않는다!
+//		into 'src/main/resources/static/docs'    // /static/docs로 복사!
+//	}
+//}
+//
+//tasks.named('test') {
+//	useJUnitPlatform()
+//}
 
 jar {
 	enabled = false
