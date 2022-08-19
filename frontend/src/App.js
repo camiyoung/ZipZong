@@ -120,7 +120,7 @@ function App() {
             </Route>
 
             <Route path="/login" element={<Login />} />
-            <Route path="/logincheck" elecmemt={<LoginCheck />} />
+            <Route path="/logincheck" element={<LoginCheck />} />
             <Route path="/invite" element={<Invite />} />
           </Routes>
         </BrowserRouter>
