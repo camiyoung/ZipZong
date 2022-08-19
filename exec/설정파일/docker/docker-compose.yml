@@ -1,0 +1,44 @@
+version: "3"
+services:
+  mydb:
+    image: mysql
+    
+    container_name: mydb
+    environment:
+      MYSQL_DATABASE: zipzong
+      MYSQL_ROOT_PASSWORD: ssafyWEBa805!
+    volumes:
+      - /mydb:/var/lib/mysql
+    ports:
+       - 3306:3306
+
+  redis:
+    container_name: redis      
+
+    image: redis
+    ports:
+      - 6379:6379
+    command: redis-server --requirepass ssafyWEBa805!
+    environment:
+      - REDIS_REPLICATION_MODE=master
+
+  nginx:
+    image: nginx
+    container_name: nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - ./nginx/conf.d:/etc/nginx/conf.d
+
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /jenkins:/var/jenkins_home  
+    ports:
+      - 9090:8080
+    privileged: true
+    user: root
