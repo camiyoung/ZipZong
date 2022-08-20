@@ -16,8 +16,8 @@ import java.util.Date;
 public class JwtService {
     // @author 황승주
     private String secretKey = "token-secret-key";
-    //10분
-    static final long ACCESS_PERIOD = 1000L * 60L * 10L;
+    //10분(2022-08-21, 프엔 테스트를 위해 잠시 24시간으로 증가 -신슬기)
+    static final long ACCESS_PERIOD = 1000L * 60L * 60L * 24L;
     //3달
     static final long REFRESH_PERIOD = 1000L * 60L * 60L * 24L * 30L;
 
