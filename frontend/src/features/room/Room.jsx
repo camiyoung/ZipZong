@@ -73,10 +73,10 @@ class Room extends Component {
 
   async componentDidMount() {
     this.sessionName = this.props.sessionName
-    console.log(
-      "유저 네임 : ",
-      this.props.user ?? localStorage.getItem("nickname")
-    )
+    // console.log(
+    //   "유저 네임 : ",
+    //   this.props.user ?? localStorage.getItem("nickname")
+    // )
     window.addEventListener("beforeunload", this.onbeforeunload)
     await tmModel.loadModel() // teachable machine 로드
 
@@ -89,7 +89,7 @@ class Room extends Component {
 
   componentWillUnmount() {
     window.removeEventListener("resize", this.checkSize)
-    console.log("입장 에러로 언마운트", this.enterError)
+    // console.log("입장 에러로 언마운트", this.enterError)
     this.leaveSession()
   }
 
@@ -228,14 +228,14 @@ class Room extends Component {
     this.setState(
       { currentVideoDevice: videoDevices[0], localUser: localUser },
       () => {
-        console.log(
-          "내 connectionID",
-          this.state.localUser.getConnectionId(),
-          "닉네임",
-          this.state.localUser.getNickname(),
-          "아이콘",
-          this.state.localUser.getUserIcon()
-        )
+        // console.log(
+        //   "내 connectionID",
+        //   this.state.localUser.getConnectionId(),
+        //   "닉네임",
+        //   this.state.localUser.getNickname(),
+        //   "아이콘",
+        //   this.state.localUser.getUserIcon()
+        // )
         this.state.localUser.getStreamManager().on("streamPlaying", (e) => {
           publisher.videos[0].video.parentElement.classList.remove(
             "custom-class"
@@ -266,7 +266,7 @@ class Room extends Component {
 
   leaveSession() {
     const mySession = this.state.session
-    console.log("입장에러 ", this.enterError)
+    // console.log("입장에러 ", this.enterError)
     if (this.enterError) {
       if (mySession) {
         http
@@ -603,7 +603,7 @@ class Room extends Component {
 
   setAlert = (type) => {
     this.setState({ alert: { type } }, () => {
-      console.log(this.state.alert)
+      // console.log(this.state.alert)
     })
   }
 
@@ -780,7 +780,7 @@ class Room extends Component {
           },
         })
         .then((response) => {
-          console.log("새로운 방 생성 ", this.props.roomTitle)
+          // console.log("새로운 방 생성 ", this.props.roomTitle)
           localUser.setRole("admin")
           this.setState({ isRoomAdmin: true })
           const roomtitle = this.props.roomTitle
@@ -866,7 +866,7 @@ class Room extends Component {
           }
         )
         .then((response) => {
-          console.log("TOKEN", response)
+          // console.log("TOKEN", response)
           resolve(response.data.token)
         })
         .catch((error) => reject(error))

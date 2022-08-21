@@ -72,7 +72,7 @@ function App() {
     <>
       <div className="w-screen bg-gradient-to-b from-secondary-100 to-lgBlue-200">
         {/* 화면 크기 조절 DIV 주석 풀어야 함 */}
-        <div className="cover waves hidden">
+        {/* <div className="cover waves hidden">
           <div className="w-full h-full flex justify-center items-center">
             <div className="wave"></div>
             <div className="wave"></div>
@@ -86,7 +86,7 @@ function App() {
               </p>
             </div>
           </div>
-        </div>
+        </div> */}
         <BrowserRouter>
           <Navbar />
           <Routes>
