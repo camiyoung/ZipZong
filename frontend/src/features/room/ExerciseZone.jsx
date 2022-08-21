@@ -38,12 +38,15 @@ function MyExercise({
     dispatch(setExerciseStatus(value))
   }
   useEffect(() => {
-    console.log(location.pathname.split("/"))
-    const paths = location.pathname.split("/")
-    if (paths.length >= 2 && paths[2]) {
-      console.log("roomid", paths[2])
-      resultUsers.current.teamId = paths[2]
-      dispatch(getRoutine(paths[2]))
+    if (isRoomAdmin) {
+      console.log("그룹의 루틴 목록 불러오기 ")
+      console.log(location.pathname.split("/"))
+      const paths = location.pathname.split("/")
+      if (paths.length >= 2 && paths[2]) {
+        // console.log("roomid", paths[2])
+        resultUsers.current.teamId = paths[2]
+        dispatch(getRoutine(paths[2]))
+      }
     }
   }, [])
   const admin = useSelector(getAdminId)
@@ -53,10 +56,14 @@ function MyExercise({
   let recivedCount = 0
   useEffect(() => {
     const session = user.getStreamManager().stream.session
-    console.log("세션 :", session)
+    // console.log("세션 :", session)
     dispatch(getSessionInfo(session.sessionId))
     user.getStreamManager().stream.session.on("signal:start", (event) => {
-      console.log("운동 시작 이벤트 발생 !!!", event)
+      const date = new Date()
+      console.log(
+        "운동 시작 이벤트 발생 !!!",
+        date + " " + date.getMilliseconds()
+      )
       setExercising(true)
     })
 
@@ -66,6 +73,7 @@ function MyExercise({
 
       if (!participantCount) {
         participantCount = session.streamManagers.length
+        console.log("운동한 인원수 : ", participantCount)
       }
       recivedCount++
 
@@ -90,10 +98,10 @@ function MyExercise({
       setExercising(false)
       setTimeout(() => {
         // 결과 데이터를 참여자의 수 만큼 받지 못하는 상황일 경우 최초 결과 데이터 수신된 시점으로 5초후 결과창 이동
-        console.log("5초끝!")
+        console.log("10초끝!")
         console.log(resultUsers)
         setFinished(true)
-      }, 5000)
+      }, 10000)
     })
 
     user.getStreamManager().stream.session.on("signal:result", (event) => {
@@ -123,13 +131,13 @@ function MyExercise({
   }, [isExercising])
   useEffect(() => {
     if (isFinished) {
-      console.log("전송 끝 ")
       async function sendResult() {
         const { data } = await http.post("exercise/result", resultUsers.current)
         user.getStreamManager().stream.session.signal({
           data: JSON.stringify(data),
           type: "result",
         })
+        console.log("전송 끝 ")
       }
 
       sendResult()
@@ -147,7 +155,7 @@ function MyExercise({
     const data = result.filter((res) => res.type === "exercise")
     const res = { memberId, personalResultDetails: data }
 
-    console.log("운동 끝!! ", res)
+    console.log("운동 끝! 내 운동 결과 :  ", res)
     dispatch(setMyExerciseResult(res))
     setAlert("alert")
 

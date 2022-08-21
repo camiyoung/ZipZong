@@ -210,6 +210,8 @@ export default function SideBar({ chatComponent, user, isRoomAdmin, tmModel }) {
     http
       .put(`room/start/${teamId}`)
       .then((res) => {
+        const date = new Date()
+        console.log("방장이 운동 시작 ", date + " " + date.getMilliseconds())
         user.getStreamManager().stream.session.signal({
           data: "게임을 시작~~",
           type: "start",

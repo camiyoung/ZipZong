@@ -29,13 +29,13 @@ export class Model {
       .load(URL["PUSHUP"] + "/model.json", URL["PUSHUP"] + "/metadata.json")
       .then((res) => {
         this.modelPushup = res
-        console.log("푸시업 모델 로딩 완료")
+        // console.log("푸시업 모델 로딩 완료")
       })
     tmPose
       .load(URL["BURPEE"] + "/model.json", URL["BURPEE"] + "/metadata.json")
       .then((res) => {
         this.modelBurpee = res
-        console.log("버피 모델 로딩 완료")
+        // console.log("버피 모델 로딩 완료")
       })
 
     tmPose
@@ -46,7 +46,7 @@ export class Model {
       .then((res) => {
         this.modelLateralraise = res
         this.modelJumpingjack = res
-        console.log("사레레, 점핑잭 모델 로딩 완료")
+        // console.log("사레레, 점핑잭 모델 로딩 완료")
       })
 
     tmPose
@@ -54,22 +54,21 @@ export class Model {
       .then((res) => {
         this.modelSquat = res
         this.modelLunge = res
-        console.log("스쿼트, 런지 모델 로딩 완료")
+        // console.log("스쿼트, 런지 모델 로딩 완료")
         this.loadedCount += 2
       })
 
-    tmPose
-      .load(URL["test"] + "/model.json", URL["test"] + "/metadata.json")
-      .then((res) => {
-        this.modelTest = res
-        console.log("테스트 모델 로딩 완료")
-        this.loadedCount++
-      })
+    // tmPose
+    //   .load(URL["test"] + "/model.json", URL["test"] + "/metadata.json")
+    //   .then((res) => {
+    //     this.modelTest = res
+    //     // console.log("테스트 모델 로딩 완료")
+    //     this.loadedCount++
+    //   })
   }
 
   modelsLoaded() {
     const models = [
-      this.modelTest,
       this.modelPushup,
       this.modelBurpee,
       this.modelJumpingjack,
