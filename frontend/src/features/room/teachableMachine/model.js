@@ -101,7 +101,7 @@ export class Model {
 
     // console.log(changeAction)
     const action = className
-    const prob = parseInt(probability.toFixed(2))
+    const prob = probability.toFixed(2)
     let correctDone = false
     if (prob >= 0.85) {
       if (action === "Sleepy_Right") {
@@ -121,7 +121,7 @@ export class Model {
     // console.log(changeAction)
     const action = className
 	
-    const prob = parseInt(probability.toFixed(2))
+    const prob = probability.toFixed(2)
     let correctDone = false
     if (prob >= 0.8) {
       if (action === "Spread_Arms" && this.count == 0) {
@@ -149,7 +149,7 @@ export class Model {
 
     // console.log(changeAction)
     const action = className
-    const prob = parseInt(probability.toFixed(2))
+    const prob = probability.toFixed(2)
     let correctDone = false
     if (prob >= 0.85) {
       if (action === "Push_Up") {
@@ -168,7 +168,7 @@ export class Model {
 
     // console.log(changeAction)
     const action = className
-    const prob = parseInt(probability.toFixed(2))
+    const prob = probability.toFixed(2)
     let correctDone = false
     if (prob >= 0.85) {
       if (action === "Push_Down") {
@@ -187,7 +187,7 @@ export class Model {
 
     // console.log(changeAction)
     const action = className
-    const prob = parseInt(probability.toFixed(2))
+    const prob = probability.toFixed(2)
     let correctDone = false
     if (prob >= 0.85) {
       if (action === "Squat") {
@@ -206,7 +206,7 @@ export class Model {
 
     // console.log(changeAction)
     const action = className
-    const prob = parseInt(probability.toFixed(2))
+    const prob = probability.toFixed(2)
     let correctDone = false
     if (prob >= 0.85) {
       if (action === "Squat") {
@@ -225,7 +225,7 @@ export class Model {
 
     // console.log(changeAction)
     const action = className
-    const prob = parseInt(probability.toFixed(2))
+    const prob = probability.toFixed(2)
     let correctDone = false
     if (prob >= 0.85) {
       if (action === "Up") {
