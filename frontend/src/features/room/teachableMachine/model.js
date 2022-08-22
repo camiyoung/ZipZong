@@ -3,7 +3,7 @@ const tmPose = window.tmPose
 const URL = {
   PUSHUP: "https://teachablemachine.withgoogle.com/models/7dJP87xxl",
   BURPEE: "https://teachablemachine.withgoogle.com/models/uaIa1x0IE",
-  JUMPINGJACK: "https://teachablemachine.withgoogle.com/models/-sn7kthp3/",
+  JUMPINGJACK: "https://teachablemachine.withgoogle.com/models/-sn7kthp3",
   LATERALRAISE: "https://teachablemachine.withgoogle.com/models/8CC3KBv-o",
   LUNGE: "https://teachablemachine.withgoogle.com/models/zOp2xpfvZ",
   SQUAT: "https://teachablemachine.withgoogle.com/models/zOp2xpfvZ",
