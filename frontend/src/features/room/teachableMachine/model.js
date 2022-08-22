@@ -3,7 +3,7 @@ const tmPose = window.tmPose
 const URL = {
   PUSHUP: "https://teachablemachine.withgoogle.com/models/7dJP87xxl",
   BURPEE: "https://teachablemachine.withgoogle.com/models/uaIa1x0IE",
-  JUMPINGJACK: "https://teachablemachine.withgoogle.com/models/8CC3KBv-o",
+  JUMPINGJACK: "https://teachablemachine.withgoogle.com/models/-sn7kthp3/",
   LATERALRAISE: "https://teachablemachine.withgoogle.com/models/8CC3KBv-o",
   LUNGE: "https://teachablemachine.withgoogle.com/models/zOp2xpfvZ",
   SQUAT: "https://teachablemachine.withgoogle.com/models/zOp2xpfvZ",
@@ -45,9 +45,21 @@ export class Model {
       )
       .then((res) => {
         this.modelLateralraise = res
+        
+        // console.log("사레레, 점핑잭 모델 로딩 완료")
+      })
+
+      tmPose
+      .load(
+        URL["JUMPINGJACK"] + "/model.json",
+        URL["JUMPINGJACK"] + "/metadata.json"
+      )
+      .then((res) => {
+    
         this.modelJumpingjack = res
         // console.log("사레레, 점핑잭 모델 로딩 완료")
       })
+
 
     tmPose
       .load(URL["SQUAT"] + "/model.json", URL["SQUAT"] + "/metadata.json")
@@ -104,25 +116,27 @@ export class Model {
     return correctDone
   }
   callbackJumpingjack({ className, probability }, beforeAction, changeAction) {
-    // console.log("callbackJumpingjack()")
+       // console.log("callbackJumpingjack()")
 
     // console.log(changeAction)
     const action = className
-
+	
     const prob = parseInt(probability.toFixed(2))
     let correctDone = false
-    if (prob >= 0.85) {
-      if (action === "Up") {
-        if (beforeAction === "Down") {
-          this.count++ //운동 1회 카운트 진행하고, 기존 값 초기화
-          if (this.count === 2) {
-            console.log("성공")
-            this.count = 0
-            correctDone = true
-          }
+    if (prob === 1) {
+      if (action === "Spread_Arms" && this.count == 0) {
+        if (beforeAction === "Stand_Up") {
+          console.log("성공")
+					this.count++ //운동 1회 카운트 진행하고, 기존 값 초기화
         }
       }
 
+			else if(action==="Jump"){
+			if(beforeAction==="Spread_Arms"&& this.count == 1){
+					this.count =0
+          correctDone = true
+			}
+}
       changeAction(action)
     }
 
