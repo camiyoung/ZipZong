@@ -139,10 +139,10 @@ export class Model {
 
       changeAction(action)
     }
-
+  }
     return correctDone
   }
-}
+
 
   callbackBurpee({ className, probability }, beforeAction, changeAction) {
     // console.log("callbackBurpee()")
