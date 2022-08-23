@@ -45,21 +45,19 @@ export class Model {
       )
       .then((res) => {
         this.modelLateralraise = res
-        
+
         // console.log("사레레, 점핑잭 모델 로딩 완료")
       })
 
-      tmPose
+    tmPose
       .load(
         URL["JUMPINGJACK"] + "/model.json",
         URL["JUMPINGJACK"] + "/metadata.json"
       )
       .then((res) => {
-    
         this.modelJumpingjack = res
         // console.log("사레레, 점핑잭 모델 로딩 완료")
       })
-
 
     tmPose
       .load(URL["SQUAT"] + "/model.json", URL["SQUAT"] + "/metadata.json")
@@ -116,33 +114,31 @@ export class Model {
     return correctDone
   }
   callbackJumpingjack({ className, probability }, beforeAction, changeAction) {
-       // console.log("callbackJumpingjack()")
+    // console.log("callbackJumpingjack()")
 
     // console.log(changeAction)
     const action = className
-	
+
     const prob = probability.toFixed(2)
     let correctDone = false
     if (prob >= 0.8) {
       if (action === "Spread_Arms" && this.count == 0) {
         if (beforeAction === "Stand_Up") {
           console.log("성공1")
-					this.count++ //운동 1회 카운트 진행하고, 기존 값 초기화
+          this.count++ //운동 1회 카운트 진행하고, 기존 값 초기화
         }
-      }
-			else if(action==="Jump"){
-			if(beforeAction==="Spread_Arms"&& this.count == 1){
-					this.count =0
+      } else if (action === "Jump") {
+        if (beforeAction === "Spread_Arms" && this.count == 1) {
+          this.count = 0
           correctDone = true
           console.log("성공2")
-			}
+        }
 
-      changeAction(action)
+        changeAction(action)
+      }
     }
-  }
     return correctDone
   }
-
 
   callbackBurpee({ className, probability }, beforeAction, changeAction) {
     // console.log("callbackBurpee()")
@@ -151,7 +147,7 @@ export class Model {
     const action = className
     const prob = probability.toFixed(2)
     let correctDone = false
-    if (prob >= 0.85) {
+    if (prob >= 0.9) {
       if (action === "Push_Up") {
         if (beforeAction === "Stand_Up") {
           console.log("성공")
