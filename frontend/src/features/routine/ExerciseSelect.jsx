@@ -154,7 +154,7 @@ export default function ExerciseSelect({
                 className="clickbtn text-primary-500"
                 onClick={() => {
                   if (breakTime > 15) {
-                    setBreakTime(breakTime - 15)
+                    setBreakTime(breakTime - 10)
                   }
                 }}
               >
@@ -181,7 +181,7 @@ export default function ExerciseSelect({
                 className="clickbtn text-primary-500"
                 onClick={() => {
                   if (breakTime < 60) {
-                    setBreakTime(breakTime + 15)
+                    setBreakTime(breakTime + 10)
                   }
                 }}
               >

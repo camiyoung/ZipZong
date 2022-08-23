@@ -12,7 +12,7 @@ export default function RoutineMake() {
   const [routineName, setRoutineName] = useState("")
   const [routine, setRoutine] = useState([])
   const [idx, setIdx] = useState(0)
-  const [breakTime, setBreakTime] = useState(15)
+  const [breakTime, setBreakTime] = useState(10)
 
   const params = useParams()
 
