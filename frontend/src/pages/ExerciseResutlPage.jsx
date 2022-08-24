@@ -12,6 +12,7 @@ const grid = {
   3: "grid-cols-3",
   4: "grid-cols-4",
   5: "grid-cols-5",
+  6: "grid-cols-6",
 }
 
 const language = {
@@ -97,10 +98,10 @@ export default function ExerciseResulPage() {
             )}
             {result.allResult && (
               <div
-                className={`grid  w-4/5 justify-center z-10   ${
-                  result.allResult.personalPercentages.length < 5
+                className={`grid content-center align-middle z-10 gap-3   ${
+                  result.allResult.personalPercentages.length < 6
                     ? grid[result.allResult.personalPercentages.length]
-                    : grid[5]
+                    : grid[6]
                 }`}
               >
                 {result.allResult.personalPercentages.map((user, idx) => (

@@ -53,7 +53,7 @@ video {
 #statusIcons {
   bottom: 0;
   border-radius: 100%;
-  background: #ffffff;
+  /* background: #ffffff; */
   width: 40px;
   height: 40px;
   height: fit-content;
