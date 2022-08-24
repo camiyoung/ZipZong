@@ -1,8 +1,8 @@
-# 🏋🏻 \***\*집**에서 운동중- WebRTC 기반 운동 플랫폼\*\*
+# 🏋🏻 **집에서 운동중- WebRTC 기반 운동 플랫폼**
 
 ![Logo.svg](/uploads/d8fee1b70d56dcec1c1534393a984a36/Logo.svg)
 
-## \*\*\*\*[집에서 운동중 링크](https://i7a805.p.ssafy.io/)
+## [집에서 운동중 링크](https://i7a805.p.ssafy.io/)
 
 ---
 
@@ -319,7 +319,7 @@ frontend
 
 ---
 
-## **✔ 프로젝트 산출물 ( GITHUB에 자료를 올려야겠죠? - 각자 GITHUB URL로 수정하면 될 것 같습니다. 나중에 옮길 수 있으면)**
+## **✔ 프로젝트 산출물**
 
 - [포팅메뉴얼](https://lab.ssafy.com/s07-webmobile1-sub2/S07P12A805/-/blob/main/exec/%ED%8F%AC%ED%8C%85%EB%A7%A4%EB%89%B4%EC%96%BC_%EC%A7%91%EC%97%90%EC%84%9C%EC%9A%B4%EB%8F%99%EC%A4%91.pdf)
 - [ERD](https://lab.ssafy.com/s07-webmobile1-sub2/S07P12A805/-/blob/main/exec/ERD_%EC%A7%91%EC%97%90%EC%84%9C%EC%9A%B4%EB%8F%99%EC%A4%91.png)
