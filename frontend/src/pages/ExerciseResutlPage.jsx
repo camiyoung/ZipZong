@@ -47,9 +47,9 @@ const ResultCard = ({ name, target, performed }) => {
 
 const OtherPlayerResult = ({ name, res }) => {
   return (
-    <div className="bg-indigo-500/80 text-white w-24 h-24 min-w-[92px] border border-indigo-400 flex justify-center items-center flex-col m-2 rounded-lg shadow-xl shadow-indigo-500/40">
-      <div className="text-sm text-center">{name}</div>
-      <p className="text-sm text-center">{res} %</p>
+    <div className="bg-indigo-500 text-white w-32 h-32 min-w-[92px] min-h-[92px] border border-indigo-400 flex justify-center items-center flex-col m-2 rounded-lg shadow-xl shadow-indigo-500/40">
+      <div className="text-xl text-center">{name}</div>
+      <p className="text-xl font-semibold text-center">{res} %</p>
     </div>
   )
 }
@@ -96,7 +96,13 @@ export default function ExerciseResulPage() {
               </h2>
             )}
             {result.allResult && (
-              <div className="flex w-4/5 justify-center z-10">
+              <div
+                className={`grid  w-4/5 justify-center z-10   ${
+                  result.allResult.personalPercentages.length < 5
+                    ? grid[result.allResult.personalPercentages.length]
+                    : grid[5]
+                }`}
+              >
                 {result.allResult.personalPercentages.map((user, idx) => (
                   <OtherPlayerResult
                     name={user.nickname}
