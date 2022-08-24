@@ -70,8 +70,8 @@ export const exerciseReducer = createSlice({
     routine: undefined,
     admin: undefined,
     result: {
-      myResult: tmp_my,
-      allResult: tmp_all,
+      myResult: undefined,
+      allResult: undefined,
     },
     rotuineId: undefined,
     rotuineInfo: undefined,
