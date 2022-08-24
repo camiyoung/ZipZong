@@ -109,7 +109,7 @@ export default class StreamComponent extends Component {
                 </div>
               ) : null}
             </div>
-            <div className="absolute right-2 w-[15px] h-[15px]">
+            {/* <div className="absolute right-2 w-[15px] h-[15px]">
               {!this.props.user.isLocal() && (
                 <div id="volumeButton" onClick={this.toggleSound}>
                   {this.state.mutedSound ? (
@@ -119,7 +119,7 @@ export default class StreamComponent extends Component {
                   )}
                 </div>
               )}
-            </div>
+            </div> */}
           </div>
         ) : null}
       </div>
