@@ -52,16 +52,19 @@ video {
 
 #statusIcons {
   bottom: 0;
-  background: #c71100;
+  border-radius: 100%;
+  background: #ffffff;
   width: 40px;
+  height: 40px;
   height: fit-content;
   position: absolute;
-  color: #ffffff;
+  color: #c71100;
 }
 
 #camIcon,
 #micIcon {
   text-align: center;
+
   padding: 6px;
 }
 
