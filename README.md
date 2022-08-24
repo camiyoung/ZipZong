@@ -321,17 +321,17 @@ frontend
 
 ## **✔ 프로젝트 산출물 ( GITHUB에 자료를 올려야겠죠? - 각자 GITHUB URL로 수정하면 될 것 같습니다. 나중에 옮길 수 있으면)**
 
-- [포팅메뉴얼](https://lab.ssafy.com/s07-webmobile1-sub2/S07P12A805/-/blob/master/exec/%ED%8F%AC%ED%8C%85%EB%A7%A4%EB%89%B4%EC%96%BC_%EC%A7%91%EC%97%90%EC%84%9C%EC%9A%B4%EB%8F%99%EC%A4%91.pdf)
-- [ERD](https://lab.ssafy.com/s07-webmobile1-sub2/S07P12A805/-/blob/master/exec/ERD_%EC%A7%91%EC%97%90%EC%84%9C%EC%9A%B4%EB%8F%99%EC%A4%91.png)
-- [아키텍처](https://lab.ssafy.com/s07-webmobile1-sub2/S07P12A805/-/blob/master/exec/%EC%8B%9C%EC%8A%A4%ED%85%9C%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90_%EC%A7%91%EC%97%90%EC%84%9C%EC%9A%B4%EB%8F%99%EC%A4%91.png)
+- [포팅메뉴얼](https://lab.ssafy.com/s07-webmobile1-sub2/S07P12A805/-/blob/main/exec/%ED%8F%AC%ED%8C%85%EB%A7%A4%EB%89%B4%EC%96%BC_%EC%A7%91%EC%97%90%EC%84%9C%EC%9A%B4%EB%8F%99%EC%A4%91.pdf)
+- [ERD](https://lab.ssafy.com/s07-webmobile1-sub2/S07P12A805/-/blob/main/exec/ERD_%EC%A7%91%EC%97%90%EC%84%9C%EC%9A%B4%EB%8F%99%EC%A4%91.png)
+- [아키텍처](https://lab.ssafy.com/s07-webmobile1-sub2/S07P12A805/-/blob/main/exec/%EC%8B%9C%EC%8A%A4%ED%85%9C%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90_%EC%A7%91%EC%97%90%EC%84%9C%EC%9A%B4%EB%8F%99%EC%A4%91.png)
 - [시연시나리오](https://lab.ssafy.com/s07-webmobile1-sub2/S07P12A805/-/blob/main/exec/%EC%8B%9C%EC%97%B0%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4_%EC%A7%91%EC%97%90%EC%84%9C%EC%9A%B4%EB%8F%99%EC%A4%91.pdf)
-- [컨벤션](https://lab.ssafy.com/s07-webmobile1-sub2/S07P12A805/-/blob/master/exec/컨벤션.md)
-- [API](https://lab.ssafy.com/s07-webmobile1-sub2/S07P12A805/-/blob/master/exec/API.md)
-- [와이어프레임](https://lab.ssafy.com/s07-webmobile1-sub2/S07P12A805/-/blob/master/exec/와이어프레임.md)
-- [회의록](https://lab.ssafy.com/s07-webmobile1-sub2/S07P12A805/-/blob/master/exec/회의록.md)
-- [사이트맵](https://lab.ssafy.com/s07-webmobile1-sub2/S07P12A805/-/blob/master/exec/사이트맵.md)
-- [기능 명세서](https://lab.ssafy.com/s07-webmobile1-sub2/S07P12A805/-/blob/master/exec/기능명세서.md)
-- [데일리 스크럼](https://lab.ssafy.com/s07-webmobile1-sub2/S07P12A805/-/blob/master/exec/데일리스크럼.md)
+- [컨벤션](https://lab.ssafy.com/s07-webmobile1-sub2/S07P12A805/-/blob/main/exec/컨벤션.md)
+- [API](https://lab.ssafy.com/s07-webmobile1-sub2/S07P12A805/-/blob/main/exec/API.md)
+- [와이어프레임](https://lab.ssafy.com/s07-webmobile1-sub2/S07P12A805/-/blob/main/exec/와이어프레임.md)
+- [회의록](https://lab.ssafy.com/s07-webmobile1-sub2/S07P12A805/-/blob/main/exec/회의록.md)
+- [사이트맵](https://lab.ssafy.com/s07-webmobile1-sub2/S07P12A805/-/blob/main/exec/사이트맵.md)
+- [기능 명세서](https://lab.ssafy.com/s07-webmobile1-sub2/S07P12A805/-/blob/main/exec/기능명세서.md)
+- [데일리 스크럼](https://lab.ssafy.com/s07-webmobile1-sub2/S07P12A805/-/blob/main/exec/데일리스크럼.md)
 - [dumpdata](https://lab.ssafy.com/s07-webmobile1-sub2/S07P12A805/-/blob/main/exec/jibjoongdump.sql)
 
 ---
@@ -382,7 +382,7 @@ frontend
 - 그룹 설정페이지에서 그룹 아이콘 정보 변경 및 획득 이유 열람 가능(그룹장만 열람 가능)
   - 엄지 척 아이콘은 그룹원들이 모두 운동을 한 날
   - 쉴드 아이콘은 그룹이 쉴드를 가진 상태에서 운동을 다하지 못한 상태에서 다음날에 아이템이 자동으로 써집니다
-  ![KakaoTalk_20220821_012117711.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8dd79db5-3dd0-4088-b689-50e3b8010f83/KakaoTalk_20220821_012117711.gif)
+    ![KakaoTalk_20220821_012117711.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8dd79db5-3dd0-4088-b689-50e3b8010f83/KakaoTalk_20220821_012117711.gif)
 
 ### 루틴 페이지
 
@@ -393,7 +393,7 @@ frontend
 
 - 운동방 생성 및 루틴 선택
   - 운동방이 생성되면 등록된 루틴 확인 및 선택 가능
-  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9d2def9c-26dd-4c7a-b427-9e3545e76659/Untitled.gif)
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9d2def9c-26dd-4c7a-b427-9e3545e76659/Untitled.gif)
 - 운동 진행 화면
 
   - 타이머: 남은 운동 시간 표시
