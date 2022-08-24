@@ -1,6 +1,6 @@
 # 🏋🏻 \***\*집**에서 운동중- WebRTC 기반 운동 플랫폼\*\*
 
-![Logo.svg](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4638c888-b355-49a8-ba6a-f74ac1153849/Logo.svg)
+![Logo.svg](/uploads/d8fee1b70d56dcec1c1534393a984a36/Logo.svg)
 
 ## \*\*\*\*[집에서 운동중 링크](https://i7a805.p.ssafy.io/)
 
