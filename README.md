@@ -341,6 +341,7 @@ frontend
 ### **회원가입 절차 ( 소셜로그인 )**
 
 - 닉네임 입력 - 닉네임 중복 조회
+
   ![login2](/uploads/4984260c7941cba1cbfcba162f51e809/login2.gif)
 - 전에 로그인 했던 사용자는 즉시 메인 페이지로 이동
   ![login1](/uploads/b41a11bae9c611ffbec421f26753a733/login1.gif)
