@@ -124,18 +124,17 @@ export class Model {
     if (prob >= 0.8) {
       if (action === "Spread_Arms" && this.count == 0) {
         if (beforeAction === "Stand_Up") {
-          console.log("성공1")
+          console.log("성공1", this.count)
           this.count++ //운동 1회 카운트 진행하고, 기존 값 초기화
         }
       } else if (action === "Jump") {
         if (beforeAction === "Spread_Arms" && this.count == 1) {
+          console.log("성공2", this.count)
           this.count = 0
           correctDone = true
-          console.log("성공2")
         }
-
-        changeAction(action)
       }
+      changeAction(action)
     }
     return correctDone
   }
