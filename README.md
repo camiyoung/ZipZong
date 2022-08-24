@@ -341,72 +341,72 @@ frontend
 ### **회원가입 절차 ( 소셜로그인 )**
 
 - 닉네임 입력 - 닉네임 중복 조회
-  ![login2.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e36034d4-c26b-4475-894a-1089b064ede0/login2.gif)
+  ![login2](/uploads/4984260c7941cba1cbfcba162f51e809/login2.gif)
 - 전에 로그인 했던 사용자는 즉시 메인 페이지로 이동
-  ![login1.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4959a53e-faff-47af-bc6a-e4fc64c99287/login1.gif)
+  ![login1](/uploads/b41a11bae9c611ffbec421f26753a733/login1.gif)
 
 ### 마이페이지
 
 - 달력을 통한 개인 운동 기록 및 가입한 그룹 목록 등 운동 기록을 볼 수 있음
 
-  ![mypage1.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3c9518ef-5bbd-480c-b01c-daf33f140fdb/mypage1.gif)
+  ![mypage1](/uploads/076cdd947e18ef2de156c38cda61007a/mypage1.gif)
 
 - 그룹 생성
-  ![KakaoTalk_20220821_012116446.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ffbc51df-7b2d-4e15-a1bb-82d0cc867d83/KakaoTalk_20220821_012116446.gif)
+  ![createGroup](/uploads/1f7daf09de0939df6604ed9258ba39f1/createGroup.gif)
 
 ### 개인 정보 수정
 
 - Navbar에서 개인 정보 수정 및 닉네임 중복 검사
-  ![개인정보수정.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ada5bf20-4792-4d86-b73a-682869ba7112/%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4%EC%88%98%EC%A0%95.gif)
+  ![개인정보수정](/uploads/451988b0e7a0157d31730df81ef9b47f/개인정보수정.gif)
 
 ### 튜토리얼
 
 - 서비스를 이용할 수 있도록 기능을 소개해주는 튜토리얼을 Navbar에 표시
-  ![tutorial.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1195d0df-a96f-440c-a2e5-e81063804483/tutorial.gif)
+  ![tutorial](/uploads/86dcaf37ff110d406ada1784c5d715f2/tutorial.gif)
 
 ### 그룹 페이지
 
 - 그룹페이지에서 그룹에 속한 팀원들의 정보를 볼 수 있음
 
-  ![KakaoTalk_20220821_012116769.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c3ddcd36-748d-4783-88db-e92bfcc0894d/KakaoTalk_20220821_012116769.gif)
+  ![group1](/uploads/5437231273e31e8f69c80defe021e26d/group1.gif)
 
 - 날짜별 운동 정보, 쉴드 개수, 그룹 랭킹(본인 그룹 & [위, 아래] 각 2 그룹, 전체 운동 횟수 보기
 
-  ![group2.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/03baa0d3-0b8c-4449-a636-5ecc0b5efab8/group2.gif)
+  ![group2](/uploads/445ae41495d284a5f1fbd3faa444a64b/group2.gif)
 
 - 운동 방 생성
-  ![KakaoTalk_20220821_012117103.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/22db5ab6-36b5-4589-9269-c3caf9e50f74/KakaoTalk_20220821_012117103.gif)
+  ![group3](/uploads/cb089ac0d734725d325bbe5c858cb34e/group3.gif)
 
 ### 그룹 설정 페이지
 
 - 그룹 설정페이지에서 그룹 아이콘 정보 변경 및 획득 이유 열람 가능(그룹장만 열람 가능)
   - 엄지 척 아이콘은 그룹원들이 모두 운동을 한 날
   - 쉴드 아이콘은 그룹이 쉴드를 가진 상태에서 운동을 다하지 못한 상태에서 다음날에 아이템이 자동으로 써집니다
-    ![KakaoTalk_20220821_012117711.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8dd79db5-3dd0-4088-b689-50e3b8010f83/KakaoTalk_20220821_012117711.gif)
+    ![groupset1](/uploads/b9f0900e15ca51dc39473a5cbbb1d2d8/groupset1.gif)
 
 ### 루틴 페이지
 
 - 그룹페이지에서 루틴을 설정 가능(6가지 운동 및 휴식)
-  ![KakaoTalk_20220821_012117978.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d958fe40-0f0b-406e-a363-5449297c881c/KakaoTalk_20220821_012117978.gif)
+  ![routine](/uploads/6af7dda4c998f76f0b26b3abb218e89a/routine.gif)
 
 ### 운동 페이지
 
 - 운동방 생성 및 루틴 선택
   - 운동방이 생성되면 등록된 루틴 확인 및 선택 가능
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9d2def9c-26dd-4c7a-b427-9e3545e76659/Untitled.gif)
+    ![loading](/uploads/350a0d2f5fbcc29791f0cd62c08cec53/loading.gif)
 - 운동 진행 화면
 
   - 타이머: 남은 운동 시간 표시
   - 운동 리스트: 운동 루틴의 진행 상황 안내
   - 현재 운동: 현재 진행되고 있는 운동, 목표 횟수, 달성 횟수 정보 제공
 
-  ![KakaoTalk_20220821_164149386.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8b4d3baa-7d13-47cb-8eb1-f2bf02bb776f/KakaoTalk_20220821_164149386.gif)
+  ![exercise](/uploads/f8608cd1955fc51b2b05ef5f9d6911b0/exercise.gif)
 
 - 운동 종료 후 결과 페이지 확인
-  ![KakaoTalk_20220821_012117316.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/878a4c49-d4b2-455e-9618-c5d1a5c03d70/KakaoTalk_20220821_012117316.gif)
+  ![exerciseFinished](/uploads/7bd5793f4b13764aef3e7d43247bba39/exerciseFinished.gif)
 
 ### 명예의 전당
 
 - [그룹, 개인] 랭킹 확인
   - 타임 랭킹 - 운동 시간 순 / 스트릭 랭킹 - 연속한 일 수 순
-    ![명예의전당.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b87e08b2-b998-446c-ab73-2a822960bb60/%EB%AA%85%EC%98%88%EC%9D%98%EC%A0%84%EB%8B%B9.gif)
+    ![명예의전당](/uploads/143a04dcc9bd5922c1dc26ae1f9c40ca/명예의전당.gif)
