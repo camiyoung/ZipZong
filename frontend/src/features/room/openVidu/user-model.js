@@ -11,7 +11,7 @@ class UserModel {
 
   constructor() {
     this.connectionId = ""
-    this.audioActive = false
+    this.audioActive = true
     this.videoActive = true
     this.screenShareActive = false
     this.nickname = ""
