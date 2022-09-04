@@ -12,6 +12,7 @@ const grid = {
   3: "grid-cols-3",
   4: "grid-cols-4",
   5: "grid-cols-5",
+  6: "grid-cols-6",
 }
 
 const language = {
@@ -47,9 +48,9 @@ const ResultCard = ({ name, target, performed }) => {
 
 const OtherPlayerResult = ({ name, res }) => {
   return (
-    <div className="bg-indigo-500/80 text-white w-24 h-24 min-w-[92px] border border-indigo-400 flex justify-center items-center flex-col m-2 rounded-lg shadow-xl shadow-indigo-500/40">
-      <div className="text-sm text-center">{name}</div>
-      <p className="text-sm text-center">{res} %</p>
+    <div className="bg-indigo-500 text-white w-32 h-32 min-w-[92px] min-h-[92px] border border-indigo-400 flex justify-center items-center flex-col m-2 rounded-lg shadow-xl shadow-indigo-500/40">
+      <div className="text-xl text-center">{name}</div>
+      <p className="text-xl font-semibold text-center">{res} %</p>
     </div>
   )
 }
@@ -96,7 +97,13 @@ export default function ExerciseResulPage() {
               </h2>
             )}
             {result.allResult && (
-              <div className="flex w-4/5 justify-center z-10">
+              <div
+                className={`grid content-center align-middle z-10 gap-3   ${
+                  result.allResult.personalPercentages.length < 6
+                    ? grid[result.allResult.personalPercentages.length]
+                    : grid[6]
+                }`}
+              >
                 {result.allResult.personalPercentages.map((user, idx) => (
                   <OtherPlayerResult
                     name={user.nickname}

@@ -43,7 +43,7 @@ const WorkOut = ({ myVideo, tmModel, user, finishExercise }) => {
     routine.current = todoList.map((item) => {
       return { ...item, performNum: 0 }
     })
-    console.log("운동 시작", routine.current)
+    // console.log("운동 시작", routine.current)
   }, [])
 
   const countePreExercise = useRef(0)

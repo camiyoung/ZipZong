@@ -3,7 +3,7 @@ const tmPose = window.tmPose
 const URL = {
   PUSHUP: "https://teachablemachine.withgoogle.com/models/7dJP87xxl",
   BURPEE: "https://teachablemachine.withgoogle.com/models/uaIa1x0IE",
-  JUMPINGJACK: "https://teachablemachine.withgoogle.com/models/8CC3KBv-o",
+  JUMPINGJACK: "https://teachablemachine.withgoogle.com/models/-sn7kthp3",
   LATERALRAISE: "https://teachablemachine.withgoogle.com/models/8CC3KBv-o",
   LUNGE: "https://teachablemachine.withgoogle.com/models/zOp2xpfvZ",
   SQUAT: "https://teachablemachine.withgoogle.com/models/zOp2xpfvZ",
@@ -29,13 +29,13 @@ export class Model {
       .load(URL["PUSHUP"] + "/model.json", URL["PUSHUP"] + "/metadata.json")
       .then((res) => {
         this.modelPushup = res
-        console.log("푸시업 모델 로딩 완료")
+        // console.log("푸시업 모델 로딩 완료")
       })
     tmPose
       .load(URL["BURPEE"] + "/model.json", URL["BURPEE"] + "/metadata.json")
       .then((res) => {
         this.modelBurpee = res
-        console.log("버피 모델 로딩 완료")
+        // console.log("버피 모델 로딩 완료")
       })
 
     tmPose
@@ -45,8 +45,18 @@ export class Model {
       )
       .then((res) => {
         this.modelLateralraise = res
+
+        // console.log("사레레, 점핑잭 모델 로딩 완료")
+      })
+
+    tmPose
+      .load(
+        URL["JUMPINGJACK"] + "/model.json",
+        URL["JUMPINGJACK"] + "/metadata.json"
+      )
+      .then((res) => {
         this.modelJumpingjack = res
-        console.log("사레레, 점핑잭 모델 로딩 완료")
+        // console.log("사레레, 점핑잭 모델 로딩 완료")
       })
 
     tmPose
@@ -54,22 +64,21 @@ export class Model {
       .then((res) => {
         this.modelSquat = res
         this.modelLunge = res
-        console.log("스쿼트, 런지 모델 로딩 완료")
+        // console.log("스쿼트, 런지 모델 로딩 완료")
         this.loadedCount += 2
       })
 
-    tmPose
-      .load(URL["test"] + "/model.json", URL["test"] + "/metadata.json")
-      .then((res) => {
-        this.modelTest = res
-        console.log("테스트 모델 로딩 완료")
-        this.loadedCount++
-      })
+    // tmPose
+    //   .load(URL["test"] + "/model.json", URL["test"] + "/metadata.json")
+    //   .then((res) => {
+    //     this.modelTest = res
+    //     // console.log("테스트 모델 로딩 완료")
+    //     this.loadedCount++
+    //   })
   }
 
   modelsLoaded() {
     const models = [
-      this.modelTest,
       this.modelPushup,
       this.modelBurpee,
       this.modelJumpingjack,
@@ -90,7 +99,7 @@ export class Model {
 
     // console.log(changeAction)
     const action = className
-    const prob = parseInt(probability.toFixed(2))
+    const prob = probability.toFixed(2)
     let correctDone = false
     if (prob >= 0.85) {
       if (action === "Sleepy_Right") {
@@ -110,23 +119,23 @@ export class Model {
     // console.log(changeAction)
     const action = className
 
-    const prob = parseInt(probability.toFixed(2))
+    const prob = probability.toFixed(2)
     let correctDone = false
-    if (prob >= 0.85) {
-      if (action === "Up") {
-        if (beforeAction === "Down") {
+    if (prob >= 0.8) {
+      if (action === "Spread_Arms" && this.count == 0) {
+        if (beforeAction === "Stand_Up") {
+          console.log("성공1", this.count)
           this.count++ //운동 1회 카운트 진행하고, 기존 값 초기화
-          if (this.count === 2) {
-            console.log("성공")
-            this.count = 0
-            correctDone = true
-          }
+        }
+      } else if (action === "Jump") {
+        if (beforeAction === "Spread_Arms" && this.count == 1) {
+          console.log("성공2", this.count)
+          this.count = 0
+          correctDone = true
         }
       }
-
       changeAction(action)
     }
-
     return correctDone
   }
 
@@ -135,9 +144,9 @@ export class Model {
 
     // console.log(changeAction)
     const action = className
-    const prob = parseInt(probability.toFixed(2))
+    const prob = probability.toFixed(2)
     let correctDone = false
-    if (prob >= 0.85) {
+    if (prob >= 0.9) {
       if (action === "Push_Up") {
         if (beforeAction === "Stand_Up") {
           console.log("성공")
@@ -154,7 +163,7 @@ export class Model {
 
     // console.log(changeAction)
     const action = className
-    const prob = parseInt(probability.toFixed(2))
+    const prob = probability.toFixed(2)
     let correctDone = false
     if (prob >= 0.85) {
       if (action === "Push_Down") {
@@ -173,7 +182,7 @@ export class Model {
 
     // console.log(changeAction)
     const action = className
-    const prob = parseInt(probability.toFixed(2))
+    const prob = probability.toFixed(2)
     let correctDone = false
     if (prob >= 0.85) {
       if (action === "Squat") {
@@ -192,7 +201,7 @@ export class Model {
 
     // console.log(changeAction)
     const action = className
-    const prob = parseInt(probability.toFixed(2))
+    const prob = probability.toFixed(2)
     let correctDone = false
     if (prob >= 0.85) {
       if (action === "Squat") {
@@ -211,7 +220,7 @@ export class Model {
 
     // console.log(changeAction)
     const action = className
-    const prob = parseInt(probability.toFixed(2))
+    const prob = probability.toFixed(2)
     let correctDone = false
     if (prob >= 0.85) {
       if (action === "Up") {
